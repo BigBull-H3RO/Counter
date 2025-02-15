@@ -17,6 +17,9 @@ public class ServerConfig {
     public static final ModConfigSpec.BooleanValue SHOW_DEATH_OVERLAY_ALWAYS;
     public static final ModConfigSpec.EnumValue<DeathOverlayMode> DEATH_OVERLAY_MODE;
     public static final ModConfigSpec.BooleanValue SHOW_DEATH_LIST_IN_CHAT;
+    public static final ModConfigSpec.BooleanValue DEATH_LIST_CHAT_MODE;
+    public static final ModConfigSpec.BooleanValue SHOW_DEATH_LIST_ON_JOIN_GLOBAL;
+    public static final ModConfigSpec.BooleanValue SHOW_DEATH_LIST_ON_DEATH_GLOBAL;
 
     public enum DeathOverlayMode {
         ONLY_SELF, LIST, BOTH
@@ -47,6 +50,12 @@ public class ServerConfig {
                 .defineEnum("deathOverlayMode", DeathOverlayMode.LIST);
         SHOW_DEATH_LIST_IN_CHAT = SERVER_BUILDER.comment("Should the death counter leaderboard be shown in chat when a player joins or dies?")
                 .define("showDeathListInChat", false);
+        DEATH_LIST_CHAT_MODE = SERVER_BUILDER.comment("Death counter chat display mode: ONLY_SELF = show only own deaths, LIST = show full death list")
+                .define("deathListChatMode", true);
+        SHOW_DEATH_LIST_ON_JOIN_GLOBAL = SERVER_BUILDER.comment("Should the death list be shown to all players when a player joins?")
+                .define("showDeathListOnJoinGlobal", false);
+        SHOW_DEATH_LIST_ON_DEATH_GLOBAL = SERVER_BUILDER.comment("Should the death list be shown to all players when a player dies?")
+                .define("showDeathListOnDeathGlobal", false);
         SERVER_BUILDER.pop();
 
         SERVER_SPEC = SERVER_BUILDER.build();

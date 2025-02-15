@@ -20,6 +20,7 @@ public class ModEnLangProvider extends LanguageProvider {
         add("chat.daycounter.new_day", "🌞 It's now day %s!");
 
         add("overlay.counter.deaths", "💀 Deaths: %s");
+        add("chat.deathcounter.player_death", "💀 %s has died %s times!");
         add("overlay.counter.deathlist", "💀 Death Counter:");
         add("overlay.counter.deathlist.entry", "%s. %s: %s deaths");
         add("command.deathcounter.reset", "💀 Death Counter has been reset!");

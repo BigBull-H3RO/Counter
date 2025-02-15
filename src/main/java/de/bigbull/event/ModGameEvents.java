@@ -81,7 +81,7 @@ public class ModGameEvents {
             PacketDistributor.sendToPlayer(player, new SyncDeathOverlayStatePacket(player.getUUID(), PlayerDeathOverlayData.get(level).isOverlayEnabled(player)));
 
             if (ConfigValues.SHOW_DEATH_LIST_IN_CHAT) {
-                sendDeathCounterToChat(level);
+                sendDeathCounterMessage(player, level);
             }
 
             if (ServerConfig.SHOW_DAY_IN_CHAT.get()) {
@@ -110,26 +110,85 @@ public class ModGameEvents {
             PacketDistributor.sendToAllPlayers(new DeathCounterPacket(data.getDeathCountMap()));
 
             if (ConfigValues.SHOW_DEATH_LIST_IN_CHAT) {
-                sendDeathCounterToChat(level);
+                sendDeathCounterMessage(player, level);
             }
         }
     }
 
-    private static void sendDeathCounterToChat(ServerLevel level) {
+    private static void sendDeathCounterMessage(ServerPlayer affectedPlayer, ServerLevel level) {
         DeathCounterData data = DeathCounterData.get(level);
+        MinecraftServer server = level.getServer();
+
+        boolean isMultiplayer = server.isDedicatedServer() || server.isPublished();
+
+        if (isMultiplayer) {
+            if (ConfigValues.SHOW_DEATH_LIST_ON_DEATH_GLOBAL) {
+                if (ConfigValues.DEATH_LIST_CHAT_MODE) {
+                    sendDeathListToAllPlayers(level);
+                } else {
+                    int playerDeaths = data.getDeathCountMap().getOrDefault(affectedPlayer.getUUID(), 0);
+
+                    affectedPlayer.sendSystemMessage(Component.translatable("overlay.counter.deaths", playerDeaths));
+
+                    for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                        if (!player.getUUID().equals(affectedPlayer.getUUID())) {
+                            player.sendSystemMessage(Component.translatable("chat.deathcounter.player_death", affectedPlayer.getScoreboardName(), playerDeaths));
+                        }
+                    }
+                }
+            } else {
+                if (ConfigValues.DEATH_LIST_CHAT_MODE) {
+                    sendDeathListToPlayer(affectedPlayer, level);
+                } else {
+                    int playerDeaths = data.getDeathCountMap().getOrDefault(affectedPlayer.getUUID(), 0);
+                    affectedPlayer.sendSystemMessage(Component.translatable("overlay.counter.deaths", playerDeaths));
+                }
+            }
+        } else {
+            int playerDeaths = data.getDeathCountMap().getOrDefault(affectedPlayer.getUUID(), 0);
+            affectedPlayer.sendSystemMessage(Component.translatable("overlay.counter.deaths", playerDeaths));
+        }
+    }
+
+    private static void sendDeathListToAllPlayers(ServerLevel level) {
+        DeathCounterData data = DeathCounterData.get(level);
+        MinecraftServer server = level.getServer();
+
         List<Map.Entry<UUID, Integer>> sortedDeaths = data.getDeathCountMap().entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .limit(ServerConfig.MAX_PLAYERS_SHOWN.get())
                 .toList();
 
         if (!sortedDeaths.isEmpty()) {
-            level.getServer().getPlayerList().broadcastSystemMessage(Component.literal("overlay.counter.deathlist"), false);
+            server.getPlayerList().broadcastSystemMessage(Component.translatable("overlay.counter.deathlist"), false);
             int position = 1;
             for (Map.Entry<UUID, Integer> entry : sortedDeaths) {
-                ServerPlayer player = level.getServer().getPlayerList().getPlayer(entry.getKey());
+                ServerPlayer player = server.getPlayerList().getPlayer(entry.getKey());
                 String playerName = (player != null) ? player.getScoreboardName() : "Unknown";
 
-                level.getServer().getPlayerList().broadcastSystemMessage(Component.translatable("overlay.counter.deathlist.entry", position + ". " + playerName, entry.getValue()), false);
+                server.getPlayerList().broadcastSystemMessage(
+                        Component.translatable("overlay.counter.deathlist.entry", position, playerName, entry.getValue()), false);
+                position++;
+            }
+        }
+    }
+
+    private static void sendDeathListToPlayer(ServerPlayer player, ServerLevel level) {
+        DeathCounterData data = DeathCounterData.get(level);
+
+        List<Map.Entry<UUID, Integer>> sortedDeaths = data.getDeathCountMap().entrySet().stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .limit(ServerConfig.MAX_PLAYERS_SHOWN.get())
+                .toList();
+
+        if (!sortedDeaths.isEmpty()) {
+            player.sendSystemMessage(Component.translatable("overlay.counter.deathlist"));
+            int position = 1;
+            for (Map.Entry<UUID, Integer> entry : sortedDeaths) {
+                ServerPlayer listedPlayer = level.getServer().getPlayerList().getPlayer(entry.getKey());
+                String playerName = (listedPlayer != null) ? listedPlayer.getScoreboardName() : "Unknown";
+
+                player.sendSystemMessage(Component.translatable("overlay.counter.deathlist.entry", position, playerName, entry.getValue()));
                 position++;
             }
         }

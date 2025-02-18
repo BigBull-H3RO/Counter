@@ -54,7 +54,7 @@ public class CounterCommands {
                                     ServerPlayer player = context.getSource().getPlayerOrException();
                                     ServerLevel level = player.serverLevel();
 
-                                    if (!ServerConfig.SHOW_OVERLAY.get()) {
+                                    if (!ServerConfig.SHOW_DAY_OVERLAY.get()) {
                                         context.getSource().sendFailure(Component.translatable("command.daycounter.error"));
                                         return 0;
                                     }
@@ -69,7 +69,7 @@ public class CounterCommands {
                                     ServerPlayer player = context.getSource().getPlayerOrException();
                                     ServerLevel level = player.serverLevel();
 
-                                    if (!ServerConfig.SHOW_OVERLAY.get()) {
+                                    if (!ServerConfig.SHOW_DAY_OVERLAY.get()) {
                                         context.getSource().sendFailure(Component.translatable("command.daycounter.error"));
                                         return 0;
                                     }

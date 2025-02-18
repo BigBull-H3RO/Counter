@@ -3,13 +3,11 @@ package de.bigbull;
 import com.mojang.logging.LogUtils;
 import de.bigbull.command.CounterCommands;
 import de.bigbull.config.ClientConfig;
-import de.bigbull.config.ConfigValues;
 import de.bigbull.config.ServerConfig;
 import de.bigbull.data.DataGenerators;
-import de.bigbull.network.*;
-import de.bigbull.network.overlay.SyncDayOverlayConfigPacket;
+import de.bigbull.network.DayCounterPacket;
+import de.bigbull.network.DeathCounterPacket;
 import de.bigbull.network.overlay.SyncDayOverlayStatePacket;
-import de.bigbull.network.overlay.SyncDeathOverlayConfigPacket;
 import de.bigbull.network.overlay.SyncDeathOverlayStatePacket;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -45,7 +43,6 @@ public class Counter {
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        ConfigValues.SHOW_DAY_OVERLAY = ServerConfig.SHOW_OVERLAY.get();
     }
 
 
@@ -56,9 +53,7 @@ public class Counter {
 
         registrar.playToClient(DayCounterPacket.TYPE, DayCounterPacket.CODEC, DayCounterPacket::handle);
         registrar.playToClient(SyncDayOverlayStatePacket.TYPE, SyncDayOverlayStatePacket.CODEC, SyncDayOverlayStatePacket::handle);
-        registrar.playToClient(SyncDayOverlayConfigPacket.TYPE, SyncDayOverlayConfigPacket.CODEC, SyncDayOverlayConfigPacket::handle);
         registrar.playToClient(DeathCounterPacket.TYPE, DeathCounterPacket.CODEC, DeathCounterPacket::handle);
-        registrar.playToClient(SyncDeathOverlayConfigPacket.TYPE, SyncDeathOverlayConfigPacket.CODEC, SyncDeathOverlayConfigPacket::handle);
         registrar.playToClient(SyncDeathOverlayStatePacket.TYPE, SyncDeathOverlayStatePacket.CODEC, SyncDeathOverlayStatePacket::handle);
     }
 

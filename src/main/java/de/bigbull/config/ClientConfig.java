@@ -44,7 +44,7 @@ public class ClientConfig {
         DEATH_OVERLAY_STYLE = CLIENT_BUILDER.comment("Death Counter Style: CLASSIC = Standard list, BOXED = Background box, TABLE = Modern table layout")
                 .defineEnum("deathOverlayStyle", ClientConfig.DeathOverlayStyle.CLASSIC);
         DEATH_OVERLAY_WIDTH = CLIENT_BUILDER.comment("Width of the death counter list overlay")
-                .defineInRange("deathOverlayWidth", 200, 0, 1920);
+                .defineInRange("deathOverlayWidth", 120, 0, 1920);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Death Counter Self Settings");

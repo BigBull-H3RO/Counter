@@ -20,9 +20,11 @@ public class ModDeLangProvider extends LanguageProvider {
         add("chat.daycounter.new_day", "🌞 Es ist jetzt Tag %s!");
 
         add("overlay.counter.deaths", "💀 Tode: %s");
-        add("chat.deathcounter.player_death", "💀 %s ist %s mal gestorben!");
+        add("chat.deathcounter.player_death.singular", "💀 %s ist %s mal gestorben!");
+        add("chat.deathcounter.player_death.plural", "💀 %s ist %s mal gestorben!");
         add("overlay.counter.deathlist", "☠ Todeszähler:");
-        add("overlay.counter.deathlist.entry", "%s. %s: %s Tode");
+        add("overlay.counter.deathlist.entry.singular", "%s. %s - %s Tod");
+        add("overlay.counter.deathlist.entry.plural", "%s. %s - %s Tode");
         add("command.deathcounter.reset", "💀 Death Counter wurde zurückgesetzt!");
         add("command.deathcounter.set", "💀 Setze %s's Tode auf %s!");
         add("command.deathcounter.error", "❌ Der Death Counter ist global deaktiviert!");

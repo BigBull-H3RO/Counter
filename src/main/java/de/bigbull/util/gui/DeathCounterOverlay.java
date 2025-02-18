@@ -1,7 +1,6 @@
 package de.bigbull.util.gui;
 
 import de.bigbull.config.ClientConfig;
-import de.bigbull.config.ConfigValues;
 import de.bigbull.config.ServerConfig;
 import de.bigbull.network.client.ClientDeathCounterState;
 import de.bigbull.network.client.ClientDeathOverlayState;
@@ -25,11 +24,11 @@ public class DeathCounterOverlay {
             return;
         }
 
-        if (!ConfigValues.ENABLE_DEATH_COUNTER) {
+        if (!ServerConfig.SHOW_DEATH_OVERLAY.get() || !ServerConfig.ENABLE_DEATH_COUNTER.get()) {
             return;
         }
 
-        if (!ConfigValues.SHOW_DEATH_OVERLAY_ALWAYS && !isTabPressed()) {
+        if (!ServerConfig.SHOW_DEATH_OVERLAY_ALWAYS.get() && !isTabPressed()) {
             return;
         }
 
@@ -40,43 +39,36 @@ public class DeathCounterOverlay {
         boolean isMultiplayer = isMultiplayerGame(minecraft);
         Map<UUID, Integer> deathCounts = ClientDeathCounterState.getDeathCounts();
 
-        int listX = ConfigValues.DEATH_LIST_X;
-        int listY = ConfigValues.DEATH_LIST_Y;
-        float listScale = (float) ConfigValues.DEATH_LIST_SIZE;
+        int listX = ClientConfig.DEATH_LIST_X.get();
+        int listY = ClientConfig.DEATH_LIST_Y.get();
+        float listScale = ClientConfig.DEATH_LIST_SIZE.get().floatValue();
 
-        int selfX = ConfigValues.DEATH_SELF_X;
-        int selfY = ConfigValues.DEATH_SELF_Y;
-        float selfScale = (float) ConfigValues.DEATH_SELF_SIZE;
+        int selfX = ClientConfig.DEATH_SELF_X.get();
+        int selfY = ClientConfig.DEATH_SELF_Y.get();
+        float selfScale = ClientConfig.DEATH_SELF_SIZE.get().floatValue();
 
         ClientConfig.DeathOverlayStyle overlayStyle = ClientConfig.DEATH_OVERLAY_STYLE.get();
         int color = 0xFFFFFF;
 
         guiGraphics.pose().pushPose();
 
-        if (ConfigValues.SHOW_DEATH_OVERLAY) {
-            if (isMultiplayer) {
-                if (ConfigValues.DEATH_OVERLAY_MODE == ServerConfig.DeathOverlayMode.LIST || ConfigValues.DEATH_OVERLAY_MODE == ServerConfig.DeathOverlayMode.BOTH) {
-                    guiGraphics.pose().pushPose();
-                    guiGraphics.pose().scale(listScale, listScale, 1.0F);
+        if (isMultiplayer) {
+            if (ServerConfig.DEATH_OVERLAY_MODE.get() == ServerConfig.DeathOverlayMode.LIST ||
+                    ServerConfig.DEATH_OVERLAY_MODE.get() == ServerConfig.DeathOverlayMode.BOTH) {
+                guiGraphics.pose().pushPose();
+                guiGraphics.pose().scale(listScale, listScale, 1.0F);
 
-                    if (overlayStyle == ClientConfig.DeathOverlayStyle.TABLE) {
-                        drawTable(guiGraphics, listX, listY, deathCounts);
-                    } else {
-                        drawList(guiGraphics, listX, listY, deathCounts, overlayStyle == ClientConfig.DeathOverlayStyle.BOXED);
-                    }
-
-                    guiGraphics.pose().popPose();
+                if (overlayStyle == ClientConfig.DeathOverlayStyle.TABLE) {
+                    drawTable(guiGraphics, listX, listY, deathCounts);
+                } else {
+                    drawList(guiGraphics, listX, listY, deathCounts, overlayStyle == ClientConfig.DeathOverlayStyle.BOXED);
                 }
 
-                if (ConfigValues.DEATH_OVERLAY_MODE == ServerConfig.DeathOverlayMode.ONLY_SELF || ConfigValues.DEATH_OVERLAY_MODE == ServerConfig.DeathOverlayMode.BOTH) {
-                    guiGraphics.pose().pushPose();
-                    guiGraphics.pose().scale(selfScale, selfScale, 1.0F);
-                    int playerDeaths = deathCounts.getOrDefault(player.getUUID(), 0);
-                    guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deaths", playerDeaths),
-                            (int) (selfX / selfScale), (int) (selfY / selfScale), color);
-                    guiGraphics.pose().popPose();
-                }
-            } else {
+                guiGraphics.pose().popPose();
+            }
+
+            if (ServerConfig.DEATH_OVERLAY_MODE.get() == ServerConfig.DeathOverlayMode.ONLY_SELF ||
+                    ServerConfig.DEATH_OVERLAY_MODE.get() == ServerConfig.DeathOverlayMode.BOTH) {
                 guiGraphics.pose().pushPose();
                 guiGraphics.pose().scale(selfScale, selfScale, 1.0F);
                 int playerDeaths = deathCounts.getOrDefault(player.getUUID(), 0);
@@ -84,6 +76,13 @@ public class DeathCounterOverlay {
                         (int) (selfX / selfScale), (int) (selfY / selfScale), color);
                 guiGraphics.pose().popPose();
             }
+        } else {
+            guiGraphics.pose().pushPose();
+            guiGraphics.pose().scale(selfScale, selfScale, 1.0F);
+            int playerDeaths = deathCounts.getOrDefault(player.getUUID(), 0);
+            guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deaths", playerDeaths),
+                    (int) (selfX / selfScale), (int) (selfY / selfScale), color);
+            guiGraphics.pose().popPose();
         }
 
         guiGraphics.pose().popPose();
@@ -95,7 +94,9 @@ public class DeathCounterOverlay {
     }
 
     private static boolean isTabPressed() {
-        return GLFW.glfwGetKey(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_TAB) == GLFW.GLFW_PRESS;
+        Minecraft minecraft = Minecraft.getInstance();
+        return GLFW.glfwGetKey(minecraft.getWindow().getWindow(), GLFW.GLFW_KEY_TAB) == GLFW.GLFW_PRESS
+                && minecraft.screen == null;
     }
 
     private static void drawList(GuiGraphics guiGraphics, int x, int y, Map<UUID, Integer> deathCounts, boolean boxed) {
@@ -105,11 +106,11 @@ public class DeathCounterOverlay {
         int backgroundColor = 0x80000000;
 
         Minecraft minecraft = Minecraft.getInstance();
-        int maxTextWidth = ConfigValues.DEATH_OVERLAY_WIDTH;
+        int maxTextWidth = ClientConfig.DEATH_OVERLAY_WIDTH.get();
 
         List<Map.Entry<UUID, Integer>> sortedDeaths = deathCounts.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .limit(ConfigValues.MAX_PLAYERS_SHOWN)
+                .limit(ServerConfig.MAX_PLAYERS_SHOWN.get())
                 .toList();
 
         for (Map.Entry<UUID, Integer> entry : sortedDeaths) {
@@ -119,7 +120,7 @@ public class DeathCounterOverlay {
                     .map(p -> p.getProfile().getName())
                     .orElse("Unknown");
 
-            int textWidth = minecraft.font.width(playerName + "  " + entry.getValue());
+            int textWidth = minecraft.font.width(Component.translatable("overlay.counter.deathlist.entry", 1, playerName, entry.getValue()).getString());
             maxTextWidth = Math.max(maxTextWidth, textWidth);
         }
 
@@ -141,28 +142,31 @@ public class DeathCounterOverlay {
                     .map(p -> p.getProfile().getName())
                     .orElse("Unknown");
 
-            guiGraphics.drawString(minecraft.font, (i + 1) + ". " + playerName + " - " + deaths, x, y + ((i + 1) * rowHeight), textColor);
+            Component deathEntry = (deaths == 1) ?
+                    Component.translatable("overlay.counter.deathlist.entry.singular", i + 1, playerName, deaths) :
+                    Component.translatable("overlay.counter.deathlist.entry.plural", i + 1, playerName, deaths);
+
+            guiGraphics.drawString(minecraft.font, deathEntry, x, y + ((i + 1) * rowHeight), textColor);
         }
     }
 
     private static void drawTable(GuiGraphics guiGraphics, int x, int y, Map<UUID, Integer> deathCounts) {
-        int baseWidth = ConfigValues.DEATH_OVERLAY_WIDTH;
+        int baseWidth = ClientConfig.DEATH_OVERLAY_WIDTH.get();
         int rowHeight = 12;
         int tablePadding = 5;
         int textPadding = 5;
-        int borderColor = 0xFFFFFFFF; // Weiße Umrandung
-        int headerColor = 0xFFD700; // Gold für die Überschrift
-        int textColor = 0xFFFFFF; // Weißer Text
-        int lineColor = 0x80FFFFFF; // Halbtransparente Linien
-        int backgroundColor = 0x80000000; // Leicht transparentes Schwarz für den Hintergrund
-        int maxTextWidth = 50; // Minimale Spaltenbreite für die Namen
+        int borderColor = 0xFFFFFFFF;
+        int headerColor = 0xFFD700;
+        int textColor = 0xFFFFFF;
+        int lineColor = 0x80FFFFFF;
+        int backgroundColor = 0x80000000;
+        int maxTextWidth = 50;
 
         Minecraft minecraft = Minecraft.getInstance();
 
-        // Bestimme die maximale Breite basierend auf den Namen
         List<Map.Entry<UUID, Integer>> sortedDeaths = deathCounts.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .limit(ConfigValues.MAX_PLAYERS_SHOWN)
+                .limit(ServerConfig.MAX_PLAYERS_SHOWN.get())
                 .toList();
 
         for (Map.Entry<UUID, Integer> entry : sortedDeaths) {
@@ -172,32 +176,25 @@ public class DeathCounterOverlay {
                     .map(p -> p.getProfile().getName())
                     .orElse("Unknown");
 
-            int textWidth = minecraft.font.width(playerName + "  " + entry.getValue()); // Breite berechnen
+            int textWidth = minecraft.font.width(playerName + "  " + entry.getValue());
             if (textWidth > maxTextWidth) {
                 maxTextWidth = textWidth;
             }
         }
 
-        // Setze die Breite der Tabelle (mindestens baseWidth, aber angepasst)
         int tableWidth = Math.max(baseWidth, maxTextWidth + textPadding * 2);
-        int tableHeight = (sortedDeaths.size() * rowHeight) + 20; // Höhe der Tabelle
+        int tableHeight = (sortedDeaths.size() * rowHeight) + 20;
 
-        // Hintergrund füllen (angepasste Größe)
         guiGraphics.fill(x - tablePadding, y - tablePadding, x + tableWidth + tablePadding, y + tableHeight + tablePadding, backgroundColor);
 
-        // Rahmen der Tabelle zeichnen
-        guiGraphics.fill(x - tablePadding, y - tablePadding, x + tableWidth + tablePadding, y - tablePadding + 1, borderColor); // Oberer Rand
-        guiGraphics.fill(x - tablePadding, y + tableHeight + tablePadding - 1, x + tableWidth + tablePadding, y + tableHeight + tablePadding, borderColor); // Unterer Rand
-        guiGraphics.fill(x - tablePadding, y - tablePadding, x - tablePadding + 1, y + tableHeight + tablePadding, borderColor); // Linker Rand
-        guiGraphics.fill(x + tableWidth + tablePadding - 1, y - tablePadding, x + tableWidth + tablePadding, y + tableHeight + tablePadding, borderColor); // Rechter Rand
+        guiGraphics.fill(x - tablePadding, y - tablePadding, x + tableWidth + tablePadding, y - tablePadding + 1, borderColor);
+        guiGraphics.fill(x - tablePadding, y + tableHeight + tablePadding - 1, x + tableWidth + tablePadding, y + tableHeight + tablePadding, borderColor);
+        guiGraphics.fill(x - tablePadding, y - tablePadding, x - tablePadding + 1, y + tableHeight + tablePadding, borderColor);
+        guiGraphics.fill(x + tableWidth + tablePadding - 1, y - tablePadding, x + tableWidth + tablePadding, y + tableHeight + tablePadding, borderColor);
 
-        // Überschrift
         guiGraphics.drawString(minecraft.font, Component.translatable("💀 Death Counter:"), x + textPadding, y, headerColor);
+        guiGraphics.fill(x - tablePadding, y + rowHeight - 2, x + tableWidth + tablePadding, y + rowHeight - 1, lineColor);
 
-        // Trennlinie unter der Überschrift
-        guiGraphics.fill(x - tablePadding, y + rowHeight, x + tableWidth + tablePadding, y + rowHeight + 1, lineColor);
-
-        // Spielerliste
         for (int i = 0; i < sortedDeaths.size(); i++) {
             UUID uuid = sortedDeaths.get(i).getKey();
             int deaths = sortedDeaths.get(i).getValue();
@@ -207,15 +204,16 @@ public class DeathCounterOverlay {
                     .map(p -> p.getProfile().getName())
                     .orElse("Unknown");
 
-            int rowY = y + ((i + 1) * rowHeight);
+            int rowY = y + ((i + 1) * rowHeight + 1);
 
-            // Spalteninhalt (links Name, rechts Zahl)
-            guiGraphics.drawString(minecraft.font, (i + 1) + ". " + playerName, x + textPadding, rowY, textColor);
-            guiGraphics.drawString(minecraft.font, String.valueOf(deaths), x + tableWidth - 30, rowY, textColor);
+            Component deathEntry = (deaths == 1) ?
+                    Component.translatable("overlay.counter.deathlist.entry.singular", i + 1, playerName, deaths) :
+                    Component.translatable("overlay.counter.deathlist.entry.plural", i + 1, playerName, deaths);
 
-            // Trennlinie zwischen den Spielern (außer letzter Eintrag)
+            guiGraphics.drawString(minecraft.font, deathEntry, x + textPadding, rowY, textColor);
+
             if (i < sortedDeaths.size() - 1) {
-                guiGraphics.fill(x - tablePadding, rowY + rowHeight - 1, x + tableWidth + tablePadding, rowY + rowHeight, lineColor);
+                guiGraphics.fill(x - tablePadding, rowY + rowHeight - 2, x + tableWidth + tablePadding, rowY + rowHeight - 1, lineColor);
             }
         }
     }

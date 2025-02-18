@@ -1,6 +1,7 @@
 package de.bigbull.util.gui;
 
-import de.bigbull.config.ConfigValues;
+import de.bigbull.config.ClientConfig;
+import de.bigbull.config.ServerConfig;
 import de.bigbull.network.client.ClientDayCounterState;
 import de.bigbull.network.client.ClientDayOverlayState;
 import net.minecraft.client.Minecraft;
@@ -17,7 +18,7 @@ public class DayCounterOverlay {
             return;
         }
 
-        if (!ConfigValues.SHOW_DAY_OVERLAY || !ConfigValues.ENABLE_DAY_COUNTER) {
+        if (!ServerConfig.SHOW_DAY_OVERLAY.get() || !ServerConfig.ENABLE_DAY_COUNTER.get()) {
             return;
         }
 
@@ -26,9 +27,9 @@ public class DayCounterOverlay {
         }
 
         long days = ClientDayCounterState.getDayCounter();
-        int x = ConfigValues.DAY_OVERLAY_X;
-        int y = ConfigValues.DAY_OVERLAY_Y;
-        float scale = (float) ConfigValues.DAY_OVERLAY_SIZE;
+        int x = ClientConfig.DAY_OVERLAY_X.get();
+        int y = ClientConfig.DAY_OVERLAY_Y.get();
+        float scale = ClientConfig.DAY_OVERLAY_SIZE.get().floatValue();
         int color = 0xFFFFFF;
 
         guiGraphics.pose().pushPose();

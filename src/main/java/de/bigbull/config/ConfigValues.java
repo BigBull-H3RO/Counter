@@ -13,7 +13,7 @@ public class ConfigValues {
 
     public static boolean ENABLE_DAY_COUNTER = SERVER_CONFIG_FILE ? ServerConfig.ENABLE_DAY_COUNTER.get() : ServerConfig.ENABLE_DAY_COUNTER.getDefault();
     public static boolean ENABLE_DAY_MESSAGE = SERVER_CONFIG_FILE ? ServerConfig.ENABLE_DAY_MESSAGE.get() : ServerConfig.ENABLE_DAY_MESSAGE.getDefault();
-    public static boolean SHOW_DAY_OVERLAY = SERVER_CONFIG_FILE ? ServerConfig.SHOW_OVERLAY.get() : ServerConfig.SHOW_OVERLAY.getDefault();
+    public static boolean SHOW_DAY_OVERLAY = SERVER_CONFIG_FILE ? ServerConfig.SHOW_DAY_OVERLAY.get() : ServerConfig.SHOW_DAY_OVERLAY.getDefault();
     public static int DAY_OVERLAY_X = CLIENT_CONFIG_FILE ? ClientConfig.DAY_OVERLAY_X.get() : ClientConfig.DAY_OVERLAY_X.getDefault();
     public static int DAY_OVERLAY_Y = CLIENT_CONFIG_FILE ? ClientConfig.DAY_OVERLAY_Y.get() : ClientConfig.DAY_OVERLAY_Y.getDefault();
     public static double DAY_OVERLAY_SIZE = CLIENT_CONFIG_FILE ? ClientConfig.DAY_OVERLAY_SIZE.get() : ClientConfig.DAY_OVERLAY_SIZE.getDefault();
@@ -30,8 +30,7 @@ public class ConfigValues {
     public static double DEATH_SELF_SIZE = CLIENT_CONFIG_FILE ? ClientConfig.DEATH_SELF_SIZE.get() : ClientConfig.DEATH_SELF_SIZE.getDefault();
     public static boolean SHOW_DEATH_OVERLAY_ALWAYS = SERVER_CONFIG_FILE ? ServerConfig.SHOW_DEATH_OVERLAY_ALWAYS.get() : ServerConfig.SHOW_DEATH_OVERLAY_ALWAYS.getDefault();
     public static ServerConfig.DeathOverlayMode DEATH_OVERLAY_MODE = SERVER_CONFIG_FILE ? ServerConfig.DEATH_OVERLAY_MODE.get() : ServerConfig.DEATH_OVERLAY_MODE.getDefault();
-    public static boolean SHOW_DEATH_LIST_IN_CHAT = SERVER_CONFIG_FILE ? ServerConfig.SHOW_DEATH_LIST_IN_CHAT.get() : ServerConfig.SHOW_DEATH_LIST_IN_CHAT.getDefault();
-    public static boolean DEATH_LIST_CHAT_MODE = SERVER_CONFIG_FILE ? ServerConfig.DEATH_LIST_CHAT_MODE.get() : ServerConfig.DEATH_LIST_CHAT_MODE.getDefault();
-    public static boolean SHOW_DEATH_LIST_ON_JOIN_GLOBAL = SERVER_CONFIG_FILE ? ServerConfig.SHOW_DEATH_LIST_ON_JOIN_GLOBAL.get() : ServerConfig.SHOW_DEATH_LIST_ON_JOIN_GLOBAL.getDefault();
+    public static ServerConfig.DeathInChatMode SHOW_DEATH_LIST_IN_CHAT = SERVER_CONFIG_FILE ? ServerConfig.SHOW_DEATH_IN_CHAT_MODE.get() : ServerConfig.SHOW_DEATH_IN_CHAT_MODE.getDefault();
+    public static ServerConfig.DeathChatMode DEATH_LIST_CHAT_MODE = SERVER_CONFIG_FILE ? ServerConfig.DEATH_CHAT_MODE_TYPE.get() : ServerConfig.DEATH_CHAT_MODE_TYPE.getDefault();
     public static boolean SHOW_DEATH_LIST_ON_DEATH_GLOBAL = SERVER_CONFIG_FILE ? ServerConfig.SHOW_DEATH_LIST_ON_DEATH_GLOBAL.get() : ServerConfig.SHOW_DEATH_LIST_ON_DEATH_GLOBAL.getDefault();
 }

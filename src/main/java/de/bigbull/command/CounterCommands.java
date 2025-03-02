@@ -25,7 +25,7 @@ public class CounterCommands {
                 .then(Commands.literal("day")
                         .requires(source -> ServerConfig.ENABLE_DAY_COUNTER.get())
                         .then(Commands.literal("get")
-                                .requires(source -> source.hasPermission(0)) // oder 2, je nachdem, wie du die Permission willst
+                                .requires(source -> source.hasPermission(0))
                                 .executes(context -> {
                                     MinecraftServer server = context.getSource().getServer();
                                     ServerLevel level = server.overworld();

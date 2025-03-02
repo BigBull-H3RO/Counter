@@ -1,7 +1,7 @@
 package de.bigbull.network;
 
 import de.bigbull.Counter;
-import de.bigbull.network.client.ClientDeathCounterState;
+import de.bigbull.util.client.ClientCounterState;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -39,7 +39,7 @@ public record DeathCounterPacket(Map<UUID, Integer> deathCounts) implements Cust
 
     public static void handle(DeathCounterPacket packet, IPayloadContext context) {
         context.enqueueWork(() -> {
-            ClientDeathCounterState.updateDeathCounts(packet.deathCounts());
+            ClientCounterState.updateDeathCounts(packet.deathCounts());
         });
     }
 }

@@ -4,12 +4,10 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import de.bigbull.config.ServerConfig;
-import de.bigbull.data.saveddata.daycounter.PlayerDayOverlayData;
-import de.bigbull.data.saveddata.deathcounter.DeathCounterData;
-import de.bigbull.data.saveddata.deathcounter.PlayerDeathOverlayData;
+import de.bigbull.data.saveddata.DayCounterData;
+import de.bigbull.data.saveddata.DeathCounterData;
 import de.bigbull.network.DayCounterPacket;
 import de.bigbull.network.DeathCounterPacket;
-import de.bigbull.util.CounterManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -26,14 +24,27 @@ public class CounterCommands {
         dispatcher.register(Commands.literal("counter")
                 .then(Commands.literal("day")
                         .requires(source -> ServerConfig.ENABLE_DAY_COUNTER.get())
+                        .then(Commands.literal("get")
+                                .requires(source -> source.hasPermission(0)) // oder 2, je nachdem, wie du die Permission willst
+                                .executes(context -> {
+                                    MinecraftServer server = context.getSource().getServer();
+                                    ServerLevel level = server.overworld();
+                                    long currentDay = DayCounterData.getCurrentDay(level);
+
+                                    context.getSource().sendSuccess(
+                                            () -> Component.translatable("overlay.counter.day", currentDay),
+                                            false
+                                    );
+                                    return Command.SINGLE_SUCCESS;
+                                }))
                         .then(Commands.literal("reset")
                                 .requires(source -> source.hasPermission(2))
                                 .executes(context -> {
                                     MinecraftServer server = context.getSource().getServer();
-                                    CounterManager.resetDayCounter(server.overworld());
+                                    DayCounterData.resetDayCounter(server.overworld());
                                     context.getSource().sendSuccess(() -> Component.translatable("command.daycounter.reset"), true);
 
-                                    PacketDistributor.sendToAllPlayers(new DayCounterPacket(CounterManager.getCurrentDay(server.overworld())));
+                                    PacketDistributor.sendToAllPlayers(new DayCounterPacket(DayCounterData.getCurrentDay(server.overworld())));
                                     return Command.SINGLE_SUCCESS;
                                 }))
                         .then(Commands.literal("set")
@@ -42,54 +53,41 @@ public class CounterCommands {
                                         .executes(context -> {
                                             int newDay = IntegerArgumentType.getInteger(context, "tage");
                                             MinecraftServer server = context.getSource().getServer();
-                                            CounterManager.setDayCounter(server.overworld(), newDay);
+                                            DayCounterData.setDayCounter(server.overworld(), newDay);
                                             context.getSource().sendSuccess(() -> Component.translatable("command.daycounter.set", newDay), true);
 
                                             PacketDistributor.sendToAllPlayers(new DayCounterPacket(newDay));
                                             return Command.SINGLE_SUCCESS;
-                                        })))
-                        .then(Commands.literal("show")
-                                .requires(source -> source.hasPermission(0))
-                                .executes(context -> {
-                                    ServerPlayer player = context.getSource().getPlayerOrException();
-                                    ServerLevel level = player.serverLevel();
-
-                                    if (!ServerConfig.SHOW_DAY_OVERLAY.get()) {
-                                        context.getSource().sendFailure(Component.translatable("command.daycounter.error"));
-                                        return 0;
-                                    }
-
-                                    PlayerDayOverlayData.get(level).setOverlayState(player, true);
-                                    context.getSource().sendSuccess(() -> Component.translatable("command.daycounter.show"), true);
-                                    return 1;
-                                }))
-                        .then(Commands.literal("hide")
-                                .requires(source -> source.hasPermission(0))
-                                .executes(context -> {
-                                    ServerPlayer player = context.getSource().getPlayerOrException();
-                                    ServerLevel level = player.serverLevel();
-
-                                    if (!ServerConfig.SHOW_DAY_OVERLAY.get()) {
-                                        context.getSource().sendFailure(Component.translatable("command.daycounter.error"));
-                                        return 0;
-                                    }
-
-                                    PlayerDayOverlayData.get(level).setOverlayState(player, false);
-                                    context.getSource().sendSuccess(() -> Component.translatable("command.daycounter.hide"), true);
-                                    return 1;
-                                })))
+                                        }))))
                 .then(Commands.literal("death")
-                        .then(Commands.literal("deaths")
+                        .requires(source -> ServerConfig.ENABLE_DEATH_COUNTER.get())
+                        .then(Commands.literal("get")
                                 .requires(source -> source.hasPermission(0))
                                 .executes(context -> {
-                                    ServerPlayer player = context.getSource().getPlayerOrException();
-                                    ServerLevel level = player.serverLevel();
+                                    ServerPlayer executingPlayer = context.getSource().getPlayerOrException();
+                                    ServerLevel level = executingPlayer.serverLevel();
                                     DeathCounterData data = DeathCounterData.get(level);
 
-                                    int deaths = data.getDeaths(player.getUUID());
-                                    context.getSource().sendSuccess(() -> Component.translatable("overlay.counter.deaths", deaths), false);
+                                    int deaths = data.getDeaths(executingPlayer.getUUID());
+                                    context.getSource().sendSuccess(
+                                            () -> Component.translatable("overlay.counter.deaths", deaths),
+                                            false
+                                    );
                                     return Command.SINGLE_SUCCESS;
-                                }))
+                                })
+                                .then(Commands.argument("player", EntityArgument.player())
+                                        .executes(context -> {
+                                            ServerPlayer targetPlayer = EntityArgument.getPlayer(context, "player");
+                                            ServerLevel level = targetPlayer.serverLevel();
+                                            DeathCounterData data = DeathCounterData.get(level);
+
+                                            int deaths = data.getDeaths(targetPlayer.getUUID());
+                                            context.getSource().sendSuccess(
+                                                    () -> Component.translatable("command.deathcounter.get", deaths),
+                                                    false
+                                            );
+                                            return Command.SINGLE_SUCCESS;
+                                        })))
                         .then(Commands.literal("set")
                                 .requires(source -> source.hasPermission(2))
                                 .then(Commands.argument("player", EntityArgument.players())
@@ -109,7 +107,6 @@ public class CounterCommands {
                                                                         Component.translatable("command.deathcounter.set", targetPlayer.getName().getString(), newDeathCount),
                                                                 true);
                                                     }
-
                                                     return Command.SINGLE_SUCCESS;
                                                 }))))
                         .then(Commands.literal("reset")
@@ -122,36 +119,6 @@ public class CounterCommands {
 
                                     context.getSource().sendSuccess(() -> Component.translatable("command.deathcounter.reset"), true);
                                     PacketDistributor.sendToAllPlayers(new DeathCounterPacket(data.getDeathCountMap()));
-                                    return Command.SINGLE_SUCCESS;
-                                }))
-                        .then(Commands.literal("show")
-                                .requires(source -> source.hasPermission(0))
-                                .executes(context -> {
-                                    ServerPlayer player = context.getSource().getPlayerOrException();
-                                    ServerLevel level = player.serverLevel();
-
-                                    if (!ServerConfig.SHOW_DEATH_OVERLAY.get()) {
-                                        context.getSource().sendFailure(Component.translatable("command.deathcounter.error"));
-                                        return 0;
-                                    }
-
-                                    PlayerDeathOverlayData.get(level).setOverlayState(player, true);
-                                    context.getSource().sendSuccess(() -> Component.translatable("command.deathcounter.show"), true);
-                                    return Command.SINGLE_SUCCESS;
-                                }))
-                        .then(Commands.literal("hide")
-                                .requires(source -> source.hasPermission(0))
-                                .executes(context -> {
-                                    ServerPlayer player = context.getSource().getPlayerOrException();
-                                    ServerLevel level = player.serverLevel();
-
-                                    if (!ServerConfig.SHOW_DEATH_OVERLAY.get()) {
-                                        context.getSource().sendFailure(Component.translatable("command.deathcounter.error"));
-                                        return 0;
-                                    }
-
-                                    PlayerDeathOverlayData.get(level).setOverlayState(player, false);
-                                    context.getSource().sendSuccess(() -> Component.translatable("command.deathcounter.hide"), true);
                                     return Command.SINGLE_SUCCESS;
                                 }))));
     }

@@ -2,16 +2,10 @@ package de.bigbull.event;
 
 import de.bigbull.Counter;
 import de.bigbull.config.ServerConfig;
-import de.bigbull.data.saveddata.daycounter.PlayerDayOverlayData;
-import de.bigbull.data.saveddata.deathcounter.DeathCounterData;
-import de.bigbull.data.saveddata.deathcounter.PlayerDeathOverlayData;
+import de.bigbull.data.saveddata.DayCounterData;
+import de.bigbull.data.saveddata.DeathCounterData;
 import de.bigbull.network.DayCounterPacket;
 import de.bigbull.network.DeathCounterPacket;
-import de.bigbull.network.client.ClientDayOverlayState;
-import de.bigbull.network.client.ClientDeathOverlayState;
-import de.bigbull.network.overlay.SyncDayOverlayStatePacket;
-import de.bigbull.network.overlay.SyncDeathOverlayStatePacket;
-import de.bigbull.util.CounterManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -39,10 +33,10 @@ public class ModGameEvents {
         MinecraftServer server = event.getServer();
         ServerLevel level = server.overworld();
         long realDay = level.getDayTime() / 24000;
-        long newCounterValue = realDay + CounterManager.getOffset(level);
+        long newCounterValue = realDay + DayCounterData.getOffset(level);
 
-        if (CounterManager.getCurrentDay(level) != newCounterValue) {
-            CounterManager.setDayCounter(level, newCounterValue);
+        if (DayCounterData.getCurrentDay(level) != newCounterValue) {
+            DayCounterData.setDayCounter(level, newCounterValue);
 
             if (ServerConfig.ENABLE_DAY_MESSAGE.get()) {
                 server.getPlayerList().broadcastSystemMessage(
@@ -62,27 +56,16 @@ public class ModGameEvents {
             DeathCounterData deathData = DeathCounterData.get(level);
 
             PacketDistributor.sendToPlayer(player, new DeathCounterPacket(deathData.getDeathCountMap()));
-            PacketDistributor.sendToPlayer(player, new DayCounterPacket(CounterManager.getCurrentDay(level)));
-            PacketDistributor.sendToPlayer(player, new SyncDayOverlayStatePacket(player.getUUID(), PlayerDayOverlayData.get(level).isOverlayEnabled(player)));
-            PacketDistributor.sendToPlayer(player, new SyncDeathOverlayStatePacket(player.getUUID(), PlayerDeathOverlayData.get(level).isOverlayEnabled(player)));
+            PacketDistributor.sendToPlayer(player, new DayCounterPacket(DayCounterData.getCurrentDay(level)));
 
             if ((ServerConfig.SHOW_DEATH_IN_CHAT_MODE.get() == ServerConfig.DeathInChatMode.ON_JOIN ||
                     ServerConfig.SHOW_DEATH_IN_CHAT_MODE.get() == ServerConfig.DeathInChatMode.BOTH)) {
-
                 sendDeathCounterMessage(player, level, deathData);
             }
 
             if (ServerConfig.SHOW_DAY_IN_CHAT.get()) {
                 sendDayCounterToChat(level, player);
             }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        if (event.getEntity() instanceof ServerPlayer) {
-            ClientDayOverlayState.reset();
-            ClientDeathOverlayState.reset();
         }
     }
 
@@ -166,7 +149,7 @@ public class ModGameEvents {
     }
 
     private static void sendDayCounterToChat(ServerLevel level, ServerPlayer player) {
-        long currentDay = CounterManager.getCurrentDay(level);
+        long currentDay = DayCounterData.getCurrentDay(level);
 
         if (!ServerConfig.ENABLE_DAY_COUNTER.get()) {
             return;

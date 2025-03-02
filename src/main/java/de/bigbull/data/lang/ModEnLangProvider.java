@@ -23,12 +23,16 @@ public class ModEnLangProvider extends LanguageProvider {
         add("chat.deathcounter.player_death.singular", "💀 %s has died %s time!");
         add("chat.deathcounter.player_death.plural", "💀 %s has died %s times!");
         add("overlay.counter.deathlist", "💀 Death Counter:");
-        add("overlay.counter.deathlist.entry.singular", "%s. %s - %s death");
-        add("overlay.counter.deathlist.entry.plural", "%s. %s - %s deaths");
+        add("overlay.counter.deathlist.entry.singular", "%s. %s: %s death");
+        add("overlay.counter.deathlist.entry.plural", "%s. %s: %s deaths");
+        add("command.deathcounter.get", "💀 %s has died %s time!");
         add("command.deathcounter.reset", "💀 Death Counter has been reset!");
         add("command.deathcounter.set", "💀 Set %s's deaths to %s!");
         add("command.deathcounter.error", "❌ The Death Counter is globally disabled!");
         add("command.deathcounter.show", "💀 Overlay enabled!");
         add("command.deathcounter.hide", "🌑 Overlay disabled!");
+
+        add("key.counter.edit_mode", "Edit Mode");
+        add("key.categories.counter", "Counter");
     }
 }

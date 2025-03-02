@@ -27,7 +27,7 @@ public class ServerConfig {
     }
 
     public enum DeathInChatMode {
-        ON_JOIN, ON_DEATH, BOTH, NONE
+        ON_JOIN, ON_DEATH, BOTH
     }
 
     public enum DeathChatMode {
@@ -36,37 +36,37 @@ public class ServerConfig {
 
     static {
         SERVER_BUILDER.push("Day Counter Settings");
-        ENABLE_DAY_COUNTER = SERVER_BUILDER.comment("Should the day counter be enabled?")
+        ENABLE_DAY_COUNTER = SERVER_BUILDER.comment("If false, the day counter is entirely disabled on the server.")
                 .define("enableDayCounter", true);
-        ENABLE_DAY_MESSAGE = SERVER_BUILDER.comment("Should a message appear in chat when a new day begins?")
+        ENABLE_DAY_MESSAGE = SERVER_BUILDER.comment("Should a chat message appear whenever a new day begins?")
                 .define("enableDayMessage", true);
-        SHOW_DAY_OVERLAY = SERVER_BUILDER.comment("Should the overlay be displayed?")
+        SHOW_DAY_OVERLAY = SERVER_BUILDER.comment("Should the day overlay be shown on client side? (Server override)")
                 .define("showOverlay", true);
-        SHOW_DAY_IN_CHAT = SERVER_BUILDER.comment("Should the day counter message be sent in chat when a player joins?")
+        SHOW_DAY_IN_CHAT = SERVER_BUILDER.comment("Should the day count be posted in chat for each player when they join?")
                 .define("showDayInChat", true);
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("Death Counter Settings");
-        ENABLE_DEATH_COUNTER = SERVER_BUILDER.comment("Should the death counter be enabled?")
+        ENABLE_DEATH_COUNTER = SERVER_BUILDER.comment("If false, the death counter feature is fully disabled on the server.")
                 .define("enableDeathCounter", true);
-        SHOW_DEATH_OVERLAY = SERVER_BUILDER.comment("Should the death counter overlay be displayed?")
+        SHOW_DEATH_OVERLAY = SERVER_BUILDER.comment("If true, the server allows displaying death overlays (self or list).")
                 .define("showOverlay", true);
-        MAX_PLAYERS_SHOWN = SERVER_BUILDER.comment("Maximum number of players shown in the death counter overlay")
+        MAX_PLAYERS_SHOWN = SERVER_BUILDER.comment("Maximum number of players displayed in the death counter list.")
                 .defineInRange("maxPlayersShown", 5, 1, 20);
-        SHOW_DEATH_OVERLAY_ALWAYS = SERVER_BUILDER.comment("Should the death counter overlay always be visible? If false, it will only be shown when holding the Tab key.")
+        SHOW_DEATH_OVERLAY_ALWAYS = SERVER_BUILDER.comment("Should the death overlay be visible at all times? If false, it only appears when holding TAB or in Edit Mode.")
                 .define("showOverlayAlways", false);
-        DEATH_OVERLAY_MODE = SERVER_BUILDER.comment("Death overlay display mode: ONLY_SELF = show only own deaths, LIST = show only the player list, BOTH = show both")
+        DEATH_OVERLAY_MODE = SERVER_BUILDER.comment("Defines which type(s) of death overlay are allowed: ONLY_SELF = personal only, LIST = list only, BOTH = both overlays.")
                 .defineEnum("deathOverlayMode", DeathOverlayMode.LIST);
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("Death Counter Chat Settings");
-        ENABLE_DEATH_IN_CHAT = SERVER_BUILDER.comment("Should the death counter be shown in chat?")
+        ENABLE_DEATH_IN_CHAT = SERVER_BUILDER.comment("If true, the server will send death counter information to chat (e.g. on join or on death).")
                 .define("showDeathInChat", true);
-        SHOW_DEATH_IN_CHAT_MODE = SERVER_BUILDER.comment("Death counter chat display mode: ON_JOIN = show death list when a player joins, ON_DEATH = show death list when a player dies, BOTH = show death list in both cases, NONE = don't show death list in chat")
+        SHOW_DEATH_IN_CHAT_MODE = SERVER_BUILDER.comment("When should the death list appear in chat? ON_JOIN, ON_DEATH, or BOTH?")
                 .defineEnum("showDeathInChatMode", DeathInChatMode.BOTH);
-        DEATH_CHAT_MODE_TYPE = SERVER_BUILDER.comment("Death counter chat display mode: ONLY_SELF = show only own deaths, LIST = show only the player list")
+        DEATH_CHAT_MODE_TYPE = SERVER_BUILDER.comment("How should deaths be shown in chat? ONLY_SELF = each player sees their own deaths, LIST = show top players (or all) in a list.")
                 .defineEnum("deathChatMode", DeathChatMode.LIST);
-        SHOW_DEATH_LIST_ON_DEATH_GLOBAL = SERVER_BUILDER.comment("Should the death (list) be shown to all players when a player dies?")
+        SHOW_DEATH_LIST_ON_DEATH_GLOBAL = SERVER_BUILDER.comment("If true, the death list is broadcast to all players whenever someone dies. Otherwise only the dying player sees it.")
                 .define("showDeathListOnDeathGlobal", false);
         SERVER_BUILDER.pop();
 

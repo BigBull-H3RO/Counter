@@ -5,16 +5,15 @@ import de.bigbull.command.CounterCommands;
 import de.bigbull.config.ClientConfig;
 import de.bigbull.config.ServerConfig;
 import de.bigbull.data.DataGenerators;
-import de.bigbull.network.DayCounterPacket;
-import de.bigbull.network.DeathCounterPacket;
-import de.bigbull.network.overlay.SyncDayOverlayStatePacket;
-import de.bigbull.network.overlay.SyncDeathOverlayStatePacket;
+import de.bigbull.network.*;
+import de.bigbull.util.ModKeybinds;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
@@ -31,6 +30,7 @@ public class Counter {
         NeoForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::registerNetwork);
+        modEventBus.addListener(this::registerKeyMappings);
         modEventBus.addListener(DataGenerators::gatherData);
 
         modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.CLIENT_SPEC, "counter-client.toml");
@@ -38,13 +38,11 @@ public class Counter {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-
     }
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
     }
-
 
     private void registerNetwork(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar(MODID)
@@ -52,13 +50,15 @@ public class Counter {
                 .optional();
 
         registrar.playToClient(DayCounterPacket.TYPE, DayCounterPacket.CODEC, DayCounterPacket::handle);
-        registrar.playToClient(SyncDayOverlayStatePacket.TYPE, SyncDayOverlayStatePacket.CODEC, SyncDayOverlayStatePacket::handle);
         registrar.playToClient(DeathCounterPacket.TYPE, DeathCounterPacket.CODEC, DeathCounterPacket::handle);
-        registrar.playToClient(SyncDeathOverlayStatePacket.TYPE, SyncDeathOverlayStatePacket.CODEC, SyncDeathOverlayStatePacket::handle);
     }
 
     @SubscribeEvent
     private void registerCommands(RegisterCommandsEvent event) {
         CounterCommands.register(event.getDispatcher());
+    }
+
+    public void registerKeyMappings(RegisterKeyMappingsEvent event) {
+        event.register(ModKeybinds.OPEN_EDIT_GUI);
     }
 }

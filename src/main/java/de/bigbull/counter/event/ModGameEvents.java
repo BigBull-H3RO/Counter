@@ -117,7 +117,7 @@ public class ModGameEvents {
                 }
             }
         } else {
-            affectedPlayer.sendSystemMessage(Component.translatable("overlay.counter.deaths", playerDeaths));
+            affectedPlayer.sendSystemMessage(Component.translatable("overlay.counter.deaths_with_emoji", playerDeaths));
         }
     }
 
@@ -155,6 +155,6 @@ public class ModGameEvents {
             return;
         }
 
-        player.sendSystemMessage(Component.translatable("overlay.counter.day", currentDay));
+        player.sendSystemMessage(Component.translatable("overlay.counter.day_with_emoji", currentDay));
     }
 }

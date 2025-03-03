@@ -10,6 +10,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
 public class DayCounterOverlay {
+    static String dayKey = ClientConfig.SHOW_EMOJIS.get()
+            ? "overlay.counter.day_with_emoji"
+            : "overlay.counter.day_no_emoji";
+
     public static void render(GuiGraphics guiGraphics) {
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
@@ -45,7 +49,7 @@ public class DayCounterOverlay {
         int drawY = (int) (y / scale);
 
         guiGraphics.drawString(minecraft.font, Component.translatable(
-                "overlay.counter.day", ClientCounterState.getDayCounter()), drawX, drawY, 0xFFFFFF);
+                dayKey, ClientCounterState.getDayCounter()), drawX, drawY, 0xFFFFFF);
         guiGraphics.pose().popPose();
 
         if (isEditMode) {
@@ -81,7 +85,7 @@ public class DayCounterOverlay {
         Minecraft mc = Minecraft.getInstance();
         long days = ClientCounterState.getDayCounter();
         float scale = ClientConfig.DAY_OVERLAY_SIZE.get().floatValue();
-        String text = Component.translatable("overlay.counter.day", days).getString();
+        String text = Component.translatable(dayKey, days).getString();
         return (int) (mc.font.width(text) * scale);
     }
 

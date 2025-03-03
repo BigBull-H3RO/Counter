@@ -15,6 +15,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class DeathCounterOverlay {
+    static String deathKey = ClientConfig.SHOW_EMOJIS.get()
+            ? "overlay.counter.deaths_with_emoji"
+            : "overlay.counter.deaths_no_emoji";
+
     public static void render(GuiGraphics guiGraphics) {
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
@@ -91,7 +95,7 @@ public class DeathCounterOverlay {
 
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(scale, scale, 1.0F);
-        guiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("overlay.counter.deaths", playerDeaths), drawX, drawY, color);
+        guiGraphics.drawString(Minecraft.getInstance().font, Component.translatable(deathKey, playerDeaths), drawX, drawY, color);
         guiGraphics.pose().popPose();
 
         drawStatusAndBorder(guiGraphics, x, y, drawWidth, drawHeight, isEditMode, OverlayEditScreen.DragTarget.DEATH_SELF);
@@ -237,7 +241,7 @@ public class DeathCounterOverlay {
         LocalPlayer player = mc.player;
         int playerDeaths = ClientCounterState.getDeathCounts().getOrDefault(player.getUUID(), 0);
         float scale = ClientConfig.DEATH_SELF_SIZE.get().floatValue();
-        int txtWidth = mc.font.width(Component.translatable("overlay.counter.deaths", playerDeaths).getString());
+        int txtWidth = mc.font.width(Component.translatable(deathKey, playerDeaths).getString());
         return (int) (txtWidth * scale);
     }
 

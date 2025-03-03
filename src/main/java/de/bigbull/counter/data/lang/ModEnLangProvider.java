@@ -11,7 +11,8 @@ public class ModEnLangProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        add("overlay.counter.day", "🌞 Day: %s");
+        add("overlay.counter.day_with_emoji", "🌞 Day: %s");
+        add("overlay.counter.day_no_emoji", "Day: %s");
         add("command.daycounter.reset", "🌞 Day Counter has been reset to the real world day!");
         add("command.daycounter.set", "🌞 Day Counter set to %s!");
         add("command.daycounter.show", "🌞 Overlay enabled!");
@@ -19,7 +20,8 @@ public class ModEnLangProvider extends LanguageProvider {
         add("command.daycounter.error", "❌ The Overlay is globally disabled!");
         add("chat.daycounter.new_day", "🌞 It's now day %s!");
 
-        add("overlay.counter.deaths", "💀 Deaths: %s");
+        add("overlay.counter.deaths_with_emoji", "💀 Deaths: %s");
+        add("overlay.counter.deaths_no_emoji", "Deaths: %s");
         add("chat.deathcounter.player_death.singular", "💀 %s has died %s time!");
         add("chat.deathcounter.player_death.plural", "💀 %s has died %s times!");
         add("overlay.counter.deathlist", "💀 Death Counter:");

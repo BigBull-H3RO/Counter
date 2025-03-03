@@ -25,6 +25,8 @@ public class ClientConfig {
 
     public static final ModConfigSpec.BooleanValue SHOW_PING_AS_TEXT;
 
+    public static final ModConfigSpec.BooleanValue SHOW_EMOJIS;
+
     public enum DeathOverlayStyle {
         CLASSIC, BOXED, TABLE
     }
@@ -70,6 +72,11 @@ public class ClientConfig {
         CLIENT_BUILDER.push("Ping Settings");
         SHOW_PING_AS_TEXT = CLIENT_BUILDER.comment("Show the ping as text (e.g. '123ms') instead of the default bars in the tab list?")
                 .define("showPingAsText", true);
+        CLIENT_BUILDER.pop();
+
+        CLIENT_BUILDER.push("Emote Settings");
+        SHOW_EMOJIS = CLIENT_BUILDER.comment("Enable or disable emojis in overlays.")
+                .define("showEmojis", true);
         CLIENT_BUILDER.pop();
 
         CLIENT_SPEC = CLIENT_BUILDER.build();

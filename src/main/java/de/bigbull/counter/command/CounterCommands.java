@@ -1,13 +1,13 @@
-package de.bigbull.command;
+package de.bigbull.counter.command;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import de.bigbull.config.ServerConfig;
-import de.bigbull.data.saveddata.DayCounterData;
-import de.bigbull.data.saveddata.DeathCounterData;
-import de.bigbull.network.DayCounterPacket;
-import de.bigbull.network.DeathCounterPacket;
+import de.bigbull.counter.config.ServerConfig;
+import de.bigbull.counter.data.saveddata.DayCounterData;
+import de.bigbull.counter.data.saveddata.DeathCounterData;
+import de.bigbull.counter.network.DayCounterPacket;
+import de.bigbull.counter.network.DeathCounterPacket;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;

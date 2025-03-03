@@ -1,4 +1,4 @@
-package de.bigbull.util;
+package de.bigbull.counter.util;
 
 import net.minecraft.client.KeyMapping;
 import org.lwjgl.glfw.GLFW;

@@ -1,6 +1,6 @@
-package de.bigbull.data.lang;
+package de.bigbull.counter.data.lang;
 
-import de.bigbull.Counter;
+import de.bigbull.counter.Counter;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 

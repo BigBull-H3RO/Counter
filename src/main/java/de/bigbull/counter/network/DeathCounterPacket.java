@@ -1,7 +1,7 @@
-package de.bigbull.network;
+package de.bigbull.counter.network;
 
-import de.bigbull.Counter;
-import de.bigbull.util.client.ClientCounterState;
+import de.bigbull.counter.Counter;
+import de.bigbull.counter.util.client.ClientCounterState;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;

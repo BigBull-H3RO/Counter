@@ -1,11 +1,11 @@
-package de.bigbull.event;
+package de.bigbull.counter.event;
 
-import de.bigbull.Counter;
-import de.bigbull.config.ServerConfig;
-import de.bigbull.data.saveddata.DayCounterData;
-import de.bigbull.data.saveddata.DeathCounterData;
-import de.bigbull.network.DayCounterPacket;
-import de.bigbull.network.DeathCounterPacket;
+import de.bigbull.counter.Counter;
+import de.bigbull.counter.config.ServerConfig;
+import de.bigbull.counter.data.saveddata.DayCounterData;
+import de.bigbull.counter.data.saveddata.DeathCounterData;
+import de.bigbull.counter.network.DayCounterPacket;
+import de.bigbull.counter.network.DeathCounterPacket;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;

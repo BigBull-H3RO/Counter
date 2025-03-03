@@ -1,8 +1,8 @@
-package de.bigbull.util.gui;
+package de.bigbull.counter.util.gui;
 
-import de.bigbull.config.ClientConfig;
-import de.bigbull.config.ServerConfig;
-import de.bigbull.util.client.ClientCounterState;
+import de.bigbull.counter.config.ClientConfig;
+import de.bigbull.counter.config.ServerConfig;
+import de.bigbull.counter.util.client.ClientCounterState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;

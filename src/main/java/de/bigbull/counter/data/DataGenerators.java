@@ -1,8 +1,8 @@
-package de.bigbull.data;
+package de.bigbull.counter.data;
 
-import de.bigbull.Counter;
-import de.bigbull.data.lang.ModDeLangProvider;
-import de.bigbull.data.lang.ModEnLangProvider;
+import de.bigbull.counter.Counter;
+import de.bigbull.counter.data.lang.ModDeLangProvider;
+import de.bigbull.counter.data.lang.ModEnLangProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.data.event.GatherDataEvent;

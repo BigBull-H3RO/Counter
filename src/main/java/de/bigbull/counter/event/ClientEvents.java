@@ -1,10 +1,10 @@
-package de.bigbull.event;
+package de.bigbull.counter.event;
 
-import de.bigbull.Counter;
-import de.bigbull.util.ModKeybinds;
-import de.bigbull.util.gui.DayCounterOverlay;
-import de.bigbull.util.gui.DeathCounterOverlay;
-import de.bigbull.util.gui.OverlayEditScreen;
+import de.bigbull.counter.Counter;
+import de.bigbull.counter.util.ModKeybinds;
+import de.bigbull.counter.util.gui.DayCounterOverlay;
+import de.bigbull.counter.util.gui.DeathCounterOverlay;
+import de.bigbull.counter.util.gui.OverlayEditScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;

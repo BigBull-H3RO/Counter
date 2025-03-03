@@ -1,4 +1,4 @@
-package de.bigbull.data.saveddata;
+package de.bigbull.counter.data.saveddata;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;

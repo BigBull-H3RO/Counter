@@ -1,12 +1,12 @@
-package de.bigbull;
+package de.bigbull.counter;
 
 import com.mojang.logging.LogUtils;
-import de.bigbull.command.CounterCommands;
-import de.bigbull.config.ClientConfig;
-import de.bigbull.config.ServerConfig;
-import de.bigbull.data.DataGenerators;
-import de.bigbull.network.*;
-import de.bigbull.util.ModKeybinds;
+import de.bigbull.counter.command.CounterCommands;
+import de.bigbull.counter.config.ClientConfig;
+import de.bigbull.counter.config.ServerConfig;
+import de.bigbull.counter.data.DataGenerators;
+import de.bigbull.counter.network.*;
+import de.bigbull.counter.util.ModKeybinds;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;

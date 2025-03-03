@@ -1,4 +1,4 @@
-package de.bigbull.config;
+package de.bigbull.counter.config;
 
 import net.neoforged.neoforge.common.ModConfigSpec;
 

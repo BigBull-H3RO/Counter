@@ -1,6 +1,6 @@
 <p align="center"><img src="./.idea/icon.png" alt="Logo" width="250"></p>
 
-<h1 align="center">Counter  
+<h1 align="center">Counter  <br>
 	<a href="https://www.curseforge.com/minecraft/mc-mods/counter-neoforge/files"><img src="https://cf.way2muchnoise.eu/versions/1100508(0280ff).svg?cachebuster=1" alt="Supported Versions"></a>
 	<a href="https://github.com/BigBull-H3RO/Counter/blob/main/LICENSE"><img src="https://img.shields.io/github/license/BigBull-H3RO/Counter?style=flat&color=0280ff" alt="License"></a>
 	<a href="https://www.curseforge.com/minecraft/mc-mods/counter-neoforge"><img src="https://cf.way2muchnoise.eu/1100508.svg?" alt="CurseForge"></a>

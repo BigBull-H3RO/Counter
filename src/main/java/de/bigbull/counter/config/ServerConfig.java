@@ -10,6 +10,7 @@ public class ServerConfig {
     public static final ModConfigSpec.BooleanValue SHOW_DAY_OVERLAY;
     public static final ModConfigSpec.BooleanValue ENABLE_DAY_MESSAGE;
     public static final ModConfigSpec.BooleanValue SHOW_DAY_IN_CHAT;
+    public static final ModConfigSpec.IntValue DAY_OVERLAY_CHATTEXT_COLOR;
 
     public static final ModConfigSpec.BooleanValue ENABLE_DEATH_COUNTER;
     public static final ModConfigSpec.BooleanValue SHOW_DEATH_OVERLAY;
@@ -21,6 +22,8 @@ public class ServerConfig {
     public static final ModConfigSpec.EnumValue<DeathInChatMode> SHOW_DEATH_IN_CHAT_MODE;
     public static final ModConfigSpec.EnumValue<DeathChatMode> DEATH_CHAT_MODE_TYPE;
     public static final ModConfigSpec.BooleanValue SHOW_DEATH_LIST_ON_DEATH_GLOBAL;
+    public static final ModConfigSpec.IntValue DEATH_LIST_CHATTEXT_COLOR;
+    public static final ModConfigSpec.IntValue DEATH_SELF_CHATTEXT_COLOR;
 
     public enum DeathOverlayMode {
         ONLY_SELF, LIST, BOTH
@@ -44,6 +47,8 @@ public class ServerConfig {
                 .define("showOverlay", true);
         SHOW_DAY_IN_CHAT = SERVER_BUILDER.comment("Should the day count be posted in chat for each player when they join?")
                 .define("showDayInChat", true);
+        DAY_OVERLAY_CHATTEXT_COLOR = SERVER_BUILDER.comment("Color of the day overlay text.")
+                .defineInRange("dayOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("Death Counter Settings");
@@ -63,11 +68,15 @@ public class ServerConfig {
         ENABLE_DEATH_IN_CHAT = SERVER_BUILDER.comment("If true, the server will send death counter information to chat (e.g. on join or on death).")
                 .define("showDeathInChat", true);
         SHOW_DEATH_IN_CHAT_MODE = SERVER_BUILDER.comment("When should the death list appear in chat? ON_JOIN, ON_DEATH, or BOTH?")
-                .defineEnum("showDeathInChatMode", DeathInChatMode.BOTH);
+                .defineEnum("showDeathInChatMode", DeathInChatMode.ON_DEATH);
         DEATH_CHAT_MODE_TYPE = SERVER_BUILDER.comment("How should deaths be shown in chat? ONLY_SELF = each player sees their own deaths, LIST = show top players (or all) in a list.")
-                .defineEnum("deathChatMode", DeathChatMode.LIST);
+                .defineEnum("deathChatMode", DeathChatMode.ONLY_SELF);
         SHOW_DEATH_LIST_ON_DEATH_GLOBAL = SERVER_BUILDER.comment("If true, the death list is broadcast to all players whenever someone dies. Otherwise only the dying player sees it.")
                 .define("showDeathListOnDeathGlobal", false);
+        DEATH_LIST_CHATTEXT_COLOR = SERVER_BUILDER.comment("Color of the death list chat text.")
+                .defineInRange("deathListChatTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+        DEATH_SELF_CHATTEXT_COLOR = SERVER_BUILDER.comment("Color of the death self chat text.")
+                .defineInRange("deathSelfChatTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
         SERVER_BUILDER.pop();
 
         SERVER_SPEC = SERVER_BUILDER.build();

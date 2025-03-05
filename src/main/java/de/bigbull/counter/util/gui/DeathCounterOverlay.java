@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.Comparator;
@@ -86,7 +87,7 @@ public class DeathCounterOverlay {
     }
 
     private static void drawSelfOverlay(GuiGraphics guiGraphics, int x, int y, float scale, Map<UUID, Integer> deathCounts, LocalPlayer player, boolean isEditMode) {
-        int color = 0xFFFFFF;
+        int color = ClientConfig.DEATH_SELF_TEXT_COLOR.get();
         int playerDeaths = deathCounts.getOrDefault(player.getUUID(), 0);
         int drawX = (int) (x / scale);
         int drawY = (int) (y / scale);
@@ -104,7 +105,7 @@ public class DeathCounterOverlay {
     private static void drawListOverlay(GuiGraphics guiGraphics, int x, int y, Map<UUID, Integer> deathCounts, boolean isEditMode) {
         Minecraft minecraft = Minecraft.getInstance();
         List<Map.Entry<UUID, Integer>> sortedDeaths = getSortedDeaths(deathCounts);
-        int textColor = 0xFFFFFF;
+        int defaultTextColor = ClientConfig.DEATH_LIST_TEXT_COLOR.get();
         int backgroundColor = 0x80000000;
         int boxWidth = calcDeathListWidth();
         int boxHeight = calcDeathListHeight();
@@ -115,25 +116,22 @@ public class DeathCounterOverlay {
             if (ClientConfig.DEATH_OVERLAY_STYLE.get() == ClientConfig.DeathOverlayStyle.BOXED) {
                 guiGraphics.fill(x - 5, y - 5, x + boxWidth + 5, y + boxHeight + 5, backgroundColor);
             }
-            guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), x, y, textColor);
+            guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), x, y, defaultTextColor);
             for (int i = 0; i < sortedDeaths.size(); i++) {
                 UUID uuid = sortedDeaths.get(i).getKey();
                 int deaths = sortedDeaths.get(i).getValue();
                 String playerName = getPlayerName(uuid);
-                Component deathEntry = (deaths == 1)
-                        ? Component.translatable("overlay.counter.deathlist.entry.singular", i + 1, playerName, deaths)
-                        : Component.translatable("overlay.counter.deathlist.entry.plural", i + 1, playerName, deaths);
-                guiGraphics.drawString(minecraft.font, deathEntry, x, y + ((i + 1) * 12), textColor);
+                Component deathEntry = getDeathEntry(i, playerName, deaths);
+                guiGraphics.drawString(minecraft.font, deathEntry, x, y + ((i + 1) * 12), 0xFFFFFF);
             }
-        }
 
-        drawStatusAndBorder(guiGraphics, x, y, boxWidth, boxHeight, isEditMode, OverlayEditScreen.DragTarget.DEATH_LIST);
+            drawStatusAndBorder(guiGraphics, x, y, boxWidth, boxHeight, isEditMode, OverlayEditScreen.DragTarget.DEATH_LIST);
+        }
     }
 
     private static void drawTable(GuiGraphics guiGraphics, int x, int y, List<Map.Entry<UUID, Integer>> sortedDeaths, boolean isEditMode) {
         int borderColor = 0xFFFFFFFF;
-        int headerColor = 0xFFD700;
-        int textColor = 0xFFFFFF;
+        int defaultTextColor = ClientConfig.DEATH_LIST_TEXT_COLOR.get();
         int lineColor = 0x80FFFFFF;
         int backgroundColor = 0x80000000;
         Minecraft minecraft = Minecraft.getInstance();
@@ -146,22 +144,20 @@ public class DeathCounterOverlay {
         guiGraphics.fill(x - 5, y - 5, x - 4, y + tableHeight + 5, borderColor);
         guiGraphics.fill(x + tableWidth + 4, y - 5, x + tableWidth + 5, y + tableHeight + 5, borderColor);
 
-        guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), x + 5, y, headerColor);
-        guiGraphics.fill(x - 5, y + 12 - 2, x + tableWidth + 5, y + 12 - 1, lineColor);
+        guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), x + 5, y, defaultTextColor);
+        guiGraphics.fill(x - 5, y + 10, x + tableWidth + 5, y + 11, lineColor);
 
         for (int i = 0; i < sortedDeaths.size(); i++) {
             UUID uuid = sortedDeaths.get(i).getKey();
             int deaths = sortedDeaths.get(i).getValue();
             String playerName = getPlayerName(uuid);
             int rowY = y + ((i + 1) * 12 + 1);
-            Component deathEntry = (deaths == 1)
-                    ? Component.translatable("overlay.counter.deathlist.entry.singular", i + 1, playerName, deaths)
-                    : Component.translatable("overlay.counter.deathlist.entry.plural", i + 1, playerName, deaths);
-            guiGraphics.drawString(minecraft.font, deathEntry, x + 5, rowY, textColor);
+            Component deathEntry = getDeathEntry(i, playerName, deaths);
+            guiGraphics.drawString(minecraft.font, deathEntry, x + 5, rowY, 0xFFFFFF);
             guiGraphics.fill(x - 5, rowY + 10, x + tableWidth + 5, rowY + 11, lineColor);
         }
 
-        drawStatusAndBorder(guiGraphics, x, y, tableWidth, tableHeight, isEditMode, OverlayEditScreen.DragTarget.DEATH_LIST);
+        drawStatusAndBorder(guiGraphics, x - 4, y - 4, tableWidth + 8, tableHeight + 8, isEditMode, OverlayEditScreen.DragTarget.DEATH_LIST);
     }
 
     private static void drawStatusAndBorder(GuiGraphics guiGraphics, int x, int y, int width, int height, boolean isEditMode, OverlayEditScreen.DragTarget target) {
@@ -179,7 +175,7 @@ public class DeathCounterOverlay {
         int iconX = x + width + 5;
         int iconY = y + (height / 2) - (iconSize / 2);
 
-        drawStatusIcon(guiGraphics, iconX, iconY, iconSize, iconColor);
+        guiGraphics.fill(iconX, iconY, iconX + iconSize, iconY + iconSize, iconColor);
 
         OverlayEditScreen editScreen = (mc.screen instanceof OverlayEditScreen) ? (OverlayEditScreen) mc.screen : null;
 
@@ -198,10 +194,6 @@ public class DeathCounterOverlay {
         g.fill(x + w + borderPadding - 1, y - borderPadding, x + w + borderPadding, y + h + borderPadding, color);
     }
 
-    private static void drawStatusIcon(GuiGraphics guiGraphics, int x, int y, int size, int color) {
-        guiGraphics.fill(x, y, x + size, y + size, color);
-    }
-
     private static boolean isMultiplayerGame(Minecraft minecraft) {
         return (minecraft.hasSingleplayerServer() && minecraft.getSingleplayerServer().isPublished())
                 || minecraft.getCurrentServer() != null;
@@ -211,6 +203,25 @@ public class DeathCounterOverlay {
         Minecraft minecraft = Minecraft.getInstance();
         return GLFW.glfwGetKey(minecraft.getWindow().getWindow(), GLFW.GLFW_KEY_TAB) == GLFW.GLFW_PRESS
                 && minecraft.screen == null;
+    }
+
+    public static Component getDeathEntry(int index, String playerName, int deaths) {
+        int positionColor = 0xFFFFFF;
+        if (index == 0) {
+            positionColor = ClientConfig.FIRST_PLACE_COLOR.get();
+        } else if (index == 1) {
+            positionColor = ClientConfig.SECOND_PLACE_COLOR.get();
+        } else if (index == 2) {
+            positionColor = ClientConfig.THIRD_PLACE_COLOR.get();
+        }
+
+        Component coloredPosition = Component.literal((index + 1) + ".").setStyle(Style.EMPTY.withColor(positionColor));
+
+        Component playerAndDeaths = (deaths == 1)
+                ? Component.translatable("overlay.counter.deathlist.entry.singular", Component.literal(playerName), deaths)
+                : Component.translatable("overlay.counter.deathlist.entry.plural", Component.literal(playerName), deaths);
+
+        return Component.translatable("overlay.counter.deathlist.entry.full", coloredPosition, playerAndDeaths);
     }
 
     public static int calcDeathListWidth() {
@@ -259,11 +270,6 @@ public class DeathCounterOverlay {
     }
 
     private static String getPlayerName(UUID uuid) {
-        Minecraft minecraft = Minecraft.getInstance();
-        return minecraft.getConnection().getOnlinePlayers().stream()
-                .filter(p -> p.getProfile().getId().equals(uuid))
-                .findFirst()
-                .map(p -> p.getProfile().getName())
-                .orElse("Unknown");
+        return ClientCounterState.getNameFor(uuid);
     }
 }

@@ -10,6 +10,7 @@ public class ClientConfig {
     public static final ModConfigSpec.DoubleValue DAY_OVERLAY_X;
     public static final ModConfigSpec.DoubleValue DAY_OVERLAY_Y;
     public static final ModConfigSpec.DoubleValue DAY_OVERLAY_SIZE;
+    public static final ModConfigSpec.IntValue DAY_OVERLAY_TEXT_COLOR;
 
     public static final ModConfigSpec.BooleanValue SHOW_DEATH_LIST_OVERLAY;
     public static final ModConfigSpec.DoubleValue DEATH_LIST_X;
@@ -17,13 +18,21 @@ public class ClientConfig {
     public static final ModConfigSpec.DoubleValue DEATH_LIST_SIZE;
     public static final ModConfigSpec.IntValue DEATH_OVERLAY_WIDTH;
     public static final ModConfigSpec.EnumValue<DeathOverlayStyle> DEATH_OVERLAY_STYLE;
+    public static final ModConfigSpec.IntValue DEATH_LIST_TEXT_COLOR;
+    public static final ModConfigSpec.IntValue FIRST_PLACE_COLOR;
+    public static final ModConfigSpec.IntValue SECOND_PLACE_COLOR;
+    public static final ModConfigSpec.IntValue THIRD_PLACE_COLOR;
 
     public static final ModConfigSpec.BooleanValue SHOW_DEATH_SELF_OVERLAY;
     public static final ModConfigSpec.DoubleValue DEATH_SELF_X;
     public static final ModConfigSpec.DoubleValue DEATH_SELF_Y;
     public static final ModConfigSpec.DoubleValue DEATH_SELF_SIZE;
+    public static final ModConfigSpec.IntValue DEATH_SELF_TEXT_COLOR;
 
     public static final ModConfigSpec.BooleanValue SHOW_PING_AS_TEXT;
+    public static final ModConfigSpec.IntValue PING_COLOR_GOOD;
+    public static final ModConfigSpec.IntValue PING_COLOR_MEDIUM;
+    public static final ModConfigSpec.IntValue PING_COLOR_BAD;
 
     public static final ModConfigSpec.BooleanValue SHOW_EMOJIS;
 
@@ -41,13 +50,15 @@ public class ClientConfig {
                 .defineInRange("dayOverlayY", 0.015, 0.0, 1.0);
         DAY_OVERLAY_SIZE = CLIENT_BUILDER.comment("Font size scaling factor for the day counter.")
                 .defineInRange("dayOverlaySize", 1.0, 0.1, 5.0);
+        DAY_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the day overlay text.")
+                .defineInRange("dayOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Death Counter List Settings");
         SHOW_DEATH_LIST_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the death list overlay (list of all players' deaths).")
                 .define("showDeathListOverlay", true);
         DEATH_LIST_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right) of the death list overlay.")
-                .defineInRange("deathListX", 0.01, 0.0, 1.0);
+                .defineInRange("deathListX", 0.0125, 0.0, 1.0);
         DEATH_LIST_Y = CLIENT_BUILDER.comment("Relative Y position (0.0 = top, 1.0 = bottom) of the death list overlay.")
                 .defineInRange("deathListY", 0.16, 0.0, 1.0);
         DEATH_LIST_SIZE = CLIENT_BUILDER.comment("Font size scaling factor for the death list overlay.")
@@ -56,6 +67,15 @@ public class ClientConfig {
                 .defineEnum("deathOverlayStyle", DeathOverlayStyle.TABLE);
         DEATH_OVERLAY_WIDTH = CLIENT_BUILDER.comment("Max width (in pixels) for the death list overlay (affects layout).")
                 .defineInRange("deathOverlayWidth", 120, 0, 1920);
+        DEATH_LIST_TEXT_COLOR = CLIENT_BUILDER.comment("Default text color for the death list overlay.")
+                .defineInRange("deathListTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+        FIRST_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the first place in the death list.")
+                .defineInRange("firstPlaceColor", 0xFFD700, 0x000000, 0xFFFFFF);
+        SECOND_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the second place in the death list.")
+                .defineInRange("secondPlaceColor", 0xC0C0C0, 0x000000, 0xFFFFFF);
+        THIRD_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the third place in the death list.")
+                .defineInRange("thirdPlaceColor", 0xCD7F32, 0x000000, 0xFFFFFF);
+
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Death Counter Self Settings");
@@ -67,11 +87,19 @@ public class ClientConfig {
                 .defineInRange("deathSelfY", 0.068, 0.0, 1.0);
         DEATH_SELF_SIZE = CLIENT_BUILDER.comment("Font size scaling factor for your personal death counter.")
                 .defineInRange("deathSelfSize", 1, 0.1, 5);
+        DEATH_SELF_TEXT_COLOR = CLIENT_BUILDER.comment("Color for your personal death counter text.")
+                .defineInRange("deathSelfTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Ping Settings");
         SHOW_PING_AS_TEXT = CLIENT_BUILDER.comment("Show the ping as text (e.g. '123ms') instead of the default bars in the tab list?")
                 .define("showPingAsText", true);
+        PING_COLOR_GOOD = CLIENT_BUILDER.comment("Color for good ping (<100ms).")
+                .defineInRange("pingColorGood", 0x00FF00, 0x000000, 0xFFFFFF);
+        PING_COLOR_MEDIUM = CLIENT_BUILDER.comment("Color for medium ping (100-249ms).")
+                .defineInRange("pingColorMedium", 0xFF9900, 0x000000, 0xFFFFFF);
+        PING_COLOR_BAD = CLIENT_BUILDER.comment("Color for bad ping (>=250ms).")
+                .defineInRange("pingColorBad", 0xFF0000, 0x000000, 0xFFFFFF);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Emote Settings");

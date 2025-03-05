@@ -12,22 +12,38 @@ import java.util.UUID;
 public class DeathCounterData extends SavedData {
     private static final String TAG_NAME = "DeathCounter";
     private final Map<UUID, Integer> deathCounts = new HashMap<>();
+    private final Map<UUID, String> playerNames = new HashMap<>();
 
     public static final Factory<DeathCounterData> FACTORY = new Factory<>(DeathCounterData::new, DeathCounterData::load);
 
     public static DeathCounterData load(CompoundTag tag, HolderLookup.Provider provider) {
         DeathCounterData data = new DeathCounterData();
-        for (String key : tag.getAllKeys()) {
-            data.deathCounts.put(UUID.fromString(key), tag.getInt(key));
+
+        CompoundTag deathCountTag = tag.getCompound("DeathCounts");
+        for (String key : deathCountTag.getAllKeys()) {
+            data.deathCounts.put(UUID.fromString(key), deathCountTag.getInt(key));
+        }
+
+        CompoundTag namesTag = tag.getCompound("PlayerNames");
+        for (String key : namesTag.getAllKeys()) {
+            data.playerNames.put(UUID.fromString(key), namesTag.getString(key));
         }
         return data;
     }
 
     @Override
     public CompoundTag save(CompoundTag tag, HolderLookup.Provider provider) {
+        CompoundTag deathCountTag = new CompoundTag();
         for (Map.Entry<UUID, Integer> entry : deathCounts.entrySet()) {
-            tag.putInt(entry.getKey().toString(), entry.getValue());
+            deathCountTag.putInt(entry.getKey().toString(), entry.getValue());
         }
+        tag.put("DeathCounts", deathCountTag);
+
+        CompoundTag namesTag = new CompoundTag();
+        for (Map.Entry<UUID, String> entry : playerNames.entrySet()) {
+            namesTag.putString(entry.getKey().toString(), entry.getValue());
+        }
+        tag.put("PlayerNames", namesTag);
         return tag;
     }
 
@@ -52,6 +68,15 @@ public class DeathCounterData extends SavedData {
 
     public Map<UUID, Integer> getDeathCountMap() {
         return new HashMap<>(deathCounts);
+    }
+
+    public void updatePlayerName(UUID playerUUID, String name) {
+        playerNames.put(playerUUID, name);
+        this.setDirty();
+    }
+
+    public Map<UUID, String> getPlayerNames() {
+        return new HashMap<>(playerNames);
     }
 
     public static DeathCounterData get(ServerLevel level) {

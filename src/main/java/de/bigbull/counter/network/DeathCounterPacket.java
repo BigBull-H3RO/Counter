@@ -8,10 +8,11 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public record DeathCounterPacket(Map<UUID, Integer> deathCounts) implements CustomPacketPayload {
+public record DeathCounterPacket(Map<UUID, Integer> deathCounts, Map<UUID, String> nameMap) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<DeathCounterPacket> TYPE = new CustomPacketPayload.Type<>(
             ResourceLocation.fromNamespaceAndPath(Counter.MODID, "death_counter"));
 
@@ -22,14 +23,27 @@ public record DeathCounterPacket(Map<UUID, Integer> deathCounts) implements Cust
                     buf.writeUUID(entry.getKey());
                     buf.writeVarInt(entry.getValue());
                 }
+
+                buf.writeVarInt(packet.nameMap.size());
+                for (var entry : packet.nameMap.entrySet()) {
+                    buf.writeUUID(entry.getKey());
+                    buf.writeUtf(entry.getValue());
+                }
             },
             buf -> {
                 int size = buf.readVarInt();
-                Map<UUID, Integer> deathCounts = new java.util.HashMap<>();
+                Map<UUID, Integer> deathCounts = new HashMap<>();
                 for (int i = 0; i < size; i++) {
                     deathCounts.put(buf.readUUID(), buf.readVarInt());
                 }
-                return new DeathCounterPacket(deathCounts);
+
+                int size2 = buf.readVarInt();
+                Map<UUID, String> nameMap = new HashMap<>();
+                for (int i = 0; i < size2; i++) {
+                    nameMap.put(buf.readUUID(), buf.readUtf());
+                }
+
+                return new DeathCounterPacket(deathCounts, nameMap);
             });
 
     @Override
@@ -40,6 +54,7 @@ public record DeathCounterPacket(Map<UUID, Integer> deathCounts) implements Cust
     public static void handle(DeathCounterPacket packet, IPayloadContext context) {
         context.enqueueWork(() -> {
             ClientCounterState.updateDeathCounts(packet.deathCounts());
+            ClientCounterState.updateNameMap(packet.nameMap());
         });
     }
 }

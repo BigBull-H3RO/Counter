@@ -54,11 +54,11 @@ public abstract class PlayerTabOverlayMixin {
 
         int color;
         if (ping < 100) {
-            color = 0xFF00FF00;
+            color = ClientConfig.PING_COLOR_GOOD.get();
         } else if (ping < 250) {
-            color = 0xFFFF9900;
+            color = ClientConfig.PING_COLOR_MEDIUM.get();
         } else {
-            color = 0xFFFF0000;
+            color = ClientConfig.PING_COLOR_BAD.get();
         }
 
         var font = Minecraft.getInstance().font;

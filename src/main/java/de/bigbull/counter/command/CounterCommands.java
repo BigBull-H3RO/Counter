@@ -32,7 +32,7 @@ public class CounterCommands {
                                     long currentDay = DayCounterData.getCurrentDay(level);
 
                                     context.getSource().sendSuccess(
-                                            () -> Component.translatable("overlay.counter.day", currentDay),
+                                            () -> Component.translatable("overlay.counter.day_with_emoji", currentDay),
                                             false
                                     );
                                     return Command.SINGLE_SUCCESS;
@@ -70,7 +70,7 @@ public class CounterCommands {
 
                                     int deaths = data.getDeaths(executingPlayer.getUUID());
                                     context.getSource().sendSuccess(
-                                            () -> Component.translatable("overlay.counter.deaths", deaths),
+                                            () -> Component.translatable("overlay.counter.deaths_with_emoji", deaths),
                                             false
                                     );
                                     return Command.SINGLE_SUCCESS;
@@ -101,7 +101,7 @@ public class CounterCommands {
 
                                                     for (ServerPlayer targetPlayer : players) {
                                                         data.setDeaths(targetPlayer.getUUID(), newDeathCount);
-                                                        PacketDistributor.sendToPlayer(targetPlayer, new DeathCounterPacket(data.getDeathCountMap()));
+                                                        PacketDistributor.sendToPlayer(targetPlayer, new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
 
                                                         context.getSource().sendSuccess(() ->
                                                                         Component.translatable("command.deathcounter.set", targetPlayer.getName().getString(), newDeathCount),
@@ -118,7 +118,7 @@ public class CounterCommands {
                                     data.resetAllDeaths();
 
                                     context.getSource().sendSuccess(() -> Component.translatable("command.deathcounter.reset"), true);
-                                    PacketDistributor.sendToAllPlayers(new DeathCounterPacket(data.getDeathCountMap()));
+                                    PacketDistributor.sendToAllPlayers(new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
                                     return Command.SINGLE_SUCCESS;
                                 }))));
     }

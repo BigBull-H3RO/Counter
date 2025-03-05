@@ -31,7 +31,7 @@ public class DayCounterOverlay {
         }
 
         float scale = ClientConfig.DAY_OVERLAY_SIZE.get().floatValue();
-
+        int textColor = ClientConfig.DAY_OVERLAY_TEXT_COLOR.get();
         int screenWidth = minecraft.getWindow().getGuiScaledWidth();
         int screenHeight = minecraft.getWindow().getGuiScaledHeight();
         int x = (int) Math.round(ClientConfig.DAY_OVERLAY_X.get() * screenWidth);
@@ -49,7 +49,7 @@ public class DayCounterOverlay {
         int drawY = (int) (y / scale);
 
         guiGraphics.drawString(minecraft.font, Component.translatable(
-                dayKey, ClientCounterState.getDayCounter()), drawX, drawY, 0xFFFFFF);
+                dayKey, ClientCounterState.getDayCounter()), drawX, drawY, textColor);
         guiGraphics.pose().popPose();
 
         if (isEditMode) {
@@ -58,7 +58,7 @@ public class DayCounterOverlay {
             int iconX = x + calcDayWidth() + 5;
             int iconY = y + (calcDayHeight() / 2) - (iconSize / 2);
 
-            drawStatusIcon(guiGraphics, iconX, iconY, iconSize, iconColor);
+            guiGraphics.fill(iconX, iconY, iconX + iconSize, iconY + iconSize, iconColor);
 
             if (editScreen.getSelectedOverlay() == OverlayEditScreen.DragTarget.DAY) {
                 drawBorder(guiGraphics, x, y, calcDayWidth(), calcDayHeight(), 0xFFFFFF00);
@@ -75,10 +75,6 @@ public class DayCounterOverlay {
         g.fill(x - borderPadding, y + h + borderPadding - 1, x + w + borderPadding, y + h + borderPadding, color);
         g.fill(x - borderPadding, y - borderPadding, x - borderPadding + 1, y + h + borderPadding, color);
         g.fill(x + w + borderPadding - 1, y - borderPadding, x + w + borderPadding, y + h + borderPadding, color);
-    }
-
-    private static void drawStatusIcon(GuiGraphics guiGraphics, int x, int y, int size, int color) {
-        guiGraphics.fill(x, y, x + size, y + size, color);
     }
 
     public static int calcDayWidth() {

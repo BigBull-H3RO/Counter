@@ -28,8 +28,8 @@ public class DeathCounterOverlay {
         if (!ServerConfig.SHOW_DEATH_OVERLAY.get() || !ServerConfig.ENABLE_DEATH_COUNTER.get()) return;
 
         boolean isEditMode = (minecraft.screen instanceof OverlayEditScreen);
-        boolean allowListOverlay = ServerConfig.SHOW_LIST_OVERLAY_ALWAYS.get() || isTabPressed() || isEditMode;
-        boolean allowSelfOverlay = ServerConfig.SHOW_SELF_OVERLAY_ALWAYS.get() || isTabPressed() || isEditMode;
+        boolean allowListOverlay = ClientConfig.SHOW_DEATH_LIST_OVERLAY_ALWAYS.get() || isTabPressed() || isEditMode;
+        boolean allowSelfOverlay = ClientConfig.SHOW_DEATH_SELF_OVERLAY_ALWAYS.get() || isTabPressed() || isEditMode;
 
         if (!allowListOverlay && !allowSelfOverlay) {
             return;
@@ -50,11 +50,11 @@ public class DeathCounterOverlay {
             serverWantsSelf = true;
         }
 
-        boolean showList = (ServerConfig.SHOW_LIST_OVERLAY_ALWAYS.get() && ClientConfig.SHOW_DEATH_LIST_OVERLAY.get())
+        boolean showList = (ClientConfig.SHOW_DEATH_LIST_OVERLAY_ALWAYS.get() && ClientConfig.SHOW_DEATH_LIST_OVERLAY.get())
                 || isEditMode
                 || (isTabPressed() && serverWantsList && ClientConfig.SHOW_DEATH_LIST_OVERLAY.get());
 
-        boolean showSelf = (ServerConfig.SHOW_SELF_OVERLAY_ALWAYS.get() && ClientConfig.SHOW_DEATH_SELF_OVERLAY.get())
+        boolean showSelf = (ClientConfig.SHOW_DEATH_SELF_OVERLAY_ALWAYS.get() && ClientConfig.SHOW_DEATH_SELF_OVERLAY.get())
                 || isEditMode
                 || (isTabPressed() && serverWantsSelf && ClientConfig.SHOW_DEATH_SELF_OVERLAY.get());
 

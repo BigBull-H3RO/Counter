@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+import org.lwjgl.glfw.GLFW;
 
 public class DayCounterOverlay {
     static String dayKey = ClientConfig.SHOW_EMOJIS.get()
@@ -26,9 +27,16 @@ public class DayCounterOverlay {
         if (!ServerConfig.SHOW_DAY_OVERLAY.get() || !ServerConfig.ENABLE_DAY_COUNTER.get()) {
             return;
         }
-        if (!ClientConfig.SHOW_DAY_OVERLAY.get() && !isEditMode) {
-            return;
-        }
+
+        boolean allowDayOverlay = ClientConfig.SHOW_DAY_OVERLAY_ALWAYS.get() || isTabPressed() || isEditMode;
+
+        if (!allowDayOverlay) return;
+
+        boolean showDay = (ClientConfig.SHOW_DAY_OVERLAY_ALWAYS.get() && ClientConfig.SHOW_DAY_OVERLAY.get())
+                || isEditMode
+                || (isTabPressed() && ClientConfig.SHOW_DAY_OVERLAY.get());
+
+        if (!showDay) return;
 
         float scale = ClientConfig.DAY_OVERLAY_SIZE.get().floatValue();
         int textColor = ClientConfig.DAY_OVERLAY_TEXT_COLOR.get();
@@ -75,6 +83,12 @@ public class DayCounterOverlay {
         g.fill(x - borderPadding, y + h + borderPadding - 1, x + w + borderPadding, y + h + borderPadding, color);
         g.fill(x - borderPadding, y - borderPadding, x - borderPadding + 1, y + h + borderPadding, color);
         g.fill(x + w + borderPadding - 1, y - borderPadding, x + w + borderPadding, y + h + borderPadding, color);
+    }
+
+    private static boolean isTabPressed() {
+        Minecraft minecraft = Minecraft.getInstance();
+        return GLFW.glfwGetKey(minecraft.getWindow().getWindow(), GLFW.GLFW_KEY_TAB) == GLFW.GLFW_PRESS
+                && minecraft.screen == null;
     }
 
     public static int calcDayWidth() {

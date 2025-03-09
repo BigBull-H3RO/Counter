@@ -102,12 +102,13 @@ public class CounterCommands {
 
                                                     for (ServerPlayer targetPlayer : players) {
                                                         data.setDeaths(targetPlayer.getUUID(), newDeathCount);
-                                                        PacketDistributor.sendToPlayer(targetPlayer, new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
-
                                                         context.getSource().sendSuccess(() ->
                                                                         Component.translatable("command.deathcounter.set", targetPlayer.getName().getString(), newDeathCount),
                                                                 true);
                                                     }
+
+                                                    PacketDistributor.sendToAllPlayers(new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
+
                                                     return Command.SINGLE_SUCCESS;
                                                 }))))
                         .then(Commands.literal("reset")

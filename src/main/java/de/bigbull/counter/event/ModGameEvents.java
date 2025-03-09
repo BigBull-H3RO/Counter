@@ -7,6 +7,7 @@ import de.bigbull.counter.network.DeathCounterPacket;
 import de.bigbull.counter.util.saveddata.DayCounterData;
 import de.bigbull.counter.util.saveddata.DeathCounterData;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -131,31 +132,32 @@ public class ModGameEvents {
                 .limit(ServerConfig.MAX_PLAYERS_SHOWN.get())
                 .toList();
 
-        if (!sortedDeaths.isEmpty()) {
-            Component header = Component.translatable("overlay.counter.deathlist").withStyle(style -> style.withColor(textColor));
-            player.sendSystemMessage(header);
+        if (sortedDeaths.isEmpty()) return;
 
-            int position = 0;
-            for (Map.Entry<UUID, Integer> entry : sortedDeaths) {
-                String playerName = data.getPlayerNames().getOrDefault(entry.getKey(), "Unknown");
+        Component header = Component.translatable("overlay.counter.deathlist").withStyle(style -> style.withColor(textColor));
 
-                Component positionComponent = Component.literal((position + 1) + ".").setStyle(Style.EMPTY.withColor(0xFFFFFF));
-                Component playerAndDeaths = (entry.getValue() == 1)
-                        ? Component.translatable("overlay.counter.deathlist.entry.singular", Component.literal(playerName), entry.getValue())
-                        : Component.translatable("overlay.counter.deathlist.entry.plural", Component.literal(playerName), entry.getValue());
-                Component deathEntry = Component.translatable("overlay.counter.deathlist.entry.full", positionComponent, playerAndDeaths);
+        List<MutableComponent> deathEntries = sortedDeaths.stream().map(entry -> {
+            String playerName = data.getPlayerNames().getOrDefault(entry.getKey(), "Unknown");
+            int deaths = entry.getValue();
 
-                if (sendToAll) {
-                    for (ServerPlayer onlinePlayer : level.getServer().getPlayerList().getPlayers()) {
-                        if (onlinePlayer != player) {
-                            onlinePlayer.sendSystemMessage(header);
-                        }
-                        onlinePlayer.sendSystemMessage(deathEntry);
-                    }
-                } else {
-                    player.sendSystemMessage(deathEntry);
+            Component positionComponent = Component.literal((sortedDeaths.indexOf(entry) + 1) + ".")
+                    .setStyle(Style.EMPTY.withColor(0xFFFFFF));
+            Component playerAndDeaths = (deaths == 1)
+                    ? Component.translatable("overlay.counter.deathlist.entry.singular", Component.literal(playerName), deaths)
+                    : Component.translatable("overlay.counter.deathlist.entry.plural", Component.literal(playerName), deaths);
+
+            return Component.translatable("overlay.counter.deathlist.entry.full", positionComponent, playerAndDeaths);
+        }).toList();
+
+        player.sendSystemMessage(header);
+        deathEntries.forEach(player::sendSystemMessage);
+
+        if (sendToAll) {
+            for (ServerPlayer onlinePlayer : level.getServer().getPlayerList().getPlayers()) {
+                if (onlinePlayer != player) {
+                    onlinePlayer.sendSystemMessage(header);
+                    deathEntries.forEach(onlinePlayer::sendSystemMessage);
                 }
-                position++;
             }
         }
     }

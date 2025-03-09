@@ -13,16 +13,13 @@ public class ModEnLangProvider extends LanguageProvider {
     protected void addTranslations() {
         add("overlay.counter.day_with_emoji", "🌞 Day: %s");
         add("overlay.counter.day_no_emoji", "Day: %s");
-        add("command.daycounter.reset", "🌞 Day Counter has been reset to the real world day!");
+        add("command.daycounter.reset", "🌞 Day Counter has been reset to the current Minecraft day!");
         add("command.daycounter.set", "🌞 Day Counter set to %s!");
-        add("command.daycounter.show", "🌞 Overlay enabled!");
-        add("command.daycounter.hide", "🌑 Overlay disabled!");
-        add("command.daycounter.error", "❌ The Overlay is globally disabled!");
         add("chat.daycounter.new_day", "🌞 It's now day %s!");
 
         add("overlay.counter.deaths_with_emoji", "💀 Deaths: %s");
         add("overlay.counter.deaths_no_emoji", "Deaths: %s");
-        add("chat.deathcounter.player_death.singular", "💀 %s has died %s time!");
+        add("chat.deathcounter.player_death.singular", "💀 %s has died once!");
         add("chat.deathcounter.player_death.plural", "💀 %s has died %s times!");
         add("overlay.counter.deathlist", "💀 Death Counter:");
         add("overlay.counter.deathlist.entry.full", "%s %s");
@@ -30,10 +27,7 @@ public class ModEnLangProvider extends LanguageProvider {
         add("overlay.counter.deathlist.entry.plural", "%s: %s deaths");
         add("command.deathcounter.get", "💀 %s has died %s time!");
         add("command.deathcounter.reset", "💀 Death Counter has been reset!");
-        add("command.deathcounter.set", "💀 Set %s's deaths to %s!");
-        add("command.deathcounter.error", "❌ The Death Counter is globally disabled!");
-        add("command.deathcounter.show", "💀 Overlay enabled!");
-        add("command.deathcounter.hide", "🌑 Overlay disabled!");
+        add("command.deathcounter.set", "💀 Set the death count of %s to %s!");
 
         add("key.counter.edit_mode", "Edit Mode");
         add("key.categories.counter", "Counter");

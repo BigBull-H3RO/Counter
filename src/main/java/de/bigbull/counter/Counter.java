@@ -1,7 +1,7 @@
 package de.bigbull.counter;
 
 import com.mojang.logging.LogUtils;
-import de.bigbull.counter.command.CounterCommands;
+import de.bigbull.counter.util.CounterCommands;
 import de.bigbull.counter.config.ClientConfig;
 import de.bigbull.counter.config.ServerConfig;
 import de.bigbull.counter.data.DataGenerators;

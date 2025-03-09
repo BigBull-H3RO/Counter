@@ -13,7 +13,7 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import java.util.function.Supplier;
 
 public class OverlayEditScreen extends Screen {
-    enum DragTarget { NONE, DAY, DEATH_LIST, DEATH_SELF }
+    public enum DragTarget { NONE, DAY, DEATH_LIST, DEATH_SELF }
     private DragTarget selectedOverlay = DragTarget.NONE;
     private DragTarget currentDrag = DragTarget.NONE;
     private int dragOffsetX = 0, dragOffsetY = 0;
@@ -174,9 +174,7 @@ public class OverlayEditScreen extends Screen {
     }
 
     private boolean hitOverlay(double mouseX, double mouseY, DragTarget target, ModConfigSpec.DoubleValue xConfig, ModConfigSpec.DoubleValue yConfig, Supplier<Integer> widthSupplier, Supplier<Integer> heightSupplier) {
-        boolean editMode = (this.minecraft.screen instanceof OverlayEditScreen);
-
-        if (!isOverlayEnabled(target) && !editMode) {
+        if (isOverlayAllowedByServer(target)) {
             return false;
         }
 
@@ -204,30 +202,31 @@ public class OverlayEditScreen extends Screen {
     }
 
     public void toggleSelectedOverlay() {
+        if (isOverlayAllowedByServer(selectedOverlay)) {
+            return;
+        }
+
         switch (selectedOverlay) {
             case DAY -> {
-                if (!ServerConfig.SHOW_DAY_OVERLAY.get()) return;
                 boolean newState = !ClientConfig.SHOW_DAY_OVERLAY.get();
                 ClientConfig.SHOW_DAY_OVERLAY.set(newState);
             }
             case DEATH_LIST -> {
-                if (!ServerConfig.SHOW_DEATH_OVERLAY.get()) return;
                 boolean newState = !ClientConfig.SHOW_DEATH_LIST_OVERLAY.get();
                 ClientConfig.SHOW_DEATH_LIST_OVERLAY.set(newState);
             }
             case DEATH_SELF -> {
-                if (!ServerConfig.SHOW_DEATH_OVERLAY.get()) return;
                 boolean newState = !ClientConfig.SHOW_DEATH_SELF_OVERLAY.get();
                 ClientConfig.SHOW_DEATH_SELF_OVERLAY.set(newState);
             }
         }
     }
 
-    private boolean isOverlayEnabled(DragTarget target) {
-        return switch (target) {
-            case DAY -> ClientConfig.SHOW_DAY_OVERLAY.get();
-            case DEATH_LIST -> ClientConfig.SHOW_DEATH_LIST_OVERLAY.get();
-            case DEATH_SELF -> ClientConfig.SHOW_DEATH_SELF_OVERLAY.get();
+    private boolean isOverlayAllowedByServer(DragTarget target) {
+        return !switch (target) {
+            case DAY -> ServerConfig.SHOW_DAY_OVERLAY.get() && ServerConfig.ENABLE_DAY_COUNTER.get();
+            case DEATH_LIST, DEATH_SELF ->
+                    ServerConfig.SHOW_DEATH_OVERLAY.get() && ServerConfig.ENABLE_DEATH_COUNTER.get();
             default -> false;
         };
     }

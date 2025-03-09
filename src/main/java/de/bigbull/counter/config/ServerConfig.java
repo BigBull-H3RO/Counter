@@ -10,12 +10,13 @@ public class ServerConfig {
     public static final ModConfigSpec.BooleanValue SHOW_DAY_OVERLAY;
     public static final ModConfigSpec.BooleanValue ENABLE_DAY_MESSAGE;
     public static final ModConfigSpec.BooleanValue SHOW_DAY_IN_CHAT;
-    public static final ModConfigSpec.IntValue DAY_OVERLAY_CHATTEXT_COLOR;
+    public static final ModConfigSpec.IntValue DAY_CHATTEXT_COLOR;
 
     public static final ModConfigSpec.BooleanValue ENABLE_DEATH_COUNTER;
     public static final ModConfigSpec.BooleanValue SHOW_DEATH_OVERLAY;
     public static final ModConfigSpec.IntValue MAX_PLAYERS_SHOWN;
-    public static final ModConfigSpec.BooleanValue SHOW_DEATH_OVERLAY_ALWAYS;
+    public static final ModConfigSpec.BooleanValue SHOW_LIST_OVERLAY_ALWAYS;
+    public static final ModConfigSpec.BooleanValue SHOW_SELF_OVERLAY_ALWAYS;
     public static final ModConfigSpec.EnumValue<DeathOverlayMode> DEATH_OVERLAY_MODE;
 
     public static final ModConfigSpec.BooleanValue ENABLE_DEATH_IN_CHAT;
@@ -47,8 +48,8 @@ public class ServerConfig {
                 .define("showOverlay", true);
         SHOW_DAY_IN_CHAT = SERVER_BUILDER.comment("Should the day count be posted in chat for each player when they join?")
                 .define("showDayInChat", true);
-        DAY_OVERLAY_CHATTEXT_COLOR = SERVER_BUILDER.comment("Color of the day overlay text.")
-                .defineInRange("dayOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+        DAY_CHATTEXT_COLOR = SERVER_BUILDER.comment("Color of the day chat text.")
+                .defineInRange("dayChatTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("Death Counter Settings");
@@ -58,8 +59,10 @@ public class ServerConfig {
                 .define("showOverlay", true);
         MAX_PLAYERS_SHOWN = SERVER_BUILDER.comment("Maximum number of players displayed in the death counter list.")
                 .defineInRange("maxPlayersShown", 5, 1, 20);
-        SHOW_DEATH_OVERLAY_ALWAYS = SERVER_BUILDER.comment("Should the death overlay be visible at all times? If false, it only appears when holding TAB or in Edit Mode.")
-                .define("showOverlayAlways", false);
+        SHOW_LIST_OVERLAY_ALWAYS = SERVER_BUILDER.comment("Should the death list overlay be visible at all times?")
+                .define("showListOverlayAlways", false);
+        SHOW_SELF_OVERLAY_ALWAYS = SERVER_BUILDER.comment("Should the self death counter overlay be visible at all times?")
+                .define("showSelfOverlayAlways", false);
         DEATH_OVERLAY_MODE = SERVER_BUILDER.comment("Defines which type(s) of death overlay are allowed: ONLY_SELF = personal only, LIST = list only, BOTH = both overlays.")
                 .defineEnum("deathOverlayMode", DeathOverlayMode.LIST);
         SERVER_BUILDER.pop();

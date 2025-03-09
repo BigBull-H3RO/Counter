@@ -1,11 +1,11 @@
-package de.bigbull.counter.command;
+package de.bigbull.counter.util;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import de.bigbull.counter.config.ServerConfig;
-import de.bigbull.counter.data.saveddata.DayCounterData;
-import de.bigbull.counter.data.saveddata.DeathCounterData;
+import de.bigbull.counter.util.saveddata.DayCounterData;
+import de.bigbull.counter.util.saveddata.DeathCounterData;
 import de.bigbull.counter.network.DayCounterPacket;
 import de.bigbull.counter.network.DeathCounterPacket;
 import net.minecraft.commands.CommandSourceStack;
@@ -82,8 +82,9 @@ public class CounterCommands {
                                             DeathCounterData data = DeathCounterData.get(level);
 
                                             int deaths = data.getDeaths(targetPlayer.getUUID());
+                                            String translationKey = deaths == 1 ? "chat.deathcounter.player_death.singular" : "chat.deathcounter.player_death.plural";
                                             context.getSource().sendSuccess(
-                                                    () -> Component.translatable("command.deathcounter.get", deaths),
+                                                    () -> Component.translatable(translationKey, targetPlayer.getName(), deaths),
                                                     false
                                             );
                                             return Command.SINGLE_SUCCESS;

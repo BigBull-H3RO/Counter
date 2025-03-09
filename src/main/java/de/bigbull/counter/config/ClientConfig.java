@@ -75,7 +75,6 @@ public class ClientConfig {
                 .defineInRange("secondPlaceColor", 0xC0C0C0, 0x000000, 0xFFFFFF);
         THIRD_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the third place in the death list.")
                 .defineInRange("thirdPlaceColor", 0xCD7F32, 0x000000, 0xFFFFFF);
-
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Death Counter Self Settings");

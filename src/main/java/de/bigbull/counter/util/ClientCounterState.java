@@ -1,4 +1,4 @@
-package de.bigbull.counter.util.client;
+package de.bigbull.counter.util;
 
 import java.util.HashMap;
 import java.util.Map;

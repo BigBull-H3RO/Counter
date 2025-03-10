@@ -8,14 +8,13 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 public class DataGenerators {
-    public static void gatherData(GatherDataEvent event) {
-        try {
-            DataGenerator generator = event.getGenerator();
-            PackOutput output = generator.getPackOutput();
+    public static void gatherData(GatherDataEvent.Client event) {
+        DataGenerator generator = event.getGenerator();
+        PackOutput output = generator.getPackOutput();
 
+        try {
             generator.addProvider(true, new ModEnLangProvider(output));
             generator.addProvider(true, new ModDeLangProvider(output));
-
         } catch (RuntimeException e) {
             Counter.logger.error("Failed to generate data", e);
         }

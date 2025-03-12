@@ -31,8 +31,6 @@ public class ModDeLangProvider extends LanguageProvider {
         add("command.deathcounter.reset", "💀 Todeszähler wurde zurückgesetzt!");
         add("command.deathcounter.set", "💀 Setze die Tode von %s auf %s!");
 
-        add("command.counter.time.get", "⏰ Spielzeit: %s");
-
         add("key.counter.edit_mode", "Bearbeitungsmodus");
         add("key.categories.counter", "Zähler");
     }

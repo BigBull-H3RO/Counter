@@ -67,7 +67,7 @@ public class ClientConfig {
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Death Counter List Settings");
-        SHOW_DEATH_LIST_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the death counter list overlay (shows all player deaths).")
+        SHOW_DEATH_LIST_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the death counter list overlay on the client side.")
                 .define("showDeathListOverlay", true);
         SHOW_DEATH_LIST_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the death counter list overlay always be visible?")
                 .define("showListOverlayAlways", false);
@@ -92,7 +92,7 @@ public class ClientConfig {
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Death Counter Self Settings");
-        SHOW_DEATH_SELF_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the personal death counter overlay.")
+        SHOW_DEATH_SELF_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the personal death counter overlay on the client side.")
                 .define("showDeathSelfOverlay", true);
         SHOW_DEATH_SELF_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the personal death counter overlay always be visible?")
                 .define("showSelfOverlayAlways", false);
@@ -107,14 +107,14 @@ public class ClientConfig {
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Ingame Time Overlay Settings");
-        SHOW_TIME_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the ingame time overlay.")
+        SHOW_TIME_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the time overlay on the client side.")
                 .define("showIngameTimeOverlay", false);
-        SHOW_TIME_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the ingame time overlay always be visible?")
-                .define("showIngameTimeOverlayAlways", false);
+        SHOW_TIME_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the time overlay always be visible?")
+                .define("showIngameTimeOverlayAlways", true);
         TIME_OVERLAY_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right).")
-                .defineInRange("ingameTimeOverlayX", 0.85, 0.0, 1.0);
+                .defineInRange("ingameTimeOverlayX", 0.00781, 0.0, 1.0);
         TIME_OVERLAY_Y = CLIENT_BUILDER.comment("Relative Y position (0.0 = top, 1.0 = bottom).")
-                .defineInRange("ingameTimeOverlayY", 0.02, 0.0, 1.0);
+                .defineInRange("ingameTimeOverlayY", 0.955, 0.0, 1.0);
         TIME_OVERLAY_SIZE = CLIENT_BUILDER.comment("Scale factor for the ingame time overlay text size.")
                 .defineInRange("ingameTimeOverlaySize", 1.0, 0.1, 5.0);
         TIME_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the ingame time overlay text.")

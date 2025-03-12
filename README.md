@@ -1,8 +1,8 @@
 <p align="center"><img src="./.idea/icon.png" alt="Logo" width="250"></p>
 
 <h1 align="center">Counter  <br>
-	<a href="https://www.curseforge.com/minecraft/mc-mods/counter-day-death/files"><img src="https://cf.way2muchnoise.eu/versions/1214103.svg?cachebuster=1" alt="Supported Versions"></a>
-	<a href="https://github.com/BigBull-H3RO/Counter/blob/main/LICENSE"><img src="https://img.shields.io/github/license/BigBull-H3RO/Counter?style=flat&color=ffffff" alt="License"></a>
+	<a href="https://www.curseforge.com/minecraft/mc-mods/counter-day-death/files"><img src="https://cf.way2muchnoise.eu/versions/1214103(0280ff).svg?cachebuster=1" alt="Supported Versions"></a>
+	<a href="https://github.com/BigBull-H3RO/Counter/blob/main/LICENSE"><img src="https://img.shields.io/github/license/BigBull-H3RO/Counter?style=flat&color=0280ff" alt="License"></a>
 	<a href="https://www.curseforge.com/minecraft/mc-mods/counter-day-death"><img src="https://cf.way2muchnoise.eu/1214103.svg?" alt="CurseForge"></a>
 	<a href="https://modrinth.com/mod/counter-neoforge"><img src="https://img.shields.io/modrinth/dt/u43pMIKj?logo=modrinth&label=&suffix=%20&style=flat&color=242629&labelColor=5ca424&logoColor=1c1c1c" alt="Modrinth"></a>
 	<a href="https://www.curseforge.com/minecraft/mc-mods/counter-day-death/files/all?page=1&pageSize=20"><img src="https://img.shields.io/curseforge/v/1214103?logo=adguard&label=&suffix=%20&style=flat&color=1c1c1c&labelColor=121212&logoColor=5ca424" alt="Version"></a>
@@ -12,6 +12,8 @@
 The **Counter Mod** introduces **Day** and **Death Counters** to your Minecraft experience, allowing players to track world progression and maintain an organized record of their own (or others') deaths.
 
 Additionally, the mod offers an option to replace the **vanilla ping bars** in the player list (**Tab menu**) with a **color-coded numeric ping**, providing a precise latency display (e.g., `123ms`) at a glance.
+
+The **Time Counter** feature displays the current in-game time of day.
 
 All features are **highly configurable**, making this mod an excellent choice for both **singleplayer and multiplayer servers**.
 
@@ -29,11 +31,15 @@ All features are **highly configurable**, making this mod an excellent choice fo
   - In **singleplayer**, players see only their **own deaths**.
   - In **multiplayer**, a **server-wide leaderboard** can be displayed.
 
-✅ **Ping as Text**  
+✅ **Ping as Text**
 - Replaces the **default ping bars** in the **Tab** list with a numeric readout (e.g., `123ms`).
 - Can be **color-coded** based on latency (**Green = Good**, **Orange = Moderate**, **Red = High**).
-- Easily toggled in the **client-config** (`showPingAsText`).  
+- Easily toggled in the **client-config** (`showPingAsText`).
 - If disabled, the **default vanilla ping bars** will be shown again.
+
+✅ **Time Counter**
+- Displays the **current in-game time** as an overlay (e.g., `14:35`).
+- Configurable in **12-hour or 24-hour format**.
 
 ---
 
@@ -77,7 +83,17 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `deathSelfSize`         | `1`        | Scale factor for the **personal death counter** text size.            |
 | `deathSelfTextColor`    | `0xFF0000` | Color for your **personal death counter** text.                       |
 
-#### 📶Tab Overlay Settings
+#### ⏰Time Counter Settings
+| Option                  | Default    | Description                                                        |
+|-------------------------|------------|--------------------------------------------------------------------|
+| `showTimeOverlay`       | `false`    | Enable/disable the **time counter overlay** on the client side.    |
+| `showTimeOverlayAlways` | `false`    | Should the **time counter overlay** always be visible?             |
+| `timeOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the time overlay. |
+| `timeOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the time overlay. |
+| `timeOverlaySize`       | `1.0`      | Scale factor for the time counter text size.                       |
+| `timeOverlayTextColor`  | `0xFFFFFF` | Color for the **time counter overlay** text.                       |
+
+#### 📶Ping Settings
 | Option            | Default    | Description                                                             |
 |-------------------|------------|-------------------------------------------------------------------------|
 | `showPingAsText`  | `true`     | Show the **ping as text** (e.g. 123ms) instead of bars in the Tab list. |
@@ -121,6 +137,14 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `deathListChatTextColor`     | `0xFFFFFF` | Text color for **death counter messages** in chat.                                                       |
 | `deathSelfChatTextColor`     | `0xFFFFFF` | Text color for **personal death messages** in chat.                                                      |
 
+#### ⏰Time Counter Settings
+| Option                | Default | Description                                                                                          |
+|-----------------------|---------|------------------------------------------------------------------------------------------------------|
+| `enableTimeCounter`   | `false` | Enables or disables the **Time Counter** feature on the server.                                      |
+| `showTimeOverlay`     | `true`  | Allows the **Time Counter overlay** to be shown (client can toggle).                                 |
+| `showCombinedDayTime` | `false` | Show the **day count** combined with the **inGame time**. Disables the standard day counter overlay. |
+| `timeFormat24h`       | `true`  | Use **24-hour format** instead of **12-hour format**.                                                |
+
 ---
 
 ## **📝 Commands**
@@ -135,6 +159,7 @@ Below is an overview of the main commands the mod provides:
 | **`/counter death get <player>`**          | `all`      | Shows another player’s total deaths.                 |
 | **`/counter death set <player> <amount>`** | `admin`    | Sets the death count for the specified player(s).    |
 | **`/counter death reset`**                 | `admin`    | Resets the death count of all players to `0`.        |
+| **`/counter time get`**                    | `all`      | Shows the current in-game time.                      |
 
 ---
 
@@ -150,10 +175,6 @@ With this intuitive editor, you can easily configure the **Day Counter** and **D
 ---
 
 ## **📌 Planned Features**
-🔹 **Ingame Time Display**
-- Displays the current **Minecraft time** as an overlay (e.g., `14:35` in-game).
-- Configurable in **12-hour or 24-hour format**.
-
 🔹 **Coordinate Display**
 - An overlay to show the player's current coordinates (`X, Y, Z`).
 - Position and formatting will be customizable.

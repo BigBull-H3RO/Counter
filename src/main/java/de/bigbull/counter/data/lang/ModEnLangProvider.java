@@ -31,8 +31,6 @@ public class ModEnLangProvider extends LanguageProvider {
         add("command.deathcounter.reset", "💀 Death Counter has been reset!");
         add("command.deathcounter.set", "💀 Set the death count of %s to %s!");
 
-        add("command.counter.time.get", "⏰ Gametime: %s");
-
         add("key.counter.edit_mode", "Edit Mode");
         add("key.categories.counter", "Counter");
     }

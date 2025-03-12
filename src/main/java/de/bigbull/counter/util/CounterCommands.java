@@ -140,7 +140,7 @@ public class CounterCommands {
                                             ? String.format("%02d:%02d", hours, minutes)
                                             : String.format("%02d:%02d %s", (hours % 12 == 0 ? 12 : hours % 12), minutes, hours < 12 ? "AM" : "PM");
 
-                                    context.getSource().sendSuccess(() -> Component.translatable("command.counter.time.get", timeString), false);
+                                    context.getSource().sendSuccess(() -> Component.literal("⏰ " + timeString), false);
                                     return Command.SINGLE_SUCCESS;
                                 }))));
     }

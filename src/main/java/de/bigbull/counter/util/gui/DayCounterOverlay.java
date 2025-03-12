@@ -2,19 +2,14 @@ package de.bigbull.counter.util.gui;
 
 import de.bigbull.counter.config.ClientConfig;
 import de.bigbull.counter.config.ServerConfig;
-import de.bigbull.counter.util.ClientCounterState;
+import de.bigbull.counter.util.CounterManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import org.lwjgl.glfw.GLFW;
 
 public class DayCounterOverlay {
-    static String dayKey = ClientConfig.SHOW_EMOJIS.get()
-            ? "overlay.counter.day_with_emoji"
-            : "overlay.counter.day_no_emoji";
-
     public static void render(GuiGraphics guiGraphics) {
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
@@ -28,13 +23,13 @@ public class DayCounterOverlay {
             return;
         }
 
-        boolean allowDayOverlay = ClientConfig.SHOW_DAY_OVERLAY_ALWAYS.get() || isTabPressed() || isEditMode;
+        boolean allowDayOverlay = ClientConfig.SHOW_DAY_OVERLAY_ALWAYS.get() || CounterManager.isTabPressed() || isEditMode;
 
         if (!allowDayOverlay) return;
 
         boolean showDay = (ClientConfig.SHOW_DAY_OVERLAY_ALWAYS.get() && ClientConfig.SHOW_DAY_OVERLAY.get())
                 || isEditMode
-                || (isTabPressed() && ClientConfig.SHOW_DAY_OVERLAY.get());
+                || (CounterManager.isTabPressed() && ClientConfig.SHOW_DAY_OVERLAY.get());
 
         if (!showDay) return;
 
@@ -56,8 +51,19 @@ public class DayCounterOverlay {
         int drawX = (int) (x / scale);
         int drawY = (int) (y / scale);
 
-        guiGraphics.drawString(minecraft.font, Component.translatable(
-                dayKey, ClientCounterState.getDayCounter()), drawX, drawY, textColor);
+        String dayString;
+
+        if (ServerConfig.SHOW_COMBINED_DAY_TIME.get() && ServerConfig.ENABLE_TIME_Counter.get()) {
+            dayString = Component.literal(CounterManager.getCombinedDayTime()).getString();
+
+            if (ServerConfig.SHOW_COMBINED_DAY_TIME.get()) {
+                ServerConfig.SHOW_TIME_OVERLAY.set(false);
+            }
+        } else {
+            dayString = Component.literal(CounterManager.getDay()).getString();
+        }
+
+        guiGraphics.drawString(minecraft.font, dayString, drawX, drawY, textColor);
         guiGraphics.pose().popPose();
 
         if (isEditMode) {
@@ -69,33 +75,22 @@ public class DayCounterOverlay {
             guiGraphics.fill(iconX, iconY, iconX + iconSize, iconY + iconSize, iconColor);
 
             if (editScreen.getSelectedOverlay() == OverlayEditScreen.DragTarget.DAY) {
-                drawBorder(guiGraphics, x, y, calcDayWidth(), calcDayHeight(), 0xFFFFFF00);
+                CounterManager.getdrawBorder(guiGraphics, x, y, calcDayWidth(), calcDayHeight(), 0xFFFFFF00, 3);
             } else {
-                drawBorder(guiGraphics, x, y, calcDayWidth(), calcDayHeight(), 0xFFFF0000);
+                CounterManager.getdrawBorder(guiGraphics, x, y, calcDayWidth(), calcDayHeight(), 0xFFFF0000, 3);
             }
         }
     }
 
-    private static void drawBorder(GuiGraphics g, int x, int y, int w, int h, int color) {
-        int borderPadding = 3;
-
-        g.fill(x - borderPadding, y - borderPadding, x + w + borderPadding, y - borderPadding + 1, color);
-        g.fill(x - borderPadding, y + h + borderPadding - 1, x + w + borderPadding, y + h + borderPadding, color);
-        g.fill(x - borderPadding, y - borderPadding, x - borderPadding + 1, y + h + borderPadding, color);
-        g.fill(x + w + borderPadding - 1, y - borderPadding, x + w + borderPadding, y + h + borderPadding, color);
-    }
-
-    private static boolean isTabPressed() {
-        Minecraft minecraft = Minecraft.getInstance();
-        return GLFW.glfwGetKey(minecraft.getWindow().getWindow(), GLFW.GLFW_KEY_TAB) == GLFW.GLFW_PRESS
-                && minecraft.screen == null;
-    }
-
     public static int calcDayWidth() {
         Minecraft mc = Minecraft.getInstance();
-        long days = ClientCounterState.getDayCounter();
         float scale = ClientConfig.DAY_OVERLAY_SIZE.get().floatValue();
-        String text = Component.translatable(dayKey, days).getString();
+        String text;
+        if (ServerConfig.SHOW_COMBINED_DAY_TIME.get() && ServerConfig.ENABLE_TIME_Counter.get()) {
+            text = Component.literal(CounterManager.getCombinedDayTime()).getString();
+        } else {
+            text = Component.literal(CounterManager.getDay()).getString();
+        }
         return (int) (mc.font.width(text) * scale);
     }
 

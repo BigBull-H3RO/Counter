@@ -4,12 +4,12 @@ import de.bigbull.counter.Counter;
 import de.bigbull.counter.config.ClientConfig;
 import de.bigbull.counter.config.ServerConfig;
 import de.bigbull.counter.util.ClientCounterState;
+import de.bigbull.counter.util.CounterManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.Comparator;
 import java.util.List;
@@ -17,10 +17,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public class DeathCounterOverlay {
-    static String deathKey = ClientConfig.SHOW_EMOJIS.get()
-            ? "overlay.counter.deaths_with_emoji"
-            : "overlay.counter.deaths_no_emoji";
-
     public static void render(GuiGraphics guiGraphics) {
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
@@ -28,8 +24,8 @@ public class DeathCounterOverlay {
         if (!ServerConfig.SHOW_DEATH_OVERLAY.get() || !ServerConfig.ENABLE_DEATH_COUNTER.get()) return;
 
         boolean isEditMode = (minecraft.screen instanceof OverlayEditScreen);
-        boolean allowListOverlay = ClientConfig.SHOW_DEATH_LIST_OVERLAY_ALWAYS.get() || isTabPressed() || isEditMode;
-        boolean allowSelfOverlay = ClientConfig.SHOW_DEATH_SELF_OVERLAY_ALWAYS.get() || isTabPressed() || isEditMode;
+        boolean allowListOverlay = ClientConfig.SHOW_DEATH_LIST_OVERLAY_ALWAYS.get() || CounterManager.isTabPressed() || isEditMode;
+        boolean allowSelfOverlay = ClientConfig.SHOW_DEATH_SELF_OVERLAY_ALWAYS.get() || CounterManager.isTabPressed() || isEditMode;
 
         if (!allowListOverlay && !allowSelfOverlay) {
             return;
@@ -52,11 +48,11 @@ public class DeathCounterOverlay {
 
         boolean showList = (ClientConfig.SHOW_DEATH_LIST_OVERLAY_ALWAYS.get() && ClientConfig.SHOW_DEATH_LIST_OVERLAY.get())
                 || isEditMode
-                || (isTabPressed() && serverWantsList && ClientConfig.SHOW_DEATH_LIST_OVERLAY.get());
+                || (CounterManager.isTabPressed() && serverWantsList && ClientConfig.SHOW_DEATH_LIST_OVERLAY.get());
 
         boolean showSelf = (ClientConfig.SHOW_DEATH_SELF_OVERLAY_ALWAYS.get() && ClientConfig.SHOW_DEATH_SELF_OVERLAY.get())
                 || isEditMode
-                || (isTabPressed() && serverWantsSelf && ClientConfig.SHOW_DEATH_SELF_OVERLAY.get());
+                || (CounterManager.isTabPressed() && serverWantsSelf && ClientConfig.SHOW_DEATH_SELF_OVERLAY.get());
 
         boolean finalDrawList = (serverWantsList && showList);
         boolean finalDrawSelf = (serverWantsSelf && showSelf);
@@ -76,27 +72,24 @@ public class DeathCounterOverlay {
         int selfY = (int) (ClientConfig.DEATH_SELF_Y.get() * screenHeight);
         float selfScale = ClientConfig.DEATH_SELF_SIZE.get().floatValue();
 
-        Map<UUID, Integer> deathCounts = ClientCounterState.getDeathCounts();
-
         guiGraphics.pose().pushPose();
 
         if (finalDrawList) {
             guiGraphics.pose().pushPose();
             guiGraphics.pose().scale(listScale, listScale, 1.0F);
-            drawListOverlay(guiGraphics, listX, listY, deathCounts, isEditMode);
+            drawListOverlay(guiGraphics, listX, listY, isEditMode);
             guiGraphics.pose().popPose();
         }
 
         if (finalDrawSelf) {
-            drawSelfOverlay(guiGraphics, selfX, selfY, selfScale, deathCounts, player, isEditMode);
+            drawSelfOverlay(guiGraphics, selfX, selfY, selfScale, player, isEditMode);
         }
 
         guiGraphics.pose().popPose();
     }
 
-    private static void drawSelfOverlay(GuiGraphics guiGraphics, int x, int y, float scale, Map<UUID, Integer> deathCounts, LocalPlayer player, boolean isEditMode) {
+    private static void drawSelfOverlay(GuiGraphics guiGraphics, int x, int y, float scale, LocalPlayer player, boolean isEditMode) {
         int color = ClientConfig.DEATH_SELF_TEXT_COLOR.get();
-        int playerDeaths = deathCounts.getOrDefault(player.getUUID(), 0);
         int drawX = (int) (x / scale);
         int drawY = (int) (y / scale);
         int drawWidth = (int) (calcDeathSelfWidth() * scale);
@@ -104,15 +97,15 @@ public class DeathCounterOverlay {
 
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(scale, scale, 1.0F);
-        guiGraphics.drawString(Minecraft.getInstance().font, Component.translatable(deathKey, playerDeaths), drawX, drawY, color);
+        guiGraphics.drawString(Minecraft.getInstance().font, Component.translatable(CounterManager.getDeaths(player)), drawX, drawY, color);
         guiGraphics.pose().popPose();
 
         drawStatusAndBorder(guiGraphics, x, y, drawWidth, drawHeight, isEditMode, OverlayEditScreen.DragTarget.DEATH_SELF);
     }
 
-    private static void drawListOverlay(GuiGraphics guiGraphics, int x, int y, Map<UUID, Integer> deathCounts, boolean isEditMode) {
+    private static void drawListOverlay(GuiGraphics guiGraphics, int x, int y, boolean isEditMode) {
         Minecraft minecraft = Minecraft.getInstance();
-        List<Map.Entry<UUID, Integer>> sortedDeaths = getSortedDeaths(deathCounts);
+        List<Map.Entry<UUID, Integer>> sortedDeaths = getSortedDeathCounts();
         int defaultTextColor = ClientConfig.DEATH_LIST_TEXT_COLOR.get();
         int backgroundColor = 0x80000000;
         int boxWidth = calcDeathListWidth();
@@ -174,29 +167,15 @@ public class DeathCounterOverlay {
         OverlayEditScreen editScreen = (mc.screen instanceof OverlayEditScreen) ? (OverlayEditScreen) mc.screen : null;
 
         if (editScreen != null && editScreen.getSelectedOverlay() == target) {
-            drawBorder(guiGraphics, x, y, width, height, 0xFFFFFF00);
+            CounterManager.getdrawBorder(guiGraphics, x, y, width, height, 0xFFFFFF00, 3);
         } else {
-            drawBorder(guiGraphics, x, y, width, height, 0xFFFF0000);
+            CounterManager.getdrawBorder(guiGraphics, x, y, width, height, 0xFFFF0000, 3);
         }
-    }
-
-    private static void drawBorder(GuiGraphics g, int x, int y, int w, int h, int color) {
-        int borderPadding = 3;
-        g.fill(x - borderPadding, y - borderPadding, x + w + borderPadding, y - borderPadding + 1, color);
-        g.fill(x - borderPadding, y + h + borderPadding - 1, x + w + borderPadding, y + h + borderPadding, color);
-        g.fill(x - borderPadding, y - borderPadding, x - borderPadding + 1, y + h + borderPadding, color);
-        g.fill(x + w + borderPadding - 1, y - borderPadding, x + w + borderPadding, y + h + borderPadding, color);
     }
 
     private static boolean isMultiplayerGame(Minecraft minecraft) {
         return (minecraft.hasSingleplayerServer() && minecraft.getSingleplayerServer().isPublished())
                 || minecraft.getCurrentServer() != null;
-    }
-
-    private static boolean isTabPressed() {
-        Minecraft minecraft = Minecraft.getInstance();
-        return GLFW.glfwGetKey(minecraft.getWindow().getWindow(), GLFW.GLFW_KEY_TAB) == GLFW.GLFW_PRESS
-                && minecraft.screen == null;
     }
 
     private static void drawDeathEntries(GuiGraphics guiGraphics, int x, int y, List<Map.Entry<UUID, Integer>> sortedDeaths, boolean isTable) {
@@ -264,9 +243,8 @@ public class DeathCounterOverlay {
     public static int calcDeathSelfWidth() {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
-        int playerDeaths = ClientCounterState.getDeathCounts().getOrDefault(player.getUUID(), 0);
         float scale = ClientConfig.DEATH_SELF_SIZE.get().floatValue();
-        int txtWidth = mc.font.width(Component.translatable(deathKey, playerDeaths).getString());
+        int txtWidth = mc.font.width(Component.translatable(CounterManager.getDeaths(player)).getString());
         return (int) (txtWidth * scale);
     }
 
@@ -281,6 +259,10 @@ public class DeathCounterOverlay {
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .limit(ServerConfig.MAX_PLAYERS_SHOWN.get())
                 .toList();
+    }
+
+    private static List<Map.Entry<UUID, Integer>> getSortedDeathCounts() {
+        return getSortedDeaths(ClientCounterState.getDeathCounts());
     }
 
     private static String getPlayerName(UUID uuid) {

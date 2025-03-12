@@ -24,6 +24,11 @@ public class ServerConfig {
     public static final ModConfigSpec.IntValue DEATH_LIST_CHATTEXT_COLOR;
     public static final ModConfigSpec.IntValue DEATH_SELF_CHATTEXT_COLOR;
 
+    public static final ModConfigSpec.BooleanValue ENABLE_TIME_Counter;
+    public static final ModConfigSpec.BooleanValue SHOW_TIME_OVERLAY;
+    public static final ModConfigSpec.BooleanValue SHOW_COMBINED_DAY_TIME;
+    public static final ModConfigSpec.BooleanValue TIME_FORMAT_24H;
+
     public enum DeathOverlayMode {
         ONLY_SELF, LIST, BOTH
     }
@@ -74,6 +79,17 @@ public class ServerConfig {
                 .defineInRange("deathListChatTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
         DEATH_SELF_CHATTEXT_COLOR = SERVER_BUILDER.comment("Text color for personal death messages in chat.")
                 .defineInRange("deathSelfChatTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+        SERVER_BUILDER.pop();
+
+        SERVER_BUILDER.push("Time Counter Settings");
+        ENABLE_TIME_Counter = SERVER_BUILDER.comment("If disabled, the time counter will not be tracked or displayed.")
+                .define("enableTimeCounter", true);
+        SHOW_TIME_OVERLAY = SERVER_BUILDER.comment("Allow the time overlay to be displayed for players? (Server-side override)")
+                .define("showTimeOverlay", true);
+        SHOW_COMBINED_DAY_TIME = SERVER_BUILDER.comment("Show the day count combined with the inGame time. Disables the standard day counter overlay.")
+                .define("showCombinedDayTime", false);
+        TIME_FORMAT_24H = SERVER_BUILDER.comment("Use 24-hour format instead of 12-hour format.")
+                .define("timeFormat24h", true);
         SERVER_BUILDER.pop();
 
         SERVER_SPEC = SERVER_BUILDER.build();

@@ -13,7 +13,7 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import java.util.function.Supplier;
 
 public class OverlayEditScreen extends Screen {
-    public enum DragTarget { NONE, DAY, DEATH_LIST, DEATH_SELF }
+    public enum DragTarget { NONE, DAY, DEATH_LIST, DEATH_SELF, TIME }
     private DragTarget selectedOverlay = DragTarget.NONE;
     private DragTarget currentDrag = DragTarget.NONE;
     private int dragOffsetX = 0, dragOffsetY = 0;
@@ -21,6 +21,7 @@ public class OverlayEditScreen extends Screen {
     private double oldDayFracX, oldDayFracY;
     private double oldListFracX, oldListFracY;
     private double oldSelfFracX, oldSelfFracY;
+    private double oldTimeFracX, oldTimeFracY;
 
     private boolean doneClicked = false;
     private double previousChatBackgroundOpacity;
@@ -29,6 +30,7 @@ public class OverlayEditScreen extends Screen {
     private boolean oldDayOverlayState;
     private boolean oldDeathListOverlayState;
     private boolean oldDeathSelfOverlayState;
+    private boolean oldTimeOverlayState;
 
     public OverlayEditScreen() {
         super(Component.translatable("screen.overlay_edit"));
@@ -46,6 +48,7 @@ public class OverlayEditScreen extends Screen {
         oldDayOverlayState = ClientConfig.SHOW_DAY_OVERLAY.get();
         oldDeathListOverlayState = ClientConfig.SHOW_DEATH_LIST_OVERLAY.get();
         oldDeathSelfOverlayState = ClientConfig.SHOW_DEATH_SELF_OVERLAY.get();
+        oldTimeOverlayState = ClientConfig.SHOW_TIME_OVERLAY.get();
 
         oldDayFracX = ClientConfig.DAY_OVERLAY_X.get();
         oldDayFracY = ClientConfig.DAY_OVERLAY_Y.get();
@@ -53,6 +56,8 @@ public class OverlayEditScreen extends Screen {
         oldListFracY = ClientConfig.DEATH_LIST_Y.get();
         oldSelfFracX = ClientConfig.DEATH_SELF_X.get();
         oldSelfFracY = ClientConfig.DEATH_SELF_Y.get();
+        oldTimeFracX = ClientConfig.TIME_OVERLAY_X.get();
+        oldTimeFracY = ClientConfig.TIME_OVERLAY_Y.get();
 
         int centerX = this.width / 2;
         int bottomY = this.height - 80;
@@ -102,12 +107,15 @@ public class OverlayEditScreen extends Screen {
         ClientConfig.DEATH_LIST_Y.set(oldListFracY);
         ClientConfig.DEATH_SELF_X.set(oldSelfFracX);
         ClientConfig.DEATH_SELF_Y.set(oldSelfFracY);
+        ClientConfig.TIME_OVERLAY_X.set(oldTimeFracX);
+        ClientConfig.TIME_OVERLAY_Y.set(oldTimeFracY);
     }
 
     private void revertOverlayStates() {
         ClientConfig.SHOW_DAY_OVERLAY.set(oldDayOverlayState);
         ClientConfig.SHOW_DEATH_LIST_OVERLAY.set(oldDeathListOverlayState);
         ClientConfig.SHOW_DEATH_SELF_OVERLAY.set(oldDeathSelfOverlayState);
+        ClientConfig.SHOW_TIME_OVERLAY.set(oldTimeOverlayState);
     }
 
     @Override
@@ -116,6 +124,7 @@ public class OverlayEditScreen extends Screen {
 
         DayCounterOverlay.render(guiGraphics);
         DeathCounterOverlay.render(guiGraphics);
+        TimeOverlay.render(guiGraphics);
     }
 
     @Override
@@ -142,6 +151,13 @@ public class OverlayEditScreen extends Screen {
                 currentDrag = DragTarget.DEATH_SELF;
                 return true;
             }
+            if (hitOverlay(mouseX, mouseY, DragTarget.TIME,
+                    ClientConfig.TIME_OVERLAY_X, ClientConfig.TIME_OVERLAY_Y,
+                    TimeOverlay::calcTimeWidth, TimeOverlay::calcTimeHeight)) {
+                selectedOverlay = DragTarget.TIME;
+                currentDrag = DragTarget.TIME;
+                return true;
+            }
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }
@@ -158,6 +174,8 @@ public class OverlayEditScreen extends Screen {
                 updateOverlayPosition(newPx, newPy, DeathCounterOverlay::calcDeathListWidth, DeathCounterOverlay::calcDeathListHeight, ClientConfig.DEATH_LIST_X, ClientConfig.DEATH_LIST_Y);
             } else if (currentDrag == DragTarget.DEATH_SELF) {
                 updateOverlayPosition(newPx, newPy, DeathCounterOverlay::calcDeathSelfWidth, DeathCounterOverlay::calcDeathSelfHeight, ClientConfig.DEATH_SELF_X, ClientConfig.DEATH_SELF_Y);
+            } else if (currentDrag == DragTarget.TIME) {
+                updateOverlayPosition(newPx, newPy, TimeOverlay::calcTimeWidth, TimeOverlay::calcTimeHeight, ClientConfig.TIME_OVERLAY_X, ClientConfig.TIME_OVERLAY_Y);
             }
             return true;
         }
@@ -219,6 +237,10 @@ public class OverlayEditScreen extends Screen {
                 boolean newState = !ClientConfig.SHOW_DEATH_SELF_OVERLAY.get();
                 ClientConfig.SHOW_DEATH_SELF_OVERLAY.set(newState);
             }
+            case TIME -> {
+                boolean newState = !ClientConfig.SHOW_TIME_OVERLAY.get();
+                ClientConfig.SHOW_TIME_OVERLAY.set(newState);
+            }
         }
     }
 
@@ -227,6 +249,7 @@ public class OverlayEditScreen extends Screen {
             case DAY -> ServerConfig.SHOW_DAY_OVERLAY.get() && ServerConfig.ENABLE_DAY_COUNTER.get();
             case DEATH_LIST, DEATH_SELF ->
                     ServerConfig.SHOW_DEATH_OVERLAY.get() && ServerConfig.ENABLE_DEATH_COUNTER.get();
+            case TIME -> ServerConfig.SHOW_TIME_OVERLAY.get() && ServerConfig.ENABLE_TIME_Counter.get();
             default -> false;
         };
     }

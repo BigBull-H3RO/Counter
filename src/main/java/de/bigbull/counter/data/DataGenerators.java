@@ -9,10 +9,10 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 public class DataGenerators {
     public static void gatherData(GatherDataEvent event) {
-        try {
-            DataGenerator generator = event.getGenerator();
-            PackOutput output = generator.getPackOutput();
+        DataGenerator generator = event.getGenerator();
+        PackOutput output = generator.getPackOutput();
 
+        try {
             generator.addProvider(true, new ModEnLangProvider(output));
             generator.addProvider(true, new ModDeLangProvider(output));
 

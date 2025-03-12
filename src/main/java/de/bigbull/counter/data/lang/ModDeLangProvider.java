@@ -16,6 +16,8 @@ public class ModDeLangProvider extends LanguageProvider {
         add("command.daycounter.reset", "🌞 Tageszähler wurde auf den aktuellen Minecraft-Tag zurückgesetzt!");
         add("command.daycounter.set", "🌞 Tageszähler auf %s gesetzt!");
         add("chat.daycounter.new_day", "🌞 Es ist jetzt Tag %s!");
+        add("combined.daytime_with_emoji", "🌞 Tag: %s, %s");
+        add("combined.daytime_no_emoji", "Tag: %s, %s");
 
         add("overlay.counter.deaths_with_emoji", "💀 Tode: %s");
         add("overlay.counter.deaths_no_emoji", "Tode: %s");
@@ -28,6 +30,8 @@ public class ModDeLangProvider extends LanguageProvider {
         add("command.deathcounter.get", "💀 %s ist %s mal gestorben!");
         add("command.deathcounter.reset", "💀 Todeszähler wurde zurückgesetzt!");
         add("command.deathcounter.set", "💀 Setze die Tode von %s auf %s!");
+
+        add("command.counter.time.get", "⏰ Spielzeit: %s");
 
         add("key.counter.edit_mode", "Bearbeitungsmodus");
         add("key.categories.counter", "Zähler");

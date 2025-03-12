@@ -32,6 +32,13 @@ public class ClientConfig {
     public static final ModConfigSpec.DoubleValue DEATH_SELF_SIZE;
     public static final ModConfigSpec.IntValue DEATH_SELF_TEXT_COLOR;
 
+    public static final ModConfigSpec.BooleanValue SHOW_TIME_OVERLAY;
+    public static final ModConfigSpec.BooleanValue SHOW_TIME_OVERLAY_ALWAYS;
+    public static final ModConfigSpec.DoubleValue TIME_OVERLAY_X;
+    public static final ModConfigSpec.DoubleValue TIME_OVERLAY_Y;
+    public static final ModConfigSpec.DoubleValue TIME_OVERLAY_SIZE;
+    public static final ModConfigSpec.IntValue TIME_OVERLAY_TEXT_COLOR;
+
     public static final ModConfigSpec.BooleanValue SHOW_PING_AS_TEXT;
     public static final ModConfigSpec.IntValue PING_COLOR_GOOD;
     public static final ModConfigSpec.IntValue PING_COLOR_MEDIUM;
@@ -97,6 +104,21 @@ public class ClientConfig {
                 .defineInRange("deathSelfSize", 1, 0.1, 5);
         DEATH_SELF_TEXT_COLOR = CLIENT_BUILDER.comment("Color for your personal death counter text.")
                 .defineInRange("deathSelfTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+        CLIENT_BUILDER.pop();
+
+        CLIENT_BUILDER.push("Ingame Time Overlay Settings");
+        SHOW_TIME_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the ingame time overlay.")
+                .define("showIngameTimeOverlay", false);
+        SHOW_TIME_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the ingame time overlay always be visible?")
+                .define("showIngameTimeOverlayAlways", false);
+        TIME_OVERLAY_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right).")
+                .defineInRange("ingameTimeOverlayX", 0.85, 0.0, 1.0);
+        TIME_OVERLAY_Y = CLIENT_BUILDER.comment("Relative Y position (0.0 = top, 1.0 = bottom).")
+                .defineInRange("ingameTimeOverlayY", 0.02, 0.0, 1.0);
+        TIME_OVERLAY_SIZE = CLIENT_BUILDER.comment("Scale factor for the ingame time overlay text size.")
+                .defineInRange("ingameTimeOverlaySize", 1.0, 0.1, 5.0);
+        TIME_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the ingame time overlay text.")
+                .defineInRange("ingameTimeOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Ping Settings");

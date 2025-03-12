@@ -16,6 +16,8 @@ public class ModEnLangProvider extends LanguageProvider {
         add("command.daycounter.reset", "🌞 Day Counter has been reset to the current Minecraft day!");
         add("command.daycounter.set", "🌞 Day Counter set to %s!");
         add("chat.daycounter.new_day", "🌞 It's now day %s!");
+        add("combined.daytime_with_emoji", "🌞 Day: %s, %s");
+        add("combined.daytime_no_emoji", "Day: %s, %s");
 
         add("overlay.counter.deaths_with_emoji", "💀 Deaths: %s");
         add("overlay.counter.deaths_no_emoji", "Deaths: %s");

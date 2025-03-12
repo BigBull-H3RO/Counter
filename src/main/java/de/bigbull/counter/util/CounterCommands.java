@@ -122,6 +122,26 @@ public class CounterCommands {
                                     context.getSource().sendSuccess(() -> Component.translatable("command.deathcounter.reset"), true);
                                     PacketDistributor.sendToAllPlayers(new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
                                     return Command.SINGLE_SUCCESS;
+                                })))
+                .then(Commands.literal("time")
+                        .requires(source -> ServerConfig.ENABLE_TIME_Counter.get())
+                        .then(Commands.literal("get")
+                                .requires(source -> source.hasPermission(0))
+                                .executes(context -> {
+                                    MinecraftServer server = context.getSource().getServer();
+                                    ServerLevel level = server.overworld();
+                                    long time = level.getDayTime() % 24000;
+
+                                    int hours = (int) ((time / 1000 + 6) % 24);
+                                    int minutes = (int) ((time % 1000) / 1000.0 * 60);
+
+                                    boolean is24Hour = ServerConfig.TIME_FORMAT_24H.get();
+                                    String timeString = is24Hour
+                                            ? String.format("%02d:%02d", hours, minutes)
+                                            : String.format("%02d:%02d %s", (hours % 12 == 0 ? 12 : hours % 12), minutes, hours < 12 ? "AM" : "PM");
+
+                                    context.getSource().sendSuccess(() -> Component.literal("⏰ " + timeString), false);
+                                    return Command.SINGLE_SUCCESS;
                                 }))));
     }
 }

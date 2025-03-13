@@ -86,7 +86,7 @@ public class ServerConfig {
                 .define("enableTimeCounter", true);
         SHOW_TIME_OVERLAY = SERVER_BUILDER.comment("Allow the time overlay to be displayed for players? (Server-side override)")
                 .define("showTimeOverlay", true);
-        SHOW_COMBINED_DAY_TIME = SERVER_BUILDER.comment("Show the day count combined with the inGame time. Disables the standard day counter overlay.")
+        SHOW_COMBINED_DAY_TIME = SERVER_BUILDER.comment("Show the day count combined with the inGame time. Disables the standard Time Overlay.")
                 .define("showCombinedDayTime", false);
         TIME_FORMAT_24H = SERVER_BUILDER.comment("Use 24-hour format instead of 12-hour format.")
                 .define("timeFormat24h", true);

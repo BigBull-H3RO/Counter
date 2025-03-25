@@ -29,6 +29,9 @@ public class ServerConfig {
     public static final ModConfigSpec.BooleanValue SHOW_COMBINED_DAY_TIME;
     public static final ModConfigSpec.BooleanValue TIME_FORMAT_24H;
 
+    public static final ModConfigSpec.BooleanValue ENABLE_COORDS_COUNTER;
+    public static final ModConfigSpec.BooleanValue SHOW_COORDS_OVERLAY;
+
     public enum DeathOverlayMode {
         ONLY_SELF, LIST, BOTH
     }
@@ -90,6 +93,13 @@ public class ServerConfig {
                 .define("showCombinedDayTime", false);
         TIME_FORMAT_24H = SERVER_BUILDER.comment("Use 24-hour format instead of 12-hour format.")
                 .define("timeFormat24h", true);
+        SERVER_BUILDER.pop();
+
+        SERVER_BUILDER.push("Coordinates Overlay Settings");
+        ENABLE_COORDS_COUNTER = SERVER_BUILDER.comment("If disabled, the coordinates overlay will not be displayed.")
+                .define("enableCoordsCounter", true);
+        SHOW_COORDS_OVERLAY = SERVER_BUILDER.comment("Allow the coordinates overlay to be displayed for players?")
+                .define("showCoordsOverlay", true);
         SERVER_BUILDER.pop();
 
         SERVER_SPEC = SERVER_BUILDER.build();

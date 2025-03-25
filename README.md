@@ -15,6 +15,8 @@ Additionally, the mod offers an option to replace the **vanilla ping bars** in t
 
 The **Time Counter** feature displays the current in-game time of day.
 
+The **Coords Counter** feature displays the current coordinates of the player, making it easier to navigate and share locations with others.
+
 All features are **highly configurable**, making this mod an excellent choice for both **singleplayer and multiplayer servers**.
 
 ## **✨ Features**
@@ -40,6 +42,11 @@ All features are **highly configurable**, making this mod an excellent choice fo
 ✅ **Time Counter**
 - Displays the **current in-game time** as an overlay (e.g., `14:35`).
 - Configurable in **12-hour or 24-hour format**.
+  
+✅ **Coords Counter**
+- Displays the **current coordinates** of the player as an overlay (e.g., `X: 123, Y: 64, Z: -456`).
+- Show the Coordinates in the chat or share them with other players.
+
 
 ---
 
@@ -93,6 +100,16 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `timeOverlaySize`       | `1.0`      | Scale factor for the time counter text size.                       |
 | `timeOverlayTextColor`  | `0xFFFFFF` | Color for the **time counter overlay** text.                       |
 
+#### ⏰Coords Counter Settings
+| Option                    | Default    | Description                                                          |
+|---------------------------|------------|----------------------------------------------------------------------|
+| `showCoordsOverlay`       | `false`    | Enable/disable the **coords counter overlay** on the client side.    |
+| `showCoordsOverlayAlways` | `false`    | Should the **coords counter overlay** always be visible?             |
+| `coordsOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the coords overlay. |
+| `coordsOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the coords overlay. |
+| `coordsOverlaySize`       | `1.0`      | Scale factor for the coords counter text size.                       |
+| `coordsOverlayTextColor`  | `0xFFFFFF` | Color for the **coords counter overlay** text.                       |
+
 #### 📶Ping Settings
 | Option            | Default    | Description                                                             |
 |-------------------|------------|-------------------------------------------------------------------------|
@@ -145,6 +162,12 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showCombinedDayTime` | `false` | Show the **day count** combined with the **inGame time**. Disables the standard day counter overlay. |
 | `timeFormat24h`       | `true`  | Use **24-hour format** instead of **12-hour format**.                                                |
 
+#### 📌Coords Counter Settings
+| Option                | Default | Description                                                            |
+|-----------------------|---------|------------------------------------------------------------------------|
+| `enableCoordsCounter` | `false` | Enables or disables the **Coords Counter** feature on the server.      |
+| `showCoordsOverlay`   | `true`  | Allows the **Coords Counter overlay** to be shown (client can toggle). |
+
 ---
 
 ## **📝 Commands**
@@ -160,6 +183,8 @@ Below is an overview of the main commands the mod provides:
 | **`/counter death set <player> <amount>`** | `admin`    | Sets the death count for the specified player(s).    |
 | **`/counter death reset`**                 | `admin`    | Resets the death count of all players to `0`.        |
 | **`/counter time get`**                    | `all`      | Shows the current in-game time.                      |
+| **`/counter coords get`**                  | `all`      | Shows your current coordinates.                      |
+| **`/counter coords get <player>`**         | `all`      | Shows your current coordinates to another player(s). |
 
 ---
 
@@ -175,10 +200,6 @@ With this intuitive editor, you can easily configure the **Day Counter** and **D
 ---
 
 ## **📌 Planned Features**
-🔹 **Coordinate Display**
-- An overlay to show the player's current coordinates (`X, Y, Z`).
-- Position and formatting will be customizable.
-
 🔹 **Compass for Navigation**
 - A **compass overlay** displaying the player's **facing direction** (`North, South, East, West`).
 - Optional **marker function** for tracking important locations.

@@ -2,10 +2,7 @@ package de.bigbull.counter.event;
 
 import de.bigbull.counter.Counter;
 import de.bigbull.counter.util.ModKeybinds;
-import de.bigbull.counter.util.gui.DayCounterOverlay;
-import de.bigbull.counter.util.gui.DeathCounterOverlay;
-import de.bigbull.counter.util.gui.OverlayEditScreen;
-import de.bigbull.counter.util.gui.TimeOverlay;
+import de.bigbull.counter.util.gui.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -34,6 +31,7 @@ public class ClientEvents {
         DayCounterOverlay.render(guiGraphics);
         DeathCounterOverlay.render(guiGraphics);
         TimeOverlay.render(guiGraphics);
+        CoordsOverlay.render(guiGraphics);
     }
 
     @SubscribeEvent

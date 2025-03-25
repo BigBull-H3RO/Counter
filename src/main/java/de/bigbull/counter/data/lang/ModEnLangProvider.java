@@ -31,6 +31,9 @@ public class ModEnLangProvider extends LanguageProvider {
         add("command.deathcounter.reset", "💀 Death Counter has been reset!");
         add("command.deathcounter.set", "💀 Set the death count of %s to %s!");
 
+        add("command.coords.broadcast", "%s has shared their coordinates: X:%s, Y:%s, Z:%s");
+        add("command.coords.player_not_found", "❌ Player not found!");
+
         add("key.counter.edit_mode", "Edit Mode");
         add("key.categories.counter", "Counter");
     }

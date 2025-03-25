@@ -39,6 +39,13 @@ public class ClientConfig {
     public static final ModConfigSpec.DoubleValue TIME_OVERLAY_SIZE;
     public static final ModConfigSpec.IntValue TIME_OVERLAY_TEXT_COLOR;
 
+    public static final ModConfigSpec.BooleanValue SHOW_COORDS_OVERLAY;
+    public static final ModConfigSpec.BooleanValue SHOW_COORDS_OVERLAY_ALWAYS;
+    public static final ModConfigSpec.DoubleValue COORDS_OVERLAY_X;
+    public static final ModConfigSpec.DoubleValue COORDS_OVERLAY_Y;
+    public static final ModConfigSpec.DoubleValue COORDS_OVERLAY_SIZE;
+    public static final ModConfigSpec.IntValue COORDS_OVERLAY_TEXT_COLOR;
+
     public static final ModConfigSpec.BooleanValue SHOW_PING_AS_TEXT;
     public static final ModConfigSpec.IntValue PING_COLOR_GOOD;
     public static final ModConfigSpec.IntValue PING_COLOR_MEDIUM;
@@ -67,7 +74,7 @@ public class ClientConfig {
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Death Counter List Settings");
-        SHOW_DEATH_LIST_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the death counter list overlay (shows all player deaths).")
+        SHOW_DEATH_LIST_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the death counter list overlay on the client side.")
                 .define("showDeathListOverlay", true);
         SHOW_DEATH_LIST_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the death counter list overlay always be visible?")
                 .define("showListOverlayAlways", false);
@@ -77,7 +84,7 @@ public class ClientConfig {
                 .defineInRange("deathListY", 0.16, 0.0, 1.0);
         DEATH_LIST_SIZE = CLIENT_BUILDER.comment("Scale factor for the death list text size.")
                 .defineInRange("deathListSize", 1, 0.1, 5);
-        DEATH_OVERLAY_STYLE = CLIENT_BUILDER.comment("Which style to use for displaying the death list: CLASSIC, BOXED, or TABLE.")
+        DEATH_OVERLAY_STYLE = CLIENT_BUILDER.comment("Which style to use for displaying the death list?")
                 .defineEnum("deathOverlayStyle", DeathOverlayStyle.TABLE);
         DEATH_OVERLAY_WIDTH = CLIENT_BUILDER.comment("Maximum width (in pixels) for the death counter list overlay.")
                 .defineInRange("deathOverlayWidth", 120, 0, 600);
@@ -92,7 +99,7 @@ public class ClientConfig {
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Death Counter Self Settings");
-        SHOW_DEATH_SELF_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the personal death counter overlay.")
+        SHOW_DEATH_SELF_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the personal death counter overlay on the client side.")
                 .define("showDeathSelfOverlay", true);
         SHOW_DEATH_SELF_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the personal death counter overlay always be visible?")
                 .define("showSelfOverlayAlways", false);
@@ -106,10 +113,10 @@ public class ClientConfig {
                 .defineInRange("deathSelfTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
         CLIENT_BUILDER.pop();
 
-        CLIENT_BUILDER.push("Ingame Time Overlay Settings");
-        SHOW_TIME_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the ingame time overlay.")
+        CLIENT_BUILDER.push("Time Overlay Settings");
+        SHOW_TIME_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the time overlay on the client side.")
                 .define("showIngameTimeOverlay", false);
-        SHOW_TIME_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the ingame time overlay always be visible?")
+        SHOW_TIME_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the time overlay always be visible?")
                 .define("showIngameTimeOverlayAlways", true);
         TIME_OVERLAY_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right).")
                 .defineInRange("ingameTimeOverlayX", 0.00781, 0.0, 1.0);
@@ -119,6 +126,21 @@ public class ClientConfig {
                 .defineInRange("ingameTimeOverlaySize", 1.0, 0.1, 5.0);
         TIME_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the ingame time overlay text.")
                 .defineInRange("ingameTimeOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+        CLIENT_BUILDER.pop();
+
+        CLIENT_BUILDER.push("Coordinates Overlay Settings");
+        SHOW_COORDS_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the coordinates overlay.")
+                .define("showCoordsOverlay", false);
+        SHOW_COORDS_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the coordinates overlay always be visible?")
+                .define("showCoordsOverlayAlways", true);
+        COORDS_OVERLAY_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right).")
+                .defineInRange("coordsOverlayX", 0.00781, 0.0, 1.0);
+        COORDS_OVERLAY_Y = CLIENT_BUILDER.comment("Relative Y position (0.0 = top, 1.0 = bottom).")
+                .defineInRange("coordsOverlayY", 0.905, 0.0, 1.0);
+        COORDS_OVERLAY_SIZE = CLIENT_BUILDER.comment("Scale factor for the coordinates overlay text size.")
+                .defineInRange("coordsOverlaySize", 1.0, 0.1, 5.0);
+        COORDS_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the coordinates overlay text.")
+                .defineInRange("coordsOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Ping Settings");

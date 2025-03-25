@@ -34,6 +34,7 @@ body:
       options:
         - "1.21"
         - "1.21.1"
+        - "1.21.4"
       default: 0
     validations:
       required: true

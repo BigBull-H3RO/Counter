@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.Map;
@@ -57,6 +58,24 @@ public class CounterManager {
         g.fill(x - borderPadding, y + h + borderPadding - 1, x + w + borderPadding, y + h + borderPadding, color);
         g.fill(x - borderPadding, y - borderPadding, x - borderPadding + 1, y + h + borderPadding, color);
         g.fill(x + w + borderPadding - 1, y - borderPadding, x + w + borderPadding, y + h + borderPadding, color);
+    }
+
+    public static void sendCoordsMessage(ServerPlayer sender, ServerPlayer receiver) {
+        int x = (int) sender.getX();
+        int y = (int) sender.getY();
+        int z = (int) sender.getZ();
+
+        Component message = Component.literal(sender.getScoreboardName() + " → X: " + x + ", Y: " + y + ", Z: " + z);
+        receiver.sendSystemMessage(message);
+    }
+
+    public static void sendCoordsMessageToAll(ServerPlayer sender) {
+        int x = (int) sender.getX();
+        int y = (int) sender.getY();
+        int z = (int) sender.getZ();
+
+        Component message = Component.translatable("command.coords.broadcast", sender.getScoreboardName(), x, y, z);
+        sender.getServer().getPlayerList().broadcastSystemMessage(message, false);
     }
 
     public static boolean isTabPressed() {

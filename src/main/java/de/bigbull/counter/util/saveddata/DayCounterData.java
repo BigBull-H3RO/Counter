@@ -7,24 +7,33 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 public class DayCounterData extends SavedData {
     private static final String TAG_DAY = "DayCounter";
-    private static final String TAG_OFFSET = "DayCounterOffset";
+    private static final String TAG_LAST_REAL_DAY = "LastRealDay";
     private long dayCounter = 0;
-    private long offset = 0;
+    private long lastRealDay = 0;
 
     public static final Factory<DayCounterData> FACTORY = new Factory<>(DayCounterData::new, DayCounterData::load);
 
     public static DayCounterData load(CompoundTag tag, HolderLookup.Provider provider) {
         DayCounterData data = new DayCounterData();
         data.dayCounter = tag.getLong(TAG_DAY);
-        data.offset = tag.getLong(TAG_OFFSET);
+        data.lastRealDay = tag.contains(TAG_LAST_REAL_DAY) ? tag.getLong(TAG_LAST_REAL_DAY) : 0;
         return data;
     }
 
     @Override
     public CompoundTag save(CompoundTag tag, HolderLookup.Provider provider) {
         tag.putLong(TAG_DAY, dayCounter);
-        tag.putLong(TAG_OFFSET, this.offset);
+        tag.putLong(TAG_LAST_REAL_DAY, lastRealDay);
         return tag;
+    }
+
+    public long getLastRealDay() {
+        return lastRealDay;
+    }
+
+    public void setLastRealDay(long newLastRealDay) {
+        this.lastRealDay = newLastRealDay;
+        this.setDirty();
     }
 
     public static DayCounterData get(ServerLevel level) {
@@ -44,31 +53,11 @@ public class DayCounterData extends SavedData {
         this.setDirty();
     }
 
-    public long getOffset() {
-        return offset;
-    }
-
-    public static long getOffset(ServerLevel level) {
-        return get(level).getOffset();
-    }
-
-    public void setOffset(long newValue) {
-        this.offset = newValue;
-        this.setDirty();
-    }
-
-    public static void resetDayCounter(ServerLevel level) {
-        long realDay = level.getDayTime() / 24000;
-        setDayCounter(level, realDay);
-    }
-
     public static void setDayCounter(ServerLevel level, long newDay) {
         DayCounterData data = get(level);
-
         long realDay = level.getDayTime() / 24000;
-        long newOffset = newDay - realDay;
 
         data.setDayCounter(newDay);
-        data.setOffset(newOffset);
+        data.setLastRealDay(realDay);
     }
 }

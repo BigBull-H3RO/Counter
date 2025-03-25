@@ -15,6 +15,8 @@ Additionally, the mod offers an option to replace the **vanilla ping bars** in t
 
 The **Time Counter** feature displays the current in-game time of day.
 
+The **Coords Counter** feature displays the current coordinates of the player, making it easier to navigate and share locations with others.
+
 All features are **highly configurable**, making this mod an excellent choice for both **singleplayer and multiplayer servers**.
 
 ## **✨ Features**
@@ -159,7 +161,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showCombinedDayTime` | `false` | Show the **day count** combined with the **inGame time**. Disables the standard day counter overlay. |
 | `timeFormat24h`       | `true`  | Use **24-hour format** instead of **12-hour format**.                                                |
 
-#### ⏰Coords Counter Settings
+#### 📌Coords Counter Settings
 | Option                | Default | Description                                                            |
 |-----------------------|---------|------------------------------------------------------------------------|
 | `enableCoordsCounter` | `false` | Enables or disables the **Coords Counter** feature on the server.      |
@@ -170,17 +172,17 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 ## **📝 Commands**
 Below is an overview of the main commands the mod provides:
 
-| Command                                    | Permission | Description                                       |
-|--------------------------------------------|------------|---------------------------------------------------|
-| **`/counter day get`**                     | `all`      | Shows the current day counter value.              |
-| **`/counter day set <days>`**              | `admin`    | Sets the Day Counter to the specified value.      |
-| **`/counter death get`**                   | `all`      | Shows your own total deaths.                      |
-| **`/counter death get <player>`**          | `all`      | Shows another player’s total deaths.              |
-| **`/counter death set <player> <amount>`** | `admin`    | Sets the death count for the specified player(s). |
-| **`/counter death reset`**                 | `admin`    | Resets the death count of all players to `0`.     |
-| **`/counter time get`**                    | `all`      | Shows the current in-game time.                   |
-| **`/counter coords get`**                  | `all`      | Shows your current coordinates.                   |
-| **`/counter coords get <player>`**         | `all`      | Shows another player’s current coordinates.       |
+| Command                                    | Permission | Description                                          |
+|--------------------------------------------|------------|------------------------------------------------------|
+| **`/counter day get`**                     | `all`      | Shows the current day counter value.                 |
+| **`/counter day set <days>`**              | `admin`    | Sets the Day Counter to the specified value.         |
+| **`/counter death get`**                   | `all`      | Shows your own total deaths.                         |
+| **`/counter death get <player>`**          | `all`      | Shows another player’s total deaths.                 |
+| **`/counter death set <player> <amount>`** | `admin`    | Sets the death count for the specified player(s).    |
+| **`/counter death reset`**                 | `admin`    | Resets the death count of all players to `0`.        |
+| **`/counter time get`**                    | `all`      | Shows the current in-game time.                      |
+| **`/counter coords get`**                  | `all`      | Shows your current coordinates.                      |
+| **`/counter coords get <player>`**         | `all`      | Shows your current coordinates to another player(s). |
 
 ---
 

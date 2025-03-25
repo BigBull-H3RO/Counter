@@ -1,30 +1,33 @@
 package de.bigbull.counter.util.saveddata;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.world.level.saveddata.SavedDataType;
 
 public class DayCounterData extends SavedData {
-    private static final String TAG_DAY = "DayCounter";
-    private static final String TAG_LAST_REAL_DAY = "LastRealDay";
-    private long dayCounter = 0;
-    private long lastRealDay = 0;
+    private long dayCounter;
+    private long lastRealDay;
 
-    public static final Factory<DayCounterData> FACTORY = new Factory<>(DayCounterData::new, DayCounterData::load);
+    public static final Codec<DayCounterData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.LONG.fieldOf("DayCounter").forGetter(data -> data.dayCounter),
+            Codec.LONG.fieldOf("LastRealDay").forGetter(data -> data.lastRealDay))
+            .apply(instance, DayCounterData::new));
 
-    public static DayCounterData load(CompoundTag tag, HolderLookup.Provider provider) {
-        DayCounterData data = new DayCounterData();
-        data.dayCounter = tag.getLong(TAG_DAY);
-        data.lastRealDay = tag.contains(TAG_LAST_REAL_DAY) ? tag.getLong(TAG_LAST_REAL_DAY) : 0;
-        return data;
+    public static final SavedDataType<DayCounterData> TYPE = new SavedDataType<>(
+            "day_counter",
+            DayCounterData::new,
+            p -> CODEC
+    );
+
+    public DayCounterData(long dayCounter, long lastRealDay) {
+        this.dayCounter = dayCounter;
+        this.lastRealDay = lastRealDay;
     }
 
-    @Override
-    public CompoundTag save(CompoundTag tag, HolderLookup.Provider provider) {
-        tag.putLong(TAG_DAY, dayCounter);
-        tag.putLong(TAG_LAST_REAL_DAY, lastRealDay);
-        return tag;
+    public DayCounterData(Context context) {
+        this(0, 0);
     }
 
     public long getLastRealDay() {
@@ -37,7 +40,7 @@ public class DayCounterData extends SavedData {
     }
 
     public static DayCounterData get(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(FACTORY, TAG_DAY);
+        return level.getDataStorage().computeIfAbsent(TYPE);
     }
 
     public long getDayCounter() {

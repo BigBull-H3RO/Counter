@@ -43,7 +43,6 @@ public abstract class PlayerTabOverlayMixin {
 
         ci.cancel();
 
-        RenderSystem.enableBlend();
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(0, 0, 100);
 
@@ -68,6 +67,5 @@ public abstract class PlayerTabOverlayMixin {
         guiGraphics.drawString(font, Component.literal(pingText), textX, y, color);
 
         guiGraphics.pose().popPose();
-        RenderSystem.disableBlend();
     }
 }

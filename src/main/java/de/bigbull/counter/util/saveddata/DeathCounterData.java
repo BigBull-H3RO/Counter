@@ -1,50 +1,52 @@
 package de.bigbull.counter.util.saveddata;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.world.level.saveddata.SavedDataType;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class DeathCounterData extends SavedData {
-    private static final String TAG_NAME = "DeathCounter";
     private final Map<UUID, Integer> deathCounts = new HashMap<>();
     private final Map<UUID, String> playerNames = new HashMap<>();
 
-    public static final Factory<DeathCounterData> FACTORY = new Factory<>(DeathCounterData::new, DeathCounterData::load);
+    public static final Codec<DeathCounterData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.unboundedMap(Codec.STRING, Codec.INT)
+                    .fieldOf("DeathCounts")
+                    .forGetter(data -> data.deathCounts.entrySet().stream()
+                            .collect(Collectors.toMap(e -> e.getKey().toString(), Map.Entry::getValue))),
+            Codec.unboundedMap(Codec.STRING, Codec.STRING)
+                    .fieldOf("PlayerNames")
+                    .forGetter(data -> data.playerNames.entrySet().stream()
+                            .collect(Collectors.toMap(e -> e.getKey().toString(), Map.Entry::getValue)))
+    ).apply(instance, DeathCounterData::fromCodec));
 
-    public static DeathCounterData load(CompoundTag tag, HolderLookup.Provider provider) {
+    public static final SavedDataType<DeathCounterData> TYPE = new SavedDataType<>(
+            "death_counter",
+            DeathCounterData::new,
+            context -> CODEC
+    );
+
+    public DeathCounterData(Context context) {
+        this();
+    }
+
+    public DeathCounterData() {}
+
+    private static DeathCounterData fromCodec(Map<String, Integer> deaths, Map<String, String> names) {
         DeathCounterData data = new DeathCounterData();
-
-        CompoundTag deathCountTag = tag.getCompound("DeathCounts");
-        for (String key : deathCountTag.getAllKeys()) {
-            data.deathCounts.put(UUID.fromString(key), deathCountTag.getInt(key));
-        }
-
-        CompoundTag namesTag = tag.getCompound("PlayerNames");
-        for (String key : namesTag.getAllKeys()) {
-            data.playerNames.put(UUID.fromString(key), namesTag.getString(key));
-        }
+        deaths.forEach((key, value) -> data.deathCounts.put(UUID.fromString(key), value));
+        names.forEach((key, value) -> data.playerNames.put(UUID.fromString(key), value));
         return data;
     }
 
-    @Override
-    public CompoundTag save(CompoundTag tag, HolderLookup.Provider provider) {
-        CompoundTag deathCountTag = new CompoundTag();
-        for (Map.Entry<UUID, Integer> entry : deathCounts.entrySet()) {
-            deathCountTag.putInt(entry.getKey().toString(), entry.getValue());
-        }
-        tag.put("DeathCounts", deathCountTag);
-
-        CompoundTag namesTag = new CompoundTag();
-        for (Map.Entry<UUID, String> entry : playerNames.entrySet()) {
-            namesTag.putString(entry.getKey().toString(), entry.getValue());
-        }
-        tag.put("PlayerNames", namesTag);
-        return tag;
+    public static DeathCounterData get(ServerLevel level) {
+        return level.getDataStorage().computeIfAbsent(TYPE);
     }
 
     public void setDeaths(UUID playerUUID, int deathCount) {
@@ -77,9 +79,5 @@ public class DeathCounterData extends SavedData {
 
     public Map<UUID, String> getPlayerNames() {
         return new HashMap<>(playerNames);
-    }
-
-    public static DeathCounterData get(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(FACTORY, TAG_NAME);
     }
 }

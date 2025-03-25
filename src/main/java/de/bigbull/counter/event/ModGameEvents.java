@@ -35,19 +35,24 @@ public class ModGameEvents {
         MinecraftServer server = event.getServer();
         ServerLevel level = server.overworld();
         long realDay = level.getDayTime() / 24000;
-        long newCounterValue = realDay + DayCounterData.getOffset(level);
 
-        if (DayCounterData.getCurrentDay(level) != newCounterValue) {
-            DayCounterData.setDayCounter(level, newCounterValue);
+        DayCounterData data = DayCounterData.get(level);
+        long lastRealDay = data.getLastRealDay();
+
+        if (realDay > lastRealDay) {
+            long delta = realDay - lastRealDay;
+            long newCounterValue = data.getDayCounter() + delta;
+            data.setDayCounter(newCounterValue);
+            data.setLastRealDay(realDay);
 
             if (ServerConfig.ENABLE_DAY_MESSAGE.get()) {
                 server.getPlayerList().broadcastSystemMessage(
                         Component.translatable("chat.daycounter.new_day", newCounterValue), false);
             }
 
-            for (ServerPlayer player : level.players()) {
-                PacketDistributor.sendToPlayer(player, new DayCounterPacket(newCounterValue));
-            }
+            PacketDistributor.sendToAllPlayers(new DayCounterPacket(newCounterValue));
+        } else if (realDay < lastRealDay) {
+            data.setLastRealDay(realDay);
         }
     }
 

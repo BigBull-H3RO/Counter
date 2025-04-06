@@ -36,7 +36,6 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public <T extends PacketBase, B extends FriendlyByteBuf> void registerClientboundPacket(CustomPacketPayload.Type<T> type, Class<T> clazz, StreamCodec<B, T> codec, BiConsumer<T, Player> handler, Object... args) {
         boolean client = (boolean)args[0];
-
         if (!client) {
             PayloadTypeRegistry.playS2C().register(type, (StreamCodec<RegistryFriendlyByteBuf, T>) codec);
         } else {

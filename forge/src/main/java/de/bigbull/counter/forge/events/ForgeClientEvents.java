@@ -2,7 +2,6 @@ package de.bigbull.counter.forge.events;
 
 import de.bigbull.counter.common.Counter;
 import de.bigbull.counter.common.Events.ClientEvents;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.CustomizeGuiOverlayEvent;
 import net.minecraftforge.event.TickEvent;
@@ -13,8 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 public class ForgeClientEvents {
     @SubscribeEvent
     public static void onRenderGui(CustomizeGuiOverlayEvent event) {
-        GuiGraphics guiGraphics = event.getGuiGraphics();
-        ClientEvents.onRenderGui(guiGraphics);
+        ClientEvents.onRenderGui(event.getGuiGraphics());
     }
 
     @SubscribeEvent

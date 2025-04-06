@@ -1,8 +1,17 @@
 package de.bigbull.counter.fabric.config;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import de.bigbull.counter.common.config.IClientConfig;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class ClientConfig implements IClientConfig {
+    private static final File CONFIG_FILE = new File("config/counter/client_config.json");
+
     public boolean showDayOverlay = true;
     public boolean showDayOverlayAlways = true;
     public double dayOverlayX = 0.00625;
@@ -325,7 +334,40 @@ public class ClientConfig implements IClientConfig {
         return showEmojis;
     }
 
+    public static ClientConfig loadConfig() {
+        try {
+            File configDir = new File("config/counter");
+            if (!configDir.exists()) {
+                configDir.mkdirs();
+            }
+            if (!CONFIG_FILE.exists()) {
+                ClientConfig config = new ClientConfig();
+                config.save();
+                return config;
+            }
+            try (FileReader reader = new FileReader(CONFIG_FILE)) {
+                Gson gson = new Gson();
+                return gson.fromJson(reader, ClientConfig.class);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ClientConfig();
+    }
+
     @Override
     public void save() {
+        try {
+            File configDir = new File("config/counter");
+            if (!configDir.exists()) {
+                configDir.mkdirs();
+            }
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
+                writer.write(gson.toJson(this));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

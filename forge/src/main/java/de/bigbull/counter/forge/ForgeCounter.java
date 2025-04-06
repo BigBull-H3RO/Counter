@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.ChannelBuilder;
 import net.minecraftforge.network.SimpleChannel;
 
@@ -20,7 +21,10 @@ public class ForgeCounter {
     public ForgeCounter(FMLJavaModLoadingContext context) {
         Counter.init();
 
-        context.getModEventBus().addListener(this::registerKeyMappings);
+        if (FMLEnvironment.dist.isClient()) {
+            context.getModEventBus().addListener(this::registerKeyMappings);
+        }
+
         context.getModEventBus().addListener(this::setup);
 
         context.registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_SPEC);

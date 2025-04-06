@@ -1,8 +1,17 @@
 package de.bigbull.counter.fabric.config;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import de.bigbull.counter.common.config.IServerConfig;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class ServerConfig implements IServerConfig {
+    private static final File CONFIG_FILE = new File("config/counter/server_config.json");
+
     public boolean enabledDayCounter = true;
     public boolean showDayOverlay = true;
     public boolean enableDayMessage = true;
@@ -137,5 +146,41 @@ public class ServerConfig implements IServerConfig {
     @Override
     public boolean showCoordsOverlay() {
         return showCoordsOverlay;
+    }
+
+    public static ServerConfig loadConfig() {
+        try {
+            File configDir = new File("config/counter");
+            if (!configDir.exists()) {
+                configDir.mkdirs();
+            }
+            if (!CONFIG_FILE.exists()) {
+                ServerConfig config = new ServerConfig();
+                config.saveConfig();
+                return config;
+            }
+            try (FileReader reader = new FileReader(CONFIG_FILE)) {
+                Gson gson = new Gson();
+                return gson.fromJson(reader, ServerConfig.class);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ServerConfig();
+    }
+
+    public void saveConfig() {
+        try {
+            File configDir = new File("config/counter");
+            if (!configDir.exists()) {
+                configDir.mkdirs();
+            }
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
+                writer.write(gson.toJson(this));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

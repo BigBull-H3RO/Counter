@@ -1,4 +1,4 @@
-<p align="center"><img src="./.idea/icon.png" alt="Logo" width="250"></p>
+<p align="center"><img src=".idea/icon.png" alt="Logo" width="250"></p>
 
 <h1 align="center">Counter  <br>
 	<a href="https://www.curseforge.com/minecraft/mc-mods/counter-day-death/files"><img src="https://cf.way2muchnoise.eu/versions/1214103.svg?cachebuster=1" alt="Supported Versions"></a>

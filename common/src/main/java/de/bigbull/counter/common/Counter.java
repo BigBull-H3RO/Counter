@@ -3,6 +3,7 @@ package de.bigbull.counter.common;
 import com.mojang.brigadier.CommandDispatcher;
 import de.bigbull.counter.common.network.packets.DayCounterPacket;
 import de.bigbull.counter.common.network.packets.DeathCounterPacket;
+import de.bigbull.counter.common.network.packets.ServerConfigPacket;
 import de.bigbull.counter.common.platform.Services;
 import de.bigbull.counter.common.util.CounterCommands;
 import net.minecraft.commands.CommandSourceStack;
@@ -28,6 +29,12 @@ public class Counter {
                 DeathCounterPacket.class,
                 DeathCounterPacket.CODEC,
                 DeathCounterPacket::handle, args);
+
+        Services.PLATFORM.registerClientboundPacket(
+                ServerConfigPacket.TYPE,
+                ServerConfigPacket.class,
+                ServerConfigPacket.CODEC,
+                ServerConfigPacket::handle, args);
     }
 
     public static void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher) {

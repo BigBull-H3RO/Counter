@@ -14,6 +14,7 @@ public class FabricCounter implements ModInitializer {
     @Override
     public void onInitialize() {
         Counter.init();
+        Counter.registerClientPackets(false);
 
         // Initialisiere die TOML-Konfiguration
         FabricTomlConfig.initialize();

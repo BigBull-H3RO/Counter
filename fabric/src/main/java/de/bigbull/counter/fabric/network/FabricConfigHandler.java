@@ -4,7 +4,7 @@ import de.bigbull.counter.common.Counter;
 import de.bigbull.counter.fabric.config.FabricTomlConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationNetworking;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.*;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.MinecraftServer;
@@ -20,7 +20,8 @@ public class FabricConfigHandler {
      * Initialisiert die Netzwerkkommunikation
      */
     public static void init() {
-        // Registriere den Pakettyp
+        // Registriere den Pakettyp für die S2C-Kommunikation
+        PayloadTypeRegistry.playS2C().register(ConfigSyncPacket.TYPE, ConfigSyncPacket.CODEC);
         PayloadTypeRegistry.configurationS2C().register(ConfigSyncPacket.TYPE, ConfigSyncPacket.CODEC);
 
         // Server-Ereignishandler
@@ -41,7 +42,8 @@ public class FabricConfigHandler {
      */
     @Environment(EnvType.CLIENT)
     private static void initClient() {
-        ClientConfigurationNetworking.registerGlobalReceiver(ConfigSyncPacket.TYPE, (packet, context) -> {
+        // Für das Konfigurationspaket
+        ClientPlayNetworking.registerGlobalReceiver(ConfigSyncPacket.TYPE, (packet, context) -> {
             Counter.logger.info("Synchronisiere Server-Konfiguration mit dem Client");
             // Wende die Serverkonfiguration auf den Client an
             packet.applyToClientConfig(FabricTomlConfig.getClientConfig());

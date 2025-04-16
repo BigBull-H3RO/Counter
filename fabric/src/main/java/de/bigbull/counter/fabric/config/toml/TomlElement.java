@@ -37,7 +37,7 @@ public abstract class TomlElement {
      * Prüft, ob dieses Element ein Double ist
      */
     public boolean isDouble() {
-        return this instanceof TomlString;
+        return this instanceof TomlDouble;
     }
 
     /**

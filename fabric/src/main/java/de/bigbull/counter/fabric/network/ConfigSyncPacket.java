@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Netzwerkpaket für die Konfigurationssynchronisation
  */
-public class ConfigSyncPacket implements CustomPacketPayload {
+public record ConfigSyncPacket(Map<String, byte[]> configValues) implements CustomPacketPayload {
 
     public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Counter.MOD_ID, "config_sync");
     public static final Type<ConfigSyncPacket> TYPE = new Type<>(ID);
@@ -44,17 +44,6 @@ public class ConfigSyncPacket implements CustomPacketPayload {
                 return new ConfigSyncPacket(values);
             }
     );
-
-    // Schlüssel und serialisierte Werte
-    private final Map<String, byte[]> configValues;
-
-    public ConfigSyncPacket() {
-        this(new HashMap<>());
-    }
-
-    public ConfigSyncPacket(Map<String, byte[]> configValues) {
-        this.configValues = configValues;
-    }
 
     /**
      * Erstellt ein Synchronisationspaket aus der Server-Konfiguration

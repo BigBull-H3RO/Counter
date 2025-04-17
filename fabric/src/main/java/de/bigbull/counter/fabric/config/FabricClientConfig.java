@@ -221,6 +221,10 @@ public class FabricClientConfig implements IClientConfig {
      * Speichert die Konfiguration in der Datei
      */
     public void saveConfig() {
+        if (FabricLoader.getInstance().getEnvironmentType() != EnvType.CLIENT) {
+            return;
+        }
+
         try {
             TomlTable rootTable = new TomlTable();
 
@@ -292,22 +296,70 @@ public class FabricClientConfig implements IClientConfig {
             emojiSection.putBoolean("showEmojis", showEmojis);
             rootTable.put("emoji", emojiSection);
 
-            // Kommentare hinzufügen
+            // Ausführliche Kommentare für alle Einstellungen hinzufügen
+
+            // Tag Counter Overlay-Kommentare
             daySection.setComment("showDayOverlay", "Aktiviert/deaktiviert das Tag-Overlay auf der Client-Seite");
-            daySection.setComment("showOverlayAlways", "Soll das Tag-Overlay immer sichtbar sein?");
+            daySection.setComment("showOverlayAlways", "Soll das Tag-Overlay immer sichtbar sein? Wenn false, dann nur beim Drücken der Tab-Taste");
+            daySection.setComment("dayOverlayX", "Relative X-Position (0.0 = links, 1.0 = rechts) für das Tag-Overlay");
+            daySection.setComment("dayOverlayY", "Relative Y-Position (0.0 = oben, 1.0 = unten) für das Tag-Overlay");
+            daySection.setComment("dayOverlaySize", "Skalierungsfaktor für die Tag-Overlay-Textgröße (1.0 = normal)");
+            daySection.setComment("dayOverlayTextColor", "Textfarbe für das Tag-Overlay in Hexadezimal (0xFFFFFF ist weiß)");
 
+            // Death Counter List-Kommentare
             deathListSection.setComment("showDeathListOverlay", "Aktiviert/deaktiviert die Todesliste (zeigt alle Spielertode)");
-            deathListSection.setComment("deathOverlayStyle", "Stil für die Todesliste: CLASSIC, BOXED oder TABLE");
+            deathListSection.setComment("showListOverlayAlways", "Soll die Todesliste immer sichtbar sein? Wenn false, dann nur beim Drücken der Tab-Taste");
+            deathListSection.setComment("deathListX", "Relative X-Position (0.0 = links, 1.0 = rechts) für die Todesliste");
+            deathListSection.setComment("deathListY", "Relative Y-Position (0.0 = oben, 1.0 = unten) für die Todesliste");
+            deathListSection.setComment("deathListSize", "Skalierungsfaktor für die Todeslisten-Textgröße (1.0 = normal)");
+            deathListSection.setComment("deathOverlayStyle", "Anzeigestil für die Todesliste: CLASSIC, BOXED oder TABLE");
+            deathListSection.setComment("deathOverlayWidth", "Maximale Breite (in Pixeln) für die Todesliste");
+            deathListSection.setComment("deathListTextColor", "Standard-Textfarbe für die Todesliste in Hexadezimal");
+            deathListSection.setComment("firstPlaceColor", "Farbmarkierung für den ersten Platz in der Todesliste (0xFFD700 ist Gold)");
+            deathListSection.setComment("secondPlaceColor", "Farbmarkierung für den zweiten Platz in der Todesliste (0xC0C0C0 ist Silber)");
+            deathListSection.setComment("thirdPlaceColor", "Farbmarkierung für den dritten Platz in der Todesliste (0xCD7F32 ist Bronze)");
 
+            // Death Counter Self-Kommentare
             deathSelfSection.setComment("showDeathSelfOverlay", "Aktiviert/deaktiviert den persönlichen Todeszähler");
+            deathSelfSection.setComment("showSelfOverlayAlways", "Soll der persönliche Todeszähler immer sichtbar sein? Wenn false, dann nur beim Drücken der Tab-Taste");
+            deathSelfSection.setComment("deathSelfX", "Relative X-Position für deinen persönlichen Todeszähler");
+            deathSelfSection.setComment("deathSelfY", "Relative Y-Position für deinen persönlichen Todeszähler");
+            deathSelfSection.setComment("deathSelfSize", "Skalierungsfaktor für die Textgröße des persönlichen Todeszählers");
+            deathSelfSection.setComment("deathSelfTextColor", "Textfarbe für deinen persönlichen Todeszähler");
 
+            // Time Overlay-Kommentare
             timeSection.setComment("showTimeOverlay", "Aktiviert/deaktiviert die Spielzeit-Anzeige");
+            timeSection.setComment("showTimeOverlayAlways", "Soll die Spielzeit-Anzeige immer sichtbar sein? Wenn false, dann nur beim Drücken der Tab-Taste");
+            timeSection.setComment("timeOverlayX", "Relative X-Position für die Spielzeit-Anzeige");
+            timeSection.setComment("timeOverlayY", "Relative Y-Position für die Spielzeit-Anzeige");
+            timeSection.setComment("timeOverlaySize", "Skalierungsfaktor für die Textgröße der Spielzeit-Anzeige");
+            timeSection.setComment("timeOverlayTextColor", "Textfarbe für die Spielzeit-Anzeige");
 
+            // Coords Overlay-Kommentare
             coordsSection.setComment("showCoordsOverlay", "Aktiviert/deaktiviert die Koordinatenanzeige");
+            coordsSection.setComment("showCoordsOverlayAlways", "Soll die Koordinatenanzeige immer sichtbar sein? Wenn false, dann nur beim Drücken der Tab-Taste");
+            coordsSection.setComment("coordsOverlayX", "Relative X-Position für die Koordinatenanzeige");
+            coordsSection.setComment("coordsOverlayY", "Relative Y-Position für die Koordinatenanzeige");
+            coordsSection.setComment("coordsOverlaySize", "Skalierungsfaktor für die Textgröße der Koordinatenanzeige");
+            coordsSection.setComment("coordsOverlayTextColor", "Textfarbe für die Koordinatenanzeige");
 
+            // Ping-Kommentare
             pingSection.setComment("showPingAsText", "Zeigt den Ping als Text (z.B. '123ms') statt als Balken an");
+            pingSection.setComment("pingColorGood", "Farbe für niedrigen Ping (<100ms) in Hexadezimal (0x00FF00 ist Grün)");
+            pingSection.setComment("pingColorMedium", "Farbe für mittleren Ping (100-249ms) in Hexadezimal (0xFF9900 ist Orange)");
+            pingSection.setComment("pingColorBad", "Farbe für hohen Ping (>=250ms) in Hexadezimal (0xFF0000 ist Rot)");
 
+            // Emoji-Kommentare
             emojiSection.setComment("showEmojis", "Aktiviert/deaktiviert die Emojis in den Overlays");
+
+            // Hauptdokumentation der Sektionen
+            rootTable.setComment("dayCounterOverlay", "Einstellungen für das Tag-Overlay");
+            rootTable.setComment("deathCounterList", "Einstellungen für die Todesliste (zeigt alle Spielertode)");
+            rootTable.setComment("deathCounterSelf", "Einstellungen für den persönlichen Todeszähler");
+            rootTable.setComment("timeOverlay", "Einstellungen für die Spielzeit-Anzeige");
+            rootTable.setComment("coordsOverlay", "Einstellungen für die Koordinatenanzeige");
+            rootTable.setComment("ping", "Einstellungen für die Ping-Anzeige in der Tab-Liste");
+            rootTable.setComment("emoji", "Einstellungen für Emojis in den Overlays");
 
             // In Datei speichern
             TomlParser.writeToFile(rootTable, CONFIG_FILE);

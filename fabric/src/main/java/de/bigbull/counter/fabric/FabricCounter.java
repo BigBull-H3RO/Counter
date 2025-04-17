@@ -5,7 +5,7 @@ import de.bigbull.counter.common.config.ConfigHelper;
 import de.bigbull.counter.fabric.config.FabricTomlConfig;
 import de.bigbull.counter.fabric.config.TempConfig;
 import de.bigbull.counter.fabric.events.FabricGameEvents;
-import de.bigbull.counter.fabric.network.FabricConfigHandler;
+import de.bigbull.counter.fabric.network.ConfigSyncManager;
 import net.fabricmc.api.ModInitializer;
 
 public class FabricCounter implements ModInitializer {
@@ -22,7 +22,7 @@ public class FabricCounter implements ModInitializer {
         ConfigHelper.registerServerConfig(() -> TempConfig.SERVER);
 
         // Initialisiere die Netzwerkkommunikation
-        FabricConfigHandler.init();
+        ConfigSyncManager.init();
 
         // Registriere die Ereignishandler
         FabricGameEvents.registerEvents();

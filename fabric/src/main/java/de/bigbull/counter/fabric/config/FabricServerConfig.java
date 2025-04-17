@@ -186,19 +186,43 @@ public class FabricServerConfig implements IServerConfig {
             rootTable.put("coordsCounter", coordsSection);
 
             // Kommentare hinzufügen
-            daySection.setComment("enableDayCounter", "Aktiviert/deaktiviert den Tageszähler auf dem Server");
+            // Tag Counter Kommentare
+            daySection.setComment("enableDayCounter", "Wenn deaktiviert, wird der Tageszähler auf dem Server nicht verfolgt oder angezeigt");
             daySection.setComment("showDayOverlay", "Erlaube das Tag-Overlay für Spieler (Server-seitige Übersteuerung)");
+            daySection.setComment("enableDayMessage", "Sendet eine Chat-Nachricht, wenn ein neuer Minecraft-Tag beginnt");
+            daySection.setComment("showDayInChat", "Zeigt den aktuellen Minecraft-Tag im Chat an, wenn ein Spieler beitritt");
+            daySection.setComment("dayChatTextColor", "Textfarbe für die Tageszähler-Chatnachricht in Hexadezimal (0xFFFFFF ist weiß)");
 
-            deathSection.setComment("enableDeathCounter", "Aktiviert/deaktiviert den Todeszähler auf dem Server");
-            deathSection.setComment("deathOverlayMode", "Welche Overlays erlaubt sind: ONLY_SELF (persönlich), LIST (global), BOTH (beides)");
+            // Death Counter Kommentare
+            deathSection.setComment("enableDeathCounter", "Wenn deaktiviert, werden Spielertode nicht verfolgt oder angezeigt");
+            deathSection.setComment("showDeathOverlay", "Erlaubt Spielern, das Todeszähler-Overlay zu sehen (Server-seitige Übersteuerung)");
+            deathSection.setComment("maxPlayersShown", "Maximale Anzahl an Spielern, die in der Todeszähler-Liste angezeigt werden");
+            deathSection.setComment("deathOverlayMode", "Welche Todeszähler-Typen sind erlaubt? ONLY_SELF (persönlich), LIST (global), BOTH (beides)");
 
-            deathChatSection.setComment("enableDeathInChat", "Aktiviert/deaktiviert Todeszähler-Nachrichten im Chat");
-            deathChatSection.setComment("deathInChatMode", "Wann Todeszähler im Chat angezeigt werden: ON_JOIN, ON_DEATH oder BOTH");
+            // Death Counter Chat Kommentare
+            deathChatSection.setComment("enableDeathInChat", "Aktiviert Todeszähler-Nachrichten im Chat (beim Beitreten oder beim Tod)");
+            deathChatSection.setComment("deathInChatMode", "Wann soll der Todeszähler im Chat angezeigt werden: ON_JOIN (beim Beitreten), ON_DEATH (beim Sterben) oder BOTH (beides)");
+            deathChatSection.setComment("deathChatMode", "Todeszähler-Chat-Modus: ONLY_SELF (persönlich), LIST (globale Rangliste)");
+            deathChatSection.setComment("showDeathListOnDeathGlobal", "Todesliste an alle Spieler senden, wenn jemand stirbt");
+            deathChatSection.setComment("deathListChatTextColor", "Textfarbe für Todeszähler-Nachrichten im Chat (Hexadezimal)");
+            deathChatSection.setComment("deathSelfChatTextColor", "Textfarbe für persönliche Todesnachrichten im Chat (Hexadezimal)");
 
-            timeSection.setComment("enableTimeCounter", "Aktiviert/deaktiviert den Zeitzähler auf dem Server");
-            timeSection.setComment("timeFormat24h", "24-Stunden-Format statt 12-Stunden-Format verwenden");
+            // Time Counter Kommentare
+            timeSection.setComment("enableTimeCounter", "Wenn deaktiviert, wird der Zeitzähler nicht verfolgt oder angezeigt");
+            timeSection.setComment("showTimeOverlay", "Erlaube das Zeit-Overlay für Spieler (Server-seitige Übersteuerung)");
+            timeSection.setComment("showCombinedDayTime", "Zeige den Tag zusammen mit der Zeit an. Deaktiviert das Standard-Zeit-Overlay");
+            timeSection.setComment("timeFormat24h", "24-Stunden-Format (true) oder 12-Stunden-Format (false) verwenden");
 
-            coordsSection.setComment("enableCoordsCounter", "Aktiviert/deaktiviert den Koordinatenanzeiger auf dem Server");
+            // Coords Counter Kommentare
+            coordsSection.setComment("enableCoordsCounter", "Wenn deaktiviert, wird der Koordinatenanzeiger nicht angezeigt");
+            coordsSection.setComment("showCoordsOverlay", "Erlaube das Koordinaten-Overlay für Spieler (Server-seitige Übersteuerung)");
+
+            // Hauptdokumentation
+            rootTable.setComment("dayCounter", "Einstellungen für den Tageszähler");
+            rootTable.setComment("deathCounter", "Einstellungen für den Todeszähler");
+            rootTable.setComment("deathCounterChat", "Chat-Einstellungen für den Todeszähler");
+            rootTable.setComment("timeCounter", "Einstellungen für den Zeitzähler");
+            rootTable.setComment("coordsCounter", "Einstellungen für den Koordinatenanzeiger");
 
             // In Datei speichern
             TomlParser.writeToFile(rootTable, CONFIG_FILE);

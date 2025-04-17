@@ -6,9 +6,7 @@ import de.bigbull.counter.fabric.config.FabricTomlConfig;
 import de.bigbull.counter.fabric.config.TempConfig;
 import de.bigbull.counter.fabric.events.FabricGameEvents;
 import de.bigbull.counter.fabric.network.FabricConfigHandler;
-import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
 
 public class FabricCounter implements ModInitializer {
     @Override
@@ -28,8 +26,5 @@ public class FabricCounter implements ModInitializer {
 
         // Registriere die Ereignishandler
         FabricGameEvents.registerEvents();
-
-        // Registriere die Client-Pakethandler
-        Counter.registerClientPackets(FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT);
     }
 }

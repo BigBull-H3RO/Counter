@@ -4,6 +4,8 @@ import de.bigbull.counter.common.Counter;
 import de.bigbull.counter.common.config.IClientConfig;
 import de.bigbull.counter.fabric.config.toml.TomlParser;
 import de.bigbull.counter.fabric.config.toml.TomlTable;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +14,6 @@ import java.io.IOException;
  * Client-Konfigurationsimplementierung mit TOML
  */
 public class FabricClientConfig implements IClientConfig {
-
     private static final File CONFIG_FILE = new File(FabricTomlConfig.CONFIG_DIR, "client_config.toml");
 
     // Tag Counter Overlay Einstellungen
@@ -73,13 +74,21 @@ public class FabricClientConfig implements IClientConfig {
      * Konstruktor - lädt die Konfiguration
      */
     public FabricClientConfig() {
-        loadConfig();
+        // Nur auf dem Client laden
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+            loadConfig();
+        }
     }
 
     /**
      * Lädt die Konfiguration aus der Datei
      */
     public void loadConfig() {
+        // Prüfe, ob wir auf dem Client sind
+        if (FabricLoader.getInstance().getEnvironmentType() != EnvType.CLIENT) {
+            return;
+        }
+
         try {
             if (!CONFIG_FILE.exists()) {
                 saveConfig();

@@ -1,6 +1,8 @@
 package de.bigbull.counter.fabric.config;
 
 import de.bigbull.counter.common.Counter;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,13 +32,15 @@ public class FabricTomlConfig {
             CONFIG_DIR.mkdirs();
         }
 
-        // Konfigurationen laden
-        clientConfig = new FabricClientConfig();
+        // Server-Konfiguration laden
         serverConfig = new FabricServerConfig();
-
-        // Konfigurationen als Standardkonfigurationen registrieren
-        TempConfig.CLIENT = clientConfig;
         TempConfig.SERVER = serverConfig;
+
+        // Client-Konfiguration nur auf dem Client laden
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+            clientConfig = new FabricClientConfig();
+            TempConfig.CLIENT = clientConfig;
+        }
 
         // Dateiüberwachung starten
         startFileWatcher();
@@ -60,10 +64,11 @@ public class FabricTomlConfig {
                             Path changedFile = (Path) event.context();
                             String filename = changedFile.toString();
 
-                            if (filename.equals("client_config.toml")) {
-                                reloadClientConfig();
-                            } else if (filename.equals("server_config.toml")) {
+                            if (filename.equals("server_config.toml")) {
                                 reloadServerConfig();
+                            } else if (filename.equals("client_config.toml") &&
+                                    FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+                                reloadClientConfig();
                             }
                         }
 
@@ -89,6 +94,8 @@ public class FabricTomlConfig {
      * Lädt die Client-Konfiguration neu
      */
     public static void reloadClientConfig() {
+        if (clientConfig == null) return;
+
         configLock.writeLock().lock();
         try {
             clientConfig.loadConfig();
@@ -113,6 +120,10 @@ public class FabricTomlConfig {
      * Gibt die Client-Konfiguration zurück
      */
     public static FabricClientConfig getClientConfig() {
+        if (clientConfig == null) {
+            throw new IllegalStateException("Client-Konfiguration ist auf dem Server nicht verfügbar");
+        }
+
         configLock.readLock().lock();
         try {
             return clientConfig;
@@ -137,6 +148,10 @@ public class FabricTomlConfig {
      * Führt einen zustandsunabhängigen Lesezugriff auf die Konfiguration aus
      */
     public static <T> T withClientConfig(Function<FabricClientConfig, T> accessor) {
+        if (clientConfig == null) {
+            throw new IllegalStateException("Client-Konfiguration ist auf dem Server nicht verfügbar");
+        }
+
         configLock.readLock().lock();
         try {
             return accessor.apply(clientConfig);

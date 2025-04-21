@@ -2,7 +2,6 @@ package de.bigbull.counter.fabric.events;
 
 import de.bigbull.counter.common.Counter;
 import de.bigbull.counter.common.Events.ModGameEvents;
-import de.bigbull.counter.fabric.network.ConfigSyncManager;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -20,7 +19,6 @@ public class FabricGameEvents {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ModGameEvents.onPlayerLoggedIn(handler.getPlayer());
 
-            ConfigSyncManager.syncConfigToPlayer(handler.getPlayer());
         });
 
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, world) -> {

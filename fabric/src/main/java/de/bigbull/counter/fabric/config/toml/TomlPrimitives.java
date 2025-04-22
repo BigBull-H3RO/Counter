@@ -1,9 +1,5 @@
 package de.bigbull.counter.fabric.config.toml;
 
-/**
- * Primitiven TOML-Datentypen
- */
-
 class TomlString extends TomlElement {
     private final String value;
 
@@ -63,23 +59,6 @@ class TomlDouble extends TomlElement {
     }
 
     public double getValue() {
-        return value;
-    }
-
-    @Override
-    public String toTomlString() {
-        return String.valueOf(value);
-    }
-}
-
-class TomlLong extends TomlElement {
-    private final long value;
-
-    public TomlLong(long value) {
-        this.value = value;
-    }
-
-    public long getValue() {
         return value;
     }
 

@@ -10,13 +10,9 @@ import net.fabricmc.loader.api.FabricLoader;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Client-Konfigurationsimplementierung mit TOML
- */
 public class FabricClientConfig implements IClientConfig {
     private static final File CONFIG_FILE = new File(FabricTomlConfig.CONFIG_DIR, "client_config.toml");
 
-    // Tag Counter Overlay Einstellungen
     private boolean showDayOverlay = true;
     private boolean showDayOverlayAlways = true;
     private double dayOverlayX = 0.00625;
@@ -24,7 +20,6 @@ public class FabricClientConfig implements IClientConfig {
     private double dayOverlaySize = 1.0;
     private int dayOverlayTextColor = 0xFFFFFF;
 
-    // Death List Overlay Einstellungen
     private boolean showDeathListOverlay = true;
     private boolean showDeathListOverlayAlways = false;
     private double deathListOverlayX = 0.0125;
@@ -37,7 +32,6 @@ public class FabricClientConfig implements IClientConfig {
     private int secondPlaceColor = 0xC0C0C0;
     private int thirdPlaceColor = 0xCD7F32;
 
-    // Persönliche Death Counter Einstellungen
     private boolean showDeathSelfOverlay = true;
     private boolean showDeathSelfOverlayAlways = false;
     private double deathSelfOverlayX = 0.00625;
@@ -45,7 +39,6 @@ public class FabricClientConfig implements IClientConfig {
     private double deathSelfSize = 1.0;
     private int deathSelfTextColor = 0xFFFFFF;
 
-    // Zeit-Overlay Einstellungen
     private boolean showTimeOverlay = false;
     private boolean showTimeOverlayAlways = true;
     private double timeOverlayX = 0.00781;
@@ -53,7 +46,6 @@ public class FabricClientConfig implements IClientConfig {
     private double timeOverlaySize = 1.0;
     private int timeOverlayTextColor = 0xFFFFFF;
 
-    // Koordinaten-Overlay Einstellungen
     private boolean showCoordsOverlay = false;
     private boolean showCoordsOverlayAlways = true;
     private double coordsOverlayX = 0.00781;
@@ -61,30 +53,20 @@ public class FabricClientConfig implements IClientConfig {
     private double coordsOverlaySize = 1.0;
     private int coordsOverlayTextColor = 0xFFFFFF;
 
-    // Ping-Einstellungen
     private boolean showPingAsText = true;
     private int pingColorGood = 0x00FF00;
     private int pingColorMedium = 0xFF9900;
     private int pingColorBad = 0xFF0000;
 
-    // Emoji-Einstellungen
     private boolean showEmojis = true;
 
-    /**
-     * Konstruktor - lädt die Konfiguration
-     */
     public FabricClientConfig() {
-        // Nur auf dem Client laden
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             loadConfig();
         }
     }
 
-    /**
-     * Lädt die Konfiguration aus der Datei
-     */
     public void loadConfig() {
-        // Prüfe, ob wir auf dem Client sind
         if (FabricLoader.getInstance().getEnvironmentType() != EnvType.CLIENT) {
             return;
         }
@@ -97,7 +79,6 @@ public class FabricClientConfig implements IClientConfig {
 
             TomlTable rootTable = TomlParser.parseFile(CONFIG_FILE);
 
-            // Tag Counter Overlay Einstellungen
             if (rootTable.contains("dayCounterOverlay")) {
                 TomlTable daySection = rootTable.get("dayCounterOverlay").asTable();
                 if (daySection.contains("showDayOverlay"))
@@ -114,7 +95,6 @@ public class FabricClientConfig implements IClientConfig {
                     dayOverlayTextColor = daySection.get("dayOverlayTextColor").asInteger();
             }
 
-            // Death Counter List Einstellungen
             if (rootTable.contains("deathCounterList")) {
                 TomlTable deathListSection = rootTable.get("deathCounterList").asTable();
                 if (deathListSection.contains("showDeathListOverlay"))
@@ -141,7 +121,6 @@ public class FabricClientConfig implements IClientConfig {
                     thirdPlaceColor = deathListSection.get("thirdPlaceColor").asInteger();
             }
 
-            // Death Counter Self Einstellungen
             if (rootTable.contains("deathCounterSelf")) {
                 TomlTable deathSelfSection = rootTable.get("deathCounterSelf").asTable();
                 if (deathSelfSection.contains("showDeathSelfOverlay"))
@@ -158,7 +137,6 @@ public class FabricClientConfig implements IClientConfig {
                     deathSelfTextColor = deathSelfSection.get("deathSelfTextColor").asInteger();
             }
 
-            // Time Overlay Einstellungen
             if (rootTable.contains("timeOverlay")) {
                 TomlTable timeSection = rootTable.get("timeOverlay").asTable();
                 if (timeSection.contains("showTimeOverlay"))
@@ -175,7 +153,6 @@ public class FabricClientConfig implements IClientConfig {
                     timeOverlayTextColor = timeSection.get("timeOverlayTextColor").asInteger();
             }
 
-            // Coords Overlay Einstellungen
             if (rootTable.contains("coordsOverlay")) {
                 TomlTable coordsSection = rootTable.get("coordsOverlay").asTable();
                 if (coordsSection.contains("showCoordsOverlay"))
@@ -192,7 +169,6 @@ public class FabricClientConfig implements IClientConfig {
                     coordsOverlayTextColor = coordsSection.get("coordsOverlayTextColor").asInteger();
             }
 
-            // Ping Einstellungen
             if (rootTable.contains("ping")) {
                 TomlTable pingSection = rootTable.get("ping").asTable();
                 if (pingSection.contains("showPingAsText"))
@@ -205,7 +181,6 @@ public class FabricClientConfig implements IClientConfig {
                     pingColorBad = pingSection.get("pingColorBad").asInteger();
             }
 
-            // Emoji Einstellungen
             if (rootTable.contains("emoji")) {
                 TomlTable emojiSection = rootTable.get("emoji").asTable();
                 if (emojiSection.contains("showEmojis"))
@@ -217,9 +192,6 @@ public class FabricClientConfig implements IClientConfig {
         }
     }
 
-    /**
-     * Speichert die Konfiguration in der Datei
-     */
     public void saveConfig() {
         if (FabricLoader.getInstance().getEnvironmentType() != EnvType.CLIENT) {
             return;
@@ -228,7 +200,6 @@ public class FabricClientConfig implements IClientConfig {
         try {
             TomlTable rootTable = new TomlTable();
 
-            // Tag Counter Overlay Einstellungen
             TomlTable daySection = new TomlTable();
             daySection.putBoolean("showDayOverlay", showDayOverlay);
             daySection.putBoolean("showOverlayAlways", showDayOverlayAlways);
@@ -238,7 +209,6 @@ public class FabricClientConfig implements IClientConfig {
             daySection.putInteger("dayOverlayTextColor", dayOverlayTextColor);
             rootTable.put("dayCounterOverlay", daySection);
 
-            // Death Counter List Einstellungen
             TomlTable deathListSection = new TomlTable();
             deathListSection.putBoolean("showDeathListOverlay", showDeathListOverlay);
             deathListSection.putBoolean("showListOverlayAlways", showDeathListOverlayAlways);
@@ -253,7 +223,6 @@ public class FabricClientConfig implements IClientConfig {
             deathListSection.putInteger("thirdPlaceColor", thirdPlaceColor);
             rootTable.put("deathCounterList", deathListSection);
 
-            // Death Counter Self Einstellungen
             TomlTable deathSelfSection = new TomlTable();
             deathSelfSection.putBoolean("showDeathSelfOverlay", showDeathSelfOverlay);
             deathSelfSection.putBoolean("showSelfOverlayAlways", showDeathSelfOverlayAlways);
@@ -263,7 +232,6 @@ public class FabricClientConfig implements IClientConfig {
             deathSelfSection.putInteger("deathSelfTextColor", deathSelfTextColor);
             rootTable.put("deathCounterSelf", deathSelfSection);
 
-            // Time Overlay Einstellungen
             TomlTable timeSection = new TomlTable();
             timeSection.putBoolean("showTimeOverlay", showTimeOverlay);
             timeSection.putBoolean("showTimeOverlayAlways", showTimeOverlayAlways);
@@ -273,7 +241,6 @@ public class FabricClientConfig implements IClientConfig {
             timeSection.putInteger("timeOverlayTextColor", timeOverlayTextColor);
             rootTable.put("timeOverlay", timeSection);
 
-            // Coords Overlay Einstellungen
             TomlTable coordsSection = new TomlTable();
             coordsSection.putBoolean("showCoordsOverlay", showCoordsOverlay);
             coordsSection.putBoolean("showCoordsOverlayAlways", showCoordsOverlayAlways);
@@ -283,7 +250,6 @@ public class FabricClientConfig implements IClientConfig {
             coordsSection.putInteger("coordsOverlayTextColor", coordsOverlayTextColor);
             rootTable.put("coordsOverlay", coordsSection);
 
-            // Ping Einstellungen
             TomlTable pingSection = new TomlTable();
             pingSection.putBoolean("showPingAsText", showPingAsText);
             pingSection.putInteger("pingColorGood", pingColorGood);
@@ -291,85 +257,80 @@ public class FabricClientConfig implements IClientConfig {
             pingSection.putInteger("pingColorBad", pingColorBad);
             rootTable.put("ping", pingSection);
 
-            // Emoji Einstellungen
             TomlTable emojiSection = new TomlTable();
             emojiSection.putBoolean("showEmojis", showEmojis);
             rootTable.put("emoji", emojiSection);
 
-            // Ausführliche Kommentare für alle Einstellungen hinzufügen
+            // Day Counter Overlay comments
+            daySection.setComment("showDayOverlay", "Enable/disable the day overlay on the client side");
+            daySection.setComment("showOverlayAlways", "Should the day overlay always be visible? If false, only when pressing the Tab key");
+            daySection.setComment("dayOverlayX", "Relative X position (0.0 = left, 1.0 = right) for the day overlay");
+            daySection.setComment("dayOverlayY", "Relative Y position (0.0 = top, 1.0 = bottom) for the day overlay");
+            daySection.setComment("dayOverlaySize", "Scale factor for the day overlay text size (1.0 = normal)");
+            daySection.setComment("dayOverlayTextColor", "Text color for the day overlay in hexadecimal (0xFFFFFF is white)");
 
-            // Tag Counter Overlay-Kommentare
-            daySection.setComment("showDayOverlay", "Aktiviert/deaktiviert das Tag-Overlay auf der Client-Seite");
-            daySection.setComment("showOverlayAlways", "Soll das Tag-Overlay immer sichtbar sein? Wenn false, dann nur beim Drücken der Tab-Taste");
-            daySection.setComment("dayOverlayX", "Relative X-Position (0.0 = links, 1.0 = rechts) für das Tag-Overlay");
-            daySection.setComment("dayOverlayY", "Relative Y-Position (0.0 = oben, 1.0 = unten) für das Tag-Overlay");
-            daySection.setComment("dayOverlaySize", "Skalierungsfaktor für die Tag-Overlay-Textgröße (1.0 = normal)");
-            daySection.setComment("dayOverlayTextColor", "Textfarbe für das Tag-Overlay in Hexadezimal (0xFFFFFF ist weiß)");
+            // Death Counter List comments
+            deathListSection.setComment("showDeathListOverlay", "Enable/disable the death list (shows all player deaths)");
+            deathListSection.setComment("showListOverlayAlways", "Should the death list always be visible? If false, only when pressing the Tab key");
+            deathListSection.setComment("deathListX", "Relative X position (0.0 = left, 1.0 = right) for the death list");
+            deathListSection.setComment("deathListY", "Relative Y position (0.0 = top, 1.0 = bottom) for the death list");
+            deathListSection.setComment("deathListSize", "Scale factor for the death list text size (1.0 = normal)");
+            deathListSection.setComment("deathOverlayStyle", "Display style for the death list: CLASSIC, BOXED or TABLE");
+            deathListSection.setComment("deathOverlayWidth", "Maximum width (in pixels) for the death list");
+            deathListSection.setComment("deathListTextColor", "Default text color for the death list in hexadecimal");
+            deathListSection.setComment("firstPlaceColor", "Color for first place in the death list (0xFFD700 is gold)");
+            deathListSection.setComment("secondPlaceColor", "Color for second place in the death list (0xC0C0C0 is silver)");
+            deathListSection.setComment("thirdPlaceColor", "Color for third place in the death list (0xCD7F32 is bronze)");
 
-            // Death Counter List-Kommentare
-            deathListSection.setComment("showDeathListOverlay", "Aktiviert/deaktiviert die Todesliste (zeigt alle Spielertode)");
-            deathListSection.setComment("showListOverlayAlways", "Soll die Todesliste immer sichtbar sein? Wenn false, dann nur beim Drücken der Tab-Taste");
-            deathListSection.setComment("deathListX", "Relative X-Position (0.0 = links, 1.0 = rechts) für die Todesliste");
-            deathListSection.setComment("deathListY", "Relative Y-Position (0.0 = oben, 1.0 = unten) für die Todesliste");
-            deathListSection.setComment("deathListSize", "Skalierungsfaktor für die Todeslisten-Textgröße (1.0 = normal)");
-            deathListSection.setComment("deathOverlayStyle", "Anzeigestil für die Todesliste: CLASSIC, BOXED oder TABLE");
-            deathListSection.setComment("deathOverlayWidth", "Maximale Breite (in Pixeln) für die Todesliste");
-            deathListSection.setComment("deathListTextColor", "Standard-Textfarbe für die Todesliste in Hexadezimal");
-            deathListSection.setComment("firstPlaceColor", "Farbmarkierung für den ersten Platz in der Todesliste (0xFFD700 ist Gold)");
-            deathListSection.setComment("secondPlaceColor", "Farbmarkierung für den zweiten Platz in der Todesliste (0xC0C0C0 ist Silber)");
-            deathListSection.setComment("thirdPlaceColor", "Farbmarkierung für den dritten Platz in der Todesliste (0xCD7F32 ist Bronze)");
+            // Death Counter Self comments
+            deathSelfSection.setComment("showDeathSelfOverlay", "Enable/disable the personal death counter");
+            deathSelfSection.setComment("showSelfOverlayAlways", "Should the personal death counter always be visible? If false, only when pressing the Tab key");
+            deathSelfSection.setComment("deathSelfX", "Relative X position for your personal death counter");
+            deathSelfSection.setComment("deathSelfY", "Relative Y position for your personal death counter");
+            deathSelfSection.setComment("deathSelfSize", "Scale factor for the text size of the personal death counter");
+            deathSelfSection.setComment("deathSelfTextColor", "Text color for your personal death counter");
 
-            // Death Counter Self-Kommentare
-            deathSelfSection.setComment("showDeathSelfOverlay", "Aktiviert/deaktiviert den persönlichen Todeszähler");
-            deathSelfSection.setComment("showSelfOverlayAlways", "Soll der persönliche Todeszähler immer sichtbar sein? Wenn false, dann nur beim Drücken der Tab-Taste");
-            deathSelfSection.setComment("deathSelfX", "Relative X-Position für deinen persönlichen Todeszähler");
-            deathSelfSection.setComment("deathSelfY", "Relative Y-Position für deinen persönlichen Todeszähler");
-            deathSelfSection.setComment("deathSelfSize", "Skalierungsfaktor für die Textgröße des persönlichen Todeszählers");
-            deathSelfSection.setComment("deathSelfTextColor", "Textfarbe für deinen persönlichen Todeszähler");
+            // Time Overlay comments
+            timeSection.setComment("showTimeOverlay", "Enable/disable the game time display");
+            timeSection.setComment("showTimeOverlayAlways", "Should the game time display always be visible? If false, only when pressing the Tab key");
+            timeSection.setComment("timeOverlayX", "Relative X position for the game time display");
+            timeSection.setComment("timeOverlayY", "Relative Y position for the game time display");
+            timeSection.setComment("timeOverlaySize", "Scale factor for the text size of the game time display");
+            timeSection.setComment("timeOverlayTextColor", "Text color for the game time display");
 
-            // Time Overlay-Kommentare
-            timeSection.setComment("showTimeOverlay", "Aktiviert/deaktiviert die Spielzeit-Anzeige");
-            timeSection.setComment("showTimeOverlayAlways", "Soll die Spielzeit-Anzeige immer sichtbar sein? Wenn false, dann nur beim Drücken der Tab-Taste");
-            timeSection.setComment("timeOverlayX", "Relative X-Position für die Spielzeit-Anzeige");
-            timeSection.setComment("timeOverlayY", "Relative Y-Position für die Spielzeit-Anzeige");
-            timeSection.setComment("timeOverlaySize", "Skalierungsfaktor für die Textgröße der Spielzeit-Anzeige");
-            timeSection.setComment("timeOverlayTextColor", "Textfarbe für die Spielzeit-Anzeige");
+            // Coords Overlay comments
+            coordsSection.setComment("showCoordsOverlay", "Enable/disable the coordinates display");
+            coordsSection.setComment("showCoordsOverlayAlways", "Should the coordinates display always be visible? If false, only when pressing the Tab key");
+            coordsSection.setComment("coordsOverlayX", "Relative X position for the coordinates display");
+            coordsSection.setComment("coordsOverlayY", "Relative Y position for the coordinates display");
+            coordsSection.setComment("coordsOverlaySize", "Scale factor for the text size of the coordinates display");
+            coordsSection.setComment("coordsOverlayTextColor", "Text color for the coordinates display");
 
-            // Coords Overlay-Kommentare
-            coordsSection.setComment("showCoordsOverlay", "Aktiviert/deaktiviert die Koordinatenanzeige");
-            coordsSection.setComment("showCoordsOverlayAlways", "Soll die Koordinatenanzeige immer sichtbar sein? Wenn false, dann nur beim Drücken der Tab-Taste");
-            coordsSection.setComment("coordsOverlayX", "Relative X-Position für die Koordinatenanzeige");
-            coordsSection.setComment("coordsOverlayY", "Relative Y-Position für die Koordinatenanzeige");
-            coordsSection.setComment("coordsOverlaySize", "Skalierungsfaktor für die Textgröße der Koordinatenanzeige");
-            coordsSection.setComment("coordsOverlayTextColor", "Textfarbe für die Koordinatenanzeige");
+            // Ping comments
+            pingSection.setComment("showPingAsText", "Show ping as text (e.g. '123ms') instead of bars");
+            pingSection.setComment("pingColorGood", "Color for low ping (<100ms) in hexadecimal (0x00FF00 is green)");
+            pingSection.setComment("pingColorMedium", "Color for medium ping (100-249ms) in hexadecimal (0xFF9900 is orange)");
+            pingSection.setComment("pingColorBad", "Color for high ping (>=250ms) in hexadecimal (0xFF0000 is red)");
 
-            // Ping-Kommentare
-            pingSection.setComment("showPingAsText", "Zeigt den Ping als Text (z.B. '123ms') statt als Balken an");
-            pingSection.setComment("pingColorGood", "Farbe für niedrigen Ping (<100ms) in Hexadezimal (0x00FF00 ist Grün)");
-            pingSection.setComment("pingColorMedium", "Farbe für mittleren Ping (100-249ms) in Hexadezimal (0xFF9900 ist Orange)");
-            pingSection.setComment("pingColorBad", "Farbe für hohen Ping (>=250ms) in Hexadezimal (0xFF0000 ist Rot)");
+            // Emoji comments
+            emojiSection.setComment("showEmojis", "Enable/disable emojis in the overlays");
 
-            // Emoji-Kommentare
-            emojiSection.setComment("showEmojis", "Aktiviert/deaktiviert die Emojis in den Overlays");
+            // Main section documentation
+            rootTable.setComment("dayCounterOverlay", "Settings for the day overlay");
+            rootTable.setComment("deathCounterList", "Settings for the death list (shows all player deaths)");
+            rootTable.setComment("deathCounterSelf", "Settings for the personal death counter");
+            rootTable.setComment("timeOverlay", "Settings for the game time display");
+            rootTable.setComment("coordsOverlay", "Settings for the coordinates display");
+            rootTable.setComment("ping", "Settings for the ping display in the tab list");
+            rootTable.setComment("emoji", "Settings for emojis in the overlays");
 
-            // Hauptdokumentation der Sektionen
-            rootTable.setComment("dayCounterOverlay", "Einstellungen für das Tag-Overlay");
-            rootTable.setComment("deathCounterList", "Einstellungen für die Todesliste (zeigt alle Spielertode)");
-            rootTable.setComment("deathCounterSelf", "Einstellungen für den persönlichen Todeszähler");
-            rootTable.setComment("timeOverlay", "Einstellungen für die Spielzeit-Anzeige");
-            rootTable.setComment("coordsOverlay", "Einstellungen für die Koordinatenanzeige");
-            rootTable.setComment("ping", "Einstellungen für die Ping-Anzeige in der Tab-Liste");
-            rootTable.setComment("emoji", "Einstellungen für Emojis in den Overlays");
-
-            // In Datei speichern
             TomlParser.writeToFile(rootTable, CONFIG_FILE);
 
         } catch (IOException e) {
-            Counter.logger.error("Fehler beim Speichern der Client-Konfiguration", e);
+            Counter.logger.error("Error saving client configuration", e);
         }
     }
 
-    // Implementierung des IClientConfig-Interfaces
     @Override
     public boolean showDayOverlay() {
         return showDayOverlay;

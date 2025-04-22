@@ -2,14 +2,7 @@ package de.bigbull.counter.fabric.config.toml;
 
 import java.io.*;
 
-/**
- * Parser für TOML-Dateien
- */
 public class TomlParser {
-
-    /**
-     * Liest eine TOML-Datei und konvertiert sie in eine TomlTable
-     */
     public static TomlTable parseFile(File file) throws IOException {
         if (!file.exists()) {
             return new TomlTable();
@@ -20,9 +13,6 @@ public class TomlParser {
         }
     }
 
-    /**
-     * Liest TOML-Inhalt und konvertiert ihn in eine TomlTable
-     */
     public static TomlTable parse(BufferedReader reader) throws IOException {
         TomlTable rootTable = new TomlTable();
         TomlTable currentTable = rootTable;
@@ -35,18 +25,15 @@ public class TomlParser {
         while ((line = reader.readLine()) != null) {
             line = line.trim();
 
-            // Leere Zeilen überspringen
             if (line.isEmpty()) {
                 continue;
             }
 
-            // Kommentare verarbeiten
             if (line.startsWith("#")) {
                 comment = line.substring(1).trim();
                 continue;
             }
 
-            // Multiline-Strings verarbeiten
             if (multilineString != null) {
                 if (line.endsWith("\"\"\"")) {
                     multilineString.append(line.substring(0, line.length() - 3));
@@ -63,12 +50,10 @@ public class TomlParser {
                 continue;
             }
 
-            // Neue Tabelle
             if (line.startsWith("[") && line.endsWith("]")) {
                 String tableName = line.substring(1, line.length() - 1).trim();
                 currentTableName = tableName;
 
-                // Verschachtelte Tabellen erstellen
                 String[] parts = tableName.split("\\.");
                 currentTable = rootTable;
 
@@ -77,13 +62,12 @@ public class TomlParser {
                         TomlTable newTable = new TomlTable();
                         currentTable.put(part, newTable);
                     } else if (!currentTable.get(part).isTable()) {
-                        throw new IOException("TOML-Fehler: " + part + " ist bereits als Wert definiert, nicht als Tabelle");
+                        throw new IOException("TOML error: " + part + " is already defined as a value, not as a table");
                     }
                     currentTable = currentTable.get(part).asTable();
                 }
 
                 if (comment != null) {
-                    // Kommentar für die Tabelle setzen
                     String lastPart = parts[parts.length - 1];
                     TomlTable parentTable = rootTable;
                     for (int i = 0; i < parts.length - 1; i++) {
@@ -96,46 +80,32 @@ public class TomlParser {
                 continue;
             }
 
-            // Key-Value-Paare
             int equalPos = line.indexOf('=');
             if (equalPos > 0) {
                 String key = line.substring(0, equalPos).trim();
                 String value = line.substring(equalPos + 1).trim();
 
-                // Multiline-String beginnt
                 if (value.startsWith("\"\"\"")) {
                     if (value.endsWith("\"\"\"") && value.length() > 6) {
-                        // Einzeiliger Multiline-String
                         String stringValue = value.substring(3, value.length() - 3);
                         currentTable.putString(key, stringValue);
                     } else {
-                        // Mehrzeiliger Multiline-String
                         multilineString = new StringBuilder(value.substring(3));
                         multilineKey = key;
                         continue;
                     }
                 }
-                // String-Wert
                 else if (value.startsWith("\"") && value.endsWith("\"")) {
                     String stringValue = value.substring(1, value.length() - 1);
                     currentTable.putString(key, stringValue);
                 }
-                // Boolean-Wert
                 else if (value.equals("true") || value.equals("false")) {
                     currentTable.putBoolean(key, Boolean.parseBoolean(value));
                 }
-                // Integer-Wert
                 else if (value.matches("-?\\d+")) {
-                    try {
-                        int intValue = Integer.parseInt(value);
-                        currentTable.putInteger(key, intValue);
-                    } catch (NumberFormatException e) {
-                        // Zu groß für Integer, als Long probieren
-                        long longValue = Long.parseLong(value);
-                        currentTable.putLong(key, longValue);
-                    }
+                    int intValue = Integer.parseInt(value);
+                    currentTable.putInteger(key, intValue);
                 }
-                // Double-Wert
                 else if (value.matches("-?\\d+\\.\\d+")) {
                     double doubleValue = Double.parseDouble(value);
                     currentTable.putDouble(key, doubleValue);
@@ -151,11 +121,7 @@ public class TomlParser {
         return rootTable;
     }
 
-    /**
-     * Schreibt eine TomlTable in eine Datei
-     */
     public static void writeToFile(TomlTable table, File file) throws IOException {
-        // Stellen sicher, dass das Verzeichnis existiert
         File parentDir = file.getParentFile();
         if (parentDir != null && !parentDir.exists()) {
             parentDir.mkdirs();

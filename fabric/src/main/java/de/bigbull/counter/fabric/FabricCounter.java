@@ -5,6 +5,7 @@ import de.bigbull.counter.common.config.ConfigHelper;
 import de.bigbull.counter.fabric.config.FabricTomlConfig;
 import de.bigbull.counter.fabric.config.TempConfig;
 import de.bigbull.counter.fabric.events.FabricGameEvents;
+import de.bigbull.counter.fabric.network.NetworkManager;
 import net.fabricmc.api.ModInitializer;
 
 public class FabricCounter implements ModInitializer {
@@ -13,14 +14,13 @@ public class FabricCounter implements ModInitializer {
         Counter.init();
         Counter.registerClientPackets(false);
 
-        // Initialisiere die TOML-Konfiguration
+        NetworkManager.init();
+
         FabricTomlConfig.initialize();
 
-        // Registriere die Konfiguration
         ConfigHelper.registerClientConfig(() -> TempConfig.CLIENT);
         ConfigHelper.registerServerConfig(() -> TempConfig.SERVER);
 
-        // Registriere die Ereignishandler
         FabricGameEvents.registerEvents();
     }
 }

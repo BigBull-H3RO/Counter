@@ -312,4 +312,89 @@ public class FabricServerConfig implements IServerConfig {
     public boolean showCoordsOverlay() {
         return showCoordsOverlay;
     }
+
+    // Day Counter
+    public void setEnabledDayCounter(boolean enabledDayCounter) {
+        this.enabledDayCounter = enabledDayCounter;
+    }
+
+    public void setShowDayOverlay(boolean showDayOverlay) {
+        this.showDayOverlay = showDayOverlay;
+    }
+
+    public void setEnableDayMessage(boolean enableDayMessage) {
+        this.enableDayMessage = enableDayMessage;
+    }
+
+    public void setShowDayInChat(boolean showDayInChat) {
+        this.showDayInChat = showDayInChat;
+    }
+
+    public void setDayChatTextColor(int dayChatTextColor) {
+        this.dayChatTextColor = dayChatTextColor;
+    }
+
+    // Death Counter
+    public void setEnableDeathCounter(boolean enableDeathCounter) {
+        this.enableDeathCounter = enableDeathCounter;
+    }
+
+    public void setShowDeathOverlay(boolean showDeathOverlay) {
+        this.showDeathOverlay = showDeathOverlay;
+    }
+
+    public void setMaxPlayersShown(int maxPlayersShown) {
+        this.maxPlayersShown = maxPlayersShown;
+    }
+
+    public void setDeathOverlayMode(DeathOverlayMode deathOverlayMode) {
+        this.deathOverlayMode = deathOverlayMode;
+    }
+
+    // Death Chat
+    public void setEnableDeathInChat(boolean enableDeathInChat) {
+        this.enableDeathInChat = enableDeathInChat;
+    }
+
+    public void setDeathInChatMode(DeathInChatMode deathInChatMode) {
+        this.deathInChatMode = deathInChatMode;
+    }
+
+    public void setDeathChatMode(DeathChatMode deathChatMode) {
+        this.deathChatMode = deathChatMode;
+    }
+
+    public void setShowDeathListOnDeathGlobal(boolean showDeathListOnDeathGlobal) {
+        this.showDeathListOnDeathGlobal = showDeathListOnDeathGlobal;
+    }
+
+    public void setDeathListChatTextColor(int deathListChatTextColor) {
+        this.deathListChatTextColor = deathListChatTextColor;
+    }
+
+    public void setDeathSelfChatTextColor(int deathSelfChatTextColor) {
+        this.deathSelfChatTextColor = deathSelfChatTextColor;
+    }
+
+    // Time Counter
+    public void setEnableTimeCounter(boolean enableTimeCounter) {
+        this.enableTimeCounter = enableTimeCounter;
+    }
+
+    public void setShowCombinedDayTime(boolean showCombinedDayTime) {
+        this.showCombinedDayTime = showCombinedDayTime;
+    }
+
+    public void setTimeFormat24h(boolean timeFormat24h) {
+        this.timeFormat24h = timeFormat24h;
+    }
+
+    // Coords Counter
+    public void setEnableCoordsCounter(boolean enableCoordsCounter) {
+        this.enableCoordsCounter = enableCoordsCounter;
+    }
+
+    public void setShowCoordsOverlay(boolean showCoordsOverlay) {
+        this.showCoordsOverlay = showCoordsOverlay;
+    }
 }

@@ -3,6 +3,7 @@ package de.bigbull.counter.util.gui;
 import de.bigbull.counter.config.ClientConfig;
 import de.bigbull.counter.config.ServerConfig;
 import de.bigbull.counter.util.CounterManager;
+import de.bigbull.counter.util.gui.OverlayUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -34,21 +35,21 @@ public class CoordsOverlay {
 
         float scale = ClientConfig.COORDS_OVERLAY_SIZE.get().floatValue();
         int textColor = ClientConfig.ensureAlphaChannel(ClientConfig.COORDS_OVERLAY_TEXT_COLOR.get());
-        int screenWidth = minecraft.getWindow().getGuiScaledWidth();
-        int screenHeight = minecraft.getWindow().getGuiScaledHeight();
-        int x = (int) Math.round(ClientConfig.COORDS_OVERLAY_X.get() * screenWidth);
-        int y = (int) Math.round(ClientConfig.COORDS_OVERLAY_Y.get() * screenHeight);
-        int maxX = screenWidth - (int) (calcCoordsWidth() * scale);
-        int maxY = screenHeight - (int) (calcCoordsHeight() * scale);
+        int width = calcCoordsWidth();
+        int height = calcCoordsHeight();
+        OverlayUtils.Position pos = OverlayUtils.computePosition(
+                ClientConfig.COORDS_OVERLAY_X.get(),
+                ClientConfig.COORDS_OVERLAY_Y.get(),
+                scale, width, height);
 
-        x = Mth.clamp(x, 0, Math.max(0, maxX));
-        y = Mth.clamp(y, 0, Math.max(0, maxY));
+        int x = pos.x();
+        int y = pos.y();
 
         String coordsText = getCoordsText(player);
 
         guiGraphics.pose().pushMatrix();
         guiGraphics.pose().scale(scale, scale);
-        guiGraphics.drawString(minecraft.font, coordsText, (int) (x / scale), (int) (y / scale), textColor);
+        guiGraphics.drawString(minecraft.font, coordsText, pos.drawX(), pos.drawY(), textColor);
         guiGraphics.pose().popMatrix();
 
         if (isEditMode) {
@@ -60,9 +61,9 @@ public class CoordsOverlay {
             guiGraphics.fill(iconX, iconY, iconX + iconSize, iconY + iconSize, iconColor);
 
             if (editScreen.getSelectedOverlay() == OverlayEditScreen.DragTarget.COORDS) {
-                CounterManager.getdrawBorder(guiGraphics, x, y, calcCoordsWidth(), calcCoordsHeight(), 0xFFFFFF00, 3);
+                CounterManager.drawBorder(guiGraphics, x, y, calcCoordsWidth(), calcCoordsHeight(), 0xFFFFFF00, 3);
             } else {
-                CounterManager.getdrawBorder(guiGraphics, x, y, calcCoordsWidth(), calcCoordsHeight(), 0xFFFF0000, 3);
+                CounterManager.drawBorder(guiGraphics, x, y, calcCoordsWidth(), calcCoordsHeight(), 0xFFFF0000, 3);
             }
         }
     }

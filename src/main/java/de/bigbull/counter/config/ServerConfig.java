@@ -24,7 +24,7 @@ public class ServerConfig {
     public static final ModConfigSpec.IntValue DEATH_LIST_CHATTEXT_COLOR;
     public static final ModConfigSpec.IntValue DEATH_SELF_CHATTEXT_COLOR;
 
-    public static final ModConfigSpec.BooleanValue ENABLE_TIME_Counter;
+    public static final ModConfigSpec.BooleanValue ENABLE_TIME_COUNTER;
     public static final ModConfigSpec.BooleanValue SHOW_TIME_OVERLAY;
     public static final ModConfigSpec.BooleanValue SHOW_COMBINED_DAY_TIME;
     public static final ModConfigSpec.BooleanValue TIME_FORMAT_24H;
@@ -85,7 +85,7 @@ public class ServerConfig {
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("Time Counter Settings");
-        ENABLE_TIME_Counter = SERVER_BUILDER.comment("If disabled, the time counter will not be tracked or displayed.")
+        ENABLE_TIME_COUNTER = SERVER_BUILDER.comment("If disabled, the time counter will not be tracked or displayed.")
                 .define("enableTimeCounter", true);
         SHOW_TIME_OVERLAY = SERVER_BUILDER.comment("Allow the time overlay to be displayed for players? (Server-side override)")
                 .define("showTimeOverlay", true);

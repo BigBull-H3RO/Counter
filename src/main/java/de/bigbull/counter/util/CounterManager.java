@@ -53,7 +53,7 @@ public class CounterManager {
         return Component.translatable(deathKey, playerDeaths).getString();
     }
 
-    public static void getdrawBorder(GuiGraphics g, int x, int y, int w, int h, int color, int borderPadding) {
+    public static void drawBorder(GuiGraphics g, int x, int y, int w, int h, int color, int borderPadding) {
         g.fill(x - borderPadding, y - borderPadding, x + w + borderPadding, y - borderPadding + 1, color);
         g.fill(x - borderPadding, y + h + borderPadding - 1, x + w + borderPadding, y + h + borderPadding, color);
         g.fill(x - borderPadding, y - borderPadding, x - borderPadding + 1, y + h + borderPadding, color);

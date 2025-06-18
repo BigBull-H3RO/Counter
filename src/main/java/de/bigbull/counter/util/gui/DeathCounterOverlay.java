@@ -167,9 +167,9 @@ public class DeathCounterOverlay {
         OverlayEditScreen editScreen = (mc.screen instanceof OverlayEditScreen) ? (OverlayEditScreen) mc.screen : null;
 
         if (editScreen != null && editScreen.getSelectedOverlay() == target) {
-            CounterManager.getdrawBorder(guiGraphics, x, y, width, height, 0xFFFFFF00, 3);
+            CounterManager.drawBorder(guiGraphics, x, y, width, height, 0xFFFFFF00, 3);
         } else {
-            CounterManager.getdrawBorder(guiGraphics, x, y, width, height, 0xFFFF0000, 3);
+            CounterManager.drawBorder(guiGraphics, x, y, width, height, 0xFFFF0000, 3);
         }
     }
 

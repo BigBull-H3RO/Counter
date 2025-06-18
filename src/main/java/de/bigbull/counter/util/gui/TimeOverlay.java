@@ -34,7 +34,7 @@ public class TimeOverlay {
         if (!showTime) return;
 
         float scale = ClientConfig.TIME_OVERLAY_SIZE.get().floatValue();
-        int textColor = ClientConfig.TIME_OVERLAY_TEXT_COLOR.get();
+        int textColor = ClientConfig.ensureAlphaChannel(ClientConfig.TIME_OVERLAY_TEXT_COLOR.get());
         int screenWidth = minecraft.getWindow().getGuiScaledWidth();
         int screenHeight = minecraft.getWindow().getGuiScaledHeight();
         int x = (int) Math.round(ClientConfig.TIME_OVERLAY_X.get() * screenWidth);
@@ -45,14 +45,14 @@ public class TimeOverlay {
         x = Mth.clamp(x, 0, Math.max(0, maxX));
         y = Mth.clamp(y, 0, Math.max(0, maxY));
 
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().scale(scale, scale, 1.0F);
+        guiGraphics.pose().pushMatrix();
+        guiGraphics.pose().scale(scale, scale);
 
         int drawX = (int) (x / scale);
         int drawY = (int) (y / scale);
 
         guiGraphics.drawString(minecraft.font, Component.literal(CounterManager.getTime()), drawX, drawY, textColor);
-        guiGraphics.pose().popPose();
+        guiGraphics.pose().popMatrix();
 
         if (isEditMode) {
             int iconColor = ClientConfig.SHOW_TIME_OVERLAY.get() ? 0xFF00FF00 : 0xFFFF0000;

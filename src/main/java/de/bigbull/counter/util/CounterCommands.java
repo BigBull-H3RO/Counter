@@ -60,7 +60,7 @@ public class CounterCommands {
                                 .requires(source -> source.hasPermission(0))
                                 .executes(context -> {
                                     ServerPlayer executingPlayer = context.getSource().getPlayerOrException();
-                                    ServerLevel level = executingPlayer.serverLevel();
+                                    ServerLevel level = executingPlayer.level();
                                     DeathCounterData data = DeathCounterData.get(level);
 
                                     int deaths = data.getDeaths(executingPlayer.getUUID());
@@ -73,7 +73,7 @@ public class CounterCommands {
                                 .then(Commands.argument("player", EntityArgument.player())
                                         .executes(context -> {
                                             ServerPlayer targetPlayer = EntityArgument.getPlayer(context, "player");
-                                            ServerLevel level = targetPlayer.serverLevel();
+                                            ServerLevel level = targetPlayer.level();
                                             DeathCounterData data = DeathCounterData.get(level);
 
                                             int deaths = data.getDeaths(targetPlayer.getUUID());

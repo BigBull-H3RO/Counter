@@ -57,6 +57,10 @@ public class ClientConfig {
         CLASSIC, BOXED, TABLE
     }
 
+    public static int ensureAlphaChannel(int color) {
+        return (color & 0xFF000000) == 0 ? color | 0xFF000000 : color;
+    }
+
     static {
         CLIENT_BUILDER.push("Day Counter Overlay Settings");
         SHOW_DAY_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the day overlay on the client side.")
@@ -69,8 +73,8 @@ public class ClientConfig {
                 .defineInRange("dayOverlayY", 0.015, 0.0, 1.0);
         DAY_OVERLAY_SIZE = CLIENT_BUILDER.comment("Scale factor for the day counter text size.")
                 .defineInRange("dayOverlaySize", 1.0, 0.1, 5.0);
-        DAY_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the day overlay text.")
-                .defineInRange("dayOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+        DAY_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the day overlay text (ARGB format).")
+                .defineInRange("dayOverlayTextColor", 0xFFFFFFFF, Integer.MIN_VALUE, Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Death Counter List Settings");
@@ -88,14 +92,14 @@ public class ClientConfig {
                 .defineEnum("deathOverlayStyle", DeathOverlayStyle.TABLE);
         DEATH_OVERLAY_WIDTH = CLIENT_BUILDER.comment("Maximum width (in pixels) for the death counter list overlay.")
                 .defineInRange("deathOverlayWidth", 120, 0, 600);
-        DEATH_LIST_TEXT_COLOR = CLIENT_BUILDER.comment("Default text color for the death list overlay.")
-                .defineInRange("deathListTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
-        FIRST_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the first place in the death list.")
-                .defineInRange("firstPlaceColor", 0xFFD700, 0x000000, 0xFFFFFF);
-        SECOND_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the second place in the death list.")
-                .defineInRange("secondPlaceColor", 0xC0C0C0, 0x000000, 0xFFFFFF);
-        THIRD_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the third place in the death list.")
-                .defineInRange("thirdPlaceColor", 0xCD7F32, 0x000000, 0xFFFFFF);
+        DEATH_LIST_TEXT_COLOR = CLIENT_BUILDER.comment("Default text color for the death list overlay (ARGB format).")
+                .defineInRange("deathListTextColor", 0xFFFFFFFF, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        FIRST_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the first place in the death list (ARGB format).")
+                .defineInRange("firstPlaceColor", 0xFFFFD700, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        SECOND_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the second place in the death list (ARGB format).")
+                .defineInRange("secondPlaceColor", 0xFFC0C0C0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        THIRD_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the third place in the death list (ARGB format).")
+                .defineInRange("thirdPlaceColor", 0xFFCD7F32, Integer.MIN_VALUE, Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Death Counter Self Settings");
@@ -109,8 +113,8 @@ public class ClientConfig {
                 .defineInRange("deathSelfY", 0.068, 0.0, 1.0);
         DEATH_SELF_SIZE = CLIENT_BUILDER.comment("Scale factor for the personal death counter text size.")
                 .defineInRange("deathSelfSize", 1, 0.1, 5);
-        DEATH_SELF_TEXT_COLOR = CLIENT_BUILDER.comment("Color for your personal death counter text.")
-                .defineInRange("deathSelfTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+        DEATH_SELF_TEXT_COLOR = CLIENT_BUILDER.comment("Color for your personal death counter text (ARGB format).")
+                .defineInRange("deathSelfTextColor", 0xFFFFFFFF, Integer.MIN_VALUE, Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Time Overlay Settings");
@@ -124,8 +128,8 @@ public class ClientConfig {
                 .defineInRange("ingameTimeOverlayY", 0.955, 0.0, 1.0);
         TIME_OVERLAY_SIZE = CLIENT_BUILDER.comment("Scale factor for the ingame time overlay text size.")
                 .defineInRange("ingameTimeOverlaySize", 1.0, 0.1, 5.0);
-        TIME_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the ingame time overlay text.")
-                .defineInRange("ingameTimeOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+        TIME_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the ingame time overlay text (ARGB format).")
+                .defineInRange("ingameTimeOverlayTextColor", 0xFFFFFFFF, Integer.MIN_VALUE, Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Coordinates Overlay Settings");
@@ -139,19 +143,19 @@ public class ClientConfig {
                 .defineInRange("coordsOverlayY", 0.905, 0.0, 1.0);
         COORDS_OVERLAY_SIZE = CLIENT_BUILDER.comment("Scale factor for the coordinates overlay text size.")
                 .defineInRange("coordsOverlaySize", 1.0, 0.1, 5.0);
-        COORDS_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the coordinates overlay text.")
-                .defineInRange("coordsOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+        COORDS_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the coordinates overlay text (ARGB format).")
+                .defineInRange("coordsOverlayTextColor", 0xFFFFFFFF, Integer.MIN_VALUE, Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Ping Settings");
         SHOW_PING_AS_TEXT = CLIENT_BUILDER.comment("Show the ping as text (e.g. '123ms') instead of the default bars in the tab list?")
                 .define("showPingAsText", true);
-        PING_COLOR_GOOD = CLIENT_BUILDER.comment("Color for low ping (<100ms).")
-                .defineInRange("pingColorGood", 0x00FF00, 0x000000, 0xFFFFFF);
-        PING_COLOR_MEDIUM = CLIENT_BUILDER.comment("Color for medium ping (100-249ms).")
-                .defineInRange("pingColorMedium", 0xFF9900, 0x000000, 0xFFFFFF);
-        PING_COLOR_BAD = CLIENT_BUILDER.comment("Color for high ping (>=250ms).")
-                .defineInRange("pingColorBad", 0xFF0000, 0x000000, 0xFFFFFF);
+        PING_COLOR_GOOD = CLIENT_BUILDER.comment("Color for low ping (<100ms) (ARGB format).")
+                .defineInRange("pingColorGood", 0xFF00FF00, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        PING_COLOR_MEDIUM = CLIENT_BUILDER.comment("Color for medium ping (100-249ms) (ARGB format).")
+                .defineInRange("pingColorMedium", 0xFFFF9900, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        PING_COLOR_BAD = CLIENT_BUILDER.comment("Color for high ping (>=250ms) (ARGB format).")
+                .defineInRange("pingColorBad", 0xFFFF0000, Integer.MIN_VALUE, Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Emote Settings");

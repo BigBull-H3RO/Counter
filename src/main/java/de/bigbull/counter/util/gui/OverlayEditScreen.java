@@ -281,5 +281,7 @@ public class OverlayEditScreen extends Screen {
     }
 
     @Override
-    protected void renderBlurredBackground() {}
+    protected void renderBlurredBackground(GuiGraphics p_420069_) {
+        // No blurred background in this screen
+    }
 }

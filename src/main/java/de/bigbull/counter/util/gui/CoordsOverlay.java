@@ -33,7 +33,7 @@ public class CoordsOverlay {
         if (!showCoords) return;
 
         float scale = ClientConfig.COORDS_OVERLAY_SIZE.get().floatValue();
-        int textColor = ClientConfig.COORDS_OVERLAY_TEXT_COLOR.get();
+        int textColor = ClientConfig.ensureAlphaChannel(ClientConfig.COORDS_OVERLAY_TEXT_COLOR.get());
         int screenWidth = minecraft.getWindow().getGuiScaledWidth();
         int screenHeight = minecraft.getWindow().getGuiScaledHeight();
         int x = (int) Math.round(ClientConfig.COORDS_OVERLAY_X.get() * screenWidth);
@@ -46,10 +46,10 @@ public class CoordsOverlay {
 
         String coordsText = getCoordsText(player);
 
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().scale(scale, scale, 1.0F);
+        guiGraphics.pose().pushMatrix();
+        guiGraphics.pose().scale(scale, scale);
         guiGraphics.drawString(minecraft.font, coordsText, (int) (x / scale), (int) (y / scale), textColor);
-        guiGraphics.pose().popPose();
+        guiGraphics.pose().popMatrix();
 
         if (isEditMode) {
             int iconColor = ClientConfig.SHOW_COORDS_OVERLAY.get() ? 0xFF00FF00 : 0xFFFF0000;

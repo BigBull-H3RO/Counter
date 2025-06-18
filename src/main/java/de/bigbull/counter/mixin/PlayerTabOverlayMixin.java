@@ -1,6 +1,5 @@
 package de.bigbull.counter.mixin;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import de.bigbull.counter.config.ClientConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -43,8 +42,8 @@ public abstract class PlayerTabOverlayMixin {
 
         ci.cancel();
 
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().translate(0, 0, 100);
+        guiGraphics.pose().pushMatrix();
+        guiGraphics.pose().translate(0, 0);
 
         int ping = playerInfo.getLatency();
         if (ping < 0) ping = 0;
@@ -66,6 +65,6 @@ public abstract class PlayerTabOverlayMixin {
 
         guiGraphics.drawString(font, Component.literal(pingText), textX, y, color);
 
-        guiGraphics.pose().popPose();
+        guiGraphics.pose().popMatrix();
     }
 }

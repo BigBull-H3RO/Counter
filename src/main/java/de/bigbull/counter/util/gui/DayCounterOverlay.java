@@ -34,7 +34,7 @@ public class DayCounterOverlay {
         if (!showDay) return;
 
         float scale = ClientConfig.DAY_OVERLAY_SIZE.get().floatValue();
-        int textColor = ClientConfig.DAY_OVERLAY_TEXT_COLOR.get();
+        int textColor = ClientConfig.ensureAlphaChannel(ClientConfig.DAY_OVERLAY_TEXT_COLOR.get());
         int screenWidth = minecraft.getWindow().getGuiScaledWidth();
         int screenHeight = minecraft.getWindow().getGuiScaledHeight();
         int x = (int) Math.round(ClientConfig.DAY_OVERLAY_X.get() * screenWidth);
@@ -45,8 +45,8 @@ public class DayCounterOverlay {
         x = Mth.clamp(x, 0, Math.max(0, maxX));
         y = Mth.clamp(y, 0, Math.max(0, maxY));
 
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().scale(scale, scale, 1.0F);
+        guiGraphics.pose().pushMatrix();
+        guiGraphics.pose().scale(scale, scale);
 
         int drawX = (int) (x / scale);
         int drawY = (int) (y / scale);
@@ -64,7 +64,7 @@ public class DayCounterOverlay {
         }
 
         guiGraphics.drawString(minecraft.font, dayString, drawX, drawY, textColor);
-        guiGraphics.pose().popPose();
+        guiGraphics.pose().popMatrix();
 
         if (isEditMode) {
             int iconColor = ClientConfig.SHOW_DAY_OVERLAY.get() ? 0xFF00FF00 : 0xFFFF0000;

@@ -59,7 +59,7 @@ public class ModGameEvents {
     @SubscribeEvent
     public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            ServerLevel level = player.serverLevel();
+            ServerLevel level = player.level();
             DeathCounterData data = DeathCounterData.get(level);
             data.updatePlayerName(player.getUUID(), player.getScoreboardName());
 
@@ -80,7 +80,7 @@ public class ModGameEvents {
     @SubscribeEvent
     public static void onPlayerDeath(LivingDeathEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            ServerLevel level = player.serverLevel();
+            ServerLevel level = player.level();
             DeathCounterData data = DeathCounterData.get(level);
             data.addDeath(player.getUUID());
 

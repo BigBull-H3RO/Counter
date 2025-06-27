@@ -210,7 +210,7 @@ public class OverlayEditScreen extends Screen {
     }
 
     private boolean hitOverlay(double mouseX, double mouseY, DragTarget target, ModConfigSpec.DoubleValue xConfig, ModConfigSpec.DoubleValue yConfig, Supplier<Integer> widthSupplier, Supplier<Integer> heightSupplier) {
-        if (isOverlayAllowedByServer(target)) {
+        if (!isOverlayAllowedByServer(target)) {
             return false;
         }
 
@@ -267,10 +267,10 @@ public class OverlayEditScreen extends Screen {
     }
 
     private boolean isOverlayAllowedByServer(DragTarget target) {
-        return !switch (target) {
+        return switch (target) {
             case DAY -> ServerConfig.SHOW_DAY_OVERLAY.get() && ServerConfig.ENABLE_DAY_COUNTER.get();
             case DEATH_LIST, DEATH_SELF -> ServerConfig.SHOW_DEATH_OVERLAY.get() && ServerConfig.ENABLE_DEATH_COUNTER.get();
-            case TIME -> ServerConfig.SHOW_TIME_OVERLAY.get() && ServerConfig.ENABLE_TIME_Counter.get();
+            case TIME -> ServerConfig.SHOW_TIME_OVERLAY.get() && ServerConfig.ENABLE_TIME_COUNTER.get();
             case COORDS -> ServerConfig.SHOW_COORDS_OVERLAY.get() && ServerConfig.ENABLE_COORDS_COUNTER.get();
             default -> false;
         };

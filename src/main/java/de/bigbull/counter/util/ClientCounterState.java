@@ -30,6 +30,16 @@ public class ClientCounterState {
     }
 
     public static String getNameFor(UUID uuid) {
-        return nameMap.getOrDefault(uuid, "Unknown");
+        String name = nameMap.get(uuid);
+        if (name != null) {
+            return name;
+        }
+        if (net.minecraft.client.Minecraft.getInstance().getConnection() != null) {
+            var info = net.minecraft.client.Minecraft.getInstance().getConnection().getPlayerInfo(uuid);
+            if (info != null) {
+                return info.getProfile().getName();
+            }
+        }
+        return "Unknown";
     }
 }

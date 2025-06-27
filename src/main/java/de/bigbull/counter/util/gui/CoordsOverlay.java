@@ -34,35 +34,32 @@ public class CoordsOverlay {
 
         float scale = ClientConfig.COORDS_OVERLAY_SIZE.get().floatValue();
         int textColor = ClientConfig.COORDS_OVERLAY_TEXT_COLOR.get();
-        int screenWidth = minecraft.getWindow().getGuiScaledWidth();
-        int screenHeight = minecraft.getWindow().getGuiScaledHeight();
-        int x = (int) Math.round(ClientConfig.COORDS_OVERLAY_X.get() * screenWidth);
-        int y = (int) Math.round(ClientConfig.COORDS_OVERLAY_Y.get() * screenHeight);
-        int maxX = screenWidth - (int) (calcCoordsWidth() * scale);
-        int maxY = screenHeight - (int) (calcCoordsHeight() * scale);
-
-        x = Mth.clamp(x, 0, Math.max(0, maxX));
-        y = Mth.clamp(y, 0, Math.max(0, maxY));
+        int width = calcCoordsWidth();
+        int height = calcCoordsHeight();
+        OverlayUtils.Position pos = OverlayUtils.computePosition(
+                ClientConfig.COORDS_OVERLAY_X.get(),
+                ClientConfig.COORDS_OVERLAY_Y.get(),
+                scale, width, height);
 
         String coordsText = getCoordsText(player);
 
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(scale, scale, 1.0F);
-        guiGraphics.drawString(minecraft.font, coordsText, (int) (x / scale), (int) (y / scale), textColor);
+        guiGraphics.drawString(minecraft.font, coordsText, pos.drawX(), pos.drawY(), textColor);
         guiGraphics.pose().popPose();
 
         if (isEditMode) {
             int iconColor = ClientConfig.SHOW_COORDS_OVERLAY.get() ? 0xFF00FF00 : 0xFFFF0000;
             int iconSize = 6;
-            int iconX = x + calcCoordsWidth() + 5;
-            int iconY = y + (calcCoordsHeight() / 2) - (iconSize / 2);
+            int iconX = pos.x() + calcCoordsWidth() + 5;
+            int iconY = pos.y() + (calcCoordsHeight() / 2) - (iconSize / 2);
 
             guiGraphics.fill(iconX, iconY, iconX + iconSize, iconY + iconSize, iconColor);
 
             if (editScreen.getSelectedOverlay() == OverlayEditScreen.DragTarget.COORDS) {
-                CounterManager.getdrawBorder(guiGraphics, x, y, calcCoordsWidth(), calcCoordsHeight(), 0xFFFFFF00, 3);
+                CounterManager.drawBorder(guiGraphics, pos.x(), pos.y(), calcCoordsWidth(), calcCoordsHeight(), 0xFFFFFF00, 3);
             } else {
-                CounterManager.getdrawBorder(guiGraphics, x, y, calcCoordsWidth(), calcCoordsHeight(), 0xFFFF0000, 3);
+                CounterManager.drawBorder(guiGraphics, pos.x(), pos.y(), calcCoordsWidth(), calcCoordsHeight(), 0xFFFF0000, 3);
             }
         }
     }

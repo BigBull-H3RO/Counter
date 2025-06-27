@@ -35,5 +35,10 @@ public class ModDeLangProvider extends LanguageProvider {
 
         add("key.counter.edit_mode", "Bearbeitungsmodus");
         add("key.categories.counter", "Zähler");
+
+        add("screen.overlay_edit", "Overlay-Bearbeitung");
+        add("screen.overlay_edit.done", "Fertig");
+        add("screen.overlay_edit.cancel", "Abbrechen");
+        add("screen.overlay_edit.toggle_overlay", "Overlay umschalten");
     }
 }

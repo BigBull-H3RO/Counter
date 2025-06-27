@@ -23,12 +23,11 @@ public class CoordsOverlay {
             return;
         }
 
-        boolean allowCoordsOverlay = ClientConfig.SHOW_COORDS_OVERLAY_ALWAYS.get() || CounterManager.isTabPressed() || isEditMode;
-        if (!allowCoordsOverlay) return;
-
-        boolean showCoords = (ClientConfig.SHOW_COORDS_OVERLAY_ALWAYS.get() && ClientConfig.SHOW_COORDS_OVERLAY.get())
-                || isEditMode
-                || (CounterManager.isTabPressed() && ClientConfig.SHOW_COORDS_OVERLAY.get());
+        boolean showCoords = OverlayUtils.shouldShowOverlay(
+                ClientConfig.SHOW_COORDS_OVERLAY_ALWAYS.get(),
+                ClientConfig.SHOW_COORDS_OVERLAY.get(),
+                isEditMode
+        );
 
         if (!showCoords) return;
 

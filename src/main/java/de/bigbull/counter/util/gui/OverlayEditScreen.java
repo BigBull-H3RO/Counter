@@ -68,7 +68,7 @@ public class OverlayEditScreen extends Screen {
         int bottomY = this.height - 80;
 
         this.addRenderableWidget(
-                Button.builder(Component.literal("Done"), b -> {
+                Button.builder(Component.translatable("screen.overlay_edit.done"), b -> {
                     doneClicked = true;
                     ClientConfig.CLIENT_SPEC.save();
                     onClose();
@@ -76,14 +76,14 @@ public class OverlayEditScreen extends Screen {
         );
 
         this.addRenderableWidget(
-                Button.builder(Component.literal("Cancel"), b -> {
+                Button.builder(Component.translatable("screen.overlay_edit.cancel"), b -> {
                     revertPositions();
                     onClose();
                 }).bounds(centerX + 10, bottomY, 100, 20).build()
         );
 
         this.addRenderableWidget(
-                Button.builder(Component.literal("Toggle Overlay"), b -> {
+                Button.builder(Component.translatable("screen.overlay_edit.toggle_overlay"), b -> {
                     toggleSelectedOverlay();
                 }).bounds(centerX - 50, bottomY - 30, 100, 20).build()
         );
@@ -238,7 +238,7 @@ public class OverlayEditScreen extends Screen {
     }
 
     public void toggleSelectedOverlay() {
-        if (isOverlayAllowedByServer(selectedOverlay)) {
+        if (!isOverlayAllowedByServer(selectedOverlay)) {
             return;
         }
 
@@ -270,7 +270,7 @@ public class OverlayEditScreen extends Screen {
         return switch (target) {
             case DAY -> ServerConfig.SHOW_DAY_OVERLAY.get() && ServerConfig.ENABLE_DAY_COUNTER.get();
             case DEATH_LIST, DEATH_SELF -> ServerConfig.SHOW_DEATH_OVERLAY.get() && ServerConfig.ENABLE_DEATH_COUNTER.get();
-            case TIME -> ServerConfig.SHOW_TIME_OVERLAY.get() && ServerConfig.ENABLE_TIME_COUNTER.get();
+            case TIME -> ServerConfig.SHOW_TIME_OVERLAY.get() && ServerConfig.ENABLE_TIME_COUNTER.get() && !ServerConfig.SHOW_COMBINED_DAY_TIME.get();
             case COORDS -> ServerConfig.SHOW_COORDS_OVERLAY.get() && ServerConfig.ENABLE_COORDS_COUNTER.get();
             default -> false;
         };

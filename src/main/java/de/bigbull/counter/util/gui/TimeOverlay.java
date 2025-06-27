@@ -18,17 +18,18 @@ public class TimeOverlay {
         if (minecraft.level == null || player == null) {
             return;
         }
+        if (ServerConfig.SHOW_COMBINED_DAY_TIME.get()) {
+            return;
+        }
         if (!ServerConfig.ENABLE_TIME_COUNTER.get() || !ServerConfig.SHOW_TIME_OVERLAY.get()) {
             return;
         }
 
-        boolean allowTimeOverlay = ClientConfig.SHOW_TIME_OVERLAY_ALWAYS.get() || CounterManager.isTabPressed() || isEditMode;
-
-        if (!allowTimeOverlay) return;
-
-        boolean showTime = (ClientConfig.SHOW_TIME_OVERLAY_ALWAYS.get() && ClientConfig.SHOW_TIME_OVERLAY.get())
-                || isEditMode
-                || (CounterManager.isTabPressed() && ClientConfig.SHOW_TIME_OVERLAY.get());
+        boolean showTime = OverlayUtils.shouldShowOverlay(
+                ClientConfig.SHOW_TIME_OVERLAY_ALWAYS.get(),
+                ClientConfig.SHOW_TIME_OVERLAY.get(),
+                isEditMode
+        );
 
         if (!showTime) return;
 

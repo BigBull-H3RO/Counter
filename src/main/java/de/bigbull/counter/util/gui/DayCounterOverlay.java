@@ -22,13 +22,11 @@ public class DayCounterOverlay {
             return;
         }
 
-        boolean allowDayOverlay = ClientConfig.SHOW_DAY_OVERLAY_ALWAYS.get() || CounterManager.isTabPressed() || isEditMode;
-
-        if (!allowDayOverlay) return;
-
-        boolean showDay = (ClientConfig.SHOW_DAY_OVERLAY_ALWAYS.get() && ClientConfig.SHOW_DAY_OVERLAY.get())
-                || isEditMode
-                || (CounterManager.isTabPressed() && ClientConfig.SHOW_DAY_OVERLAY.get());
+        boolean showDay = OverlayUtils.shouldShowOverlay(
+                ClientConfig.SHOW_DAY_OVERLAY_ALWAYS.get(),
+                ClientConfig.SHOW_DAY_OVERLAY.get(),
+                isEditMode
+        );
 
         if (!showDay) return;
 
@@ -48,10 +46,6 @@ public class DayCounterOverlay {
 
         if (ServerConfig.SHOW_COMBINED_DAY_TIME.get() && ServerConfig.ENABLE_TIME_COUNTER.get()) {
             dayString = Component.literal(CounterManager.getCombinedDayTime()).getString();
-
-            if (ServerConfig.SHOW_COMBINED_DAY_TIME.get()) {
-                ServerConfig.SHOW_TIME_OVERLAY.set(false);
-            }
         } else {
             dayString = Component.literal(CounterManager.getDay()).getString();
         }

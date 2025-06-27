@@ -1,5 +1,6 @@
 package de.bigbull.counter.util.gui;
 
+import de.bigbull.counter.util.CounterManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 
@@ -23,5 +24,14 @@ public class OverlayUtils {
         int drawY = (int) (y / scale);
 
         return new Position(x, y, drawX, drawY);
+    }
+
+    public static boolean shouldShowOverlay(boolean showAlways, boolean showEnabled, boolean isEditMode) {
+        boolean allow = showAlways || CounterManager.isTabPressed() || isEditMode;
+        if (!allow) return false;
+
+        return (showAlways && showEnabled)
+                || isEditMode
+                || (CounterManager.isTabPressed() && showEnabled);
     }
 }

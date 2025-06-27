@@ -35,5 +35,10 @@ public class ModEnLangProvider extends LanguageProvider {
 
         add("key.counter.edit_mode", "Edit Mode");
         add("key.categories.counter", "Counter");
+
+        add("screen.overlay_edit", "Overlay Edit Screen");
+        add("screen.overlay_edit.done", "Done");
+        add("screen.overlay_edit.cancel", "Cancel");
+        add("screen.overlay_edit.toggle_overlay", "Toggle Overlay");
     }
 }

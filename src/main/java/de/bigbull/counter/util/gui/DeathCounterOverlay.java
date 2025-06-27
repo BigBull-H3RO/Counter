@@ -24,12 +24,6 @@ public class DeathCounterOverlay {
         if (!ServerConfig.SHOW_DEATH_OVERLAY.get() || !ServerConfig.ENABLE_DEATH_COUNTER.get()) return;
 
         boolean isEditMode = (minecraft.screen instanceof OverlayEditScreen);
-        boolean allowListOverlay = ClientConfig.SHOW_DEATH_LIST_OVERLAY_ALWAYS.get() || CounterManager.isTabPressed() || isEditMode;
-        boolean allowSelfOverlay = ClientConfig.SHOW_DEATH_SELF_OVERLAY_ALWAYS.get() || CounterManager.isTabPressed() || isEditMode;
-
-        if (!allowListOverlay && !allowSelfOverlay) {
-            return;
-        }
 
         boolean serverWantsList = false;
         boolean serverWantsSelf = false;
@@ -46,16 +40,17 @@ public class DeathCounterOverlay {
             serverWantsSelf = true;
         }
 
-        boolean showList = (ClientConfig.SHOW_DEATH_LIST_OVERLAY_ALWAYS.get() && ClientConfig.SHOW_DEATH_LIST_OVERLAY.get())
-                || isEditMode
-                || (CounterManager.isTabPressed() && serverWantsList && ClientConfig.SHOW_DEATH_LIST_OVERLAY.get());
+        boolean finalDrawList = serverWantsList && OverlayUtils.shouldShowOverlay(
+                ClientConfig.SHOW_DEATH_LIST_OVERLAY_ALWAYS.get(),
+                ClientConfig.SHOW_DEATH_LIST_OVERLAY.get(),
+                isEditMode
+        );
 
-        boolean showSelf = (ClientConfig.SHOW_DEATH_SELF_OVERLAY_ALWAYS.get() && ClientConfig.SHOW_DEATH_SELF_OVERLAY.get())
-                || isEditMode
-                || (CounterManager.isTabPressed() && serverWantsSelf && ClientConfig.SHOW_DEATH_SELF_OVERLAY.get());
-
-        boolean finalDrawList = (serverWantsList && showList);
-        boolean finalDrawSelf = (serverWantsSelf && showSelf);
+        boolean finalDrawSelf = serverWantsSelf && OverlayUtils.shouldShowOverlay(
+                ClientConfig.SHOW_DEATH_SELF_OVERLAY_ALWAYS.get(),
+                ClientConfig.SHOW_DEATH_SELF_OVERLAY.get(),
+                isEditMode
+        );
 
         if (!finalDrawList && !finalDrawSelf) {
             return;
@@ -114,9 +109,11 @@ public class DeathCounterOverlay {
         if (ClientConfig.DEATH_OVERLAY_STYLE.get() == ClientConfig.DeathOverlayStyle.TABLE) {
             drawTableOverlay(guiGraphics, x, y, sortedDeaths, isEditMode);
         } else if (ClientConfig.DEATH_OVERLAY_STYLE.get() == ClientConfig.DeathOverlayStyle.CLASSIC) {
-            if (ClientConfig.DEATH_OVERLAY_STYLE.get() == ClientConfig.DeathOverlayStyle.BOXED) {
-                guiGraphics.fill(x - 5, y - 5, x + boxWidth + 5, y + boxHeight + 5, backgroundColor);
-            }
+            guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), x, y, defaultTextColor);
+            drawDeathEntries(guiGraphics, x, y, sortedDeaths, false);
+            drawStatusAndBorder(guiGraphics, x, y, boxWidth, boxHeight, isEditMode, OverlayEditScreen.DragTarget.DEATH_LIST);
+        } else if (ClientConfig.DEATH_OVERLAY_STYLE.get() == ClientConfig.DeathOverlayStyle.BOXED) {
+            guiGraphics.fill(x - 5, y - 5, x + boxWidth + 5, y + boxHeight + 5, backgroundColor);
             guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), x, y, defaultTextColor);
             drawDeathEntries(guiGraphics, x, y, sortedDeaths, false);
             drawStatusAndBorder(guiGraphics, x, y, boxWidth, boxHeight, isEditMode, OverlayEditScreen.DragTarget.DEATH_LIST);

@@ -87,8 +87,8 @@ public class DeathCounterOverlay {
         int color = ClientConfig.DEATH_SELF_TEXT_COLOR.get();
         int drawX = (int) (x / scale);
         int drawY = (int) (y / scale);
-        int drawWidth = (int) (calcDeathSelfWidth() * scale);
-        int drawHeight = (int) (calcDeathSelfHeight() * scale);
+        int drawWidth = calcDeathSelfWidth();
+        int drawHeight = calcDeathSelfHeight();
 
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(scale, scale, 1.0F);

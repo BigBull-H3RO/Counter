@@ -34,6 +34,12 @@ public class OverlayEditScreen extends Screen {
     private boolean oldTimeOverlayState;
     private boolean oldCoordsOverlayState;
 
+    private double oldDaySize;
+    private double oldDeathListSize;
+    private double oldDeathSelfSize;
+    private double oldTimeSize;
+    private double oldCoordsSize;
+
     public OverlayEditScreen() {
         super(Component.translatable("screen.overlay_edit"));
     }
@@ -64,6 +70,12 @@ public class OverlayEditScreen extends Screen {
         oldCoordsFracX = ClientConfig.COORDS_OVERLAY_X.get();
         oldCoordsFracY = ClientConfig.COORDS_OVERLAY_Y.get();
 
+        oldDaySize = ClientConfig.DAY_OVERLAY_SIZE.get();
+        oldDeathListSize = ClientConfig.DEATH_LIST_SIZE.get();
+        oldDeathSelfSize = ClientConfig.DEATH_SELF_SIZE.get();
+        oldTimeSize = ClientConfig.TIME_OVERLAY_SIZE.get();
+        oldCoordsSize = ClientConfig.COORDS_OVERLAY_SIZE.get();
+
         int centerX = this.width / 2;
         int bottomY = this.height - 80;
 
@@ -78,6 +90,7 @@ public class OverlayEditScreen extends Screen {
         this.addRenderableWidget(
                 Button.builder(Component.translatable("screen.overlay_edit.cancel"), b -> {
                     revertPositions();
+                    revertSizes();
                     onClose();
                 }).bounds(centerX + 10, bottomY, 100, 20).build()
         );
@@ -88,6 +101,18 @@ public class OverlayEditScreen extends Screen {
                 }).bounds(centerX - 50, bottomY - 30, 100, 20).build()
         );
 
+        this.addRenderableWidget(
+                Button.builder(Component.translatable("+"), b -> {
+                    increaseSelectedOverlaySize();
+                }).bounds(centerX - 80, bottomY - 30, 20, 20).build()
+        );
+
+        this.addRenderableWidget(
+                Button.builder(Component.translatable("-"), b -> {
+                    decreaseSelectedOverlaySize();
+                }).bounds(centerX + 60, bottomY - 30, 20, 20).build()
+        );
+
         super.init();
     }
 
@@ -96,6 +121,7 @@ public class OverlayEditScreen extends Screen {
         if (!doneClicked) {
             revertPositions();
             revertOverlayStates();
+            revertSizes();
         }
 
         Minecraft mc = Minecraft.getInstance();
@@ -124,6 +150,14 @@ public class OverlayEditScreen extends Screen {
         ClientConfig.SHOW_DEATH_SELF_OVERLAY.set(oldDeathSelfOverlayState);
         ClientConfig.SHOW_TIME_OVERLAY.set(oldTimeOverlayState);
         ClientConfig.SHOW_COORDS_OVERLAY.set(oldCoordsOverlayState);
+    }
+
+    private void revertSizes() {
+        ClientConfig.DAY_OVERLAY_SIZE.set(oldDaySize);
+        ClientConfig.DEATH_LIST_SIZE.set(oldDeathListSize);
+        ClientConfig.DEATH_SELF_SIZE.set(oldDeathSelfSize);
+        ClientConfig.TIME_OVERLAY_SIZE.set(oldTimeSize);
+        ClientConfig.COORDS_OVERLAY_SIZE.set(oldCoordsSize);
     }
 
     @Override
@@ -262,6 +296,64 @@ public class OverlayEditScreen extends Screen {
             case COORDS -> {
                 boolean newState = !ClientConfig.SHOW_COORDS_OVERLAY.get();
                 ClientConfig.SHOW_COORDS_OVERLAY.set(newState);
+            }
+        }
+    }
+
+    public void increaseSelectedOverlaySize() {
+        if (!isOverlayAllowedByServer(selectedOverlay)) {
+            return;
+        }
+
+        switch (selectedOverlay) {
+            case DAY -> {
+                double current = ClientConfig.DAY_OVERLAY_SIZE.get();
+                ClientConfig.DAY_OVERLAY_SIZE.set(Mth.clamp(current + 0.1, 0.1, 5.0));
+            }
+            case DEATH_LIST -> {
+                double current = ClientConfig.DEATH_LIST_SIZE.get();
+                ClientConfig.DEATH_LIST_SIZE.set(Mth.clamp(current + 0.1, 0.1, 5.0));
+            }
+            case DEATH_SELF -> {
+                double current = ClientConfig.DEATH_SELF_SIZE.get();
+                ClientConfig.DEATH_SELF_SIZE.set(Mth.clamp(current + 0.1, 0.1, 5.0));
+            }
+            case TIME -> {
+                double current = ClientConfig.TIME_OVERLAY_SIZE.get();
+                ClientConfig.TIME_OVERLAY_SIZE.set(Mth.clamp(current + 0.1, 0.1, 5.0));
+            }
+            case COORDS -> {
+                double current = ClientConfig.COORDS_OVERLAY_SIZE.get();
+                ClientConfig.COORDS_OVERLAY_SIZE.set(Mth.clamp(current + 0.1, 0.1, 5.0));
+            }
+        }
+    }
+
+    public void decreaseSelectedOverlaySize() {
+        if (!isOverlayAllowedByServer(selectedOverlay)) {
+            return;
+        }
+
+        switch (selectedOverlay) {
+            case DAY -> {
+                double current = ClientConfig.DAY_OVERLAY_SIZE.get();
+                ClientConfig.DAY_OVERLAY_SIZE.set(Mth.clamp(current - 0.1, 0.1, 5.0));
+            }
+            case DEATH_LIST -> {
+                double current = ClientConfig.DEATH_LIST_SIZE.get();
+                ClientConfig.DEATH_LIST_SIZE.set(Mth.clamp(current - 0.1, 0.1, 5.0));
+            }
+            case DEATH_SELF -> {
+                double current = ClientConfig.DEATH_SELF_SIZE.get();
+                ClientConfig.DEATH_SELF_SIZE.set(Mth.clamp(current - 0.1, 0.1, 5.0));
+            }
+            case TIME -> {
+                double current = ClientConfig.TIME_OVERLAY_SIZE.get();
+                ClientConfig.TIME_OVERLAY_SIZE.set(Mth.clamp(current - 0.1, 0.1, 5.0));
+            }
+            case COORDS -> {
+                double current = ClientConfig.COORDS_OVERLAY_SIZE.get();
+                ClientConfig.COORDS_OVERLAY_SIZE.set(Mth.clamp(current - 0.1, 0.1, 5.0));
             }
         }
     }

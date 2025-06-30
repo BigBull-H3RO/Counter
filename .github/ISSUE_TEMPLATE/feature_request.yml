@@ -1,5 +1,5 @@
 name: 💡 Feature Request
-description: Suggest a new feature or improvement for the Counter mod.
+description: Suggest a new feature or improvement
 labels: ["feature request", "enhancement"]
 body:
   - type: markdown
@@ -28,7 +28,7 @@ body:
   - type: textarea
     id: alternatives
     attributes:
-      label: Alternatives
+      label: Alternatives (optional)
       description: Are there alternative solutions or features that could also work? (Optional)
       placeholder: "Alternatively, you could also ..."
     validations:
@@ -37,7 +37,7 @@ body:
   - type: textarea
     id: additional_context
     attributes:
-      label: Additional Context
+      label: Additional Context (optional)
       description: Add any other context, screenshots, or examples here. (Optional)
       placeholder: "Additional information, screenshots, or examples ..."
     validations:

@@ -4,8 +4,11 @@ import de.bigbull.counter.Counter;
 import de.bigbull.counter.config.ServerConfig;
 import de.bigbull.counter.network.DayCounterPacket;
 import de.bigbull.counter.network.DeathCounterPacket;
+import de.bigbull.counter.network.SurvivalTimePacket;
+import de.bigbull.counter.util.CounterManager;
 import de.bigbull.counter.util.saveddata.DayCounterData;
 import de.bigbull.counter.util.saveddata.DeathCounterData;
+import de.bigbull.counter.util.saveddata.SurvivalTimeData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
@@ -62,9 +65,11 @@ public class ModGameEvents {
             ServerLevel level = player.serverLevel();
             DeathCounterData data = DeathCounterData.get(level);
             data.updatePlayerName(player.getUUID(), player.getScoreboardName());
+            SurvivalTimeData surv = SurvivalTimeData.get(level);
 
             PacketDistributor.sendToPlayer(player, new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
             PacketDistributor.sendToPlayer(player, new DayCounterPacket(DayCounterData.getCurrentDay(level)));
+            PacketDistributor.sendToPlayer(player, new SurvivalTimePacket(surv.getLastDeathTick(player.getUUID()), surv.getBestTime(player.getUUID())));
 
             if ((ServerConfig.SHOW_DEATH_IN_CHAT_MODE.get() == ServerConfig.DeathInChatMode.ON_JOIN ||
                     ServerConfig.SHOW_DEATH_IN_CHAT_MODE.get() == ServerConfig.DeathInChatMode.BOTH)) {
@@ -83,6 +88,20 @@ public class ModGameEvents {
             ServerLevel level = player.serverLevel();
             DeathCounterData data = DeathCounterData.get(level);
             data.addDeath(player.getUUID());
+
+            if (ServerConfig.ENABLE_SURVIVAL_COUNTER.get()) {
+                SurvivalTimeData surv = SurvivalTimeData.get(level);
+                long now = level.getGameTime();
+                long last = surv.getLastDeathTick(player.getUUID());
+                long duration = now - last;
+                surv.recordSurvival(player.getUUID(), duration, player.getScoreboardName());
+                surv.setLastDeathTick(player.getUUID(), now);
+
+                String time = CounterManager.formatSurvivalTime(duration);
+                player.sendSystemMessage(Component.translatable("overlay.counter.survival_with_emoji", time));
+
+                PacketDistributor.sendToPlayer(player, new SurvivalTimePacket(now, surv.getBestTime(player.getUUID())));
+            }
 
             PacketDistributor.sendToAllPlayers(new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
 

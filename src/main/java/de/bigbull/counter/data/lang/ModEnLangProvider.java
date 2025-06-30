@@ -30,6 +30,9 @@ public class ModEnLangProvider extends LanguageProvider {
         add("command.deathcounter.reset", "💀 Death Counter has been reset!");
         add("command.deathcounter.set", "💀 Set the death count of %s to %s!");
 
+        add("overlay.counter.survival_with_emoji", "⏳ Survived: %s");
+        add("overlay.counter.survival_no_emoji", "Survived: %s");
+
         add("command.coords.broadcast", "%s has shared their coordinates: X:%s, Y:%s, Z:%s");
         add("command.coords.player_not_found", "❌ Player not found!");
 

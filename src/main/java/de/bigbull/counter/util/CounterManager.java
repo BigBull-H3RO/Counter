@@ -3,7 +3,6 @@ package de.bigbull.counter.util;
 import de.bigbull.counter.config.ClientConfig;
 import de.bigbull.counter.config.ServerConfig;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -69,6 +68,37 @@ public class CounterManager {
 
         Component message = Component.translatable("command.coords.broadcast", sender.getScoreboardName(), x, y, z);
         sender.getServer().getPlayerList().broadcastSystemMessage(message, false);
+    }
+
+    public static String formatSurvivalTime(long ticks) {
+        boolean real = ServerConfig.SURVIVAL_USE_REAL_TIME.get();
+        long ticksPerDay = real ? 1728000L : 24000L;
+        long ticksPerHour = real ? 72000L : 1000L;
+        double ticksPerMinute = real ? 1200.0 : (1000.0 / 60.0);
+
+        long days = ticks / ticksPerDay;
+        long hours = (ticks % ticksPerDay) / ticksPerHour;
+        long minutes = Math.round(((ticks % ticksPerHour) / ticksPerMinute));
+
+        ServerConfig.SurvivalTimeFormat fmt = ServerConfig.SURVIVAL_TIME_FORMAT.get();
+        return switch (fmt) {
+            case DAYS -> days + "d";
+            case HOURS -> (ticks / ticksPerHour) + "h";
+            case MINUTES -> Math.round(ticks / ticksPerMinute) + "m";
+            case DAYS_HOURS -> {
+                StringBuilder sb = new StringBuilder();
+                if (days > 0) sb.append(days).append("d ");
+                sb.append(hours).append("h");
+                yield sb.toString().trim();
+            }
+            default -> {
+                StringBuilder sb = new StringBuilder();
+                if (days > 0) sb.append(days).append("d ");
+                if (hours > 0 || days > 0) sb.append(hours).append("h ");
+                sb.append(minutes).append("m");
+                yield sb.toString().trim();
+            }
+        };
     }
 
     public static boolean isTabPressed() {

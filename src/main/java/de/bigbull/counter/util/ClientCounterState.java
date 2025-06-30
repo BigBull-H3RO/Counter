@@ -6,6 +6,8 @@ import java.util.UUID;
 
 public class ClientCounterState {
     private static long dayCounter;
+    private static long lastDeathTick;
+    private static long bestSurvivalTime;
     private static final Map<UUID, Integer> deathCounts = new HashMap<>();
     private static final Map<UUID, String> nameMap = new HashMap<>();
 
@@ -14,6 +16,22 @@ public class ClientCounterState {
     }
     public static void setDayCounter(long val) {
         dayCounter = val;
+    }
+
+    public static long getLastDeathTick() {
+        return lastDeathTick;
+    }
+
+    public static void setLastDeathTick(long tick) {
+        lastDeathTick = tick;
+    }
+
+    public static long getBestSurvivalTime() {
+        return bestSurvivalTime;
+    }
+
+    public static void setBestSurvivalTime(long time) {
+        bestSurvivalTime = time;
     }
 
     public static Map<UUID, Integer> getDeathCounts() {

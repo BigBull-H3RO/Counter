@@ -51,6 +51,7 @@ public class Counter {
 
         registrar.playToClient(DayCounterPacket.TYPE, DayCounterPacket.CODEC, DayCounterPacket::handle);
         registrar.playToClient(DeathCounterPacket.TYPE, DeathCounterPacket.CODEC, DeathCounterPacket::handle);
+        registrar.playToClient(SurvivalTimePacket.TYPE, SurvivalTimePacket.CODEC, SurvivalTimePacket::handle);
     }
 
     @SubscribeEvent

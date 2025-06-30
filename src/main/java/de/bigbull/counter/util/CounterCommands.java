@@ -11,6 +11,7 @@ import de.bigbull.counter.network.DayCounterPacket;
 import de.bigbull.counter.network.DeathCounterPacket;
 import de.bigbull.counter.util.saveddata.DayCounterData;
 import de.bigbull.counter.util.saveddata.DeathCounterData;
+import de.bigbull.counter.util.saveddata.SurvivalTimeData;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
@@ -31,7 +32,8 @@ public class CounterCommands {
                 .then(dayCommand())
                 .then(deathCommand())
                 .then(timeCommand())
-                .then(coordsCommand()));
+                .then(coordsCommand())
+                .then(survivalCommand()));
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> dayCommand() {
@@ -165,6 +167,33 @@ public class CounterCommands {
                                         } else {
                                             sender.sendSystemMessage(Component.translatable("command.coords.player_not_found"));
                                         }
+                                    }
+                                    return Command.SINGLE_SUCCESS;
+                                })));
+    }
+
+    private static LiteralArgumentBuilder<CommandSourceStack> survivalCommand() {
+        return Commands.literal("survival")
+                .requires(src -> ServerConfig.ENABLE_SURVIVAL_COUNTER.get())
+                .then(Commands.literal("history")
+                        .executes(context -> {
+                            ServerPlayer player = context.getSource().getPlayerOrException();
+                            ServerLevel level = player.serverLevel();
+                            SurvivalTimeData data = SurvivalTimeData.get(level);
+                            for (long t : data.getHistory(player.getUUID())) {
+                                String time = CounterManager.formatSurvivalTime(t);
+                                context.getSource().sendSuccess(() -> Component.translatable("overlay.counter.survival_with_emoji", time), false);
+                            }
+                            return Command.SINGLE_SUCCESS;
+                        })
+                        .then(Commands.argument("player", EntityArgument.player())
+                                .executes(context -> {
+                                    ServerPlayer target = EntityArgument.getPlayer(context, "player");
+                                    ServerLevel level = target.serverLevel();
+                                    SurvivalTimeData data = SurvivalTimeData.get(level);
+                                    for (long t : data.getHistory(target.getUUID())) {
+                                        String time = CounterManager.formatSurvivalTime(t);
+                                        context.getSource().sendSuccess(() -> Component.translatable("overlay.counter.survival_with_emoji", time), false);
                                     }
                                     return Command.SINGLE_SUCCESS;
                                 })));

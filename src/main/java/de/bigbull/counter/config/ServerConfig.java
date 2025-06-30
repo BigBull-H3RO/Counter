@@ -29,6 +29,12 @@ public class ServerConfig {
     public static final ModConfigSpec.BooleanValue SHOW_COMBINED_DAY_TIME;
     public static final ModConfigSpec.BooleanValue TIME_FORMAT_24H;
 
+    public static final ModConfigSpec.BooleanValue ENABLE_SURVIVAL_COUNTER;
+    public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_OVERLAY;
+    public static final ModConfigSpec.BooleanValue SURVIVAL_USE_REAL_TIME;
+    public static final ModConfigSpec.EnumValue<SurvivalTimeFormat> SURVIVAL_TIME_FORMAT;
+    public static final ModConfigSpec.BooleanValue SHOW_BEST_SURVIVAL_TIME;
+
     public static final ModConfigSpec.BooleanValue ENABLE_COORDS_COUNTER;
     public static final ModConfigSpec.BooleanValue SHOW_COORDS_OVERLAY;
 
@@ -42,6 +48,10 @@ public class ServerConfig {
 
     public enum DeathChatMode {
         ONLY_SELF, LIST
+    }
+
+    public enum SurvivalTimeFormat {
+        FULL, DAYS_HOURS, DAYS, HOURS, MINUTES
     }
 
     static {
@@ -93,6 +103,19 @@ public class ServerConfig {
                 .define("showCombinedDayTime", false);
         TIME_FORMAT_24H = SERVER_BUILDER.comment("Use 24-hour format instead of 12-hour format.")
                 .define("timeFormat24h", true);
+        SERVER_BUILDER.pop();
+
+        SERVER_BUILDER.push("Survival Counter Settings");
+        ENABLE_SURVIVAL_COUNTER = SERVER_BUILDER.comment("If disabled, survival times will not be tracked.")
+                .define("enableSurvivalCounter", true);
+        SHOW_SURVIVAL_OVERLAY = SERVER_BUILDER.comment("Allow the survival overlay to be displayed?")
+                .define("showSurvivalOverlay", true);
+        SURVIVAL_USE_REAL_TIME = SERVER_BUILDER.comment("Measure survival time in real life instead of Minecraft days?")
+                .define("survivalUseRealTime", false);
+        SURVIVAL_TIME_FORMAT = SERVER_BUILDER.comment("Format used for displaying survival time.")
+                .defineEnum("survivalTimeFormat", SurvivalTimeFormat.FULL);
+        SHOW_BEST_SURVIVAL_TIME = SERVER_BUILDER.comment("Display the best survival time instead of the last one?")
+                .define("showBestSurvivalTime", false);
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("Coordinates Overlay Settings");

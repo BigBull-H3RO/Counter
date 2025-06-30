@@ -92,7 +92,7 @@ public class DeathCounterOverlay {
 
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(scale, scale, 1.0F);
-        guiGraphics.drawString(Minecraft.getInstance().font, Component.translatable(CounterManager.getDeaths(player)), drawX, drawY, color);
+        guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(getSelfOverlayString(player)), drawX, drawY, color);
         guiGraphics.pose().popPose();
 
         drawStatusAndBorder(guiGraphics, x, y, drawWidth, drawHeight, isEditMode, OverlayEditScreen.DragTarget.DEATH_SELF);
@@ -238,7 +238,7 @@ public class DeathCounterOverlay {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
         float scale = ClientConfig.DEATH_SELF_SIZE.get().floatValue();
-        int txtWidth = mc.font.width(Component.translatable(CounterManager.getDeaths(player)).getString());
+        int txtWidth = mc.font.width(getSelfOverlayString(player));
         return (int) (txtWidth * scale);
     }
 
@@ -261,5 +261,19 @@ public class DeathCounterOverlay {
 
     private static String getPlayerName(UUID uuid) {
         return ClientCounterState.getNameFor(uuid);
+    }
+
+    private static String getSelfOverlayString(LocalPlayer player) {
+        String deaths = Component.translatable(CounterManager.getDeaths(player)).getString();
+        long currentTick = player.level().getGameTime();
+        long lastTick = ClientCounterState.getLastDeathTick();
+        long survived = currentTick - lastTick;
+        long value = ServerConfig.SHOW_BEST_SURVIVAL_TIME.get()
+                ? ClientCounterState.getBestSurvivalTime()
+                : survived;
+        String time = CounterManager.formatSurvivalTime(value);
+        String key = ClientConfig.SHOW_EMOJIS.get() ? "overlay.counter.survival_with_emoji" : "overlay.counter.survival_no_emoji";
+        String surv = Component.translatable(key, time).getString();
+        return deaths + " " + surv;
     }
 }

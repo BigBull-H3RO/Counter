@@ -30,6 +30,9 @@ public class ModDeLangProvider extends LanguageProvider {
         add("command.deathcounter.reset", "💀 Todeszähler wurde zurückgesetzt!");
         add("command.deathcounter.set", "💀 Setze die Tode von %s auf %s!");
 
+        add("overlay.counter.survival_with_emoji", "⏳ Überlebt: %s");
+        add("overlay.counter.survival_no_emoji", "Überlebt: %s");
+
         add("command.coords.broadcast", "%s hat seine Koordinaten geteilt: X:%s, Y:%s, Z:%s");
         add("command.coords.player_not_found", "❌ Spieler nicht gefunden!");
 

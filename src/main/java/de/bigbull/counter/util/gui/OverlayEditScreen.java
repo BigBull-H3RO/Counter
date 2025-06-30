@@ -13,7 +13,7 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import java.util.function.Supplier;
 
 public class OverlayEditScreen extends Screen {
-    public enum DragTarget { NONE, DAY, DEATH_LIST, DEATH_SELF, TIME, COORDS }
+    public enum DragTarget { NONE, DAY, DEATH_LIST, DEATH_SELF, TIME, COORDS, SURVIVAL }
     private DragTarget selectedOverlay = DragTarget.NONE;
     private DragTarget currentDrag = DragTarget.NONE;
     private int dragOffsetX = 0, dragOffsetY = 0;
@@ -23,6 +23,7 @@ public class OverlayEditScreen extends Screen {
     private double oldSelfFracX, oldSelfFracY;
     private double oldTimeFracX, oldTimeFracY;
     private double oldCoordsFracX, oldCoordsFracY;
+    private double oldSurvivalFracX, oldSurvivalFracY;
 
     private boolean doneClicked = false;
     private double previousChatBackgroundOpacity;
@@ -33,12 +34,14 @@ public class OverlayEditScreen extends Screen {
     private boolean oldDeathSelfOverlayState;
     private boolean oldTimeOverlayState;
     private boolean oldCoordsOverlayState;
+    private boolean oldSurvivalOverlayState;
 
     private double oldDaySize;
     private double oldDeathListSize;
     private double oldDeathSelfSize;
     private double oldTimeSize;
     private double oldCoordsSize;
+    private double oldSurvivalSize;
 
     public OverlayEditScreen() {
         super(Component.translatable("screen.overlay_edit"));
@@ -58,6 +61,7 @@ public class OverlayEditScreen extends Screen {
         oldDeathSelfOverlayState = ClientConfig.SHOW_DEATH_SELF_OVERLAY.get();
         oldTimeOverlayState = ClientConfig.SHOW_TIME_OVERLAY.get();
         oldCoordsOverlayState = ClientConfig.SHOW_COORDS_OVERLAY.get();
+        oldSurvivalOverlayState = ClientConfig.SHOW_SURVIVAL_OVERLAY.get();
 
         oldDayFracX = ClientConfig.DAY_OVERLAY_X.get();
         oldDayFracY = ClientConfig.DAY_OVERLAY_Y.get();
@@ -69,12 +73,14 @@ public class OverlayEditScreen extends Screen {
         oldTimeFracY = ClientConfig.TIME_OVERLAY_Y.get();
         oldCoordsFracX = ClientConfig.COORDS_OVERLAY_X.get();
         oldCoordsFracY = ClientConfig.COORDS_OVERLAY_Y.get();
+        oldSurvivalFracX = ClientConfig.SURVIVAL_OVERLAY_X.get();
 
         oldDaySize = ClientConfig.DAY_OVERLAY_SIZE.get();
         oldDeathListSize = ClientConfig.DEATH_LIST_SIZE.get();
         oldDeathSelfSize = ClientConfig.DEATH_SELF_SIZE.get();
         oldTimeSize = ClientConfig.TIME_OVERLAY_SIZE.get();
         oldCoordsSize = ClientConfig.COORDS_OVERLAY_SIZE.get();
+        oldSurvivalSize = ClientConfig.SURVIVAL_OVERLAY_SIZE.get();
 
         int centerX = this.width / 2;
         int bottomY = this.height - 80;
@@ -142,6 +148,8 @@ public class OverlayEditScreen extends Screen {
         ClientConfig.TIME_OVERLAY_Y.set(oldTimeFracY);
         ClientConfig.COORDS_OVERLAY_X.set(oldCoordsFracX);
         ClientConfig.COORDS_OVERLAY_Y.set(oldCoordsFracY);
+        ClientConfig.SURVIVAL_OVERLAY_X.set(oldSurvivalFracX);
+        ClientConfig.SURVIVAL_OVERLAY_Y.set(oldSurvivalFracY);
     }
 
     private void revertOverlayStates() {
@@ -150,6 +158,7 @@ public class OverlayEditScreen extends Screen {
         ClientConfig.SHOW_DEATH_SELF_OVERLAY.set(oldDeathSelfOverlayState);
         ClientConfig.SHOW_TIME_OVERLAY.set(oldTimeOverlayState);
         ClientConfig.SHOW_COORDS_OVERLAY.set(oldCoordsOverlayState);
+        ClientConfig.SHOW_SURVIVAL_OVERLAY.set(oldSurvivalOverlayState);
     }
 
     private void revertSizes() {
@@ -158,6 +167,7 @@ public class OverlayEditScreen extends Screen {
         ClientConfig.DEATH_SELF_SIZE.set(oldDeathSelfSize);
         ClientConfig.TIME_OVERLAY_SIZE.set(oldTimeSize);
         ClientConfig.COORDS_OVERLAY_SIZE.set(oldCoordsSize);
+        ClientConfig.SURVIVAL_OVERLAY_SIZE.set(oldSurvivalSize);
     }
 
     @Override
@@ -166,6 +176,7 @@ public class OverlayEditScreen extends Screen {
 
         DayCounterOverlay.render(guiGraphics);
         DeathCounterOverlay.render(guiGraphics);
+        SurvivalTimeOverlay.render(guiGraphics);
         TimeOverlay.render(guiGraphics);
         CoordsOverlay.render(guiGraphics);
     }
@@ -208,6 +219,13 @@ public class OverlayEditScreen extends Screen {
                 currentDrag = DragTarget.COORDS;
                 return true;
             }
+            if (hitOverlay(mouseX, mouseY, DragTarget.SURVIVAL,
+                    ClientConfig.SURVIVAL_OVERLAY_X, ClientConfig.SURVIVAL_OVERLAY_Y,
+                    SurvivalTimeOverlay::calcWidth, SurvivalTimeOverlay::calcHeight)) {
+                selectedOverlay = DragTarget.SURVIVAL;
+                currentDrag = DragTarget.SURVIVAL;
+                return true;
+            }
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }
@@ -228,6 +246,8 @@ public class OverlayEditScreen extends Screen {
                 updateOverlayPosition(newPx, newPy, TimeOverlay::calcTimeWidth, TimeOverlay::calcTimeHeight, ClientConfig.TIME_OVERLAY_X, ClientConfig.TIME_OVERLAY_Y);
             } else if (currentDrag == DragTarget.COORDS) {
                 updateOverlayPosition(newPx, newPy, CoordsOverlay::calcCoordsWidth, CoordsOverlay::calcCoordsHeight, ClientConfig.COORDS_OVERLAY_X, ClientConfig.COORDS_OVERLAY_Y);
+            } else if (currentDrag == DragTarget.SURVIVAL) {
+                updateOverlayPosition(newPx, newPy, SurvivalTimeOverlay::calcWidth, SurvivalTimeOverlay::calcHeight, ClientConfig.SURVIVAL_OVERLAY_X, ClientConfig.SURVIVAL_OVERLAY_Y);
             }
             return true;
         }
@@ -309,6 +329,10 @@ public class OverlayEditScreen extends Screen {
                 boolean newState = !ClientConfig.SHOW_COORDS_OVERLAY.get();
                 ClientConfig.SHOW_COORDS_OVERLAY.set(newState);
             }
+            case SURVIVAL -> {
+                boolean newState = !ClientConfig.SHOW_SURVIVAL_OVERLAY.get();
+                ClientConfig.SHOW_SURVIVAL_OVERLAY.set(newState);
+            }
         }
     }
 
@@ -337,6 +361,10 @@ public class OverlayEditScreen extends Screen {
             case COORDS -> {
                 double current = ClientConfig.COORDS_OVERLAY_SIZE.get();
                 ClientConfig.COORDS_OVERLAY_SIZE.set(Mth.clamp(current + 0.1, 0.1, 5.0));
+            }
+            case SURVIVAL -> {
+                double current = ClientConfig.SURVIVAL_OVERLAY_SIZE.get();
+                ClientConfig.SURVIVAL_OVERLAY_SIZE.set(Mth.clamp(current + 0.1, 0.1, 5.0));
             }
         }
     }
@@ -367,6 +395,10 @@ public class OverlayEditScreen extends Screen {
                 double current = ClientConfig.COORDS_OVERLAY_SIZE.get();
                 ClientConfig.COORDS_OVERLAY_SIZE.set(Mth.clamp(current - 0.1, 0.1, 5.0));
             }
+            case SURVIVAL -> {
+                double current = ClientConfig.SURVIVAL_OVERLAY_SIZE.get();
+                ClientConfig.SURVIVAL_OVERLAY_SIZE.set(Mth.clamp(current - 0.1, 0.1, 5.0));
+            }
         }
     }
 
@@ -376,6 +408,7 @@ public class OverlayEditScreen extends Screen {
             case DEATH_LIST, DEATH_SELF -> ServerConfig.SHOW_DEATH_OVERLAY.get() && ServerConfig.ENABLE_DEATH_COUNTER.get();
             case TIME -> ServerConfig.SHOW_TIME_OVERLAY.get() && ServerConfig.ENABLE_TIME_COUNTER.get() && !ServerConfig.SHOW_COMBINED_DAY_TIME.get();
             case COORDS -> ServerConfig.SHOW_COORDS_OVERLAY.get() && ServerConfig.ENABLE_COORDS_COUNTER.get();
+            case SURVIVAL -> ServerConfig.SHOW_SURVIVAL_OVERLAY.get() && ServerConfig.ENABLE_SURVIVAL_COUNTER.get();
             default -> false;
         };
     }

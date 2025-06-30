@@ -39,6 +39,13 @@ public class ClientConfig {
     public static final ModConfigSpec.DoubleValue TIME_OVERLAY_SIZE;
     public static final ModConfigSpec.IntValue TIME_OVERLAY_TEXT_COLOR;
 
+    public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_OVERLAY;
+    public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_OVERLAY_ALWAYS;
+    public static final ModConfigSpec.DoubleValue SURVIVAL_OVERLAY_X;
+    public static final ModConfigSpec.DoubleValue SURVIVAL_OVERLAY_Y;
+    public static final ModConfigSpec.DoubleValue SURVIVAL_OVERLAY_SIZE;
+    public static final ModConfigSpec.IntValue SURVIVAL_OVERLAY_TEXT_COLOR;
+
     public static final ModConfigSpec.BooleanValue SHOW_COORDS_OVERLAY;
     public static final ModConfigSpec.BooleanValue SHOW_COORDS_OVERLAY_ALWAYS;
     public static final ModConfigSpec.DoubleValue COORDS_OVERLAY_X;
@@ -126,6 +133,21 @@ public class ClientConfig {
                 .defineInRange("ingameTimeOverlaySize", 1.0, 0.1, 5.0);
         TIME_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the ingame time overlay text.")
                 .defineInRange("ingameTimeOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+        CLIENT_BUILDER.pop();
+
+        CLIENT_BUILDER.push("Survival Counter Overlay Settings");
+        SHOW_SURVIVAL_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the survival time overlay.")
+                .define("showSurvivalOverlay", false);
+        SHOW_SURVIVAL_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the survival overlay always be visible?")
+                .define("showSurvivalOverlayAlways", false);
+        SURVIVAL_OVERLAY_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right).")
+                .defineInRange("survivalOverlayX", 0.00625, 0.0, 1.0);
+        SURVIVAL_OVERLAY_Y = CLIENT_BUILDER.comment("Relative Y position (0.0 = top, 1.0 = bottom).")
+                .defineInRange("survivalOverlayY", 0.115, 0.0, 1.0);
+        SURVIVAL_OVERLAY_SIZE = CLIENT_BUILDER.comment("Scale factor for the survival overlay text size.")
+                .defineInRange("survivalOverlaySize", 1.0, 0.1, 5.0);
+        SURVIVAL_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the survival overlay text.")
+                .defineInRange("survivalOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Coordinates Overlay Settings");

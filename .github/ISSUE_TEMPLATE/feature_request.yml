@@ -1,6 +1,5 @@
-name: Feature Request
+name: 💡 Feature Request
 description: Suggest a new feature or improvement for the Counter mod.
-title: "[Feature Request]: "
 labels: ["feature request", "enhancement"]
 body:
   - type: markdown

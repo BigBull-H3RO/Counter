@@ -253,10 +253,22 @@ public class OverlayEditScreen extends Screen {
         int w = widthSupplier.get();
         int h = heightSupplier.get();
 
-        if (mouseX >= px && mouseX <= px + w && mouseY >= py && mouseY <= py + h) {
+        double scale = switch (target) {
+            case DAY -> ClientConfig.DAY_OVERLAY_SIZE.get();
+            case DEATH_LIST -> ClientConfig.DEATH_LIST_SIZE.get();
+            case DEATH_SELF -> ClientConfig.DEATH_SELF_SIZE.get();
+            case TIME -> ClientConfig.TIME_OVERLAY_SIZE.get();
+            case COORDS -> ClientConfig.COORDS_OVERLAY_SIZE.get();
+            default -> 1.0;
+        };
+
+        int padding = Math.max(1, (int) Math.ceil(3 * scale));
+
+        if (mouseX >= px - padding && mouseX <= px + w + padding
+                && mouseY >= py - padding && mouseY <= py + h + padding) {
             currentDrag = target;
-            dragOffsetX = (int) (mouseX - px);
-            dragOffsetY = (int) (mouseY - py);
+            dragOffsetX = (int) Mth.clamp(mouseX - px, 0, w);
+            dragOffsetY = (int) Mth.clamp(mouseY - py, 0, h);
             return true;
         }
         return false;

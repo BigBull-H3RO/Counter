@@ -55,16 +55,13 @@ public class DayCounterOverlay {
 
         if (isEditMode) {
             int iconColor = ClientConfig.SHOW_DAY_OVERLAY.get() ? 0xFF00FF00 : 0xFFFF0000;
-            int iconSize = 6;
-            int iconX = pos.x() + calcDayWidth() + 5;
-            int iconY = pos.y() + (calcDayHeight() / 2) - (iconSize / 2);
 
-            guiGraphics.fill(iconX, iconY, iconX + iconSize, iconY + iconSize, iconColor);
+            OverlayUtils.drawCornerIcons(guiGraphics, pos.x(), pos.y(), width, height, iconColor);
 
             if (editScreen.getSelectedOverlay() == OverlayEditScreen.DragTarget.DAY) {
-                CounterManager.drawBorder(guiGraphics, pos.x(), pos.y(), calcDayWidth(), calcDayHeight(), 0xFFFFFF00, 3);
+                OverlayUtils.drawBorder(guiGraphics, pos.x(), pos.y(), calcDayWidth(), calcDayHeight(), 0xFFFFFF00, 3);
             } else {
-                CounterManager.drawBorder(guiGraphics, pos.x(), pos.y(), calcDayWidth(), calcDayHeight(), 0xFFFF0000, 3);
+                OverlayUtils.drawBorder(guiGraphics, pos.x(), pos.y(), calcDayWidth(), calcDayHeight(), 0xFFFF0000, 3);
             }
         }
     }

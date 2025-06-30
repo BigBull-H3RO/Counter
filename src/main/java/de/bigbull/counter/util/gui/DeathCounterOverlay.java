@@ -155,18 +155,15 @@ public class DeathCounterOverlay {
         };
 
         int iconColor = isEnabled ? 0xFF00FF00 : 0xFFFF0000;
-        int iconSize = 6;
-        int iconX = x + width + 5;
-        int iconY = y + (height / 2) - (iconSize / 2);
 
-        guiGraphics.fill(iconX, iconY, iconX + iconSize, iconY + iconSize, iconColor);
+        OverlayUtils.drawCornerIcons(guiGraphics, x, y, width, height, iconColor);
 
         OverlayEditScreen editScreen = (mc.screen instanceof OverlayEditScreen) ? (OverlayEditScreen) mc.screen : null;
 
         if (editScreen != null && editScreen.getSelectedOverlay() == target) {
-            CounterManager.drawBorder(guiGraphics, x, y, width, height, 0xFFFFFF00, 3);
+            OverlayUtils.drawBorder(guiGraphics, x, y, width, height, 0xFFFFFF00, 3);
         } else {
-            CounterManager.drawBorder(guiGraphics, x, y, width, height, 0xFFFF0000, 3);
+            OverlayUtils.drawBorder(guiGraphics, x, y, width, height, 0xFFFF0000, 3);
         }
     }
 

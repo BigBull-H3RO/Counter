@@ -1,13 +1,18 @@
 <p align="center"><img src="./.idea/icon.png" alt="Logo" width="250"></p>
 
-<h1 align="center">Counter  <br>
-	<a href="https://www.curseforge.com/minecraft/mc-mods/counter-day-death/files"><img src="https://cf.way2muchnoise.eu/versions/1214103(0280ff).svg?cachebuster=1" alt="Supported Versions"></a>
-	<a href="https://github.com/BigBull-H3RO/Counter/blob/main/LICENSE"><img src="https://img.shields.io/github/license/BigBull-H3RO/Counter?style=flat&color=0280ff" alt="License"></a>
-	<a href="https://www.curseforge.com/minecraft/mc-mods/counter-day-death"><img src="https://cf.way2muchnoise.eu/1214103.svg?" alt="CurseForge"></a>
-	<a href="https://modrinth.com/mod/counter-neoforge"><img src="https://img.shields.io/modrinth/dt/u43pMIKj?logo=modrinth&label=&suffix=%20&style=flat&color=242629&labelColor=5ca424&logoColor=1c1c1c" alt="Modrinth"></a>
-	<a href="https://www.curseforge.com/minecraft/mc-mods/counter-day-death/files/all?page=1&pageSize=20"><img src="https://img.shields.io/curseforge/v/1214103?logo=adguard&label=&suffix=%20&style=flat&color=1c1c1c&labelColor=121212&logoColor=5ca424" alt="Version"></a>
-    <br><br>
-</h1>
+<div align="center">
+
+# Counter
+
+</div>
+
+<p align="center">
+<a href="https://www.curseforge.com/minecraft/mc-mods/counter-day-death/files"><img src="https://cf.way2muchnoise.eu/versions/1214103(0280ff).svg?cachebuster=1" alt="Supported Versions"></a>
+<a href="https://github.com/BigBull-H3RO/Counter/blob/main/LICENSE"><img src="https://img.shields.io/github/license/BigBull-H3RO/Counter?style=flat&color=0280ff" alt="License"></a>
+<a href="https://www.curseforge.com/minecraft/mc-mods/counter-day-death"><img src="https://cf.way2muchnoise.eu/1214103.svg?" alt="CurseForge"></a>
+<a href="https://modrinth.com/mod/counter-neoforge"><img src="https://img.shields.io/modrinth/dt/u43pMIKj?logo=modrinth&label=&suffix=%20&style=flat&color=242629&labelColor=5ca424&logoColor=1c1c1c" alt="Modrinth"></a>
+<a href="https://www.curseforge.com/minecraft/mc-mods/counter-day-death/files/all?page=1&pageSize=20"><img src="https://img.shields.io/curseforge/v/1214103?logo=adguard&label=&suffix=%20&style=flat&color=1c1c1c&labelColor=121212&logoColor=5ca424" alt="Version"></a>
+</p>
 
 The **Counter Mod** introduces **Day** and **Death Counters** to your Minecraft experience, allowing players to track world progression and maintain an organized record of their own (or others') deaths.
 
@@ -93,6 +98,15 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `deathSelfSize`         | `1`        | Scale factor for the **personal death counter** text size.            |
 | `deathSelfTextColor`    | `0xFF0000` | Color for your **personal death counter** text.                       |
 
+#### 🛡️Survival Counter Settings
+| Option                  | Default | Description                                                                                                                  |
+|-------------------------|---------|------------------------------------------------------------------------------------------------------------------------------|
+| `enableSurvivalCounter` | `true`  | Enables or disables the **Survival Counter** feature on the server.                                                          |
+| `showSurvivalOverlay`   | `true`  | Allows the **Survival Counter overlay** to be shown (client can toggle).                                                     |
+| `survivalUseRealTime`   | `false` | Measure survival time in real-world time instead of Minecraft days.                                                          |
+| `survivalTimeFormat`    | `FULL`  | Display format for survival time: **`FULL`**, **`DAYS_HOURS`**, **`HOURS_MINUTES`**, **`DAYS`**, **`HOURS`**, **`MINUTES`**. |
+| `showBestSurvivalTime`  | `false` | Show the best survival time instead of the most recent one.                                                                  |
+
 #### ⏰Time Counter Settings
 | Option                  | Default    | Description                                                        |
 |-------------------------|------------|--------------------------------------------------------------------|
@@ -102,15 +116,6 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `timeOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the time overlay. |
 | `timeOverlaySize`       | `1.0`      | Scale factor for the time counter text size.                       |
 | `timeOverlayTextColor`  | `0xFFFFFF` | Color for the **time counter overlay** text.                       |
-
-#### 🛡️Survival Counter Settings
-| Option                  | Default | Description                                                                                             |
-|-------------------------|---------|---------------------------------------------------------------------------------------------------------|
-| `enableSurvivalCounter` | `true`  | Enables or disables the **Survival Counter** feature on the server.                                     |
-| `showSurvivalOverlay`   | `true`  | Allows the **Survival Counter overlay** to be shown (client can toggle).                                |
-| `survivalUseRealTime`   | `false` | Measure survival time in real-world time instead of Minecraft days.                                     |
-| `survivalTimeFormat`    | `FULL`  | Display format for survival time: **`FULL`**, **`DAYS_HOURS`**, **`DAYS`**, **`HOURS`**, **`MINUTES`**. |
-| `showBestSurvivalTime`  | `false` | Show the best survival time instead of the most recent one.                                             |
 
 #### ⏰Coords Counter Settings
 | Option                    | Default    | Description                                                          |
@@ -166,6 +171,23 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `deathListChatTextColor`     | `0xFFFFFF` | Text color for **death counter messages** in chat.                                                       |
 | `deathSelfChatTextColor`     | `0xFFFFFF` | Text color for **personal death messages** in chat.                                                      |
 
+#### 🛡️Survival Counter Settings
+| Option                             | Default | Description |
+|------------------------------------|---------|-------------|
+| `enableSurvivalCounter`            | `true`  | Enables or disables the **Survival Counter** feature on the server. |
+| `showSurvivalOverlay`              | `true`  | Allows the **Survival Counter overlay** to be shown (client can toggle). |
+| `survivalUseRealTime`              | `false` | Measure survival time in real-world time instead of Minecraft days. |
+| `survivalTimeFormat`               | `FULL`  | Display format for survival time: **`FULL`**, **`DAYS_HOURS`**, **`DAYS`**, **`HOURS`**, **`MINUTES`**. |
+| `showBestSurvivalTime`             | `false` | Show the best survival time instead of the most recent one. |
+| `showBestSurvivalInDeathCounter`   | `false` | Append the best survival time to the death counter. |
+| `survivalHistorySize`              | `10`    | Maximum number of survival history entries stored per player. |
+
+#### 🛡️Survival Counter Chat Settings
+| Option                     | Default | Description |
+|----------------------------|---------|-------------|
+| `showSurvivalInChat`       | `false` | Send a chat message with the survival time when a player dies. |
+| `showSurvivalInChatGlobal` | `false` | Broadcast the survival time message to all players. |
+
 #### ⏰Time Counter Settings
 | Option                | Default | Description                                                                                          |
 |-----------------------|---------|------------------------------------------------------------------------------------------------------|
@@ -210,15 +232,11 @@ With this intuitive editor, you can easily configure the **Day Counter** and **D
 
 ---
 
-## **📌 Planned Features**
-🔹 **Compass for Navigation**
-- A **compass overlay** displaying the player's **facing direction** (`North, South, East, West`).
-- Optional **marker function** for tracking important locations.
+<div align="center">
 
----
+#### 📢 **Found a bug? Have a suggestion?**
 
-<h4 align="center">📢 **Found a bug? Have a suggestion?**<br>
+Report issues to the [Issue Tracker](https://github.com/BigBull-H3RO/Counter/issues)
 
-Report issues to the <a href="https://github.com/BigBull-H3RO/Counter/issues">Issue Tracker</a></h4>
-
-<h4 align="center">💡 Find out more about Counter on our <a href="https://www.curseforge.com/minecraft/mc-mods/counter-neoforge">Curseforge</a> or <a href="https://modrinth.com/mod/counter">Modrinth</a> Page</h4>
+#### 💡 Find out more about Counter on our [Curseforge](https://www.curseforge.com/minecraft/mc-mods/counter-neoforge) or [Modrinth](https://modrinth.com/mod/counter) Page
+</div>

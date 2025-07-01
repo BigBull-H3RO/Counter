@@ -91,6 +91,12 @@ public class CounterManager {
                 sb.append(hours).append("h");
                 yield sb.toString().trim();
             }
+            case HOURS_MINUTES -> {
+                StringBuilder sb = new StringBuilder();
+                sb.append(hours).append("h ");
+                sb.append(minutes).append("m");
+                yield sb.toString().trim();
+            }
             default -> {
                 StringBuilder sb = new StringBuilder();
                 if (days > 0) sb.append(days).append("d ");

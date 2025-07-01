@@ -36,8 +36,10 @@ public class ModDeLangProvider extends LanguageProvider {
         add("overlay.counter.best_survival_no_emoji", "Beste: %s");
         add("command.survival.global_best", "⏳ %s hält die beste Zeit: %s");
 
-        add("chat.survivalcounter.personal", "⏳ Überlebt: %s (%s)");
-        add("chat.survivalcounter.broadcast", "⏳ %s hat %s lang überlebt (%s)");
+        add("chat.survivalcounter.personal", "⏳ Überlebt: %s");
+        add("chat.survivalcounter.personal.best", "⏳ Überlebt: %s (%s)");
+        add("chat.survivalcounter.broadcast", "⏳ %s hat %s lang überlebt");
+        add("chat.survivalcounter.broadcast.best", "⏳ %s hat %s lang überlebt (%s)");
 
         add("command.coords.broadcast", "%s hat seine Koordinaten geteilt: X:%s, Y:%s, Z:%s");
         add("command.coords.player_not_found", "❌ Spieler nicht gefunden!");

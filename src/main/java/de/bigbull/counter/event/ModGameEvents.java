@@ -106,9 +106,16 @@ public class ModGameEvents {
                 String bestStr = CounterManager.formatSurvivalTime(best);
 
                 if (ServerConfig.SHOW_SURVIVAL_IN_CHAT.get()) {
+                    boolean withBest = ServerConfig.SHOW_BEST_SURVIVAL_IN_CHAT.get();
+                    String personalKey = withBest ? "chat.survivalcounter.personal.best" : "chat.survivalcounter.personal";
+                    String broadcastKey = withBest ? "chat.survivalcounter.broadcast.best" : "chat.survivalcounter.broadcast";
                     Component msg = ServerConfig.SHOW_SURVIVAL_IN_CHAT_GLOBAL.get()
-                            ? Component.translatable("chat.survivalcounter.broadcast", player.getScoreboardName(), time, bestStr)
-                            : Component.translatable("chat.survivalcounter.personal", time, bestStr);
+                            ? withBest
+                            ? Component.translatable(broadcastKey, player.getScoreboardName(), time, bestStr)
+                            : Component.translatable(broadcastKey, player.getScoreboardName(), time)
+                            : withBest
+                            ? Component.translatable(personalKey, time, bestStr)
+                            : Component.translatable(personalKey, time);
                     if (ServerConfig.SHOW_SURVIVAL_IN_CHAT_GLOBAL.get()) {
                         level.getServer().getPlayerList().broadcastSystemMessage(msg, false);
                     } else {

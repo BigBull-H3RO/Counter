@@ -24,11 +24,6 @@ public class ServerConfig {
     public static final ModConfigSpec.IntValue DEATH_LIST_CHATTEXT_COLOR;
     public static final ModConfigSpec.IntValue DEATH_SELF_CHATTEXT_COLOR;
 
-    public static final ModConfigSpec.BooleanValue ENABLE_TIME_COUNTER;
-    public static final ModConfigSpec.BooleanValue SHOW_TIME_OVERLAY;
-    public static final ModConfigSpec.BooleanValue SHOW_COMBINED_DAY_TIME;
-    public static final ModConfigSpec.BooleanValue TIME_FORMAT_24H;
-
     public static final ModConfigSpec.BooleanValue ENABLE_SURVIVAL_COUNTER;
     public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_OVERLAY;
     public static final ModConfigSpec.BooleanValue SURVIVAL_USE_REAL_TIME;
@@ -36,8 +31,15 @@ public class ServerConfig {
     public static final ModConfigSpec.BooleanValue SHOW_BEST_SURVIVAL_TIME;
     public static final ModConfigSpec.BooleanValue SHOW_BEST_SURVIVAL_IN_DEATH_COUNTER;
     public static final ModConfigSpec.IntValue SURVIVAL_HISTORY_SIZE;
+
+    public static final ModConfigSpec.BooleanValue ENABLE_TIME_COUNTER;
+    public static final ModConfigSpec.BooleanValue SHOW_TIME_OVERLAY;
+    public static final ModConfigSpec.BooleanValue SHOW_COMBINED_DAY_TIME;
+    public static final ModConfigSpec.BooleanValue TIME_FORMAT_24H;
+
     public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_IN_CHAT;
     public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_IN_CHAT_GLOBAL;
+    public static final ModConfigSpec.BooleanValue SHOW_BEST_SURVIVAL_IN_CHAT;
 
     public static final ModConfigSpec.BooleanValue ENABLE_COORDS_COUNTER;
     public static final ModConfigSpec.BooleanValue SHOW_COORDS_OVERLAY;
@@ -55,7 +57,7 @@ public class ServerConfig {
     }
 
     public enum SurvivalTimeFormat {
-        FULL, DAYS_HOURS, DAYS, HOURS, MINUTES
+        FULL, DAYS_HOURS, HOURS_MINUTES, DAYS, HOURS, MINUTES
     }
 
     static {
@@ -98,17 +100,6 @@ public class ServerConfig {
                 .defineInRange("deathSelfChatTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
         SERVER_BUILDER.pop();
 
-        SERVER_BUILDER.push("Time Counter Settings");
-        ENABLE_TIME_COUNTER = SERVER_BUILDER.comment("If disabled, the time counter will not be tracked or displayed.")
-                .define("enableTimeCounter", true);
-        SHOW_TIME_OVERLAY = SERVER_BUILDER.comment("Allow the time overlay to be displayed for players? (Server-side override)")
-                .define("showTimeOverlay", true);
-        SHOW_COMBINED_DAY_TIME = SERVER_BUILDER.comment("Show the day count combined with the inGame time. Disables the standard Time Overlay.")
-                .define("showCombinedDayTime", false);
-        TIME_FORMAT_24H = SERVER_BUILDER.comment("Use 24-hour format instead of 12-hour format.")
-                .define("timeFormat24h", true);
-        SERVER_BUILDER.pop();
-
         SERVER_BUILDER.push("Survival Counter Settings");
         ENABLE_SURVIVAL_COUNTER = SERVER_BUILDER.comment("If disabled, survival times will not be tracked.")
                 .define("enableSurvivalCounter", true);
@@ -131,6 +122,19 @@ public class ServerConfig {
                 .define("showSurvivalInChat", false);
         SHOW_SURVIVAL_IN_CHAT_GLOBAL = SERVER_BUILDER.comment("Broadcast the survival time message to all players?")
                 .define("showSurvivalInChatGlobal", false);
+        SHOW_BEST_SURVIVAL_IN_CHAT = SERVER_BUILDER.comment("Include the best survival time in parentheses after the survival time?")
+                .define("showBestSurvivalInChat", false);
+        SERVER_BUILDER.pop();
+
+        SERVER_BUILDER.push("Time Counter Settings");
+        ENABLE_TIME_COUNTER = SERVER_BUILDER.comment("If disabled, the time counter will not be tracked or displayed.")
+                .define("enableTimeCounter", true);
+        SHOW_TIME_OVERLAY = SERVER_BUILDER.comment("Allow the time overlay to be displayed for players? (Server-side override)")
+                .define("showTimeOverlay", true);
+        SHOW_COMBINED_DAY_TIME = SERVER_BUILDER.comment("Show the day count combined with the inGame time. Disables the standard Time Overlay.")
+                .define("showCombinedDayTime", false);
+        TIME_FORMAT_24H = SERVER_BUILDER.comment("Use 24-hour format instead of 12-hour format.")
+                .define("timeFormat24h", true);
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("Coordinates Overlay Settings");

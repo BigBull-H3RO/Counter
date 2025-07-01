@@ -36,6 +36,8 @@ public class ServerConfig {
     public static final ModConfigSpec.BooleanValue SHOW_BEST_SURVIVAL_TIME;
     public static final ModConfigSpec.BooleanValue SHOW_BEST_SURVIVAL_IN_DEATH_COUNTER;
     public static final ModConfigSpec.IntValue SURVIVAL_HISTORY_SIZE;
+    public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_IN_CHAT;
+    public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_IN_CHAT_GLOBAL;
 
     public static final ModConfigSpec.BooleanValue ENABLE_COORDS_COUNTER;
     public static final ModConfigSpec.BooleanValue SHOW_COORDS_OVERLAY;
@@ -122,6 +124,13 @@ public class ServerConfig {
                 .define("showBestSurvivalInDeathCounter", false);
         SURVIVAL_HISTORY_SIZE = SERVER_BUILDER.comment("Maximum number of survival history entries per player.")
                 .defineInRange("survivalHistorySize", 10, 1, 20);
+        SERVER_BUILDER.pop();
+
+        SERVER_BUILDER.push("Survival Counter Chat Settings");
+        SHOW_SURVIVAL_IN_CHAT = SERVER_BUILDER.comment("Send a chat message with the survival time when a player dies?")
+                .define("showSurvivalInChat", false);
+        SHOW_SURVIVAL_IN_CHAT_GLOBAL = SERVER_BUILDER.comment("Broadcast the survival time message to all players?")
+                .define("showSurvivalInChatGlobal", false);
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("Coordinates Overlay Settings");

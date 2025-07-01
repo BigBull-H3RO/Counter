@@ -184,25 +184,89 @@ public class CounterCommands {
                 .then(Commands.literal("history")
                         .executes(context -> {
                             ServerPlayer player = context.getSource().getPlayerOrException();
-                            ServerLevel level = player.serverLevel();
-                            SurvivalTimeData data = SurvivalTimeData.get(level);
-                            for (long t : data.getHistory(player.getUUID())) {
-                                String time = CounterManager.formatSurvivalTime(t);
-                                context.getSource().sendSuccess(() -> Component.translatable("overlay.counter.survival_with_emoji", time), false);
-                            }
-                            return Command.SINGLE_SUCCESS;
+                            return sendHistory(context.getSource(), player);
                         })
                         .then(Commands.argument("player", EntityArgument.player())
                                 .executes(context -> {
                                     ServerPlayer target = EntityArgument.getPlayer(context, "player");
-                                    ServerLevel level = target.serverLevel();
-                                    SurvivalTimeData data = SurvivalTimeData.get(level);
-                                    for (long t : data.getHistory(target.getUUID())) {
-                                        String time = CounterManager.formatSurvivalTime(t);
-                                        context.getSource().sendSuccess(() -> Component.translatable("overlay.counter.survival_with_emoji", time), false);
-                                    }
-                                    return Command.SINGLE_SUCCESS;
-                                })));
+                                    return sendHistory(context.getSource(), target);
+                                })))
+                .then(Commands.literal("best")
+                        .executes(context -> {
+                            ServerPlayer player = context.getSource().getPlayerOrException();
+                            return sendBest(context.getSource(), player);
+                        })
+                        .then(Commands.argument("player", EntityArgument.player())
+                                .executes(context -> {
+                                    ServerPlayer target = EntityArgument.getPlayer(context, "player");
+                                    return sendBest(context.getSource(), target);
+                                })))
+                .then(Commands.literal("current")
+                        .executes(context -> {
+                            ServerPlayer player = context.getSource().getPlayerOrException();
+                            return sendCurrent(context.getSource(), player);
+                        })
+                        .then(Commands.argument("player", EntityArgument.player())
+                                .executes(context -> {
+                                    ServerPlayer target = EntityArgument.getPlayer(context, "player");
+                                    return sendCurrent(context.getSource(), target);
+                                })))
+                .then(Commands.literal("global")
+                        .executes(context -> {
+                            ServerLevel level = context.getSource().getLevel();
+                            SurvivalTimeData data = SurvivalTimeData.get(level);
+                            long best = data.getGlobalBest();
+                            String name = data.getGlobalBestPlayer();
+                            String time = CounterManager.formatSurvivalTime(best);
+                            context.getSource().sendSuccess(() ->
+                                    Component.translatable("command.survival.global_best", name, time), false);
+                            return Command.SINGLE_SUCCESS;
+                        }));
+    }
+
+    private static int sendHistory(CommandSourceStack source, ServerPlayer player) {
+        ServerLevel level = player.serverLevel();
+        SurvivalTimeData data = SurvivalTimeData.get(level);
+        long best = data.getBestTime(player.getUUID());
+        boolean foundBest = false;
+        for (long t : data.getHistory(player.getUUID())) {
+            String time = CounterManager.formatSurvivalTime(t);
+            final Component message = t == best
+                    ? Component.translatable("overlay.counter.survival_with_emoji", time)
+                    .copy().withStyle(style -> style.withColor(0x00FF00))
+                    : Component.translatable("overlay.counter.survival_with_emoji", time);
+            if (t == best) {
+                foundBest = true;
+            }
+            source.sendSuccess(() -> message, false);
+        }
+        if (!foundBest && best > 0) {
+            final Component bestMsg = Component.translatable("overlay.counter.best_survival_with_emoji",
+                            CounterManager.formatSurvivalTime(best))
+                    .withStyle(style -> style.withColor(0x00FF00));
+            source.sendSuccess(() -> bestMsg, false);
+        }
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private static int sendBest(CommandSourceStack source, ServerPlayer player) {
+        ServerLevel level = player.serverLevel();
+        SurvivalTimeData data = SurvivalTimeData.get(level);
+        long best = data.getBestTime(player.getUUID());
+        String time = CounterManager.formatSurvivalTime(best);
+        final Component message = Component.translatable("overlay.counter.best_survival_with_emoji", time);
+        source.sendSuccess(() -> message, false);
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private static int sendCurrent(CommandSourceStack source, ServerPlayer player) {
+        ServerLevel level = player.serverLevel();
+        SurvivalTimeData data = SurvivalTimeData.get(level);
+        long current = level.getGameTime() - data.getLastDeathTick(player.getUUID());
+        String time = CounterManager.formatSurvivalTime(current);
+        final Component message = Component.translatable("overlay.counter.survival_with_emoji", time);
+        source.sendSuccess(() -> message, false);
+        return Command.SINGLE_SUCCESS;
     }
 
     private static final SuggestionProvider<CommandSourceStack> PLAYER_SUGGESTIONS = (context, builder) -> {

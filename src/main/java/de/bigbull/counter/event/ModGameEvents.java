@@ -102,7 +102,20 @@ public class ModGameEvents {
                 surv.setLastDeathTick(player.getUUID(), now);
 
                 String time = CounterManager.formatSurvivalTime(duration);
+                long best = surv.getBestTime(player.getUUID());
+                String bestStr = CounterManager.formatSurvivalTime(best);
                 player.sendSystemMessage(Component.translatable("overlay.counter.survival_with_emoji", time));
+
+                if (ServerConfig.SHOW_SURVIVAL_IN_CHAT.get()) {
+                    Component msg = ServerConfig.SHOW_SURVIVAL_IN_CHAT_GLOBAL.get()
+                            ? Component.translatable("chat.survivalcounter.broadcast", player.getScoreboardName(), time, bestStr)
+                            : Component.translatable("chat.survivalcounter.personal", time, bestStr);
+                    if (ServerConfig.SHOW_SURVIVAL_IN_CHAT_GLOBAL.get()) {
+                        level.getServer().getPlayerList().broadcastSystemMessage(msg, false);
+                    } else {
+                        player.sendSystemMessage(msg);
+                    }
+                }
 
                 PacketDistributor.sendToPlayer(player, new SurvivalTimePacket(now, surv.getBestTime(player.getUUID())));
             }

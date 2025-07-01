@@ -68,7 +68,7 @@ public class ClientConfig {
         CLIENT_BUILDER.push("Day Counter Overlay Settings");
         SHOW_DAY_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the day overlay on the client side.")
                 .define("showDayOverlay", true);
-        SHOW_DAY_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the day counter overlay always be visible?")
+        SHOW_DAY_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the day counter overlay always be visible? If false, it is only visible while holding the Tab key.")
                 .define("showOverlayAlways", true);
         DAY_OVERLAY_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right).")
                 .defineInRange("dayOverlayX", 0.00625, 0.0, 1.0);
@@ -83,7 +83,7 @@ public class ClientConfig {
         CLIENT_BUILDER.push("Death Counter List Settings");
         SHOW_DEATH_LIST_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the death counter list overlay on the client side.")
                 .define("showDeathListOverlay", true);
-        SHOW_DEATH_LIST_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the death counter list overlay always be visible?")
+        SHOW_DEATH_LIST_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the death counter list overlay always be visible? If false, it is only visible while holding the Tab key.")
                 .define("showListOverlayAlways", false);
         DEATH_LIST_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right) of the death list overlay.")
                 .defineInRange("deathListX", 0.0125, 0.0, 1.0);
@@ -108,7 +108,7 @@ public class ClientConfig {
         CLIENT_BUILDER.push("Death Counter Self Settings");
         SHOW_DEATH_SELF_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the personal death counter overlay on the client side.")
                 .define("showDeathSelfOverlay", true);
-        SHOW_DEATH_SELF_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the personal death counter overlay always be visible?")
+        SHOW_DEATH_SELF_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the personal death counter overlay always be visible? If false, it is only visible while holding the Tab key.")
                 .define("showSelfOverlayAlways", false);
         DEATH_SELF_X = CLIENT_BUILDER.comment("Relative X position for your personal death overlay.")
                 .defineInRange("deathSelfX", 0.00625, 0.0, 1.0);
@@ -123,7 +123,7 @@ public class ClientConfig {
         CLIENT_BUILDER.push("Survival Counter Overlay Settings");
         SHOW_SURVIVAL_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the survival time overlay.")
                 .define("showSurvivalOverlay", false);
-        SHOW_SURVIVAL_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the survival overlay always be visible?")
+        SHOW_SURVIVAL_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the survival overlay always be visible? If false, it is only visible while holding the Tab key.")
                 .define("showSurvivalOverlayAlways", false);
         SURVIVAL_OVERLAY_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right).")
                 .defineInRange("survivalOverlayX", 0.00625, 0.0, 1.0);
@@ -137,23 +137,23 @@ public class ClientConfig {
 
         CLIENT_BUILDER.push("Time Overlay Settings");
         SHOW_TIME_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the time overlay on the client side.")
-                .define("showIngameTimeOverlay", false);
-        SHOW_TIME_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the time overlay always be visible?")
-                .define("showIngameTimeOverlayAlways", true);
+                .define("showTimeOverlay", false);
+        SHOW_TIME_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the time overlay always be visible? If false, it is only visible while holding the Tab key.")
+                .define("showTimeOverlayAlways", true);
         TIME_OVERLAY_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right).")
-                .defineInRange("ingameTimeOverlayX", 0.00781, 0.0, 1.0);
+                .defineInRange("timeOverlayX", 0.00781, 0.0, 1.0);
         TIME_OVERLAY_Y = CLIENT_BUILDER.comment("Relative Y position (0.0 = top, 1.0 = bottom).")
-                .defineInRange("ingameTimeOverlayY", 0.955, 0.0, 1.0);
+                .defineInRange("timeOverlayY", 0.955, 0.0, 1.0);
         TIME_OVERLAY_SIZE = CLIENT_BUILDER.comment("Scale factor for the ingame time overlay text size.")
-                .defineInRange("ingameTimeOverlaySize", 1.0, 0.1, 5.0);
+                .defineInRange("timeOverlaySize", 1.0, 0.1, 5.0);
         TIME_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the ingame time overlay text.")
-                .defineInRange("ingameTimeOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+                .defineInRange("timeOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Coordinates Overlay Settings");
         SHOW_COORDS_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the coordinates overlay.")
                 .define("showCoordsOverlay", false);
-        SHOW_COORDS_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the coordinates overlay always be visible?")
+        SHOW_COORDS_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the coordinates overlay always be visible? If false, it is only visible while holding the Tab key.")
                 .define("showCoordsOverlayAlways", true);
         COORDS_OVERLAY_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right).")
                 .defineInRange("coordsOverlayX", 0.00781, 0.0, 1.0);

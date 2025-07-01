@@ -64,68 +64,69 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 ### **Client Configuration (`client-config.toml`)**
 
 #### 🌞Day Counter Overlay Settings
-| Option                | Default    | Description                                                       |
-|-----------------------|------------|-------------------------------------------------------------------|
-| `showDayOverlay`      | `true`     | Enable/disable the **day counter overlay** on the client side.    |
-| `showOverlayAlways`   | `true`     | Should the **day counter overlay** always be visible?             |
-| `dayOverlayX`         | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the day overlay. |
-| `dayOverlayY`         | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the day overlay. |
-| `dayOverlaySize`      | `1.0`      | Scale factor for the day counter text size.                       |
-| `dayOverlayTextColor` | `0xFFFFFF` | Color for the **day counter overlay** text.                       |
+| Option                | Default    | Description                                                                                                            |
+|-----------------------|------------|------------------------------------------------------------------------------------------------------------------------|
+| `showDayOverlay`      | `true`     | Enable/disable the **day counter overlay** on the client side.                                                         |
+| `showOverlayAlways`   | `true`     | Should the **day counter overlay** always be visible? If disabled, the overlay only appears while holding the Tab key. |
+| `dayOverlayX`         | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the day overlay.                                                      |
+| `dayOverlayY`         | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the day overlay.                                                      |
+| `dayOverlaySize`      | `1.0`      | Scale factor for the day counter text size.                                                                            |
+| `dayOverlayTextColor` | `0xFFFFFF` | Color for the **day counter overlay** text.                                                                            |
 
 #### 💀Death Counter List Settings
-| Option                  | Default    | Description                                                                         |
-|-------------------------|------------|-------------------------------------------------------------------------------------|
-| `showDeathListOverlay`  | `true`     | Enable/disable the **death counter list overlay**.                                  |
-| `showListOverlayAlways` | `false`    | Should the **death counter list overlay** always be visible?                        |
-| `deathListX`            | `0.05`     | Relative X position for the death list overlay (0.0 = left, 1.0 = right).           |
-| `deathListY`            | `0.05`     | Relative Y position for the death list overlay (0.0 = top, 1.0 = bottom).           |
-| `deathListSize`         | `1`        | Scale factor for the death list text size.                                          |
-| `deathOverlayWidth`     | `120`      | Maximum width (in pixels) for the **death counter list overlay**.                   |
-| `deathOverlayStyle`     | `TABLE`    | Style used for the **death list overlay**: **`CLASSIC`**, **`BOXED`**, **`TABLE`**. |
-| `deathListTextColor`    | `0xFF0000` | Default text color for the death list overlay.                                      |
-| `firstPlaceColor`       | `0xFFD700` | Color for first place in the death leaderboard.                                     |
-| `secondPlaceColor`      | `0xC0C0C0` | Color for second place in the death leaderboard.                                    |
-| `thirdPlaceColor`       | `0xCD7F32` | Color for third place in the death leaderboard.                                     |
+| Option                  | Default    | Description                                                                                                                   |
+|-------------------------|------------|-------------------------------------------------------------------------------------------------------------------------------|
+| `showDeathListOverlay`  | `true`     | Enable/disable the **death counter list overlay**.                                                                            |
+| `showListOverlayAlways` | `false`    | Should the **death counter list overlay** always be visible? If disabled, the overlay only appears while holding the Tab key. |                       |
+| `deathListX`            | `0.05`     | Relative X position for the death list overlay (0.0 = left, 1.0 = right).                                                     |
+| `deathListY`            | `0.05`     | Relative Y position for the death list overlay (0.0 = top, 1.0 = bottom).                                                     |
+| `deathListSize`         | `1`        | Scale factor for the death list text size.                                                                                    |
+| `deathOverlayWidth`     | `120`      | Maximum width (in pixels) for the **death counter list overlay**.                                                             |
+| `deathOverlayStyle`     | `TABLE`    | Style used for the **death list overlay**: **`CLASSIC`**, **`BOXED`**, **`TABLE`**.                                           |
+| `deathListTextColor`    | `0xFF0000` | Default text color for the death list overlay.                                                                                |
+| `firstPlaceColor`       | `0xFFD700` | Color for first place in the death leaderboard.                                                                               |
+| `secondPlaceColor`      | `0xC0C0C0` | Color for second place in the death leaderboard.                                                                              |
+| `thirdPlaceColor`       | `0xCD7F32` | Color for third place in the death leaderboard.                                                                               |
 
 #### 💀Death Counter Self Settings
-| Option                  | Default    | Description                                                           |
-|-------------------------|------------|-----------------------------------------------------------------------|
-| `showDeathSelfOverlay`  | `true`     | Enable/disable the **personal death counter overlay**.                |
-| `showSelfOverlayAlways` | `false`    | Should the **personal death counter overlay** always be visible?      |
-| `deathSelfX`            | `0.10`     | Relative X position (0.0 = left, 1.0 = right) for your death overlay. |
-| `deathSelfY`            | `0.10`     | Relative Y position (0.0 = top, 1.0 = bottom) for your death overlay. |
-| `deathSelfSize`         | `1`        | Scale factor for the **personal death counter** text size.            |
-| `deathSelfTextColor`    | `0xFF0000` | Color for your **personal death counter** text.                       |
+| Option                  | Default    | Description                                                                                                                       |
+|-------------------------|------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| `showDeathSelfOverlay`  | `true`     | Enable/disable the **personal death counter overlay**.                                                                            |
+| `showSelfOverlayAlways` | `false`    | Should the **personal death counter overlay** always be visible? If disabled, the overlay only appears while holding the Tab key. |     |
+| `deathSelfX`            | `0.10`     | Relative X position (0.0 = left, 1.0 = right) for your death overlay.                                                             |
+| `deathSelfY`            | `0.10`     | Relative Y position (0.0 = top, 1.0 = bottom) for your death overlay.                                                             |
+| `deathSelfSize`         | `1`        | Scale factor for the **personal death counter** text size.                                                                        |
+| `deathSelfTextColor`    | `0xFF0000` | Color for your **personal death counter** text.                                                                                   |
 
 #### 🛡️Survival Counter Settings
-| Option                  | Default | Description                                                                                                                  |
-|-------------------------|---------|------------------------------------------------------------------------------------------------------------------------------|
-| `enableSurvivalCounter` | `true`  | Enables or disables the **Survival Counter** feature on the server.                                                          |
-| `showSurvivalOverlay`   | `true`  | Allows the **Survival Counter overlay** to be shown (client can toggle).                                                     |
-| `survivalUseRealTime`   | `false` | Measure survival time in real-world time instead of Minecraft days.                                                          |
-| `survivalTimeFormat`    | `FULL`  | Display format for survival time: **`FULL`**, **`DAYS_HOURS`**, **`HOURS_MINUTES`**, **`DAYS`**, **`HOURS`**, **`MINUTES`**. |
-| `showBestSurvivalTime`  | `false` | Show the best survival time instead of the most recent one.                                                                  |
+| Option                      | Default    | Description                                                                                                                 |
+|-----------------------------|------------|-----------------------------------------------------------------------------------------------------------------------------|
+| `showSurvivalOverlay`       | `true`     | Enable/disable the **survival counter overlay** on the client side.                                                         |
+| `showSurvivalOverlayAlways` | `false`    | Should the **survival counter overlay** always be visible? If disabled, the overlay only appears while holding the Tab key. |            |
+| `survivalOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the survival overlay.                                                      |
+| `survivalOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the survival overlay.                                                      |
+| `survivalOverlaySize`       | `1.0`      | Scale factor for the survival counter text size.                                                                            |
+| `survivalOverlayTextColor`  | `0xFFFFFF` | Color for the **survival counter overlay** text.                                                                            |
 
 #### ⏰Time Counter Settings
-| Option                  | Default    | Description                                                        |
-|-------------------------|------------|--------------------------------------------------------------------|
-| `showTimeOverlay`       | `false`    | Enable/disable the **time counter overlay** on the client side.    |
-| `showTimeOverlayAlways` | `false`    | Should the **time counter overlay** always be visible?             |
-| `timeOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the time overlay. |
-| `timeOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the time overlay. |
-| `timeOverlaySize`       | `1.0`      | Scale factor for the time counter text size.                       |
-| `timeOverlayTextColor`  | `0xFFFFFF` | Color for the **time counter overlay** text.                       |
+| Option                  | Default    | Description                                                                                                             |
+|-------------------------|------------|-------------------------------------------------------------------------------------------------------------------------|
+| `showTimeOverlay`       | `false`    | Enable/disable the **time counter overlay** on the client side.                                                         |
+| `showTimeOverlayAlways` | `false`    | Should the **time counter overlay** always be visible? If disabled, the overlay only appears while holding the Tab key. |            |
+| `timeOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the time overlay.                                                      |
+| `timeOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the time overlay.                                                      |
+| `timeOverlaySize`       | `1.0`      | Scale factor for the time counter text size.                                                                            |
+| `timeOverlayTextColor`  | `0xFFFFFF` | Color for the **time counter overlay** text.                                                                            |
 
 #### ⏰Coords Counter Settings
-| Option                    | Default    | Description                                                          |
-|---------------------------|------------|----------------------------------------------------------------------|
-| `showCoordsOverlay`       | `false`    | Enable/disable the **coords counter overlay** on the client side.    |
-| `showCoordsOverlayAlways` | `false`    | Should the **coords counter overlay** always be visible?             |
-| `coordsOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the coords overlay. |
-| `coordsOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the coords overlay. |
-| `coordsOverlaySize`       | `1.0`      | Scale factor for the coords counter text size.                       |
-| `coordsOverlayTextColor`  | `0xFFFFFF` | Color for the **coords counter overlay** text.                       |
+| Option                    | Default    | Description                                                                                                               |
+|---------------------------|------------|---------------------------------------------------------------------------------------------------------------------------|
+| `showCoordsOverlay`       | `false`    | Enable/disable the **coords counter overlay** on the client side.                                                         |
+| `showCoordsOverlayAlways` | `false`    | Should the **coords counter overlay** always be visible? If disabled, the overlay only appears while holding the Tab key. |            |
+| `coordsOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the coords overlay.                                                      |
+| `coordsOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the coords overlay.                                                      |
+| `coordsOverlaySize`       | `1.0`      | Scale factor for the coords counter text size.                                                                            |
+| `coordsOverlayTextColor`  | `0xFFFFFF` | Color for the **coords counter overlay** text.                                                                            |
 
 #### 📶Ping Settings
 | Option            | Default    | Description                                                             |
@@ -172,21 +173,22 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `deathSelfChatTextColor`     | `0xFFFFFF` | Text color for **personal death messages** in chat.                                                      |
 
 #### 🛡️Survival Counter Settings
-| Option                             | Default | Description |
-|------------------------------------|---------|-------------|
-| `enableSurvivalCounter`            | `true`  | Enables or disables the **Survival Counter** feature on the server. |
-| `showSurvivalOverlay`              | `true`  | Allows the **Survival Counter overlay** to be shown (client can toggle). |
-| `survivalUseRealTime`              | `false` | Measure survival time in real-world time instead of Minecraft days. |
-| `survivalTimeFormat`               | `FULL`  | Display format for survival time: **`FULL`**, **`DAYS_HOURS`**, **`DAYS`**, **`HOURS`**, **`MINUTES`**. |
-| `showBestSurvivalTime`             | `false` | Show the best survival time instead of the most recent one. |
-| `showBestSurvivalInDeathCounter`   | `false` | Append the best survival time to the death counter. |
-| `survivalHistorySize`              | `10`    | Maximum number of survival history entries stored per player. |
+| Option                           | Default | Description                                                                                                                   |
+|----------------------------------|---------|-------------------------------------------------------------------------------------------------------------------------------|
+| `enableSurvivalCounter`          | `true`  | Enables or disables the **Survival Counter** feature on the server.                                                           |
+| `showSurvivalOverlay`            | `true`  | Allows the **Survival Counter overlay** to be shown (client can toggle).                                                      |
+| `survivalUseRealTime`            | `false` | Measure survival time in real-world time instead of Minecraft days.                                                           |
+| `survivalTimeFormat`             | `FULL`  | Display format for survival time: **`FULL`**, **`DAYS_HOURS`**, **`HOURS_MINUTES`**,  **`DAYS`**, **`HOURS`**, **`MINUTES`**. |
+| `showBestSurvivalTime`           | `false` | Show the best survival time instead of the most recent one.                                                                   |
+| `showBestSurvivalInDeathCounter` | `false` | Append the best survival time to death counter messages.                                                                      |
+| `survivalHistorySize`            | `10`    | Number of survival time entries kept per player.                                                                              |
 
 #### 🛡️Survival Counter Chat Settings
-| Option                     | Default | Description |
-|----------------------------|---------|-------------|
-| `showSurvivalInChat`       | `false` | Send a chat message with the survival time when a player dies. |
-| `showSurvivalInChatGlobal` | `false` | Broadcast the survival time message to all players. |
+| Option                     | Default | Description                                                            |
+|----------------------------|---------|------------------------------------------------------------------------|
+| `showSurvivalInChat`       | `false` | Send a chat message with the survival time when a player dies.         |
+| `showSurvivalInChatGlobal` | `false` | Broadcast the survival time message to all players.                    |
+| `showBestSurvivalInChat`   | `false` | Include the best survival time in parentheses after the survival time. |
 
 #### ⏰Time Counter Settings
 | Option                | Default | Description                                                                                          |
@@ -207,17 +209,21 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 ## **📝 Commands**
 Below is an overview of the main commands the mod provides:
 
-| Command                                    | Permission | Description                                          |
-|--------------------------------------------|------------|------------------------------------------------------|
-| **`/counter day get`**                     | `all`      | Shows the current day counter value.                 |
-| **`/counter day set <days>`**              | `admin`    | Sets the Day Counter to the specified value.         |
-| **`/counter death get`**                   | `all`      | Shows your own total deaths.                         |
-| **`/counter death get <player>`**          | `all`      | Shows another player’s total deaths.                 |
-| **`/counter death set <player> <amount>`** | `admin`    | Sets the death count for the specified player(s).    |
-| **`/counter death reset`**                 | `admin`    | Resets the death count of all players to `0`.        |
-| **`/counter time get`**                    | `all`      | Shows the current in-game time.                      |
-| **`/counter coords get`**                  | `all`      | Shows your current coordinates.                      |
-| **`/counter coords get <player>`**         | `all`      | Shows your current coordinates to another player(s). |
+| Command                                    | Permission | Description                                                |
+|--------------------------------------------|------------|------------------------------------------------------------|
+| **`/counter day get`**                     | `all`      | Shows the current day counter value.                       |
+| **`/counter day set <days>`**              | `admin`    | Sets the Day Counter to the specified value.               |
+| **`/counter death get`**                   | `all`      | Shows your own total deaths.                               |
+| **`/counter death get <player>`**          | `all`      | Shows another player’s total deaths.                       |
+| **`/counter death set <player> <amount>`** | `admin`    | Sets the death count for the specified player(s).          |
+| **`/counter death reset`**                 | `admin`    | Resets the death count of all players to `0`.              |
+| **`/counter time get`**                    | `all`      | Shows the current in-game time.                            |
+| **`/counter coords get`**                  | `all`      | Shows your current coordinates.                            |
+| **`/counter coords get <player>`**         | `all`      | Shows your current coordinates to another player(s).       |
+| **`/counter survival history [player]`**   | `all`      | Shows the survival time history for you or another player. |
+| **`/counter survival best [player]`**      | `all`      | Displays the best survival time for you or another player. |
+| **`/counter survival current [player]`**   | `all`      | Displays the current survival time since the last death.   |
+| **`/counter survival global`**             | `all`      | Shows who holds the best survival time on the server.      |
 
 ---
 

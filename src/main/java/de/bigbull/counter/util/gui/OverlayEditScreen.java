@@ -342,32 +342,7 @@ public class OverlayEditScreen extends Screen {
             return;
         }
 
-        switch (selectedOverlay) {
-            case DAY -> {
-                double current = ClientConfig.DAY_OVERLAY_SIZE.get();
-                ClientConfig.DAY_OVERLAY_SIZE.set(Mth.clamp(current + 0.1, 0.1, 5.0));
-            }
-            case DEATH_LIST -> {
-                double current = ClientConfig.DEATH_LIST_SIZE.get();
-                ClientConfig.DEATH_LIST_SIZE.set(Mth.clamp(current + 0.1, 0.1, 5.0));
-            }
-            case DEATH_SELF -> {
-                double current = ClientConfig.DEATH_SELF_SIZE.get();
-                ClientConfig.DEATH_SELF_SIZE.set(Mth.clamp(current + 0.1, 0.1, 5.0));
-            }
-            case TIME -> {
-                double current = ClientConfig.TIME_OVERLAY_SIZE.get();
-                ClientConfig.TIME_OVERLAY_SIZE.set(Mth.clamp(current + 0.1, 0.1, 5.0));
-            }
-            case COORDS -> {
-                double current = ClientConfig.COORDS_OVERLAY_SIZE.get();
-                ClientConfig.COORDS_OVERLAY_SIZE.set(Mth.clamp(current + 0.1, 0.1, 5.0));
-            }
-            case SURVIVAL -> {
-                double current = ClientConfig.SURVIVAL_OVERLAY_SIZE.get();
-                ClientConfig.SURVIVAL_OVERLAY_SIZE.set(Mth.clamp(current + 0.1, 0.1, 5.0));
-            }
-        }
+        adjustOverlaySize(selectedOverlay, 0.1);
     }
 
     public void decreaseSelectedOverlaySize() {
@@ -375,30 +350,34 @@ public class OverlayEditScreen extends Screen {
             return;
         }
 
-        switch (selectedOverlay) {
+        adjustOverlaySize(selectedOverlay, -0.1);
+    }
+
+    private void adjustOverlaySize(DragTarget target, double delta) {
+        switch (target) {
             case DAY -> {
                 double current = ClientConfig.DAY_OVERLAY_SIZE.get();
-                ClientConfig.DAY_OVERLAY_SIZE.set(Mth.clamp(current - 0.1, 0.1, 5.0));
+                ClientConfig.DAY_OVERLAY_SIZE.set(Mth.clamp(current + delta, 0.1, 5.0));
             }
             case DEATH_LIST -> {
                 double current = ClientConfig.DEATH_LIST_SIZE.get();
-                ClientConfig.DEATH_LIST_SIZE.set(Mth.clamp(current - 0.1, 0.1, 5.0));
+                ClientConfig.DEATH_LIST_SIZE.set(Mth.clamp(current + delta, 0.1, 5.0));
             }
             case DEATH_SELF -> {
                 double current = ClientConfig.DEATH_SELF_SIZE.get();
-                ClientConfig.DEATH_SELF_SIZE.set(Mth.clamp(current - 0.1, 0.1, 5.0));
+                ClientConfig.DEATH_SELF_SIZE.set(Mth.clamp(current + delta, 0.1, 5.0));
             }
             case TIME -> {
                 double current = ClientConfig.TIME_OVERLAY_SIZE.get();
-                ClientConfig.TIME_OVERLAY_SIZE.set(Mth.clamp(current - 0.1, 0.1, 5.0));
+                ClientConfig.TIME_OVERLAY_SIZE.set(Mth.clamp(current + delta, 0.1, 5.0));
             }
             case COORDS -> {
                 double current = ClientConfig.COORDS_OVERLAY_SIZE.get();
-                ClientConfig.COORDS_OVERLAY_SIZE.set(Mth.clamp(current - 0.1, 0.1, 5.0));
+                ClientConfig.COORDS_OVERLAY_SIZE.set(Mth.clamp(current + delta, 0.1, 5.0));
             }
             case SURVIVAL -> {
                 double current = ClientConfig.SURVIVAL_OVERLAY_SIZE.get();
-                ClientConfig.SURVIVAL_OVERLAY_SIZE.set(Mth.clamp(current - 0.1, 0.1, 5.0));
+                ClientConfig.SURVIVAL_OVERLAY_SIZE.set(Mth.clamp(current + delta, 0.1, 5.0));
             }
         }
     }

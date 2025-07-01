@@ -104,7 +104,6 @@ public class ModGameEvents {
                 String time = CounterManager.formatSurvivalTime(duration);
                 long best = surv.getBestTime(player.getUUID());
                 String bestStr = CounterManager.formatSurvivalTime(best);
-                player.sendSystemMessage(Component.translatable("overlay.counter.survival_with_emoji", time));
 
                 if (ServerConfig.SHOW_SURVIVAL_IN_CHAT.get()) {
                     Component msg = ServerConfig.SHOW_SURVIVAL_IN_CHAT_GLOBAL.get()

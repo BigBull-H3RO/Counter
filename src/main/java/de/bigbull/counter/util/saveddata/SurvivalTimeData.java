@@ -107,7 +107,7 @@ public class SurvivalTimeData extends SavedData {
         int maxSize = ServerConfig.SURVIVAL_HISTORY_SIZE.get();
         if (maxSize <= 0) maxSize = MAX_HISTORY_SIZE;
         while (list.size() > maxSize) {
-            list.removeFirst();
+            list.remove(0);
         }
         if (durationTicks > bestTimes.getOrDefault(uuid, 0L)) {
             bestTimes.put(uuid, durationTicks);

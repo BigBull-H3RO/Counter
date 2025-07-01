@@ -20,7 +20,7 @@ public class ModDeLangProvider extends LanguageProvider {
 
         add("overlay.counter.deaths_with_emoji", "💀 Tode: %s");
         add("overlay.counter.deaths_no_emoji", "Tode: %s");
-        add("chat.deathcounter.player_death.singular", "💀 %s ist %s mal gestorben!");
+        add("chat.deathcounter.player_death.singular", "💀 %s ist einmal gestorben!");
         add("chat.deathcounter.player_death.plural", "💀 %s ist %s mal gestorben!");
         add("overlay.counter.deathlist", "💀 Todeszähler:");
         add("overlay.counter.deathlist.entry.full", "%s %s");

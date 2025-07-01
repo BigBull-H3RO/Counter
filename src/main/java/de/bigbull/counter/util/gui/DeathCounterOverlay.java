@@ -118,7 +118,7 @@ public class DeathCounterOverlay {
             drawDeathEntries(guiGraphics, x, y, sortedDeaths, false);
             drawStatusAndBorder(guiGraphics, x, y, boxWidth, boxHeight, isEditMode, OverlayEditScreen.DragTarget.DEATH_LIST);
         } else {
-            Counter.logger.warn("Unbekannte Einstellung für DEATH_OVERLAY_STYLE: {}", ClientConfig.DEATH_OVERLAY_STYLE.get());
+            Counter.logger.warn("Unknown setting for DEATH_OVERLAY_STYLE: {}", ClientConfig.DEATH_OVERLAY_STYLE.get());
             guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), x, y, 0xFF0000);
             guiGraphics.drawString(minecraft.font, Component.literal("ERROR: Invalid death list style!"), x, y + 12, 0xFF0000);
         }
@@ -155,9 +155,7 @@ public class DeathCounterOverlay {
         };
 
         int iconColor = isEnabled ? 0xFF00FF00 : 0xFFFF0000;
-
         OverlayUtils.drawCornerIcons(guiGraphics, x, y, width, height, iconColor);
-
         OverlayEditScreen editScreen = (mc.screen instanceof OverlayEditScreen) ? (OverlayEditScreen) mc.screen : null;
 
         if (editScreen != null && editScreen.getSelectedOverlay() == target) {
@@ -217,11 +215,11 @@ public class DeathCounterOverlay {
         int maxTextWidth = ClientConfig.DEATH_OVERLAY_WIDTH.get();
         List<Map.Entry<UUID, Integer>> sortedDeaths = getSortedDeaths(ClientCounterState.getDeathCounts());
 
-        for (Map.Entry<UUID, Integer> entry : sortedDeaths) {
+        for (int i = 0; i < sortedDeaths.size(); i++) {
+            Map.Entry<UUID, Integer> entry = sortedDeaths.get(i);
             String playerName = getPlayerName(entry.getKey());
-            int textWidth = mc.font.width(
-                    Component.translatable("overlay.counter.deathlist.entry.plural", 1, playerName, entry.getValue()).getString()
-            );
+            Component deathEntry = getDeathEntry(i, playerName, entry.getValue());
+            int textWidth = mc.font.width(deathEntry.getString());
             maxTextWidth = Math.max(maxTextWidth, textWidth);
         }
         return Math.max((int) (maxTextWidth * scale) + 10, 50);

@@ -1,5 +1,6 @@
 package de.bigbull.counter.util.saveddata;
 
+import de.bigbull.counter.config.ServerConfig;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -14,6 +15,7 @@ public class SurvivalTimeData extends SavedData {
     private final Map<UUID, Long> lastDeathTicks = new HashMap<>();
     private final Map<UUID, List<Long>> history = new HashMap<>();
     private final Map<UUID, Long> bestTimes = new HashMap<>();
+    private static final int MAX_HISTORY_SIZE = 10;
     private long globalBest = 0;
     private String globalBestPlayer = "";
 
@@ -100,7 +102,13 @@ public class SurvivalTimeData extends SavedData {
     }
 
     public void recordSurvival(UUID uuid, long durationTicks, String playerName) {
-        history.computeIfAbsent(uuid, k -> new ArrayList<>()).add(durationTicks);
+        List<Long> list = history.computeIfAbsent(uuid, k -> new ArrayList<>());
+        list.add(durationTicks);
+        int maxSize = ServerConfig.SURVIVAL_HISTORY_SIZE.get();
+        if (maxSize <= 0) maxSize = MAX_HISTORY_SIZE;
+        while (list.size() > maxSize) {
+            list.removeFirst();
+        }
         if (durationTicks > bestTimes.getOrDefault(uuid, 0L)) {
             bestTimes.put(uuid, durationTicks);
         }

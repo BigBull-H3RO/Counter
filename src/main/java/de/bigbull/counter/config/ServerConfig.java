@@ -35,6 +35,7 @@ public class ServerConfig {
     public static final ModConfigSpec.EnumValue<SurvivalTimeFormat> SURVIVAL_TIME_FORMAT;
     public static final ModConfigSpec.BooleanValue SHOW_BEST_SURVIVAL_TIME;
     public static final ModConfigSpec.BooleanValue SHOW_BEST_SURVIVAL_IN_DEATH_COUNTER;
+    public static final ModConfigSpec.IntValue SURVIVAL_HISTORY_SIZE;
 
     public static final ModConfigSpec.BooleanValue ENABLE_COORDS_COUNTER;
     public static final ModConfigSpec.BooleanValue SHOW_COORDS_OVERLAY;
@@ -119,6 +120,8 @@ public class ServerConfig {
                 .define("showBestSurvivalTime", false);
         SHOW_BEST_SURVIVAL_IN_DEATH_COUNTER = SERVER_BUILDER.comment("Append the best survival time to the death counter?")
                 .define("showBestSurvivalInDeathCounter", false);
+        SURVIVAL_HISTORY_SIZE = SERVER_BUILDER.comment("Maximum number of survival history entries per player.")
+                .defineInRange("survivalHistorySize", 10, 1, 20);
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("Coordinates Overlay Settings");

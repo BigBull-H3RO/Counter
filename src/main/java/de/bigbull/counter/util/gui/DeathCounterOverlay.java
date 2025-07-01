@@ -264,16 +264,16 @@ public class DeathCounterOverlay {
     }
 
     private static String getSelfOverlayString(LocalPlayer player) {
-        String deaths = Component.translatable(CounterManager.getDeaths(player)).getString();
-        long currentTick = player.level().getGameTime();
-        long lastTick = ClientCounterState.getLastDeathTick();
-        long survived = currentTick - lastTick;
-        long value = ServerConfig.SHOW_BEST_SURVIVAL_TIME.get()
-                ? ClientCounterState.getBestSurvivalTime()
-                : survived;
-        String time = CounterManager.formatSurvivalTime(value);
-        String key = ClientConfig.SHOW_EMOJIS.get() ? "overlay.counter.survival_with_emoji" : "overlay.counter.survival_no_emoji";
+        String deaths = CounterManager.getDeaths(player);
+        if (!ServerConfig.SHOW_BEST_SURVIVAL_IN_DEATH_COUNTER.get()) {
+            return deaths;
+        }
+        long bestTime = ClientCounterState.getBestSurvivalTime();
+        String time = CounterManager.formatSurvivalTime(bestTime);
+        String key = ClientConfig.SHOW_EMOJIS.get()
+                ? "overlay.counter.best_survival_with_emoji"
+                : "overlay.counter.best_survival_no_emoji";
         String surv = Component.translatable(key, time).getString();
-        return deaths + " " + surv;
+        return deaths + ", " + surv;
     }
 }

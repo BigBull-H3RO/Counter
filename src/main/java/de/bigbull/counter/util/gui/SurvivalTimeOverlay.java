@@ -63,12 +63,13 @@ public class SurvivalTimeOverlay {
         long currentTick = Minecraft.getInstance().level.getGameTime();
         long lastTick = ClientCounterState.getLastDeathTick();
         long survived = currentTick - lastTick;
-        long value = ServerConfig.SHOW_BEST_SURVIVAL_TIME.get()
-                ? ClientCounterState.getBestSurvivalTime()
-                : survived;
-        String time = CounterManager.formatSurvivalTime(value);
+        String base = CounterManager.formatSurvivalTime(survived);
+        if (ServerConfig.SHOW_BEST_SURVIVAL_TIME.get()) {
+            String best = CounterManager.formatSurvivalTime(ClientCounterState.getBestSurvivalTime());
+            base += " (" + best + ")";
+        }
         String key = ClientConfig.SHOW_EMOJIS.get() ? "overlay.counter.survival_with_emoji" : "overlay.counter.survival_no_emoji";
-        return Component.translatable(key, time).getString();
+        return Component.translatable(key, base).getString();
     }
 
     public static int calcWidth() {

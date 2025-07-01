@@ -67,6 +67,10 @@ public class ModGameEvents {
             data.updatePlayerName(player.getUUID(), player.getScoreboardName());
             SurvivalTimeData surv = SurvivalTimeData.get(level);
 
+            if (surv.getLastDeathTick(player.getUUID()) == 0L) {
+                surv.setLastDeathTick(player.getUUID(), level.getGameTime());
+            }
+
             PacketDistributor.sendToPlayer(player, new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
             PacketDistributor.sendToPlayer(player, new DayCounterPacket(DayCounterData.getCurrentDay(level)));
             PacketDistributor.sendToPlayer(player, new SurvivalTimePacket(surv.getLastDeathTick(player.getUUID()), surv.getBestTime(player.getUUID())));
@@ -137,10 +141,14 @@ public class ModGameEvents {
         if (sendToAll) {
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
                 if (!player.getUUID().equals(affectedPlayer.getUUID())) {
-                    Component broadcastMessage = Component.translatable(
-                            playerDeaths == 1 ? "chat.deathcounter.player_death.singular" : "chat.deathcounter.player_death.plural",
-                            affectedPlayer.getScoreboardName(), playerDeaths
-                    );
+                    Component broadcastMessage = playerDeaths == 1
+                            ? Component.translatable(
+                            "chat.deathcounter.player_death.singular",
+                            affectedPlayer.getScoreboardName())
+                            : Component.translatable(
+                            "chat.deathcounter.player_death.plural",
+                            affectedPlayer.getScoreboardName(),
+                            playerDeaths);
                     player.sendSystemMessage(broadcastMessage);
                 }
             }

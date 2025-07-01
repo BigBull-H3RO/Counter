@@ -83,9 +83,15 @@ public class CounterCommands {
                                     ServerLevel level = targetPlayer.serverLevel();
                                     DeathCounterData data = DeathCounterData.get(level);
                                     int deaths = data.getDeaths(targetPlayer.getUUID());
-                                    String key = deaths == 1 ? "chat.deathcounter.player_death.singular" : "chat.deathcounter.player_death.plural";
+                                    String key = deaths == 1
+                                            ? "chat.deathcounter.player_death.singular"
+                                            : "chat.deathcounter.player_death.plural";
 
-                                    context.getSource().sendSuccess(() -> Component.translatable(key, targetPlayer.getName(), deaths), false);
+                                    Component message = deaths == 1
+                                            ? Component.translatable(key, targetPlayer.getName())
+                                            : Component.translatable(key, targetPlayer.getName(), deaths);
+
+                                    context.getSource().sendSuccess(() -> message, false);
                                     return Command.SINGLE_SUCCESS;
                                 })))
                 .then(Commands.literal("set")

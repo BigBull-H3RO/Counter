@@ -34,6 +34,7 @@ public class ServerConfig {
     public static final ModConfigSpec.BooleanValue SURVIVAL_USE_REAL_TIME;
     public static final ModConfigSpec.EnumValue<SurvivalTimeFormat> SURVIVAL_TIME_FORMAT;
     public static final ModConfigSpec.BooleanValue SHOW_BEST_SURVIVAL_TIME;
+    public static final ModConfigSpec.BooleanValue SHOW_BEST_SURVIVAL_IN_DEATH_COUNTER;
 
     public static final ModConfigSpec.BooleanValue ENABLE_COORDS_COUNTER;
     public static final ModConfigSpec.BooleanValue SHOW_COORDS_OVERLAY;
@@ -116,6 +117,8 @@ public class ServerConfig {
                 .defineEnum("survivalTimeFormat", SurvivalTimeFormat.FULL);
         SHOW_BEST_SURVIVAL_TIME = SERVER_BUILDER.comment("Display the best survival time instead of the last one?")
                 .define("showBestSurvivalTime", false);
+        SHOW_BEST_SURVIVAL_IN_DEATH_COUNTER = SERVER_BUILDER.comment("Append the best survival time to the death counter?")
+                .define("showBestSurvivalInDeathCounter", false);
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("Coordinates Overlay Settings");

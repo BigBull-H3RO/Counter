@@ -39,6 +39,10 @@ All features are **highly configurable**, making this mod an excellent choice fo
 - Easily toggled in the **client-config** (`showPingAsText`).
 - If disabled, the **default vanilla ping bars** will be shown again.
 
+✅ **Survival Counter**
+- Tracks your **survival time** since the **last death**.
+- Optionally shows your **best survival time**.
+
 ✅ **Time Counter**
 - Displays the **current in-game time** as an overlay (e.g., `14:35`).
 - Configurable in **12-hour or 24-hour format**.
@@ -98,6 +102,15 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `timeOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the time overlay. |
 | `timeOverlaySize`       | `1.0`      | Scale factor for the time counter text size.                       |
 | `timeOverlayTextColor`  | `0xFFFFFF` | Color for the **time counter overlay** text.                       |
+
+#### 🛡️Survival Counter Settings
+| Option                  | Default | Description                                                                                             |
+|-------------------------|---------|---------------------------------------------------------------------------------------------------------|
+| `enableSurvivalCounter` | `true`  | Enables or disables the **Survival Counter** feature on the server.                                     |
+| `showSurvivalOverlay`   | `true`  | Allows the **Survival Counter overlay** to be shown (client can toggle).                                |
+| `survivalUseRealTime`   | `false` | Measure survival time in real-world time instead of Minecraft days.                                     |
+| `survivalTimeFormat`    | `FULL`  | Display format for survival time: **`FULL`**, **`DAYS_HOURS`**, **`DAYS`**, **`HOURS`**, **`MINUTES`**. |
+| `showBestSurvivalTime`  | `false` | Show the best survival time instead of the most recent one.                                             |
 
 #### ⏰Coords Counter Settings
 | Option                    | Default    | Description                                                          |

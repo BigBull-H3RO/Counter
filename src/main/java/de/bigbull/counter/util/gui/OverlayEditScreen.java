@@ -74,6 +74,7 @@ public class OverlayEditScreen extends Screen {
         oldCoordsFracX = ClientConfig.COORDS_OVERLAY_X.get();
         oldCoordsFracY = ClientConfig.COORDS_OVERLAY_Y.get();
         oldSurvivalFracX = ClientConfig.SURVIVAL_OVERLAY_X.get();
+        oldSurvivalFracY = ClientConfig.SURVIVAL_OVERLAY_Y.get();
 
         oldDaySize = ClientConfig.DAY_OVERLAY_SIZE.get();
         oldDeathListSize = ClientConfig.DEATH_LIST_SIZE.get();

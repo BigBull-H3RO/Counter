@@ -32,6 +32,8 @@ public class ModEnLangProvider extends LanguageProvider {
 
         add("overlay.counter.survival_with_emoji", "⏳ Survived: %s");
         add("overlay.counter.survival_no_emoji", "Survived: %s");
+        add("overlay.counter.best_survival_with_emoji", "⏳ Best: %s");
+        add("overlay.counter.best_survival_no_emoji", "Best: %s");
 
         add("command.coords.broadcast", "%s has shared their coordinates: X:%s, Y:%s, Z:%s");
         add("command.coords.player_not_found", "❌ Player not found!");

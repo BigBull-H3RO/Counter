@@ -3,6 +3,7 @@ package de.bigbull.counter.event;
 import de.bigbull.counter.Counter;
 import de.bigbull.counter.util.ModKeybinds;
 import de.bigbull.counter.util.gui.*;
+import de.bigbull.counter.util.gui.overlay.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -24,7 +25,7 @@ public class ClientEvents {
             return;
         }
 
-        if (minecraft.screen instanceof OverlayEditScreen) {
+        if (minecraft.screen instanceof GuiEditScreen) {
             return;
         }
 
@@ -39,7 +40,7 @@ public class ClientEvents {
     public static void onClientTick(ClientTickEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
         if (ModKeybinds.OPEN_EDIT_GUI.consumeClick()) {
-            minecraft.setScreen(new OverlayEditScreen());
+            minecraft.setScreen(new GuiEditScreen());
         }
     }
 }

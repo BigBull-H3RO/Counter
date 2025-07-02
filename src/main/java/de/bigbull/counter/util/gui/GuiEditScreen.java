@@ -2,6 +2,7 @@ package de.bigbull.counter.util.gui;
 
 import de.bigbull.counter.config.ClientConfig;
 import de.bigbull.counter.config.ServerConfig;
+import de.bigbull.counter.util.gui.overlay.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -12,7 +13,7 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.function.Supplier;
 
-public class OverlayEditScreen extends Screen {
+public class GuiEditScreen extends Screen {
     public enum DragTarget { NONE, DAY, DEATH_LIST, DEATH_SELF, TIME, COORDS, SURVIVAL }
     private DragTarget selectedOverlay = DragTarget.NONE;
     private DragTarget currentDrag = DragTarget.NONE;
@@ -43,7 +44,7 @@ public class OverlayEditScreen extends Screen {
     private double oldCoordsSize;
     private double oldSurvivalSize;
 
-    public OverlayEditScreen() {
+    public GuiEditScreen() {
         super(Component.translatable("screen.overlay_edit"));
     }
 
@@ -222,7 +223,7 @@ public class OverlayEditScreen extends Screen {
             }
             if (hitOverlay(mouseX, mouseY, DragTarget.SURVIVAL,
                     ClientConfig.SURVIVAL_OVERLAY_X, ClientConfig.SURVIVAL_OVERLAY_Y,
-                    SurvivalTimeOverlay::calcWidth, SurvivalTimeOverlay::calcHeight)) {
+                    SurvivalTimeOverlay::calcSurvivalWidth, SurvivalTimeOverlay::calcSurvivalHeight)) {
                 selectedOverlay = DragTarget.SURVIVAL;
                 currentDrag = DragTarget.SURVIVAL;
                 return true;
@@ -248,7 +249,7 @@ public class OverlayEditScreen extends Screen {
             } else if (currentDrag == DragTarget.COORDS) {
                 updateOverlayPosition(newPx, newPy, CoordsOverlay::calcCoordsWidth, CoordsOverlay::calcCoordsHeight, ClientConfig.COORDS_OVERLAY_X, ClientConfig.COORDS_OVERLAY_Y);
             } else if (currentDrag == DragTarget.SURVIVAL) {
-                updateOverlayPosition(newPx, newPy, SurvivalTimeOverlay::calcWidth, SurvivalTimeOverlay::calcHeight, ClientConfig.SURVIVAL_OVERLAY_X, ClientConfig.SURVIVAL_OVERLAY_Y);
+                updateOverlayPosition(newPx, newPy, SurvivalTimeOverlay::calcSurvivalWidth, SurvivalTimeOverlay::calcSurvivalHeight, ClientConfig.SURVIVAL_OVERLAY_X, ClientConfig.SURVIVAL_OVERLAY_Y);
             }
             return true;
         }
@@ -271,8 +272,6 @@ public class OverlayEditScreen extends Screen {
 
         int px = (int) (xConfig.get() * this.width);
         int py = (int) (yConfig.get() * this.height);
-        int w = widthSupplier.get();
-        int h = heightSupplier.get();
 
         double scale = switch (target) {
             case DAY -> ClientConfig.DAY_OVERLAY_SIZE.get();
@@ -282,6 +281,9 @@ public class OverlayEditScreen extends Screen {
             case COORDS -> ClientConfig.COORDS_OVERLAY_SIZE.get();
             default -> 1.0;
         };
+
+        int w = (int) (widthSupplier.get() * scale);
+        int h = (int) (heightSupplier.get() * scale);
 
         int padding = Math.max(1, (int) Math.ceil(3 * scale));
 
@@ -296,8 +298,18 @@ public class OverlayEditScreen extends Screen {
     }
 
     private void updateOverlayPosition(int newPx, int newPy, Supplier<Integer> widthSupplier, Supplier<Integer> heightSupplier, ModConfigSpec.DoubleValue xConfig, ModConfigSpec.DoubleValue yConfig) {
-        int w = widthSupplier.get();
-        int h = heightSupplier.get();
+        double scale = switch (currentDrag) {
+            case DAY -> ClientConfig.DAY_OVERLAY_SIZE.get();
+            case DEATH_LIST -> ClientConfig.DEATH_LIST_SIZE.get();
+            case DEATH_SELF -> ClientConfig.DEATH_SELF_SIZE.get();
+            case TIME -> ClientConfig.TIME_OVERLAY_SIZE.get();
+            case COORDS -> ClientConfig.COORDS_OVERLAY_SIZE.get();
+            case SURVIVAL -> ClientConfig.SURVIVAL_OVERLAY_SIZE.get();
+            default -> 1.0;
+        };
+
+        int w = (int) (widthSupplier.get() * scale);
+        int h = (int) (heightSupplier.get() * scale);
         newPx = Mth.clamp(newPx, 0, this.width - w);
         newPy = Mth.clamp(newPy, 0, this.height - h);
         xConfig.set((double) newPx / this.width);

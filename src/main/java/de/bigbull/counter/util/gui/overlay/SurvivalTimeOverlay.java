@@ -1,9 +1,11 @@
-package de.bigbull.counter.util.gui;
+package de.bigbull.counter.util.gui.overlay;
 
 import de.bigbull.counter.config.ClientConfig;
 import de.bigbull.counter.config.ServerConfig;
 import de.bigbull.counter.util.ClientCounterState;
 import de.bigbull.counter.util.CounterManager;
+import de.bigbull.counter.util.gui.GuiEditScreen;
+import de.bigbull.counter.util.gui.OverlayUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -13,8 +15,8 @@ public class SurvivalTimeOverlay {
     public static void render(GuiGraphics guiGraphics) {
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
-        boolean isEditMode = minecraft.screen instanceof OverlayEditScreen;
-        OverlayEditScreen editScreen = isEditMode ? (OverlayEditScreen) minecraft.screen : null;
+        boolean isEditMode = minecraft.screen instanceof GuiEditScreen;
+        GuiEditScreen guiEditScreen = isEditMode ? (GuiEditScreen) minecraft.screen : null;
 
         if (minecraft.level == null || player == null) {
             return;
@@ -33,12 +35,14 @@ public class SurvivalTimeOverlay {
 
         float scale = ClientConfig.SURVIVAL_OVERLAY_SIZE.get().floatValue();
         int textColor = ClientConfig.SURVIVAL_OVERLAY_TEXT_COLOR.get();
-        int width = calcWidth();
-        int height = calcHeight();
+        int width = calcSurvivalWidth();
+        int height = calcSurvivalHeight();
+        int scaledWidth = (int) (width * scale);
+        int scaledHeight = (int) (height * scale);
         OverlayUtils.Position pos = OverlayUtils.computePosition(
                 ClientConfig.SURVIVAL_OVERLAY_X.get(),
                 ClientConfig.SURVIVAL_OVERLAY_Y.get(),
-                scale, width, height);
+                scale, scaledWidth, scaledHeight);
 
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(scale, scale, 1.0F);
@@ -49,12 +53,12 @@ public class SurvivalTimeOverlay {
         if (isEditMode) {
             int iconColor = ClientConfig.SHOW_SURVIVAL_OVERLAY.get() ? 0xFF00FF00 : 0xFFFF0000;
 
-            OverlayUtils.drawCornerIcons(guiGraphics, pos.x(), pos.y(), width, height, iconColor);
+            OverlayUtils.drawCornerIcons(guiGraphics, pos.x(), pos.y(), scaledWidth, scaledHeight, iconColor);
 
-            if (editScreen.getSelectedOverlay() == OverlayEditScreen.DragTarget.SURVIVAL) {
-                OverlayUtils.drawBorder(guiGraphics, pos.x(), pos.y(), calcWidth(), calcHeight(), 0xFFFFFF00, 3);
+            if (guiEditScreen.getSelectedOverlay() == GuiEditScreen.DragTarget.SURVIVAL) {
+                OverlayUtils.drawBorder(guiGraphics, pos.x(), pos.y(), scaledWidth, scaledHeight, 0xFFFFFF00, 3);
             } else {
-                OverlayUtils.drawBorder(guiGraphics, pos.x(), pos.y(), calcWidth(), calcHeight(), 0xFFFF0000, 3);
+                OverlayUtils.drawBorder(guiGraphics, pos.x(), pos.y(), scaledWidth, scaledHeight, 0xFFFF0000, 3);
             }
         }
     }
@@ -72,16 +76,14 @@ public class SurvivalTimeOverlay {
         return Component.translatable(key, base).getString();
     }
 
-    public static int calcWidth() {
+    public static int calcSurvivalWidth() {
         Minecraft mc = Minecraft.getInstance();
-        float scale = ClientConfig.SURVIVAL_OVERLAY_SIZE.get().floatValue();
         String text = getSurvivalString();
-        return (int) (mc.font.width(text) * scale);
+        return mc.font.width(text);
     }
 
-    public static int calcHeight() {
+    public static int calcSurvivalHeight() {
         Minecraft mc = Minecraft.getInstance();
-        float scale = ClientConfig.SURVIVAL_OVERLAY_SIZE.get().floatValue();
-        return (int) (mc.font.lineHeight * scale);
+        return mc.font.lineHeight;
     }
 }

@@ -1,10 +1,12 @@
-package de.bigbull.counter.util.gui;
+package de.bigbull.counter.util.gui.overlay;
 
 import de.bigbull.counter.Counter;
 import de.bigbull.counter.config.ClientConfig;
 import de.bigbull.counter.config.ServerConfig;
 import de.bigbull.counter.util.ClientCounterState;
 import de.bigbull.counter.util.CounterManager;
+import de.bigbull.counter.util.gui.GuiEditScreen;
+import de.bigbull.counter.util.gui.OverlayUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -23,7 +25,7 @@ public class DeathCounterOverlay {
         if (minecraft.level == null || player == null || minecraft.getConnection() == null) return;
         if (!ServerConfig.SHOW_DEATH_OVERLAY.get() || !ServerConfig.ENABLE_DEATH_COUNTER.get()) return;
 
-        boolean isEditMode = (minecraft.screen instanceof OverlayEditScreen);
+        boolean isEditMode = (minecraft.screen instanceof GuiEditScreen);
 
         boolean serverWantsList = false;
         boolean serverWantsSelf = false;
@@ -59,18 +61,22 @@ public class DeathCounterOverlay {
         int listWidth = calcDeathListWidth();
         int listHeight = calcDeathListHeight();
         float listScale = ClientConfig.DEATH_LIST_SIZE.get().floatValue();
+        int scaledListWidth = (int) (listWidth * listScale);
+        int scaledListHeight = (int) (listHeight * listScale);
         OverlayUtils.Position listPos = OverlayUtils.computePosition(
                 ClientConfig.DEATH_LIST_X.get(),
                 ClientConfig.DEATH_LIST_Y.get(),
-                listScale, listWidth, listHeight);
+                listScale, scaledListWidth, scaledListHeight);
 
         int selfWidth = calcDeathSelfWidth();
         int selfHeight = calcDeathSelfHeight();
         float selfScale = ClientConfig.DEATH_SELF_SIZE.get().floatValue();
+        int scaledSelfWidth = (int) (selfWidth * selfScale);
+        int scaledSelfHeight = (int) (selfHeight * selfScale);
         OverlayUtils.Position selfPos = OverlayUtils.computePosition(
                 ClientConfig.DEATH_SELF_X.get(),
                 ClientConfig.DEATH_SELF_Y.get(),
-                selfScale, selfWidth, selfHeight);
+                selfScale, scaledSelfWidth, scaledSelfHeight);
 
         guiGraphics.pose().pushPose();
 
@@ -92,13 +98,15 @@ public class DeathCounterOverlay {
         int color = ClientConfig.DEATH_SELF_TEXT_COLOR.get();
         int drawWidth = calcDeathSelfWidth();
         int drawHeight = calcDeathSelfHeight();
+        int scaledWidth = (int) (drawWidth * scale);
+        int scaledHeight = (int) (drawHeight * scale);
 
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(scale, scale, 1.0F);
         guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(getSelfOverlayString(player)), pos.drawX(), pos.drawY(), color);
         guiGraphics.pose().popPose();
 
-        drawStatusAndBorder(guiGraphics, pos.x(), pos.y(), drawWidth, drawHeight, isEditMode, OverlayEditScreen.DragTarget.DEATH_SELF);
+        drawStatusAndBorder(guiGraphics, pos.x(), pos.y(), scaledWidth, scaledHeight, isEditMode, GuiEditScreen.DragTarget.DEATH_SELF);
     }
 
     private static void drawListOverlay(GuiGraphics guiGraphics, OverlayUtils.Position pos, boolean isEditMode) {
@@ -114,12 +122,12 @@ public class DeathCounterOverlay {
         } else if (ClientConfig.DEATH_OVERLAY_STYLE.get() == ClientConfig.DeathOverlayStyle.CLASSIC) {
             guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), pos.drawX(), pos.drawY(), defaultTextColor);
             drawDeathEntries(guiGraphics, pos.drawX(), pos.drawY(), sortedDeaths, false);
-            drawStatusAndBorder(guiGraphics, pos.x(), pos.y(), boxWidth, boxHeight, isEditMode, OverlayEditScreen.DragTarget.DEATH_LIST);
+            drawStatusAndBorder(guiGraphics, pos.drawX(), pos.drawY(), boxWidth, boxHeight, isEditMode, GuiEditScreen.DragTarget.DEATH_LIST);
         } else if (ClientConfig.DEATH_OVERLAY_STYLE.get() == ClientConfig.DeathOverlayStyle.BOXED) {
             guiGraphics.fill(pos.drawX() - 5, pos.drawY() - 5, pos.drawX() + boxWidth + 5, pos.drawY() + boxHeight + 5, backgroundColor);
             guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), pos.drawX(), pos.drawY(), defaultTextColor);
             drawDeathEntries(guiGraphics, pos.drawX(), pos.drawY(), sortedDeaths, false);
-            drawStatusAndBorder(guiGraphics, pos.x(), pos.y(), boxWidth, boxHeight, isEditMode, OverlayEditScreen.DragTarget.DEATH_LIST);
+            drawStatusAndBorder(guiGraphics, pos.drawX(), pos.drawY(), boxWidth, boxHeight, isEditMode, GuiEditScreen.DragTarget.DEATH_LIST);
         } else {
             Counter.logger.warn("Unknown setting for DEATH_OVERLAY_STYLE: {}", ClientConfig.DEATH_OVERLAY_STYLE.get());
             guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), pos.drawX(), pos.drawY(), 0xFF0000);
@@ -144,10 +152,10 @@ public class DeathCounterOverlay {
         guiGraphics.fill(pos.drawX() - 5, pos.drawY() + 10, pos.drawX() + tableWidth + 5, pos.drawY() + 11, 0x80FFFFFF);
 
         drawDeathEntries(guiGraphics, pos.drawX(), pos.drawY(), sortedDeaths, true);
-        drawStatusAndBorder(guiGraphics, pos.x() - 4, pos.y() - 4, tableWidth + 8, tableHeight + 8, isEditMode, OverlayEditScreen.DragTarget.DEATH_LIST);
+        drawStatusAndBorder(guiGraphics, pos.drawX() - 4, pos.drawY() - 4, tableWidth + 8, tableHeight + 8, isEditMode, GuiEditScreen.DragTarget.DEATH_LIST);
     }
 
-    private static void drawStatusAndBorder(GuiGraphics guiGraphics, int x, int y, int width, int height, boolean isEditMode, OverlayEditScreen.DragTarget target) {
+    private static void drawStatusAndBorder(GuiGraphics guiGraphics, int x, int y, int width, int height, boolean isEditMode, GuiEditScreen.DragTarget target) {
         if (!isEditMode) return;
 
         Minecraft mc = Minecraft.getInstance();
@@ -159,9 +167,9 @@ public class DeathCounterOverlay {
 
         int iconColor = isEnabled ? 0xFF00FF00 : 0xFFFF0000;
         OverlayUtils.drawCornerIcons(guiGraphics, x, y, width, height, iconColor);
-        OverlayEditScreen editScreen = (mc.screen instanceof OverlayEditScreen) ? (OverlayEditScreen) mc.screen : null;
+        GuiEditScreen guiEditScreen = (mc.screen instanceof GuiEditScreen) ? (GuiEditScreen) mc.screen : null;
 
-        if (editScreen != null && editScreen.getSelectedOverlay() == target) {
+        if (guiEditScreen != null && guiEditScreen.getSelectedOverlay() == target) {
             OverlayUtils.drawBorder(guiGraphics, x, y, width, height, 0xFFFFFF00, 3);
         } else {
             OverlayUtils.drawBorder(guiGraphics, x, y, width, height, 0xFFFF0000, 3);
@@ -221,7 +229,6 @@ public class DeathCounterOverlay {
 
     public static int calcDeathListWidth() {
         Minecraft mc = Minecraft.getInstance();
-        float scale = ClientConfig.DEATH_LIST_SIZE.get().floatValue();
         int maxTextWidth = ClientConfig.DEATH_OVERLAY_WIDTH.get();
         List<Map.Entry<UUID, Integer>> sortedDeaths = getSortedDeaths(ClientCounterState.getDeathCounts());
 
@@ -232,28 +239,25 @@ public class DeathCounterOverlay {
             int textWidth = mc.font.width(deathEntry.getString());
             maxTextWidth = Math.max(maxTextWidth, textWidth);
         }
-        return Math.max((int) (maxTextWidth * scale) + 10, 50);
+        return Math.max(maxTextWidth + 10, 50);
     }
 
     public static int calcDeathListHeight() {
-        float scale = ClientConfig.DEATH_LIST_SIZE.get().floatValue();
         int rowHeight = 12;
         int totalRows = getSortedDeaths(ClientCounterState.getDeathCounts()).size();
-        return (int) ((totalRows * rowHeight + 20) * scale);
+        return totalRows * rowHeight + 20;
     }
 
     public static int calcDeathSelfWidth() {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
-        float scale = ClientConfig.DEATH_SELF_SIZE.get().floatValue();
         int txtWidth = mc.font.width(getSelfOverlayString(player));
-        return (int) (txtWidth * scale);
+        return txtWidth;
     }
 
     public static int calcDeathSelfHeight() {
         Minecraft mc = Minecraft.getInstance();
-        float scale = ClientConfig.DEATH_SELF_SIZE.get().floatValue();
-        return (int) (mc.font.lineHeight * scale);
+        return mc.font.lineHeight;
     }
 
     private static List<Map.Entry<UUID, Integer>> getSortedDeaths(Map<UUID, Integer> deathCounts) {

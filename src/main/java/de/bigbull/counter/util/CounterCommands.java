@@ -110,7 +110,11 @@ public class CounterCommands {
                                                                 Component.translatable("command.deathcounter.set", targetPlayer.getName().getString(), newDeathCount),
                                                         true);
                                             }
-                                            PacketDistributor.sendToAllPlayers(new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
+                                            SurvivalTimeData surv = SurvivalTimeData.get(level);
+                                            PacketDistributor.sendToAllPlayers(new DeathCounterPacket(
+                                                    data.getDeathCountMap(),
+                                                    data.getPlayerNames(),
+                                                    surv.getBestTimesMap()));
                                             return Command.SINGLE_SUCCESS;
                                         }))))
                 .then(Commands.literal("reset")
@@ -122,7 +126,11 @@ public class CounterCommands {
                             data.resetAllDeaths();
 
                             context.getSource().sendSuccess(() -> Component.translatable("command.deathcounter.reset"), true);
-                            PacketDistributor.sendToAllPlayers(new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
+                            SurvivalTimeData surv = SurvivalTimeData.get(level);
+                            PacketDistributor.sendToAllPlayers(new DeathCounterPacket(
+                                    data.getDeathCountMap(),
+                                    data.getPlayerNames(),
+                                    surv.getBestTimesMap()));
 
                             return Command.SINGLE_SUCCESS;
                         }));

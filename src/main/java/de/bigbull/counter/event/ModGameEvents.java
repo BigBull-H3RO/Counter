@@ -71,7 +71,10 @@ public class ModGameEvents {
                 surv.setLastDeathTick(player.getUUID(), level.getGameTime());
             }
 
-            PacketDistributor.sendToPlayer(player, new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
+            PacketDistributor.sendToPlayer(player, new DeathCounterPacket(
+                    data.getDeathCountMap(),
+                    data.getPlayerNames(),
+                    surv.getBestTimesMap()));
             PacketDistributor.sendToPlayer(player, new DayCounterPacket(DayCounterData.getCurrentDay(level)));
             PacketDistributor.sendToPlayer(player, new SurvivalTimePacket(surv.getLastDeathTick(player.getUUID()), surv.getBestTime(player.getUUID())));
 
@@ -93,8 +96,9 @@ public class ModGameEvents {
             DeathCounterData data = DeathCounterData.get(level);
             data.addDeath(player.getUUID());
 
+            SurvivalTimeData surv = SurvivalTimeData.get(level);
+
             if (ServerConfig.ENABLE_SURVIVAL_COUNTER.get()) {
-                SurvivalTimeData surv = SurvivalTimeData.get(level);
                 long now = level.getGameTime();
                 long last = surv.getLastDeathTick(player.getUUID());
                 long duration = now - last;
@@ -126,7 +130,10 @@ public class ModGameEvents {
                 PacketDistributor.sendToPlayer(player, new SurvivalTimePacket(now, surv.getBestTime(player.getUUID())));
             }
 
-            PacketDistributor.sendToAllPlayers(new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
+            PacketDistributor.sendToAllPlayers(new DeathCounterPacket(
+                    data.getDeathCountMap(),
+                    data.getPlayerNames(),
+                    surv.getBestTimesMap()));
 
             if ((ServerConfig.SHOW_DEATH_IN_CHAT_MODE.get() == ServerConfig.DeathInChatMode.ON_DEATH ||
                     ServerConfig.SHOW_DEATH_IN_CHAT_MODE.get() == ServerConfig.DeathInChatMode.BOTH)) {

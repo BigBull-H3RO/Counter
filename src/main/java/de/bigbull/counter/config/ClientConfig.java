@@ -88,7 +88,7 @@ public class ClientConfig {
         DEATH_LIST_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right) of the death list overlay.")
                 .defineInRange("deathListX", 0.0125, 0.0, 1.0);
         DEATH_LIST_Y = CLIENT_BUILDER.comment("Relative Y position (0.0 = top, 1.0 = bottom) of the death list overlay.")
-                .defineInRange("deathListY", 0.16, 0.0, 1.0);
+                .defineInRange("deathListY", 0.18, 0.0, 1.0);
         DEATH_LIST_SIZE = CLIENT_BUILDER.comment("Scale factor for the death list text size.")
                 .defineInRange("deathListSize", 1, 0.1, 5);
         DEATH_OVERLAY_STYLE = CLIENT_BUILDER.comment("Which style to use for displaying the death list?")
@@ -124,7 +124,7 @@ public class ClientConfig {
         SHOW_SURVIVAL_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the survival time overlay.")
                 .define("showSurvivalOverlay", false);
         SHOW_SURVIVAL_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the survival overlay always be visible? If false, it is only visible while holding the Tab key.")
-                .define("showSurvivalOverlayAlways", false);
+                .define("showSurvivalOverlayAlways", true);
         SURVIVAL_OVERLAY_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right).")
                 .defineInRange("survivalOverlayX", 0.00625, 0.0, 1.0);
         SURVIVAL_OVERLAY_Y = CLIENT_BUILDER.comment("Relative Y position (0.0 = top, 1.0 = bottom).")

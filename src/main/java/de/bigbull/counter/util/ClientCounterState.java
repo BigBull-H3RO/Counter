@@ -10,6 +10,7 @@ public class ClientCounterState {
     private static long bestSurvivalTime;
     private static final Map<UUID, Integer> deathCounts = new HashMap<>();
     private static final Map<UUID, String> nameMap = new HashMap<>();
+    private static final Map<UUID, Long> bestTimes = new HashMap<>();
 
     public static long getDayCounter() {
         return dayCounter;
@@ -45,6 +46,15 @@ public class ClientCounterState {
     public static void updateNameMap(Map<UUID, String> newMap) {
         nameMap.clear();
         nameMap.putAll(newMap);
+    }
+
+    public static void updateBestTimes(Map<UUID, Long> newMap) {
+        bestTimes.clear();
+        bestTimes.putAll(newMap);
+    }
+
+    public static long getBestTime(UUID uuid) {
+        return bestTimes.getOrDefault(uuid, 0L);
     }
 
     public static String getNameFor(UUID uuid) {

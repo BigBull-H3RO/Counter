@@ -93,6 +93,10 @@ public class SurvivalTimeData extends SavedData {
         return bestTimes.getOrDefault(uuid, 0L);
     }
 
+    public Map<UUID, Long> getBestTimesMap() {
+        return new HashMap<>(bestTimes);
+    }
+
     public long getGlobalBest() {
         return globalBest;
     }

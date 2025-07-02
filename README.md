@@ -101,8 +101,8 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 #### 🛡️Survival Counter Settings
 | Option                      | Default    | Description                                                                                                                 |
 |-----------------------------|------------|-----------------------------------------------------------------------------------------------------------------------------|
-| `showSurvivalOverlay`       | `true`     | Enable/disable the **survival counter overlay** on the client side.                                                         |
-| `showSurvivalOverlayAlways` | `false`    | Should the **survival counter overlay** always be visible? If disabled, the overlay only appears while holding the Tab key. |            |
+| `showSurvivalOverlay`       | `false`    | Enable/disable the **survival counter overlay** on the client side.                                                         |
+| `showSurvivalOverlayAlways` | `true`     | Should the **survival counter overlay** always be visible? If disabled, the overlay only appears while holding the Tab key. |            |
 | `survivalOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the survival overlay.                                                      |
 | `survivalOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the survival overlay.                                                      |
 | `survivalOverlaySize`       | `1.0`      | Scale factor for the survival counter text size.                                                                            |
@@ -112,7 +112,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | Option                  | Default    | Description                                                                                                             |
 |-------------------------|------------|-------------------------------------------------------------------------------------------------------------------------|
 | `showTimeOverlay`       | `false`    | Enable/disable the **time counter overlay** on the client side.                                                         |
-| `showTimeOverlayAlways` | `false`    | Should the **time counter overlay** always be visible? If disabled, the overlay only appears while holding the Tab key. |            |
+| `showTimeOverlayAlways` | `true`     | Should the **time counter overlay** always be visible? If disabled, the overlay only appears while holding the Tab key. |            |
 | `timeOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the time overlay.                                                      |
 | `timeOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the time overlay.                                                      |
 | `timeOverlaySize`       | `1.0`      | Scale factor for the time counter text size.                                                                            |
@@ -122,7 +122,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | Option                    | Default    | Description                                                                                                               |
 |---------------------------|------------|---------------------------------------------------------------------------------------------------------------------------|
 | `showCoordsOverlay`       | `false`    | Enable/disable the **coords counter overlay** on the client side.                                                         |
-| `showCoordsOverlayAlways` | `false`    | Should the **coords counter overlay** always be visible? If disabled, the overlay only appears while holding the Tab key. |            |
+| `showCoordsOverlayAlways` | `true`     | Should the **coords counter overlay** always be visible? If disabled, the overlay only appears while holding the Tab key. |            |
 | `coordsOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the coords overlay.                                                      |
 | `coordsOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the coords overlay.                                                      |
 | `coordsOverlaySize`       | `1.0`      | Scale factor for the coords counter text size.                                                                            |
@@ -193,7 +193,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 #### ⏰Time Counter Settings
 | Option                | Default | Description                                                                                          |
 |-----------------------|---------|------------------------------------------------------------------------------------------------------|
-| `enableTimeCounter`   | `false` | Enables or disables the **Time Counter** feature on the server.                                      |
+| `enableTimeCounter`   | `true`  | Enables or disables the **Time Counter** feature on the server.                                      |
 | `showTimeOverlay`     | `true`  | Allows the **Time Counter overlay** to be shown (client can toggle).                                 |
 | `showCombinedDayTime` | `false` | Show the **day count** combined with the **inGame time**. Disables the standard day counter overlay. |
 | `timeFormat24h`       | `true`  | Use **24-hour format** instead of **12-hour format**.                                                |
@@ -201,7 +201,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 #### 📌Coords Counter Settings
 | Option                | Default | Description                                                            |
 |-----------------------|---------|------------------------------------------------------------------------|
-| `enableCoordsCounter` | `false` | Enables or disables the **Coords Counter** feature on the server.      |
+| `enableCoordsCounter` | `true`  | Enables or disables the **Coords Counter** feature on the server.      |
 | `showCoordsOverlay`   | `true`  | Allows the **Coords Counter overlay** to be shown (client can toggle). |
 
 ---

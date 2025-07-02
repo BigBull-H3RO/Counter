@@ -229,7 +229,11 @@ public class GuiEditScreen extends Screen {
                 return true;
             }
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        boolean widgetHandled = super.mouseClicked(mouseX, mouseY, button);
+        if (!widgetHandled && button == 0) {
+            selectedOverlay = DragTarget.NONE;
+        }
+        return widgetHandled;
     }
 
     @Override
@@ -270,9 +274,6 @@ public class GuiEditScreen extends Screen {
             return false;
         }
 
-        int px = (int) (xConfig.get() * this.width);
-        int py = (int) (yConfig.get() * this.height);
-
         double scale = switch (target) {
             case DAY -> ClientConfig.DAY_OVERLAY_SIZE.get();
             case DEATH_LIST -> ClientConfig.DEATH_LIST_SIZE.get();
@@ -284,6 +285,11 @@ public class GuiEditScreen extends Screen {
 
         int w = (int) (widthSupplier.get() * scale);
         int h = (int) (heightSupplier.get() * scale);
+
+        OverlayUtils.Position pos = OverlayUtils.computePosition(
+                xConfig.get(), yConfig.get(), (float) scale, w, h);
+        int px = pos.x();
+        int py = pos.y();
 
         int padding = Math.max(1, (int) Math.ceil(3 * scale));
 

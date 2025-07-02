@@ -44,15 +44,15 @@ public class OverlayUtils {
         g.fill(x + w + borderPadding - 1, y - borderPadding, x + w + borderPadding, y + h + borderPadding, color);
     }
 
-    public static void drawCornerIcons(GuiGraphics guiGraphics, int x, int y, int width, int height, int iconColor) {
-        int iconSize = 5;
-
-        int leftIconX = x - iconSize - 5;
-        int leftIconY = y + (height / 2) - (iconSize / 2);
-        guiGraphics.fill(leftIconX, leftIconY, leftIconX + iconSize, leftIconY + iconSize, iconColor);
-
-        int rightIconX = x + width + 5;
-        int rightIconY = y + (height / 2) - (iconSize / 2);
-        guiGraphics.fill(rightIconX, rightIconY, rightIconX + iconSize, rightIconY + iconSize, iconColor);
-    }
+//    public static void drawCornerIcons(GuiGraphics guiGraphics, int x, int y, int width, int height, int iconColor) {
+//        int iconSize = 5;
+//
+//        int leftIconX = x - iconSize - 5;
+//        int leftIconY = y + (height / 2) - (iconSize / 2);
+//        guiGraphics.fill(leftIconX, leftIconY, leftIconX + iconSize, leftIconY + iconSize, iconColor);
+//
+//        int rightIconX = x + width + 5;
+//        int rightIconY = y + (height / 2) - (iconSize / 2);
+//        guiGraphics.fill(rightIconX, rightIconY, rightIconX + iconSize, rightIconY + iconSize, iconColor);
+//    }
 }

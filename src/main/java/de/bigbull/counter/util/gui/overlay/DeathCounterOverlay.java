@@ -165,15 +165,14 @@ public class DeathCounterOverlay {
             default -> false;
         };
 
-        int iconColor = isEnabled ? 0xFF00FF00 : 0xFFFF0000;
-        OverlayUtils.drawCornerIcons(guiGraphics, x, y, width, height, iconColor);
+        int borderColor = isEnabled ? 0xFF00FF00 : 0xFFFF0000;
         GuiEditScreen guiEditScreen = (mc.screen instanceof GuiEditScreen) ? (GuiEditScreen) mc.screen : null;
 
         if (guiEditScreen != null && guiEditScreen.getSelectedOverlay() == target) {
-            OverlayUtils.drawBorder(guiGraphics, x, y, width, height, 0xFFFFFF00, 3);
-        } else {
-            OverlayUtils.drawBorder(guiGraphics, x, y, width, height, 0xFFFF0000, 3);
+            borderColor = 0xFFFFFF00;
         }
+
+        OverlayUtils.drawBorder(guiGraphics, x, y, width, height, borderColor, 3);
     }
 
     private static boolean isMultiplayerGame(Minecraft minecraft) {

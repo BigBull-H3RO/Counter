@@ -51,15 +51,14 @@ public class CoordsOverlay {
         guiGraphics.pose().popPose();
 
         if (isEditMode) {
-            int iconColor = ClientConfig.SHOW_COORDS_OVERLAY.get() ? 0xFF00FF00 : 0xFFFF0000;
-
-            OverlayUtils.drawCornerIcons(guiGraphics, pos.x(), pos.y(), scaledWidth, scaledHeight, iconColor);
+            boolean enabled = ClientConfig.SHOW_COORDS_OVERLAY.get();
+            int borderColor = enabled ? 0xFF00FF00 : 0xFFFF0000;
 
             if (guiEditScreen.getSelectedOverlay() == GuiEditScreen.DragTarget.COORDS) {
-                OverlayUtils.drawBorder(guiGraphics, pos.x(), pos.y(), scaledWidth, scaledHeight, 0xFFFFFF00, 3);
-            } else {
-                OverlayUtils.drawBorder(guiGraphics, pos.x(), pos.y(), scaledWidth, scaledHeight, 0xFFFF0000, 3);
+                borderColor = 0xFFFFFF00;
             }
+
+            OverlayUtils.drawBorder(guiGraphics, pos.x(), pos.y(), scaledWidth, scaledHeight, borderColor, 3);
         }
     }
 

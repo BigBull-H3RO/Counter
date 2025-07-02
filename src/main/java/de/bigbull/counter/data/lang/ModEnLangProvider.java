@@ -45,6 +45,7 @@ public class ModEnLangProvider extends LanguageProvider {
         add("command.coords.player_not_found", "❌ Player not found!");
 
         add("key.counter.edit_mode", "Edit Mode");
+        add("key.counter.show_overlays", "Show Overlays");
         add("key.categories.counter", "Counter");
 
         add("screen.overlay_edit", "Overlay Edit Screen");

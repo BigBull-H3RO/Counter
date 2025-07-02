@@ -107,9 +107,8 @@ public class CounterManager {
         };
     }
 
-    public static boolean isTabPressed() {
+    public static boolean isOverlayKeyPressed() {
         Minecraft minecraft = Minecraft.getInstance();
-        return GLFW.glfwGetKey(minecraft.getWindow().getWindow(), GLFW.GLFW_KEY_TAB) == GLFW.GLFW_PRESS
-                && minecraft.screen == null;
+        return ModKeybinds.SHOW_OVERLAYS.isDown() && minecraft.screen == null;
     }
 }

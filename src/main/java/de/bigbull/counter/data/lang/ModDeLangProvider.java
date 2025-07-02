@@ -45,6 +45,7 @@ public class ModDeLangProvider extends LanguageProvider {
         add("command.coords.player_not_found", "❌ Spieler nicht gefunden!");
 
         add("key.counter.edit_mode", "Bearbeitungsmodus");
+        add("key.counter.show_overlays", "Overlays anzeigen");
         add("key.categories.counter", "Zähler");
 
         add("screen.overlay_edit", "Overlay-Bearbeitung");

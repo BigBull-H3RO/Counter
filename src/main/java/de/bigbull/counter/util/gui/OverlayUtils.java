@@ -29,12 +29,12 @@ public class OverlayUtils {
     }
 
     public static boolean shouldShowOverlay(boolean showAlways, boolean showEnabled, boolean isEditMode) {
-        boolean allow = showAlways || CounterManager.isTabPressed() || isEditMode;
+        boolean allow = showAlways || CounterManager.isOverlayKeyPressed() || isEditMode;
         if (!allow) return false;
 
         return (showAlways && showEnabled)
                 || isEditMode
-                || (CounterManager.isTabPressed() && showEnabled);
+                || (CounterManager.isOverlayKeyPressed() && showEnabled);
     }
 
     public static void drawBorder(GuiGraphics g, int x, int y, int w, int h, int color, int borderPadding) {
@@ -43,16 +43,4 @@ public class OverlayUtils {
         g.fill(x - borderPadding, y - borderPadding, x - borderPadding + 1, y + h + borderPadding, color);
         g.fill(x + w + borderPadding - 1, y - borderPadding, x + w + borderPadding, y + h + borderPadding, color);
     }
-
-//    public static void drawCornerIcons(GuiGraphics guiGraphics, int x, int y, int width, int height, int iconColor) {
-//        int iconSize = 5;
-//
-//        int leftIconX = x - iconSize - 5;
-//        int leftIconY = y + (height / 2) - (iconSize / 2);
-//        guiGraphics.fill(leftIconX, leftIconY, leftIconX + iconSize, leftIconY + iconSize, iconColor);
-//
-//        int rightIconX = x + width + 5;
-//        int rightIconY = y + (height / 2) - (iconSize / 2);
-//        guiGraphics.fill(rightIconX, rightIconY, rightIconX + iconSize, rightIconY + iconSize, iconColor);
-//    }
 }

@@ -104,7 +104,7 @@ public class ServerConfig {
         ENABLE_SURVIVAL_COUNTER = SERVER_BUILDER.comment("If disabled, survival times will not be tracked.")
                 .define("enableSurvivalCounter", true);
         SHOW_SURVIVAL_OVERLAY = SERVER_BUILDER.comment("Allow the survival overlay to be displayed?")
-                .define("showSurvivalOverlay", false);
+                .define("showSurvivalOverlay", true);
         SURVIVAL_USE_REAL_TIME = SERVER_BUILDER.comment("Measure survival time in real life instead of Minecraft days?")
                 .define("survivalUseRealTime", false);
         SURVIVAL_TIME_FORMAT = SERVER_BUILDER.comment("Format used for displaying survival time.")

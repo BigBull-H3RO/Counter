@@ -9,4 +9,10 @@ public class ModKeybinds {
             GLFW.GLFW_KEY_O,
             "key.categories.counter"
     );
+
+    public static final KeyMapping SHOW_OVERLAYS = new KeyMapping(
+            "key.counter.show_overlays",
+            GLFW.GLFW_KEY_TAB,
+            "key.categories.counter"
+    );
 }

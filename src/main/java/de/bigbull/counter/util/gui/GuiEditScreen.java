@@ -280,6 +280,7 @@ public class GuiEditScreen extends Screen {
             case DEATH_SELF -> ClientConfig.DEATH_SELF_SIZE.get();
             case TIME -> ClientConfig.TIME_OVERLAY_SIZE.get();
             case COORDS -> ClientConfig.COORDS_OVERLAY_SIZE.get();
+            case SURVIVAL -> ClientConfig.SURVIVAL_OVERLAY_SIZE.get();
             default -> 1.0;
         };
 

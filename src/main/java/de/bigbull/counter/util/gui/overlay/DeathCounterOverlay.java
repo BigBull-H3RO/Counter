@@ -81,7 +81,7 @@ public class DeathCounterOverlay {
                     offsetY,
                     extraWidth,
                     extraHeight,
-                    (g, pos) -> drawListOverlay(g, pos)
+                    DeathCounterOverlay::drawListOverlay
             );
         }
 

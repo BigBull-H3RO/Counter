@@ -22,10 +22,7 @@ public class OverlayUtils {
         x = Mth.clamp(x, 0, Math.max(0, maxX));
         y = Mth.clamp(y, 0, Math.max(0, maxY));
 
-        int drawX = (int) (x / scale);
-        int drawY = (int) (y / scale);
-
-        return new Position(x, y, drawX, drawY);
+        return new Position(x, y, 0, 0);
     }
 
     public static boolean shouldShowOverlay(boolean showAlways, boolean showEnabled, boolean isEditMode) {

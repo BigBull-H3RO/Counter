@@ -34,8 +34,9 @@ public class OverlayRenderer {
         OverlayUtils.Position pos = OverlayUtils.computePosition(configX, configY, scale, scaledWidth, scaledHeight);
 
         g.pose().pushPose();
+        g.pose().translate(pos.x(), pos.y(), 0);
         g.pose().scale(scale, scale, 1.0F);
-        drawer.draw(g, pos);
+        drawer.draw(g, new OverlayUtils.Position(pos.x(), pos.y(), 0, 0));
         g.pose().popPose();
 
         if (isEditMode) {

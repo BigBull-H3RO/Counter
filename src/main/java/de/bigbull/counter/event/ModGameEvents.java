@@ -203,11 +203,7 @@ public class ModGameEvents {
 
             Component positionComponent = Component.literal(counter.incrementAndGet() + ".")
                     .setStyle(Style.EMPTY.withColor(0xFFFFFF));
-            Component playerAndDeaths = (deaths == 1)
-                    ? Component.translatable("overlay.counter.deathlist.entry.singular", Component.literal(playerName), deaths)
-                    : Component.translatable("overlay.counter.deathlist.entry.plural", Component.literal(playerName), deaths);
-
-            return Component.translatable("overlay.counter.deathlist.entry.full", positionComponent, playerAndDeaths);
+            return CounterManager.createDeathEntry(positionComponent, playerName, deaths);
         }).toList();
 
         player.sendSystemMessage(header);

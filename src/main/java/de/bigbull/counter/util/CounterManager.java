@@ -5,6 +5,7 @@ import de.bigbull.counter.config.ServerConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Map;
@@ -108,6 +109,13 @@ public class CounterManager {
                 yield sb.toString().trim();
             }
         };
+    }
+
+    public static MutableComponent createDeathEntry(Component positionComponent, String playerName, int deaths) {
+        MutableComponent playerAndDeaths = (deaths == 1)
+                ? Component.translatable("overlay.counter.deathlist.entry.singular", Component.literal(playerName), deaths)
+                : Component.translatable("overlay.counter.deathlist.entry.plural", Component.literal(playerName), deaths);
+        return Component.translatable("overlay.counter.deathlist.entry.full", positionComponent, playerAndDeaths);
     }
 
     public static boolean isOverlayKeyPressed() {

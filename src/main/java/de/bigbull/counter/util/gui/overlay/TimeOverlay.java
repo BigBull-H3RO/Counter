@@ -4,7 +4,7 @@ import de.bigbull.counter.config.ClientConfig;
 import de.bigbull.counter.config.ServerConfig;
 import de.bigbull.counter.util.CounterManager;
 import de.bigbull.counter.util.gui.GuiEditScreen;
-import de.bigbull.counter.util.gui.OverlayUtils;
+import de.bigbull.counter.util.gui.OverlayRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -27,41 +27,30 @@ public class TimeOverlay {
             return;
         }
 
-        boolean showTime = OverlayUtils.shouldShowOverlay(
-                ClientConfig.SHOW_TIME_OVERLAY_ALWAYS.get(),
-                ClientConfig.SHOW_TIME_OVERLAY.get(),
-                isEditMode
-        );
-
-        if (!showTime) return;
-
         float scale = ClientConfig.TIME_OVERLAY_SIZE.get().floatValue();
         int textColor = ClientConfig.TIME_OVERLAY_TEXT_COLOR.get();
         int width = calcTimeWidth();
         int height = calcTimeHeight();
-        int scaledWidth = (int) (width * scale);
-        int scaledHeight = (int) (height * scale);
-        OverlayUtils.Position pos = OverlayUtils.computePosition(
+
+        OverlayRenderer.render(
+                guiGraphics,
+                ClientConfig.SHOW_TIME_OVERLAY_ALWAYS.get(),
+                ClientConfig.SHOW_TIME_OVERLAY.get(),
+                isEditMode,
+                guiEditScreen,
+                scale,
                 ClientConfig.TIME_OVERLAY_X.get(),
                 ClientConfig.TIME_OVERLAY_Y.get(),
-                scale, scaledWidth, scaledHeight);
-
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().scale(scale, scale, 1.0F);
-
-        guiGraphics.drawString(minecraft.font, Component.literal(CounterManager.getTime()), pos.drawX(), pos.drawY(), textColor);
-        guiGraphics.pose().popPose();
-
-        if (isEditMode) {
-            boolean enabled = ClientConfig.SHOW_TIME_OVERLAY.get();
-            int borderColor = enabled ? 0xFF00FF00 : 0xFFFF0000;
-
-            if (guiEditScreen.getSelectedOverlay() == GuiEditScreen.DragTarget.TIME) {
-                borderColor = 0xFFFFFF00;
-            }
-
-            OverlayUtils.drawBorder(guiGraphics, pos.x(), pos.y(), scaledWidth, scaledHeight, borderColor, 3);
-        }
+                width,
+                height,
+                ClientConfig.SHOW_TIME_OVERLAY.get(),
+                GuiEditScreen.DragTarget.TIME,
+                0,
+                0,
+                0,
+                0,
+                (g, pos) -> g.drawString(minecraft.font, Component.literal(CounterManager.getTime()), pos.drawX(), pos.drawY(), textColor)
+        );
     }
 
     public static int calcTimeWidth() {

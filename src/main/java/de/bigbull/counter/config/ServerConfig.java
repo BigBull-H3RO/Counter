@@ -60,14 +60,22 @@ public class ServerConfig {
         FULL, DAYS_HOURS, HOURS_MINUTES, DAYS, HOURS, MINUTES
     }
 
+    private static ModConfigSpec.BooleanValue defineEnable(String key, String feature) {
+        return SERVER_BUILDER.comment("If disabled, " + feature + " will not be tracked or displayed.")
+                .define(key, true);
+    }
+
+    private static ModConfigSpec.BooleanValue defineOverlay(String key, String overlayName) {
+        return SERVER_BUILDER.comment("Allow the " + overlayName + " overlay to be displayed for players? (Server-side override)")
+                .define(key, true);
+    }
+
     static {
         SERVER_BUILDER.push("Day Counter Settings");
-        ENABLE_DAY_COUNTER = SERVER_BUILDER.comment("If disabled, the day counter will not be tracked or displayed on the server.")
-                .define("enableDayCounter", true);
+        ENABLE_DAY_COUNTER = defineEnable("enableDayCounter", "day counter");
+        SHOW_DAY_OVERLAY = defineOverlay("showOverlay", "day counter");
         ENABLE_DAY_MESSAGE = SERVER_BUILDER.comment("Send a chat message when a new Minecraft day starts?")
                 .define("enableDayMessage", true);
-        SHOW_DAY_OVERLAY = SERVER_BUILDER.comment("Allow the day counter overlay to be displayed for players? (Server-side override)")
-                .define("showOverlay", true);
         SHOW_DAY_IN_CHAT = SERVER_BUILDER.comment("Show the current Minecraft day in chat when a player joins?")
                 .define("showDayInChat", true);
         DAY_CHATTEXT_COLOR = SERVER_BUILDER.comment("Text color for the day counter chat message.")
@@ -75,10 +83,8 @@ public class ServerConfig {
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("Death Counter Settings");
-        ENABLE_DEATH_COUNTER = SERVER_BUILDER.comment("If disabled, player deaths will not be tracked or displayed.")
-                .define("enableDeathCounter", true);
-        SHOW_DEATH_OVERLAY = SERVER_BUILDER.comment("Allow players to see the death counter overlay? (Server-side override)")
-                .define("showOverlay", true);
+        ENABLE_DEATH_COUNTER = defineEnable("enableDeathCounter", "death counter");
+        SHOW_DEATH_OVERLAY = defineOverlay("showOverlay", "death counter");
         MAX_PLAYERS_SHOWN = SERVER_BUILDER.comment("Maximum number of players displayed in the death counter list.")
                 .defineInRange("maxPlayersShown", 5, 1, 20);
         DEATH_OVERLAY_MODE = SERVER_BUILDER.comment("Which death overlay types are allowed? ONLY_SELF = personal, LIST = global, BOTH = both.")
@@ -101,10 +107,8 @@ public class ServerConfig {
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("Survival Counter Settings");
-        ENABLE_SURVIVAL_COUNTER = SERVER_BUILDER.comment("If disabled, survival times will not be tracked.")
-                .define("enableSurvivalCounter", true);
-        SHOW_SURVIVAL_OVERLAY = SERVER_BUILDER.comment("Allow the survival overlay to be displayed?")
-                .define("showSurvivalOverlay", true);
+        ENABLE_SURVIVAL_COUNTER = defineEnable("enableSurvivalCounter", "survival counter");
+        SHOW_SURVIVAL_OVERLAY = defineOverlay("showSurvivalOverlay", "survival");
         SURVIVAL_USE_REAL_TIME = SERVER_BUILDER.comment("Measure survival time in real life instead of Minecraft days?")
                 .define("survivalUseRealTime", false);
         SURVIVAL_TIME_FORMAT = SERVER_BUILDER.comment("Format used for displaying survival time.")
@@ -127,10 +131,8 @@ public class ServerConfig {
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("Time Counter Settings");
-        ENABLE_TIME_COUNTER = SERVER_BUILDER.comment("If disabled, the time counter will not be tracked or displayed.")
-                .define("enableTimeCounter", true);
-        SHOW_TIME_OVERLAY = SERVER_BUILDER.comment("Allow the time overlay to be displayed for players? (Server-side override)")
-                .define("showTimeOverlay", true);
+        ENABLE_TIME_COUNTER = defineEnable("enableTimeCounter", "time counter");
+        SHOW_TIME_OVERLAY = defineOverlay("showTimeOverlay", "time");
         SHOW_COMBINED_DAY_TIME = SERVER_BUILDER.comment("Show the day count combined with the inGame time. Disables the standard Time Overlay.")
                 .define("showCombinedDayTime", false);
         TIME_FORMAT_24H = SERVER_BUILDER.comment("Use 24-hour format instead of 12-hour format.")
@@ -138,10 +140,8 @@ public class ServerConfig {
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.push("Coordinates Overlay Settings");
-        ENABLE_COORDS_COUNTER = SERVER_BUILDER.comment("If disabled, the coordinates overlay will not be displayed.")
-                .define("enableCoordsCounter", true);
-        SHOW_COORDS_OVERLAY = SERVER_BUILDER.comment("Allow the coordinates overlay to be displayed for players?")
-                .define("showCoordsOverlay", true);
+        ENABLE_COORDS_COUNTER = defineEnable("enableCoordsCounter", "coordinates overlay");
+        SHOW_COORDS_OVERLAY = defineOverlay("showCoordsOverlay", "coordinates");
         SERVER_BUILDER.pop();
 
         SERVER_SPEC = SERVER_BUILDER.build();

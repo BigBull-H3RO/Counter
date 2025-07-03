@@ -3,7 +3,7 @@ package de.bigbull.counter.util.gui.overlay;
 import de.bigbull.counter.config.ClientConfig;
 import de.bigbull.counter.config.ServerConfig;
 import de.bigbull.counter.util.gui.GuiEditScreen;
-import de.bigbull.counter.util.gui.OverlayUtils;
+import de.bigbull.counter.util.gui.OverlayRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -24,42 +24,32 @@ public class CoordsOverlay {
             return;
         }
 
-        boolean showCoords = OverlayUtils.shouldShowOverlay(
-                ClientConfig.SHOW_COORDS_OVERLAY_ALWAYS.get(),
-                ClientConfig.SHOW_COORDS_OVERLAY.get(),
-                isEditMode
-        );
-
-        if (!showCoords) return;
-
         float scale = ClientConfig.COORDS_OVERLAY_SIZE.get().floatValue();
         int textColor = ClientConfig.COORDS_OVERLAY_TEXT_COLOR.get();
         int width = calcCoordsWidth();
         int height = calcCoordsHeight();
-        int scaledWidth = (int) (width * scale);
-        int scaledHeight = (int) (height * scale);
-        OverlayUtils.Position pos = OverlayUtils.computePosition(
-                ClientConfig.COORDS_OVERLAY_X.get(),
-                ClientConfig.COORDS_OVERLAY_Y.get(),
-                scale, scaledWidth, scaledHeight);
 
         String coordsText = getCoordsText(player);
 
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().scale(scale, scale, 1.0F);
-        guiGraphics.drawString(minecraft.font, coordsText, pos.drawX(), pos.drawY(), textColor);
-        guiGraphics.pose().popPose();
-
-        if (isEditMode) {
-            boolean enabled = ClientConfig.SHOW_COORDS_OVERLAY.get();
-            int borderColor = enabled ? 0xFF00FF00 : 0xFFFF0000;
-
-            if (guiEditScreen.getSelectedOverlay() == GuiEditScreen.DragTarget.COORDS) {
-                borderColor = 0xFFFFFF00;
-            }
-
-            OverlayUtils.drawBorder(guiGraphics, pos.x(), pos.y(), scaledWidth, scaledHeight, borderColor, 3);
-        }
+        OverlayRenderer.render(
+                guiGraphics,
+                ClientConfig.SHOW_COORDS_OVERLAY_ALWAYS.get(),
+                ClientConfig.SHOW_COORDS_OVERLAY.get(),
+                isEditMode,
+                guiEditScreen,
+                scale,
+                ClientConfig.COORDS_OVERLAY_X.get(),
+                ClientConfig.COORDS_OVERLAY_Y.get(),
+                width,
+                height,
+                ClientConfig.SHOW_COORDS_OVERLAY.get(),
+                GuiEditScreen.DragTarget.COORDS,
+                0,
+                0,
+                0,
+                0,
+                (g, pos) -> g.drawString(minecraft.font, coordsText, pos.drawX(), pos.drawY(), textColor)
+        );
     }
 
     private static String getCoordsText(LocalPlayer player) {

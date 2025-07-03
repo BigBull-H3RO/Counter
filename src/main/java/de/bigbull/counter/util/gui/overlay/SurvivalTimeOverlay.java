@@ -5,7 +5,7 @@ import de.bigbull.counter.config.ServerConfig;
 import de.bigbull.counter.util.ClientCounterState;
 import de.bigbull.counter.util.CounterManager;
 import de.bigbull.counter.util.gui.GuiEditScreen;
-import de.bigbull.counter.util.gui.OverlayUtils;
+import de.bigbull.counter.util.gui.OverlayRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -25,41 +25,30 @@ public class SurvivalTimeOverlay {
             return;
         }
 
-        boolean show = OverlayUtils.shouldShowOverlay(
-                ClientConfig.SHOW_SURVIVAL_OVERLAY_ALWAYS.get(),
-                ClientConfig.SHOW_SURVIVAL_OVERLAY.get(),
-                isEditMode
-        );
-
-        if (!show) return;
-
         float scale = ClientConfig.SURVIVAL_OVERLAY_SIZE.get().floatValue();
         int textColor = ClientConfig.SURVIVAL_OVERLAY_TEXT_COLOR.get();
         int width = calcSurvivalWidth();
         int height = calcSurvivalHeight();
-        int scaledWidth = (int) (width * scale);
-        int scaledHeight = (int) (height * scale);
-        OverlayUtils.Position pos = OverlayUtils.computePosition(
+
+        OverlayRenderer.render(
+                guiGraphics,
+                ClientConfig.SHOW_SURVIVAL_OVERLAY_ALWAYS.get(),
+                ClientConfig.SHOW_SURVIVAL_OVERLAY.get(),
+                isEditMode,
+                guiEditScreen,
+                scale,
                 ClientConfig.SURVIVAL_OVERLAY_X.get(),
                 ClientConfig.SURVIVAL_OVERLAY_Y.get(),
-                scale, scaledWidth, scaledHeight);
-
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().scale(scale, scale, 1.0F);
-
-        guiGraphics.drawString(minecraft.font, Component.literal(getSurvivalString()), pos.drawX(), pos.drawY(), textColor);
-        guiGraphics.pose().popPose();
-
-        if (isEditMode) {
-            boolean enabled = ClientConfig.SHOW_SURVIVAL_OVERLAY.get();
-            int borderColor = enabled ? 0xFF00FF00 : 0xFFFF0000;
-
-            if (guiEditScreen.getSelectedOverlay() == GuiEditScreen.DragTarget.SURVIVAL) {
-                borderColor = 0xFFFFFF00;
-            }
-
-            OverlayUtils.drawBorder(guiGraphics, pos.x(), pos.y(), scaledWidth, scaledHeight, borderColor, 3);
-        }
+                width,
+                height,
+                ClientConfig.SHOW_SURVIVAL_OVERLAY.get(),
+                GuiEditScreen.DragTarget.SURVIVAL,
+                0,
+                0,
+                0,
+                0,
+                (g, pos) -> g.drawString(minecraft.font, Component.literal(getSurvivalString()), pos.drawX(), pos.drawY(), textColor)
+        );
     }
 
     private static String getSurvivalString() {

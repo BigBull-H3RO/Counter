@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.Map;
 import java.util.UUID;
@@ -16,14 +15,7 @@ public class CounterManager {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null) return "N/A";
 
-        long time = minecraft.level.getDayTime() % 24000;
-        int hours = (int) ((time / 1000 + 6) % 24);
-        int minutes = (int) ((time % 1000) / 1000.0 * 60);
-
-        boolean is24Hour = ServerConfig.TIME_FORMAT_24H.get();
-        return is24Hour
-                ? String.format("%02d:%02d", hours, minutes)
-                : String.format("%02d:%02d %s", (hours % 12 == 0 ? 12 : hours % 12), minutes, hours < 12 ? "AM" : "PM");
+        return formatTime(minecraft.level.getDayTime());
     }
 
     public static String getCombinedDayTime() {
@@ -70,6 +62,17 @@ public class CounterManager {
         sender.getServer().getPlayerList().broadcastSystemMessage(message, false);
     }
 
+    public static String formatTime(long ticks) {
+        long time = ticks % 24000;
+        int hours = (int) ((time / 1000 + 6) % 24);
+        int minutes = (int) ((time % 1000) / 1000.0 * 60);
+
+        boolean is24Hour = ServerConfig.TIME_FORMAT_24H.get();
+        return is24Hour
+                ? String.format("%02d:%02d", hours, minutes)
+                : String.format("%02d:%02d %s", (hours % 12 == 0 ? 12 : hours % 12), minutes, hours < 12 ? "AM" : "PM");
+    }
+
     public static String formatSurvivalTime(long ticks) {
         boolean real = ServerConfig.SURVIVAL_USE_REAL_TIME.get();
         long ticksPerDay = real ? 1728000L : 24000L;
@@ -78,7 +81,7 @@ public class CounterManager {
 
         long days = ticks / ticksPerDay;
         long hours = (ticks % ticksPerDay) / ticksPerHour;
-        long minutes = Math.round(((ticks % ticksPerHour) / ticksPerMinute));
+        long minutes = (long) ((ticks % ticksPerHour) / ticksPerMinute);
 
         ServerConfig.SurvivalTimeFormat fmt = ServerConfig.SURVIVAL_TIME_FORMAT.get();
         return switch (fmt) {

@@ -18,7 +18,7 @@ public class ClientConfig {
     public static final ModConfigSpec.DoubleValue DEATH_LIST_X;
     public static final ModConfigSpec.DoubleValue DEATH_LIST_Y;
     public static final ModConfigSpec.DoubleValue DEATH_LIST_SIZE;
-    public static final ModConfigSpec.IntValue DEATH_OVERLAY_WIDTH;
+    public static final ModConfigSpec.IntValue DEATH_OVERLAY_MIN_WIDTH;
     public static final ModConfigSpec.EnumValue<DeathOverlayStyle> DEATH_OVERLAY_STYLE;
     public static final ModConfigSpec.IntValue DEATH_LIST_TEXT_COLOR;
     public static final ModConfigSpec.IntValue FIRST_PLACE_COLOR;
@@ -93,8 +93,8 @@ public class ClientConfig {
                 .defineInRange("deathListSize", 1, 0.1, 5);
         DEATH_OVERLAY_STYLE = CLIENT_BUILDER.comment("Which style to use for displaying the death list?")
                 .defineEnum("deathOverlayStyle", DeathOverlayStyle.TABLE);
-        DEATH_OVERLAY_WIDTH = CLIENT_BUILDER.comment("Maximum width (in pixels) for the death counter list overlay.")
-                .defineInRange("deathOverlayWidth", 120, 0, 600);
+        DEATH_OVERLAY_MIN_WIDTH = CLIENT_BUILDER.comment("Minimum width (in pixels) for the death counter list overlay.")
+                .defineInRange("deathOverlayMinWidth", 120, 0, 600);
         DEATH_LIST_TEXT_COLOR = CLIENT_BUILDER.comment("Default text color for the death list overlay.")
                 .defineInRange("deathListTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
         FIRST_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the first place in the death list.")

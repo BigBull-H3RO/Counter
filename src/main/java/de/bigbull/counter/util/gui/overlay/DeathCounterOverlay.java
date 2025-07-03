@@ -1,6 +1,5 @@
 package de.bigbull.counter.util.gui.overlay;
 
-import de.bigbull.counter.Counter;
 import de.bigbull.counter.config.ClientConfig;
 import de.bigbull.counter.config.ServerConfig;
 import de.bigbull.counter.util.ClientCounterState;
@@ -129,9 +128,8 @@ public class DeathCounterOverlay {
             drawDeathEntries(guiGraphics, pos.drawX(), pos.drawY(), sortedDeaths, false);
             drawStatusAndBorder(guiGraphics, pos.drawX(), pos.drawY(), boxWidth, boxHeight, isEditMode, GuiEditScreen.DragTarget.DEATH_LIST);
         } else {
-            Counter.logger.warn("Unknown setting for DEATH_OVERLAY_STYLE: {}", ClientConfig.DEATH_OVERLAY_STYLE.get());
             guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), pos.drawX(), pos.drawY(), 0xFF0000);
-            guiGraphics.drawString(minecraft.font, Component.literal("ERROR: Invalid death list style!"), pos.drawX(), pos.drawY() + 12, 0xFF0000);
+            guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist.style.invalid"), pos.drawX(), pos.drawY() + 12, 0xFF0000);
         }
     }
 
@@ -228,7 +226,7 @@ public class DeathCounterOverlay {
 
     public static int calcDeathListWidth() {
         Minecraft mc = Minecraft.getInstance();
-        int maxTextWidth = ClientConfig.DEATH_OVERLAY_WIDTH.get();
+        int maxTextWidth = ClientConfig.DEATH_OVERLAY_MIN_WIDTH.get();
         List<Map.Entry<UUID, Integer>> sortedDeaths = getSortedDeaths(ClientCounterState.getDeathCounts());
 
         for (int i = 0; i < sortedDeaths.size(); i++) {

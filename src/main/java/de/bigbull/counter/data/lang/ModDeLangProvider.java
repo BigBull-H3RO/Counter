@@ -26,7 +26,7 @@ public class ModDeLangProvider extends LanguageProvider {
         add("overlay.counter.deathlist.entry.full", "%s %s");
         add("overlay.counter.deathlist.entry.singular", "%s: %s Tod");
         add("overlay.counter.deathlist.entry.plural", "%s: %s Tode");
-        add("command.deathcounter.get", "💀 %s ist %s mal gestorben!");
+        add("overlay.counter.deathlist.style.invalid", "FEHLER: Ungültiger Todeslisten-Stil!");
         add("command.deathcounter.reset", "💀 Todeszähler wurde zurückgesetzt!");
         add("command.deathcounter.set", "💀 Setze die Tode von %s auf %s!");
 

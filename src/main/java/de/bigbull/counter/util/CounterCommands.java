@@ -145,15 +145,9 @@ public class CounterCommands {
                             MinecraftServer server = context.getSource().getServer();
                             ServerLevel level = server.overworld();
 
-                            long time = level.getDayTime() % 24000;
-                            int hours = (int) ((time / 1000 + 6) % 24);
-                            int minutes = (int) ((time % 1000) / 1000.0 * 60);
-                            boolean is24Hour = ServerConfig.TIME_FORMAT_24H.get();
-                            String timeString = is24Hour
-                                    ? String.format("%02d:%02d", hours, minutes)
-                                    : String.format("%02d:%02d %s", (hours % 12 == 0 ? 12 : hours % 12), minutes, hours < 12 ? "AM" : "PM");
+                            String timeString = CounterManager.formatTime(level.getDayTime());
 
-                            context.getSource().sendSuccess(() -> Component.literal("\u23F0 " + timeString), false);
+                            context.getSource().sendSuccess(() -> Component.literal("⏰ " + timeString), false);
                             return Command.SINGLE_SUCCESS;
                         }));
     }

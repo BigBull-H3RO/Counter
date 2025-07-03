@@ -26,7 +26,7 @@ public class ModEnLangProvider extends LanguageProvider {
         add("overlay.counter.deathlist.entry.full", "%s %s");
         add("overlay.counter.deathlist.entry.singular", "%s: %s death");
         add("overlay.counter.deathlist.entry.plural", "%s: %s deaths");
-        add("command.deathcounter.get", "💀 %s has died %s time!");
+        add("overlay.counter.deathlist.style.invalid", "ERROR: Invalid death list style!");
         add("command.deathcounter.reset", "💀 Death Counter has been reset!");
         add("command.deathcounter.set", "💀 Set the death count of %s to %s!");
 

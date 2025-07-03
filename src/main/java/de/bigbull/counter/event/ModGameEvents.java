@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @EventBusSubscriber(modid = Counter.MODID)
 public class ModGameEvents {
@@ -194,11 +195,13 @@ public class ModGameEvents {
 
         Component header = Component.translatable("overlay.counter.deathlist").withStyle(style -> style.withColor(textColor));
 
+        AtomicInteger counter = new AtomicInteger(0);
+
         List<MutableComponent> deathEntries = sortedDeaths.stream().map(entry -> {
             String playerName = data.getPlayerNames().getOrDefault(entry.getKey(), "Unknown");
             int deaths = entry.getValue();
 
-            Component positionComponent = Component.literal((sortedDeaths.indexOf(entry) + 1) + ".")
+            Component positionComponent = Component.literal(counter.incrementAndGet() + ".")
                     .setStyle(Style.EMPTY.withColor(0xFFFFFF));
             Component playerAndDeaths = (deaths == 1)
                     ? Component.translatable("overlay.counter.deathlist.entry.singular", Component.literal(playerName), deaths)

@@ -19,6 +19,13 @@ public class GuiEditScreen extends Screen {
     private DragTarget currentDrag = DragTarget.NONE;
     private int dragOffsetX = 0, dragOffsetY = 0;
 
+    private OverlayAlignment oldDayAlign;
+    private OverlayAlignment oldDeathListAlign;
+    private OverlayAlignment oldDeathSelfAlign;
+    private OverlayAlignment oldTimeAlign;
+    private OverlayAlignment oldCoordsAlign;
+    private OverlayAlignment oldSurvivalAlign;
+
     private double oldDayFracX, oldDayFracY;
     private double oldListFracX, oldListFracY;
     private double oldSelfFracX, oldSelfFracY;
@@ -77,6 +84,13 @@ public class GuiEditScreen extends Screen {
         oldSurvivalFracX = ClientConfig.SURVIVAL_OVERLAY_X.get();
         oldSurvivalFracY = ClientConfig.SURVIVAL_OVERLAY_Y.get();
 
+        oldDayAlign = ClientConfig.DAY_OVERLAY_ALIGN.get();
+        oldDeathListAlign = ClientConfig.DEATH_LIST_ALIGN.get();
+        oldDeathSelfAlign = ClientConfig.DEATH_SELF_ALIGN.get();
+        oldTimeAlign = ClientConfig.TIME_OVERLAY_ALIGN.get();
+        oldCoordsAlign = ClientConfig.COORDS_OVERLAY_ALIGN.get();
+        oldSurvivalAlign = ClientConfig.SURVIVAL_OVERLAY_ALIGN.get();
+
         oldDaySize = ClientConfig.DAY_OVERLAY_SIZE.get();
         oldDeathListSize = ClientConfig.DEATH_LIST_SIZE.get();
         oldDeathSelfSize = ClientConfig.DEATH_SELF_SIZE.get();
@@ -99,6 +113,7 @@ public class GuiEditScreen extends Screen {
                 Button.builder(Component.translatable("screen.overlay_edit.cancel"), b -> {
                     revertPositions();
                     revertSizes();
+                    revertAlignments();
                     onClose();
                 }).bounds(centerX + 10, bottomY, 100, 20).build()
         );
@@ -110,15 +125,30 @@ public class GuiEditScreen extends Screen {
         );
 
         this.addRenderableWidget(
-                Button.builder(Component.translatable("+"), b -> {
+                Button.builder(Component.literal("+"), b -> {
                     increaseSelectedOverlaySize();
                 }).bounds(centerX - 80, bottomY - 30, 20, 20).build()
         );
 
         this.addRenderableWidget(
-                Button.builder(Component.translatable("-"), b -> {
+                Button.builder(Component.literal("-"), b -> {
                     decreaseSelectedOverlaySize();
                 }).bounds(centerX + 60, bottomY - 30, 20, 20).build()
+        );
+
+        this.addRenderableWidget(
+                Button.builder(Component.literal("◀"), b -> setSelectedOverlayAlignment(OverlayAlignment.LEFT))
+                        .bounds(centerX - 40, bottomY - 52, 20, 12).build()
+        );
+
+        this.addRenderableWidget(
+                Button.builder(Component.literal("●"), b -> setSelectedOverlayAlignment(OverlayAlignment.CENTER))
+                        .bounds(centerX - 10, bottomY - 52, 20, 12).build()
+        );
+
+        this.addRenderableWidget(
+                Button.builder(Component.literal("▶"), b -> setSelectedOverlayAlignment(OverlayAlignment.RIGHT))
+                        .bounds(centerX + 20, bottomY - 52, 20, 12).build()
         );
 
         super.init();
@@ -130,6 +160,7 @@ public class GuiEditScreen extends Screen {
             revertPositions();
             revertOverlayStates();
             revertSizes();
+            revertAlignments();
         }
 
         Minecraft mc = Minecraft.getInstance();
@@ -170,6 +201,15 @@ public class GuiEditScreen extends Screen {
         ClientConfig.TIME_OVERLAY_SIZE.set(oldTimeSize);
         ClientConfig.COORDS_OVERLAY_SIZE.set(oldCoordsSize);
         ClientConfig.SURVIVAL_OVERLAY_SIZE.set(oldSurvivalSize);
+    }
+
+    private void revertAlignments() {
+        ClientConfig.DAY_OVERLAY_ALIGN.set(oldDayAlign);
+        ClientConfig.DEATH_LIST_ALIGN.set(oldDeathListAlign);
+        ClientConfig.DEATH_SELF_ALIGN.set(oldDeathSelfAlign);
+        ClientConfig.TIME_OVERLAY_ALIGN.set(oldTimeAlign);
+        ClientConfig.COORDS_OVERLAY_ALIGN.set(oldCoordsAlign);
+        ClientConfig.SURVIVAL_OVERLAY_ALIGN.set(oldSurvivalAlign);
     }
 
     @Override
@@ -287,8 +327,18 @@ public class GuiEditScreen extends Screen {
         int w = (int) (widthSupplier.get() * scale);
         int h = (int) (heightSupplier.get() * scale);
 
+        OverlayAlignment align = switch (target) {
+            case DAY -> ClientConfig.DAY_OVERLAY_ALIGN.get();
+            case DEATH_LIST -> ClientConfig.DEATH_LIST_ALIGN.get();
+            case DEATH_SELF -> ClientConfig.DEATH_SELF_ALIGN.get();
+            case TIME -> ClientConfig.TIME_OVERLAY_ALIGN.get();
+            case COORDS -> ClientConfig.COORDS_OVERLAY_ALIGN.get();
+            case SURVIVAL -> ClientConfig.SURVIVAL_OVERLAY_ALIGN.get();
+            default -> OverlayAlignment.LEFT;
+        };
+
         OverlayUtils.Position pos = OverlayUtils.computePosition(
-                xConfig.get(), yConfig.get(), (float) scale, w, h);
+                xConfig.get(), yConfig.get(), (float) scale, w, h, align);
         int px = pos.x();
         int py = pos.y();
 
@@ -317,9 +367,26 @@ public class GuiEditScreen extends Screen {
 
         int w = (int) (widthSupplier.get() * scale);
         int h = (int) (heightSupplier.get() * scale);
+
+        OverlayAlignment align = switch (currentDrag) {
+            case DAY -> ClientConfig.DAY_OVERLAY_ALIGN.get();
+            case DEATH_LIST -> ClientConfig.DEATH_LIST_ALIGN.get();
+            case DEATH_SELF -> ClientConfig.DEATH_SELF_ALIGN.get();
+            case TIME -> ClientConfig.TIME_OVERLAY_ALIGN.get();
+            case COORDS -> ClientConfig.COORDS_OVERLAY_ALIGN.get();
+            case SURVIVAL -> ClientConfig.SURVIVAL_OVERLAY_ALIGN.get();
+            default -> OverlayAlignment.LEFT;
+        };
+
+        int shift = switch (align) {
+            case CENTER -> w / 2;
+            case RIGHT -> w;
+            default -> 0;
+        };
+
         newPx = Mth.clamp(newPx, 0, this.width - w);
         newPy = Mth.clamp(newPy, 0, this.height - h);
-        xConfig.set((double) newPx / this.width);
+        xConfig.set((double) (newPx + shift) / this.width);
         yConfig.set((double) newPy / this.height);
     }
 
@@ -370,6 +437,83 @@ public class GuiEditScreen extends Screen {
         }
 
         adjustOverlaySize(selectedOverlay, -0.1);
+    }
+
+    public void setSelectedOverlayAlignment(OverlayAlignment align) {
+        if (!isOverlayAllowedByServer(selectedOverlay)) {
+            return;
+        }
+        Minecraft mc = Minecraft.getInstance();
+
+        ModConfigSpec.DoubleValue xConfig;
+        ModConfigSpec.EnumValue<OverlayAlignment> alignConfig;
+        Supplier<Integer> widthSupplier;
+        double scale;
+
+        switch (selectedOverlay) {
+            case DAY -> {
+                xConfig = ClientConfig.DAY_OVERLAY_X;
+                alignConfig = ClientConfig.DAY_OVERLAY_ALIGN;
+                widthSupplier = DayCounterOverlay::calcDayWidth;
+                scale = ClientConfig.DAY_OVERLAY_SIZE.get();
+            }
+            case DEATH_LIST -> {
+                xConfig = ClientConfig.DEATH_LIST_X;
+                alignConfig = ClientConfig.DEATH_LIST_ALIGN;
+                widthSupplier = DeathCounterOverlay::calcDeathListWidth;
+                scale = ClientConfig.DEATH_LIST_SIZE.get();
+            }
+            case DEATH_SELF -> {
+                xConfig = ClientConfig.DEATH_SELF_X;
+                alignConfig = ClientConfig.DEATH_SELF_ALIGN;
+                widthSupplier = DeathCounterOverlay::calcDeathSelfWidth;
+                scale = ClientConfig.DEATH_SELF_SIZE.get();
+            }
+            case TIME -> {
+                xConfig = ClientConfig.TIME_OVERLAY_X;
+                alignConfig = ClientConfig.TIME_OVERLAY_ALIGN;
+                widthSupplier = TimeOverlay::calcTimeWidth;
+                scale = ClientConfig.TIME_OVERLAY_SIZE.get();
+            }
+            case COORDS -> {
+                xConfig = ClientConfig.COORDS_OVERLAY_X;
+                alignConfig = ClientConfig.COORDS_OVERLAY_ALIGN;
+                widthSupplier = CoordsOverlay::calcCoordsWidth;
+                scale = ClientConfig.COORDS_OVERLAY_SIZE.get();
+            }
+            case SURVIVAL -> {
+                xConfig = ClientConfig.SURVIVAL_OVERLAY_X;
+                alignConfig = ClientConfig.SURVIVAL_OVERLAY_ALIGN;
+                widthSupplier = SurvivalTimeOverlay::calcSurvivalWidth;
+                scale = ClientConfig.SURVIVAL_OVERLAY_SIZE.get();
+            }
+            default -> {
+                return;
+            }
+        }
+
+        OverlayAlignment oldAlign = alignConfig.get();
+        if (oldAlign == align) {
+            return;
+        }
+
+        int width = (int) (widthSupplier.get() * scale);
+        int shiftOld = switch (oldAlign) {
+            case CENTER -> width / 2;
+            case RIGHT -> width;
+            default -> 0;
+        };
+        int shiftNew = switch (align) {
+            case CENTER -> width / 2;
+            case RIGHT -> width;
+            default -> 0;
+        };
+
+        double screenWidth = mc.getWindow().getGuiScaledWidth();
+        double diff = (double) (shiftNew - shiftOld) / screenWidth;
+        xConfig.set(Mth.clamp(xConfig.get() + diff, 0.0, 1.0));
+
+        alignConfig.set(align);
     }
 
     private void adjustOverlaySize(DragTarget target, double delta) {

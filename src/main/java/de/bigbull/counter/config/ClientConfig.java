@@ -1,5 +1,6 @@
 package de.bigbull.counter.config;
 
+import de.bigbull.counter.util.gui.OverlayAlignment;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ClientConfig {
@@ -12,6 +13,7 @@ public class ClientConfig {
     public static final ModConfigSpec.DoubleValue DAY_OVERLAY_Y;
     public static final ModConfigSpec.DoubleValue DAY_OVERLAY_SIZE;
     public static final ModConfigSpec.IntValue DAY_OVERLAY_TEXT_COLOR;
+    public static final ModConfigSpec.EnumValue<OverlayAlignment> DAY_OVERLAY_ALIGN;
 
     public static final ModConfigSpec.BooleanValue SHOW_DEATH_LIST_OVERLAY;
     public static final ModConfigSpec.BooleanValue SHOW_DEATH_LIST_OVERLAY_ALWAYS;
@@ -21,6 +23,7 @@ public class ClientConfig {
     public static final ModConfigSpec.IntValue DEATH_OVERLAY_MIN_WIDTH;
     public static final ModConfigSpec.EnumValue<DeathOverlayStyle> DEATH_OVERLAY_STYLE;
     public static final ModConfigSpec.IntValue DEATH_LIST_TEXT_COLOR;
+    public static final ModConfigSpec.EnumValue<OverlayAlignment> DEATH_LIST_ALIGN;
     public static final ModConfigSpec.IntValue FIRST_PLACE_COLOR;
     public static final ModConfigSpec.IntValue SECOND_PLACE_COLOR;
     public static final ModConfigSpec.IntValue THIRD_PLACE_COLOR;
@@ -31,6 +34,7 @@ public class ClientConfig {
     public static final ModConfigSpec.DoubleValue DEATH_SELF_Y;
     public static final ModConfigSpec.DoubleValue DEATH_SELF_SIZE;
     public static final ModConfigSpec.IntValue DEATH_SELF_TEXT_COLOR;
+    public static final ModConfigSpec.EnumValue<de.bigbull.counter.util.gui.OverlayAlignment> DEATH_SELF_ALIGN;
 
     public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_OVERLAY;
     public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_OVERLAY_ALWAYS;
@@ -38,6 +42,7 @@ public class ClientConfig {
     public static final ModConfigSpec.DoubleValue SURVIVAL_OVERLAY_Y;
     public static final ModConfigSpec.DoubleValue SURVIVAL_OVERLAY_SIZE;
     public static final ModConfigSpec.IntValue SURVIVAL_OVERLAY_TEXT_COLOR;
+    public static final ModConfigSpec.EnumValue<de.bigbull.counter.util.gui.OverlayAlignment> SURVIVAL_OVERLAY_ALIGN;
 
     public static final ModConfigSpec.BooleanValue SHOW_TIME_OVERLAY;
     public static final ModConfigSpec.BooleanValue SHOW_TIME_OVERLAY_ALWAYS;
@@ -45,6 +50,7 @@ public class ClientConfig {
     public static final ModConfigSpec.DoubleValue TIME_OVERLAY_Y;
     public static final ModConfigSpec.DoubleValue TIME_OVERLAY_SIZE;
     public static final ModConfigSpec.IntValue TIME_OVERLAY_TEXT_COLOR;
+    public static final ModConfigSpec.EnumValue<de.bigbull.counter.util.gui.OverlayAlignment> TIME_OVERLAY_ALIGN;
 
     public static final ModConfigSpec.BooleanValue SHOW_COORDS_OVERLAY;
     public static final ModConfigSpec.BooleanValue SHOW_COORDS_OVERLAY_ALWAYS;
@@ -52,6 +58,7 @@ public class ClientConfig {
     public static final ModConfigSpec.DoubleValue COORDS_OVERLAY_Y;
     public static final ModConfigSpec.DoubleValue COORDS_OVERLAY_SIZE;
     public static final ModConfigSpec.IntValue COORDS_OVERLAY_TEXT_COLOR;
+    public static final ModConfigSpec.EnumValue<de.bigbull.counter.util.gui.OverlayAlignment> COORDS_OVERLAY_ALIGN;
 
     public static final ModConfigSpec.BooleanValue SHOW_PING_AS_TEXT;
     public static final ModConfigSpec.IntValue PING_COLOR_GOOD;
@@ -117,6 +124,8 @@ public class ClientConfig {
         DAY_OVERLAY_Y = day.y();
         DAY_OVERLAY_SIZE = day.size();
         DAY_OVERLAY_TEXT_COLOR = day.color();
+        DAY_OVERLAY_ALIGN = CLIENT_BUILDER.comment("Alignment for the day overlay.")
+                .defineEnum("dayOverlayAlign", de.bigbull.counter.util.gui.OverlayAlignment.LEFT);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Death Counter List Settings");
@@ -137,6 +146,8 @@ public class ClientConfig {
                 .defineEnum("deathOverlayStyle", DeathOverlayStyle.TABLE);
         DEATH_OVERLAY_MIN_WIDTH = CLIENT_BUILDER.comment("Minimum width (in pixels) for the death counter list overlay.")
                 .defineInRange("deathOverlayMinWidth", 120, 0, 600);
+        DEATH_LIST_ALIGN = CLIENT_BUILDER.comment("Alignment for the death list overlay.")
+                .defineEnum("deathListAlign", de.bigbull.counter.util.gui.OverlayAlignment.LEFT);
         FIRST_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the first place in the death list.")
                 .defineInRange("firstPlaceColor", 0xFFD700, 0x000000, 0xFFFFFF);
         SECOND_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the second place in the death list.")
@@ -159,6 +170,8 @@ public class ClientConfig {
         DEATH_SELF_Y = deathSelf.y();
         DEATH_SELF_SIZE = deathSelf.size();
         DEATH_SELF_TEXT_COLOR = deathSelf.color();
+        DEATH_SELF_ALIGN = CLIENT_BUILDER.comment("Alignment for your personal death overlay.")
+                .defineEnum("deathSelfAlign", de.bigbull.counter.util.gui.OverlayAlignment.LEFT);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Survival Counter Overlay Settings");
@@ -175,6 +188,8 @@ public class ClientConfig {
         SURVIVAL_OVERLAY_Y = survival.y();
         SURVIVAL_OVERLAY_SIZE = survival.size();
         SURVIVAL_OVERLAY_TEXT_COLOR = survival.color();
+        SURVIVAL_OVERLAY_ALIGN = CLIENT_BUILDER.comment("Alignment for the survival overlay.")
+                .defineEnum("survivalOverlayAlign", de.bigbull.counter.util.gui.OverlayAlignment.LEFT);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Time Overlay Settings");
@@ -191,6 +206,8 @@ public class ClientConfig {
         TIME_OVERLAY_Y = time.y();
         TIME_OVERLAY_SIZE = time.size();
         TIME_OVERLAY_TEXT_COLOR = time.color();
+        TIME_OVERLAY_ALIGN = CLIENT_BUILDER.comment("Alignment for the time overlay.")
+                .defineEnum("timeOverlayAlign", de.bigbull.counter.util.gui.OverlayAlignment.LEFT);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Coordinates Overlay Settings");
@@ -207,6 +224,8 @@ public class ClientConfig {
         COORDS_OVERLAY_Y = coords.y();
         COORDS_OVERLAY_SIZE = coords.size();
         COORDS_OVERLAY_TEXT_COLOR = coords.color();
+        COORDS_OVERLAY_ALIGN = CLIENT_BUILDER.comment("Alignment for the coordinates overlay.")
+                .defineEnum("coordsOverlayAlign", de.bigbull.counter.util.gui.OverlayAlignment.LEFT);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.push("Ping Settings");

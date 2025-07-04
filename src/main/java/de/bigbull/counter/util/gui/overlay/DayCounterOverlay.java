@@ -38,6 +38,7 @@ public class DayCounterOverlay {
                 scale,
                 ClientConfig.DAY_OVERLAY_X.get(),
                 ClientConfig.DAY_OVERLAY_Y.get(),
+                ClientConfig.DAY_OVERLAY_ALIGN.get(),
                 width,
                 height,
                 ClientConfig.SHOW_DAY_OVERLAY.get(),

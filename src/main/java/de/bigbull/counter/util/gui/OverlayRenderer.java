@@ -1,5 +1,6 @@
 package de.bigbull.counter.util.gui;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 
 public class OverlayRenderer {
@@ -16,6 +17,7 @@ public class OverlayRenderer {
                               float scale,
                               double configX,
                               double configY,
+                              OverlayAlignment align,
                               int width,
                               int height,
                               boolean overlayEnabled,
@@ -31,7 +33,7 @@ public class OverlayRenderer {
 
         int scaledWidth = (int) (width * scale);
         int scaledHeight = (int) (height * scale);
-        OverlayUtils.Position pos = OverlayUtils.computePosition(configX, configY, scale, scaledWidth, scaledHeight);
+        OverlayUtils.Position pos = OverlayUtils.computePosition(configX, configY, scale, scaledWidth, scaledHeight, align);
 
         g.pose().pushPose();
         g.pose().translate(pos.x(), pos.y(), 0);
@@ -51,6 +53,27 @@ public class OverlayRenderer {
                     scaledHeight + extraHeight,
                     borderColor,
                     3);
+
+            String symbol = switch (align) {
+                case LEFT -> "◀";
+                case CENTER -> "●";
+                case RIGHT -> "▶";
+            };
+
+            int symbolWidth = Minecraft.getInstance().font.width(symbol);
+            int symbolOffsetX = switch (align) {
+                case LEFT -> 0;
+                case CENTER -> (scaledWidth - symbolWidth) / 2 + 2; // +4 für 2 Pixel nach rechts bei 0.5f Skalierung
+                case RIGHT -> scaledWidth - symbolWidth + 4; // +4 für 2 Pixel nach rechts bei 0.5f Skalierung
+            };
+
+            g.pose().pushPose();
+            g.pose().scale(0.5f, 0.5f, 1.0f);
+            g.drawString(Minecraft.getInstance().font, symbol,
+                    (int)((pos.x() + symbolOffsetX) / 0.5f),
+                    (int)((pos.y() + 7.5) / 0.5f),
+                    0xFFFFFF);
+            g.pose().popPose();
         }
     }
 }

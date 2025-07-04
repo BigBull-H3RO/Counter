@@ -9,7 +9,7 @@ public class OverlayUtils {
     public record Position(int x, int y, int drawX, int drawY) {
     }
 
-    public static Position computePosition(double configX, double configY, float scale, int width, int height) {
+    public static Position computePosition(double configX, double configY, float scale, int width, int height, OverlayAlignment align) {
         Minecraft mc = Minecraft.getInstance();
         int screenWidth = mc.getWindow().getGuiScaledWidth();
         int screenHeight = mc.getWindow().getGuiScaledHeight();
@@ -18,6 +18,12 @@ public class OverlayUtils {
         int y = (int) Math.round(configY * screenHeight);
         int maxX = screenWidth - width;
         int maxY = screenHeight - height;
+
+        if (align == OverlayAlignment.CENTER) {
+            x -= width / 2;
+        } else if (align == OverlayAlignment.RIGHT) {
+            x -= width;
+        }
 
         x = Mth.clamp(x, 0, Math.max(0, maxX));
         y = Mth.clamp(y, 0, Math.max(0, maxY));

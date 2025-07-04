@@ -40,6 +40,7 @@ public class CoordsOverlay {
                 scale,
                 ClientConfig.COORDS_OVERLAY_X.get(),
                 ClientConfig.COORDS_OVERLAY_Y.get(),
+                ClientConfig.COORDS_OVERLAY_ALIGN.get(),
                 width,
                 height,
                 ClientConfig.SHOW_COORDS_OVERLAY.get(),

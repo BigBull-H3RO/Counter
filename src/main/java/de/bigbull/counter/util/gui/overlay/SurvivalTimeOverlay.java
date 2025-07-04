@@ -39,6 +39,7 @@ public class SurvivalTimeOverlay {
                 scale,
                 ClientConfig.SURVIVAL_OVERLAY_X.get(),
                 ClientConfig.SURVIVAL_OVERLAY_Y.get(),
+                ClientConfig.SURVIVAL_OVERLAY_ALIGN.get(),
                 width,
                 height,
                 ClientConfig.SHOW_SURVIVAL_OVERLAY.get(),

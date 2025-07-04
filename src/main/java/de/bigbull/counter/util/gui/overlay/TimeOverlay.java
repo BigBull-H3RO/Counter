@@ -41,6 +41,7 @@ public class TimeOverlay {
                 scale,
                 ClientConfig.TIME_OVERLAY_X.get(),
                 ClientConfig.TIME_OVERLAY_Y.get(),
+                ClientConfig.TIME_OVERLAY_ALIGN.get(),
                 width,
                 height,
                 ClientConfig.SHOW_TIME_OVERLAY.get(),

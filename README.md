@@ -74,6 +74,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showOverlayAlways`   | `true`     | Should the **day counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |
 | `dayOverlayX`         | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the day overlay.                                                                         |
 | `dayOverlayY`         | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the day overlay.                                                                         |
+| `dayOverlayAlign`     | `LEFT`     | Horizontale Ausrichtung des Overlays (`LEFT`, `CENTER`, `RIGHT`).                                                                         |
 | `dayOverlaySize`      | `1.0`      | Scale factor for the day counter text size.                                                                                               |
 | `dayOverlayTextColor` | `0xFFFFFF` | Color for the **day counter overlay** text.                                                                                               |
 
@@ -84,6 +85,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showListOverlayAlways` | `false`    | Should the **death counter list overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |                       |
 | `deathListX`            | `0.05`     | Relative X position for the death list overlay (0.0 = left, 1.0 = right).                                                                        |
 | `deathListY`            | `0.05`     | Relative Y position for the death list overlay (0.0 = top, 1.0 = bottom).                                                                        |
+| `deathListAlign`        | `LEFT`     | Horizontale Ausrichtung des Overlays (`LEFT`, `CENTER`, `RIGHT`).                                                                                |
 | `deathListSize`         | `1`        | Scale factor for the death list text size.                                                                                                       |
 | `deathOverlayWidth`     | `120`      | Maximum width (in pixels) for the **death counter list overlay**.                                                                                |
 | `deathOverlayStyle`     | `TABLE`    | Style used for the **death list overlay**: **`CLASSIC`**, **`BOXED`**, **`TABLE`**.                                                              |
@@ -99,6 +101,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showSelfOverlayAlways` | `false`    | Should the **personal death counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |     |
 | `deathSelfX`            | `0.10`     | Relative X position (0.0 = left, 1.0 = right) for your death overlay.                                                                                |
 | `deathSelfY`            | `0.10`     | Relative Y position (0.0 = top, 1.0 = bottom) for your death overlay.                                                                                |
+| `deathSelfAlign`        | `LEFT`     | Horizontale Ausrichtung des Overlays (`LEFT`, `CENTER`, `RIGHT`).                                                                                    |
 | `deathSelfSize`         | `1`        | Scale factor for the **personal death counter** text size.                                                                                           |
 | `deathSelfTextColor`    | `0xFF0000` | Color for your **personal death counter** text.                                                                                                      |
 
@@ -109,6 +112,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showSurvivalOverlayAlways` | `true`     | Should the **survival counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |            |
 | `survivalOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the survival overlay.                                                                         |
 | `survivalOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the survival overlay.                                                                         |
+| `survivalOverlayAlign`      | `LEFT`     | Horizontale Ausrichtung des Overlays (`LEFT`, `CENTER`, `RIGHT`).                                                                              |
 | `survivalOverlaySize`       | `1.0`      | Scale factor for the survival counter text size.                                                                                               |
 | `survivalOverlayTextColor`  | `0xFFFFFF` | Color for the **survival counter overlay** text.                                                                                               |
 
@@ -119,6 +123,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showTimeOverlayAlways` | `true`     | Should the **time counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |            |
 | `timeOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the time overlay.                                                                         |
 | `timeOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the time overlay.                                                                         |
+| `timeOverlayAlign`      | `LEFT`     | Horizontale Ausrichtung des Overlays (`LEFT`, `CENTER`, `RIGHT`).                                                                          |
 | `timeOverlaySize`       | `1.0`      | Scale factor for the time counter text size.                                                                                               |
 | `timeOverlayTextColor`  | `0xFFFFFF` | Color for the **time counter overlay** text.                                                                                               |
 
@@ -129,6 +134,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showCoordsOverlayAlways` | `true`     | Should the **coords counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |            |
 | `coordsOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the coords overlay.                                                                         |
 | `coordsOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the coords overlay.                                                                         |
+| `coordsOverlayAlign`      | `LEFT`     | Horizontale Ausrichtung des Overlays (`LEFT`, `CENTER`, `RIGHT`).                                                                            |
 | `coordsOverlaySize`       | `1.0`      | Scale factor for the coords counter text size.                                                                                               |
 | `coordsOverlayTextColor`  | `0xFFFFFF` | Color for the **coords counter overlay** text.                                                                                               |
 

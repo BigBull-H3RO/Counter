@@ -27,9 +27,12 @@ public class OverlayRenderer {
                               int extraWidth,
                               int extraHeight,
                               Drawer drawer) {
+
         if (!OverlayUtils.shouldShowOverlay(showAlways, showEnabled, isEditMode)) {
             return;
         }
+
+        final float SYMBOL_SCALE = Math.min(0.8f * scale, 1.0f) * 1.5f;
 
         float scaledWidthF = width * scale;
         float scaledHeightF = height * scale;
@@ -37,48 +40,79 @@ public class OverlayRenderer {
         int scaledHeight = Math.round(scaledHeightF);
         OverlayUtils.Position pos = OverlayUtils.computePosition(configX, configY, scaledWidth, scaledHeight, align);
 
+        renderOverlayContent(g, pos, scale, drawer);
+
+        if (isEditMode) {
+            int borderColor = getBorderColor(overlayEnabled, guiEditScreen, target);
+            drawOverlayBorder(g, pos, offsetX, offsetY, scaledWidth, scaledHeight, extraWidth, extraHeight, borderColor);
+
+            renderAlignmentIndicators(g, pos, align, offsetX, offsetY, scaledWidthF, scaledHeightF, extraWidth, extraHeight, SYMBOL_SCALE);
+        }
+    }
+
+    private static void renderOverlayContent(GuiGraphics g, OverlayUtils.Position pos, float scale, Drawer drawer) {
         g.pose().pushPose();
         g.pose().translate(pos.x(), pos.y(), 0);
         g.pose().scale(scale, scale, 1.0F);
         drawer.draw(g, new OverlayUtils.Position(pos.x(), pos.y(), 0, 0));
         g.pose().popPose();
+    }
 
-        if (isEditMode) {
-            int borderColor = overlayEnabled ? 0xFF00FF00 : 0xFFFF0000;
-            if (guiEditScreen != null && guiEditScreen.getSelectedOverlay() == target) {
-                borderColor = 0xFFFFFF00;
-            }
-            OverlayUtils.drawBorder(g,
-                    pos.x() + offsetX,
-                    pos.y() + offsetY,
-                    scaledWidth + extraWidth,
-                    scaledHeight + extraHeight,
-                    borderColor,
-                    3);
-
-            String symbol = switch (align) {
-                case LEFT -> "◀";
-                case CENTER -> "●";
-                case RIGHT -> "▶";
-            };
-
-            float symbolScale = Math.min(0.5f * scale, 0.6f);
-            int symbolWidth = Minecraft.getInstance().font.width(symbol);
-            int lineHeight = Minecraft.getInstance().font.lineHeight;
-
-            float symbolOffsetX = switch (align) {
-                case LEFT -> 0f;
-                case CENTER -> (scaledWidthF - symbolWidth * symbolScale) / 2f;
-                case RIGHT -> scaledWidthF - symbolWidth * symbolScale;
-            };
-
-            float symbolOffsetY = scaledHeightF - lineHeight * symbolScale + (4 * scale);
-
-            g.pose().pushPose();
-            g.pose().translate(pos.x() + symbolOffsetX, pos.y() + symbolOffsetY, 0);
-            g.pose().scale(symbolScale, symbolScale, 1.0f);
-            g.drawString(Minecraft.getInstance().font, symbol, 0, 0, 0xFFFFFF);
-            g.pose().popPose();
+    private static int getBorderColor(boolean overlayEnabled, GuiEditScreen guiEditScreen, GuiEditScreen.DragTarget target) {
+        if (guiEditScreen != null && guiEditScreen.getSelectedOverlay() == target) {
+            return 0xFFFFFF00;
         }
+        return overlayEnabled ? 0xFF00FF00 : 0xFFFF0000;
+    }
+
+    private static void drawOverlayBorder(GuiGraphics g, OverlayUtils.Position pos, int offsetX, int offsetY,
+                                          int scaledWidth, int scaledHeight, int extraWidth, int extraHeight, int borderColor) {
+        OverlayUtils.drawBorder(g,
+                pos.x() + offsetX,
+                pos.y() + offsetY,
+                scaledWidth + extraWidth,
+                scaledHeight + extraHeight,
+                borderColor,
+                3);
+    }
+
+    private static void renderAlignmentIndicators(GuiGraphics g, OverlayUtils.Position pos, OverlayAlignment align,
+                                                  int offsetX, int offsetY, float scaledWidthF, float scaledHeightF,
+                                                  int extraWidth, int extraHeight, float symbolScale) {
+        switch (align) {
+            case LEFT -> renderAlignmentSymbol(g, pos, "<", calculateLeftSymbolX(offsetX, symbolScale, 4),
+                    calculateSymbolY(offsetY, scaledHeightF, extraHeight, symbolScale), symbolScale);
+            case RIGHT ->
+                    renderAlignmentSymbol(g, pos, ">", calculateRightSymbolX(offsetX, scaledWidthF, extraWidth, 4),
+                            calculateSymbolY(offsetY, scaledHeightF, extraHeight, symbolScale), symbolScale);
+            case CENTER -> {
+                renderAlignmentSymbol(g, pos, "<", calculateLeftSymbolX(offsetX, symbolScale, 4),
+                        calculateSymbolY(offsetY, scaledHeightF, extraHeight, symbolScale), symbolScale);
+                renderAlignmentSymbol(g, pos, ">", calculateRightSymbolX(offsetX, scaledWidthF, extraWidth, 4),
+                        calculateSymbolY(offsetY, scaledHeightF, extraHeight, symbolScale), symbolScale);
+            }
+        }
+    }
+
+    private static void renderAlignmentSymbol(GuiGraphics g, OverlayUtils.Position pos, String symbol, float symbolX, float symbolY, float symbolScale) {
+        g.pose().pushPose();
+        g.pose().translate(pos.x() + symbolX, pos.y() + symbolY, 0);
+        g.pose().scale(symbolScale, symbolScale, 1.0f);
+        g.drawString(Minecraft.getInstance().font, symbol, 0, 0, 0xFFFFFF);
+        g.pose().popPose();
+    }
+
+    private static float calculateLeftSymbolX(int offsetX, float symbolScale, int symbolPadding) {
+        int symbolWidth = Minecraft.getInstance().font.width("<");
+        return offsetX - symbolWidth * symbolScale - symbolPadding;
+    }
+
+    private static float calculateRightSymbolX(int offsetX, float scaledWidthF, int extraWidth, int symbolPadding) {
+        return offsetX + scaledWidthF + extraWidth + symbolPadding;
+    }
+
+    private static float calculateSymbolY(int offsetY, float scaledHeightF, int extraHeight, float symbolScale) {
+        int lineHeight = Minecraft.getInstance().font.lineHeight;
+        return offsetY + (scaledHeightF + extraHeight - lineHeight * symbolScale) / 2f + 1;
     }
 }

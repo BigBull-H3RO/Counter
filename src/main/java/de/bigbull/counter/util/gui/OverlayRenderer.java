@@ -31,9 +31,11 @@ public class OverlayRenderer {
             return;
         }
 
-        int scaledWidth = (int) (width * scale);
-        int scaledHeight = (int) (height * scale);
-        OverlayUtils.Position pos = OverlayUtils.computePosition(configX, configY, scale, scaledWidth, scaledHeight, align);
+        float scaledWidthF = width * scale;
+        float scaledHeightF = height * scale;
+        int scaledWidth = Math.round(scaledWidthF);
+        int scaledHeight = Math.round(scaledHeightF);
+        OverlayUtils.Position pos = OverlayUtils.computePosition(configX, configY, scaledWidth, scaledHeight, align);
 
         g.pose().pushPose();
         g.pose().translate(pos.x(), pos.y(), 0);
@@ -60,19 +62,22 @@ public class OverlayRenderer {
                 case RIGHT -> "▶";
             };
 
+            float symbolScale = Math.min(0.5f * scale, 0.6f);
             int symbolWidth = Minecraft.getInstance().font.width(symbol);
-            int symbolOffsetX = switch (align) {
-                case LEFT -> 0;
-                case CENTER -> (scaledWidth - symbolWidth) / 2 + 2; // +4 für 2 Pixel nach rechts bei 0.5f Skalierung
-                case RIGHT -> scaledWidth - symbolWidth + 4; // +4 für 2 Pixel nach rechts bei 0.5f Skalierung
+            int lineHeight = Minecraft.getInstance().font.lineHeight;
+
+            float symbolOffsetX = switch (align) {
+                case LEFT -> 0f;
+                case CENTER -> (scaledWidthF - symbolWidth * symbolScale) / 2f;
+                case RIGHT -> scaledWidthF - symbolWidth * symbolScale;
             };
 
+            float symbolOffsetY = scaledHeightF - lineHeight * symbolScale + (4 * scale);
+
             g.pose().pushPose();
-            g.pose().scale(0.5f, 0.5f, 1.0f);
-            g.drawString(Minecraft.getInstance().font, symbol,
-                    (int)((pos.x() + symbolOffsetX) / 0.5f),
-                    (int)((pos.y() + 7.5) / 0.5f),
-                    0xFFFFFF);
+            g.pose().translate(pos.x() + symbolOffsetX, pos.y() + symbolOffsetY, 0);
+            g.pose().scale(symbolScale, symbolScale, 1.0f);
+            g.drawString(Minecraft.getInstance().font, symbol, 0, 0, 0xFFFFFF);
             g.pose().popPose();
         }
     }

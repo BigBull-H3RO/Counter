@@ -226,25 +226,11 @@ public class GuiEditScreen extends Screen {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button == 0) {
-            if (hitOverlay(mouseX, mouseY, DragTarget.DAY,
-                    ClientConfig.DAY_OVERLAY_X, ClientConfig.DAY_OVERLAY_Y,
-                    DayCounterOverlay::calcDayWidth, DayCounterOverlay::calcDayHeight)) {
-                selectedOverlay = DragTarget.DAY;
-                currentDrag = DragTarget.DAY;
-                return true;
-            }
-            if (hitOverlay(mouseX, mouseY, DragTarget.DEATH_LIST,
-                    ClientConfig.DEATH_LIST_X, ClientConfig.DEATH_LIST_Y,
-                    DeathCounterOverlay::calcDeathListWidth, DeathCounterOverlay::calcDeathListHeight)) {
-                selectedOverlay = DragTarget.DEATH_LIST;
-                currentDrag = DragTarget.DEATH_LIST;
-                return true;
-            }
-            if (hitOverlay(mouseX, mouseY, DragTarget.DEATH_SELF,
-                    ClientConfig.DEATH_SELF_X, ClientConfig.DEATH_SELF_Y,
-                    DeathCounterOverlay::calcDeathSelfWidth, DeathCounterOverlay::calcDeathSelfHeight)) {
-                selectedOverlay = DragTarget.DEATH_SELF;
-                currentDrag = DragTarget.DEATH_SELF;
+            if (hitOverlay(mouseX, mouseY, DragTarget.COORDS,
+                    ClientConfig.COORDS_OVERLAY_X, ClientConfig.COORDS_OVERLAY_Y,
+                    CoordsOverlay::calcCoordsWidth, CoordsOverlay::calcCoordsHeight)) {
+                selectedOverlay = DragTarget.COORDS;
+                currentDrag = DragTarget.COORDS;
                 return true;
             }
             if (hitOverlay(mouseX, mouseY, DragTarget.TIME,
@@ -254,18 +240,32 @@ public class GuiEditScreen extends Screen {
                 currentDrag = DragTarget.TIME;
                 return true;
             }
-            if (hitOverlay(mouseX, mouseY, DragTarget.COORDS,
-                    ClientConfig.COORDS_OVERLAY_X, ClientConfig.COORDS_OVERLAY_Y,
-                    CoordsOverlay::calcCoordsWidth, CoordsOverlay::calcCoordsHeight)) {
-                selectedOverlay = DragTarget.COORDS;
-                currentDrag = DragTarget.COORDS;
-                return true;
-            }
             if (hitOverlay(mouseX, mouseY, DragTarget.SURVIVAL,
                     ClientConfig.SURVIVAL_OVERLAY_X, ClientConfig.SURVIVAL_OVERLAY_Y,
                     SurvivalTimeOverlay::calcSurvivalWidth, SurvivalTimeOverlay::calcSurvivalHeight)) {
                 selectedOverlay = DragTarget.SURVIVAL;
                 currentDrag = DragTarget.SURVIVAL;
+                return true;
+            }
+            if (hitOverlay(mouseX, mouseY, DragTarget.DEATH_SELF,
+                    ClientConfig.DEATH_SELF_X, ClientConfig.DEATH_SELF_Y,
+                    DeathCounterOverlay::calcDeathSelfWidth, DeathCounterOverlay::calcDeathSelfHeight)) {
+                selectedOverlay = DragTarget.DEATH_SELF;
+                currentDrag = DragTarget.DEATH_SELF;
+                return true;
+            }
+            if (hitOverlay(mouseX, mouseY, DragTarget.DEATH_LIST,
+                    ClientConfig.DEATH_LIST_X, ClientConfig.DEATH_LIST_Y,
+                    DeathCounterOverlay::calcDeathListWidth, DeathCounterOverlay::calcDeathListHeight)) {
+                selectedOverlay = DragTarget.DEATH_LIST;
+                currentDrag = DragTarget.DEATH_LIST;
+                return true;
+            }
+            if (hitOverlay(mouseX, mouseY, DragTarget.DAY,
+                    ClientConfig.DAY_OVERLAY_X, ClientConfig.DAY_OVERLAY_Y,
+                    DayCounterOverlay::calcDayWidth, DayCounterOverlay::calcDayHeight)) {
+                selectedOverlay = DragTarget.DAY;
+                currentDrag = DragTarget.DAY;
                 return true;
             }
         }
@@ -338,7 +338,7 @@ public class GuiEditScreen extends Screen {
         };
 
         OverlayUtils.Position pos = OverlayUtils.computePosition(
-                xConfig.get(), yConfig.get(), (float) scale, w, h, align);
+                xConfig.get(), yConfig.get(), w, h, align);
         int px = pos.x();
         int py = pos.y();
 

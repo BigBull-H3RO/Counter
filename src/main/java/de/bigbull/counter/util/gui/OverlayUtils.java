@@ -9,7 +9,7 @@ public class OverlayUtils {
     public record Position(int x, int y, int drawX, int drawY) {
     }
 
-    public static Position computePosition(double configX, double configY, float scale, int width, int height, OverlayAlignment align) {
+    public static Position computePosition(double configX, double configY, int width, int height, OverlayAlignment align) {
         Minecraft mc = Minecraft.getInstance();
         int screenWidth = mc.getWindow().getGuiScaledWidth();
         int screenHeight = mc.getWindow().getGuiScaledHeight();

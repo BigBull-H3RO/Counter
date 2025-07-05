@@ -50,7 +50,7 @@ public class TimeOverlay {
                 0,
                 0,
                 0,
-                (g, pos) -> g.drawString(minecraft.font, Component.literal(CounterManager.getTime()), pos.drawX(), pos.drawY(), textColor)
+                (g, pos) -> g.drawString(minecraft.font, Component.literal(CounterManager.getTime()), pos.x(), pos.y(), textColor)
         );
     }
 

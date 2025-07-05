@@ -48,7 +48,7 @@ public class SurvivalTimeOverlay {
                 0,
                 0,
                 0,
-                (g, pos) -> g.drawString(minecraft.font, Component.literal(getSurvivalString()), pos.drawX(), pos.drawY(), textColor)
+                (g, pos) -> g.drawString(minecraft.font, Component.literal(getSurvivalString()), pos.x(), pos.y(), textColor)
         );
     }
 

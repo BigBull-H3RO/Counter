@@ -49,7 +49,7 @@ public class CoordsOverlay {
                 0,
                 0,
                 0,
-                (g, pos) -> g.drawString(minecraft.font, coordsText, pos.drawX(), pos.drawY(), textColor)
+                (g, pos) -> g.drawString(minecraft.font, coordsText, pos.x(), pos.y(), textColor)
         );
     }
 

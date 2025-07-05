@@ -4,6 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 
 public class OverlayRenderer {
+    private static final int TEXT_BOTTOM_PADDING = 1;
+
     @FunctionalInterface
     public interface Drawer {
         void draw(GuiGraphics g, OverlayUtils.Position pos);
@@ -32,7 +34,7 @@ public class OverlayRenderer {
             return;
         }
 
-        final float SYMBOL_SCALE = Math.min(0.8f * scale, 1.0f) * 1.5f;
+        final float SYMBOL_SCALE = Math.min(scale, 1.0f);
 
         float scaledWidthF = width * scale;
         float scaledHeightF = height * scale;
@@ -54,7 +56,7 @@ public class OverlayRenderer {
         g.pose().pushPose();
         g.pose().translate(pos.x(), pos.y(), 0);
         g.pose().scale(scale, scale, 1.0F);
-        drawer.draw(g, new OverlayUtils.Position(pos.x(), pos.y(), 0, 0));
+        drawer.draw(g, new OverlayUtils.Position(0, 0));
         g.pose().popPose();
     }
 
@@ -113,6 +115,7 @@ public class OverlayRenderer {
 
     private static float calculateSymbolY(int offsetY, float scaledHeightF, int extraHeight, float symbolScale) {
         int lineHeight = Minecraft.getInstance().font.lineHeight;
-        return offsetY + (scaledHeightF + extraHeight - lineHeight * symbolScale) / 2f + 1;
+        return offsetY + (scaledHeightF + extraHeight - lineHeight * symbolScale) / 2f
+                + TEXT_BOTTOM_PADDING / 2f;
     }
 }

@@ -117,7 +117,7 @@ public class DeathCounterOverlay {
     private static void drawSelfOverlayContent(GuiGraphics guiGraphics, LocalPlayer player, OverlayUtils.Position pos) {
         int color = ClientConfig.DEATH_SELF_TEXT_COLOR.get();
 
-        guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(getSelfOverlayString(player)), pos.drawX(), pos.drawY(), color);
+        guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(getSelfOverlayString(player)), pos.x(), pos.y(), color);
     }
 
     private static void drawListOverlay(GuiGraphics guiGraphics, OverlayUtils.Position pos) {
@@ -131,15 +131,15 @@ public class DeathCounterOverlay {
         if (ClientConfig.DEATH_OVERLAY_STYLE.get() == ClientConfig.DeathOverlayStyle.TABLE) {
             drawTableOverlay(guiGraphics, pos, sortedDeaths);
         } else if (ClientConfig.DEATH_OVERLAY_STYLE.get() == ClientConfig.DeathOverlayStyle.CLASSIC) {
-            guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), pos.drawX(), pos.drawY(), defaultTextColor);
-            drawDeathEntries(guiGraphics, pos.drawX(), pos.drawY(), sortedDeaths, false);
+            guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), pos.x(), pos.y(), defaultTextColor);
+            drawDeathEntries(guiGraphics, pos.x(), pos.y(), sortedDeaths, false);
         } else if (ClientConfig.DEATH_OVERLAY_STYLE.get() == ClientConfig.DeathOverlayStyle.BOXED) {
-            guiGraphics.fill(pos.drawX() - 5, pos.drawY() - 5, pos.drawX() + boxWidth + 5, pos.drawY() + boxHeight + 5, backgroundColor);
-            guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), pos.drawX(), pos.drawY(), defaultTextColor);
-            drawDeathEntries(guiGraphics, pos.drawX(), pos.drawY(), sortedDeaths, false);
+            guiGraphics.fill(pos.x() - 5, pos.y() - 5, pos.x() + boxWidth + 5, pos.y() + boxHeight + 5, backgroundColor);
+            guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), pos.x(), pos.y(), defaultTextColor);
+            drawDeathEntries(guiGraphics, pos.x(), pos.y(), sortedDeaths, false);
         } else {
-            guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), pos.drawX(), pos.drawY(), 0xFF0000);
-            guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist.style.invalid"), pos.drawX(), pos.drawY() + 12, 0xFF0000);
+            guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist"), pos.x(), pos.y(), 0xFF0000);
+            guiGraphics.drawString(minecraft.font, Component.translatable("overlay.counter.deathlist.style.invalid"), pos.x(), pos.y() + 12, 0xFF0000);
         }
     }
 
@@ -150,16 +150,16 @@ public class DeathCounterOverlay {
         int tableWidth = calcDeathListWidth();
         int tableHeight = calcDeathListHeight();
 
-        guiGraphics.fill(pos.drawX() - 5, pos.drawY() - 5, pos.drawX() + tableWidth + 5, pos.drawY() + tableHeight + 5, backgroundColor);
-        guiGraphics.fill(pos.drawX() - 5, pos.drawY() - 5, pos.drawX() + tableWidth + 5, pos.drawY() - 4, borderColor);
-        guiGraphics.fill(pos.drawX() - 5, pos.drawY() + tableHeight + 4, pos.drawX() + tableWidth + 5, pos.drawY() + tableHeight + 5, borderColor);
-        guiGraphics.fill(pos.drawX() - 5, pos.drawY() - 5, pos.drawX() - 4, pos.drawY() + tableHeight + 5, borderColor);
-        guiGraphics.fill(pos.drawX() + tableWidth + 4, pos.drawY() - 5, pos.drawX() + tableWidth + 5, pos.drawY() + tableHeight + 5, borderColor);
+        guiGraphics.fill(pos.x() - 5, pos.y() - 5, pos.x() + tableWidth + 5, pos.y() + tableHeight + 5, backgroundColor);
+        guiGraphics.fill(pos.x() - 5, pos.y() - 5, pos.x() + tableWidth + 5, pos.y() - 4, borderColor);
+        guiGraphics.fill(pos.x() - 5, pos.y() + tableHeight + 4, pos.x() + tableWidth + 5, pos.y() + tableHeight + 5, borderColor);
+        guiGraphics.fill(pos.x() - 5, pos.y() - 5, pos.x() - 4, pos.y() + tableHeight + 5, borderColor);
+        guiGraphics.fill(pos.x() + tableWidth + 4, pos.y() - 5, pos.x() + tableWidth + 5, pos.y() + tableHeight + 5, borderColor);
 
-        guiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("overlay.counter.deathlist"), pos.drawX() + 5, pos.drawY(), defaultTextColor);
-        guiGraphics.fill(pos.drawX() - 5, pos.drawY() + 10, pos.drawX() + tableWidth + 5, pos.drawY() + 11, 0x80FFFFFF);
+        guiGraphics.drawString(Minecraft.getInstance().font, Component.translatable("overlay.counter.deathlist"), pos.x() + 5, pos.y(), defaultTextColor);
+        guiGraphics.fill(pos.x() - 5, pos.y() + 10, pos.x() + tableWidth + 5, pos.y() + 11, 0x80FFFFFF);
 
-        drawDeathEntries(guiGraphics, pos.drawX(), pos.drawY(), sortedDeaths, true);
+        drawDeathEntries(guiGraphics, pos.x(), pos.y(), sortedDeaths, true);
     }
 
     private static boolean isMultiplayerGame(Minecraft minecraft) {

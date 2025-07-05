@@ -54,7 +54,7 @@ public class DayCounterOverlay {
                     } else {
                         dayString = Component.literal(CounterManager.getDay()).getString();
                     }
-                    g.drawString(minecraft.font, dayString, pos.drawX(), pos.drawY(), textColor);
+                    g.drawString(minecraft.font, dayString, pos.x(), pos.y(), textColor);
                 }
         );
     }

@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 
 public class OverlayRenderer {
     private static final int TEXT_BOTTOM_PADDING = 1;
+    private static final int BORDER_PADDING = 2;
 
     @FunctionalInterface
     public interface Drawer {
@@ -75,22 +76,22 @@ public class OverlayRenderer {
                 scaledWidth + extraWidth,
                 scaledHeight + extraHeight,
                 borderColor,
-                3);
+                BORDER_PADDING);
     }
 
     private static void renderAlignmentIndicators(GuiGraphics g, OverlayUtils.Position pos, OverlayAlignment align,
                                                   int offsetX, int offsetY, float scaledWidthF, float scaledHeightF,
                                                   int extraWidth, int extraHeight, float symbolScale) {
         switch (align) {
-            case LEFT -> renderAlignmentSymbol(g, pos, "<", calculateLeftSymbolX(offsetX, symbolScale, 4),
+            case LEFT -> renderAlignmentSymbol(g, pos, "<", calculateLeftSymbolX(offsetX, symbolScale, 1),
                     calculateSymbolY(offsetY, scaledHeightF, extraHeight, symbolScale), symbolScale);
             case RIGHT ->
-                    renderAlignmentSymbol(g, pos, ">", calculateRightSymbolX(offsetX, scaledWidthF, extraWidth, 4),
+                    renderAlignmentSymbol(g, pos, ">", calculateRightSymbolX(offsetX, scaledWidthF, extraWidth, 2),
                             calculateSymbolY(offsetY, scaledHeightF, extraHeight, symbolScale), symbolScale);
             case CENTER -> {
-                renderAlignmentSymbol(g, pos, "<", calculateLeftSymbolX(offsetX, symbolScale, 4),
+                renderAlignmentSymbol(g, pos, "<", calculateLeftSymbolX(offsetX, symbolScale, 1),
                         calculateSymbolY(offsetY, scaledHeightF, extraHeight, symbolScale), symbolScale);
-                renderAlignmentSymbol(g, pos, ">", calculateRightSymbolX(offsetX, scaledWidthF, extraWidth, 4),
+                renderAlignmentSymbol(g, pos, ">", calculateRightSymbolX(offsetX, scaledWidthF, extraWidth, 2),
                         calculateSymbolY(offsetY, scaledHeightF, extraHeight, symbolScale), symbolScale);
             }
         }
@@ -106,11 +107,11 @@ public class OverlayRenderer {
 
     private static float calculateLeftSymbolX(int offsetX, float symbolScale, int symbolPadding) {
         int symbolWidth = Minecraft.getInstance().font.width("<");
-        return offsetX - symbolWidth * symbolScale - symbolPadding;
+        return offsetX - BORDER_PADDING - symbolWidth * symbolScale - symbolPadding;
     }
 
     private static float calculateRightSymbolX(int offsetX, float scaledWidthF, int extraWidth, int symbolPadding) {
-        return offsetX + scaledWidthF + extraWidth + symbolPadding;
+        return offsetX + scaledWidthF + extraWidth + BORDER_PADDING + symbolPadding;
     }
 
     private static float calculateSymbolY(int offsetY, float scaledHeightF, int extraHeight, float symbolScale) {

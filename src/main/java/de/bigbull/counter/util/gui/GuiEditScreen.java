@@ -393,8 +393,8 @@ public class GuiEditScreen extends Screen {
             default -> 1.0;
         };
 
-        int w = (int) (widthSupplier.get() * scale);
-        int h = (int) (heightSupplier.get() * scale);
+        int width = Math.round((float) (widthSupplier.get() * scale));
+        int height = Math.round((float) (heightSupplier.get() * scale));
 
         OverlayAlignment align = switch (target) {
             case DAY -> ClientConfig.DAY_OVERLAY_ALIGN.get();
@@ -407,12 +407,12 @@ public class GuiEditScreen extends Screen {
         };
 
         OverlayUtils.Position pos = OverlayUtils.computePosition(
-                xConfig.get(), yConfig.get(), w, h, align);
+                xConfig.get(), yConfig.get(), width, height, align);
         int px = pos.x();
         int py = pos.y();
 
-        dragOffsetX = (int) Mth.clamp(mouseX - px, 0, w);
-        dragOffsetY = (int) Mth.clamp(mouseY - py, 0, h);
+        dragOffsetX = (int) Mth.clamp(mouseX - px, 0, width);
+        dragOffsetY = (int) Mth.clamp(mouseY - py, 0, height);
     }
 
     private void updateOverlayPosition(int newPx, int newPy, Supplier<Integer> widthSupplier, Supplier<Integer> heightSupplier, ModConfigSpec.DoubleValue xConfig, ModConfigSpec.DoubleValue yConfig) {
@@ -426,8 +426,8 @@ public class GuiEditScreen extends Screen {
             default -> 1.0;
         };
 
-        int w = (int) (widthSupplier.get() * scale);
-        int h = (int) (heightSupplier.get() * scale);
+        int width = Math.round((float) (widthSupplier.get() * scale));
+        int height = Math.round((float) (heightSupplier.get() * scale));
 
         OverlayAlignment align = switch (currentDrag) {
             case DAY -> ClientConfig.DAY_OVERLAY_ALIGN.get();
@@ -440,13 +440,13 @@ public class GuiEditScreen extends Screen {
         };
 
         int shift = switch (align) {
-            case CENTER -> w / 2;
-            case RIGHT -> w;
+            case CENTER -> width / 2;
+            case RIGHT -> width;
             default -> 0;
         };
 
-        newPx = Mth.clamp(newPx, 0, this.width - w);
-        newPy = Mth.clamp(newPy, 0, this.height - h);
+        newPx = Mth.clamp(newPx, 0, this.width - width);
+        newPy = Mth.clamp(newPy, 0, this.height - height);
         xConfig.set((double) (newPx + shift) / this.width);
         yConfig.set((double) newPy / this.height);
     }
@@ -558,7 +558,7 @@ public class GuiEditScreen extends Screen {
             return;
         }
 
-        int width = (int) (widthSupplier.get() * scale);
+        int width = Math.round((float) (widthSupplier.get() * scale));
         int shiftOld = switch (oldAlign) {
             case CENTER -> width / 2;
             case RIGHT -> width;

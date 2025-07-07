@@ -40,48 +40,17 @@ public class GuiEditScreen extends Screen {
         mc.options.chatOpacity().set(0.0);
         mc.options.textBackgroundOpacity().set(0.0);
 
-        oldStates.put(DragTarget.DAY, new OverlayState(
-                ClientConfig.DAY_OVERLAY_X.get(),
-                ClientConfig.DAY_OVERLAY_Y.get(),
-                ClientConfig.DAY_OVERLAY_SIZE.get(),
-                ClientConfig.DAY_OVERLAY_ALIGN.get(),
-                ClientConfig.SHOW_DAY_OVERLAY.get()
-        ));
-        oldStates.put(DragTarget.DEATH_LIST, new OverlayState(
-                ClientConfig.DEATH_LIST_X.get(),
-                ClientConfig.DEATH_LIST_Y.get(),
-                ClientConfig.DEATH_LIST_SIZE.get(),
-                ClientConfig.DEATH_LIST_ALIGN.get(),
-                ClientConfig.SHOW_DEATH_LIST_OVERLAY.get()
-        ));
-        oldStates.put(DragTarget.DEATH_SELF, new OverlayState(
-                ClientConfig.DEATH_SELF_X.get(),
-                ClientConfig.DEATH_SELF_Y.get(),
-                ClientConfig.DEATH_SELF_SIZE.get(),
-                ClientConfig.DEATH_SELF_ALIGN.get(),
-                ClientConfig.SHOW_DEATH_SELF_OVERLAY.get()
-        ));
-        oldStates.put(DragTarget.TIME, new OverlayState(
-                ClientConfig.TIME_OVERLAY_X.get(),
-                ClientConfig.TIME_OVERLAY_Y.get(),
-                ClientConfig.TIME_OVERLAY_SIZE.get(),
-                ClientConfig.TIME_OVERLAY_ALIGN.get(),
-                ClientConfig.SHOW_TIME_OVERLAY.get()
-        ));
-        oldStates.put(DragTarget.COORDS, new OverlayState(
-                ClientConfig.COORDS_OVERLAY_X.get(),
-                ClientConfig.COORDS_OVERLAY_Y.get(),
-                ClientConfig.COORDS_OVERLAY_SIZE.get(),
-                ClientConfig.COORDS_OVERLAY_ALIGN.get(),
-                ClientConfig.SHOW_COORDS_OVERLAY.get()
-        ));
-        oldStates.put(DragTarget.SURVIVAL, new OverlayState(
-                ClientConfig.SURVIVAL_OVERLAY_X.get(),
-                ClientConfig.SURVIVAL_OVERLAY_Y.get(),
-                ClientConfig.SURVIVAL_OVERLAY_SIZE.get(),
-                ClientConfig.SURVIVAL_OVERLAY_ALIGN.get(),
-                ClientConfig.SHOW_SURVIVAL_OVERLAY.get()
-        ));
+        for (DragTarget target : DragTarget.values()) {
+            if (target == DragTarget.NONE) continue;
+            var e = OverlayConfigMapping.get(target);
+            oldStates.put(target, new OverlayState(
+                    e.x().get(),
+                    e.y().get(),
+                    e.size().get(),
+                    e.align().get(),
+                    e.show().get()
+            ));
+        }
 
         int centerX = this.width / 2;
         int bottomY = this.height - 80;
@@ -154,75 +123,34 @@ public class GuiEditScreen extends Screen {
 
     private void revertPositions() {
         for (var entry : oldStates.entrySet()) {
-            switch (entry.getKey()) {
-                case DAY -> {
-                    ClientConfig.DAY_OVERLAY_X.set(entry.getValue().x());
-                    ClientConfig.DAY_OVERLAY_Y.set(entry.getValue().y());
-                }
-                case DEATH_LIST -> {
-                    ClientConfig.DEATH_LIST_X.set(entry.getValue().x());
-                    ClientConfig.DEATH_LIST_Y.set(entry.getValue().y());
-                }
-                case DEATH_SELF -> {
-                    ClientConfig.DEATH_SELF_X.set(entry.getValue().x());
-                    ClientConfig.DEATH_SELF_Y.set(entry.getValue().y());
-                }
-                case TIME -> {
-                    ClientConfig.TIME_OVERLAY_X.set(entry.getValue().x());
-                    ClientConfig.TIME_OVERLAY_Y.set(entry.getValue().y());
-                }
-                case COORDS -> {
-                    ClientConfig.COORDS_OVERLAY_X.set(entry.getValue().x());
-                    ClientConfig.COORDS_OVERLAY_Y.set(entry.getValue().y());
-                }
-                case SURVIVAL -> {
-                    ClientConfig.SURVIVAL_OVERLAY_X.set(entry.getValue().x());
-                    ClientConfig.SURVIVAL_OVERLAY_Y.set(entry.getValue().y());
-                }
-                default -> {}
-            }
+            var map = OverlayConfigMapping.get(entry.getKey());
+            if (map == null) continue;
+            map.x().set(entry.getValue().x());
+            map.y().set(entry.getValue().y());
         }
     }
 
     private void revertOverlayStates() {
         for (var entry : oldStates.entrySet()) {
-            switch (entry.getKey()) {
-                case DAY -> ClientConfig.SHOW_DAY_OVERLAY.set(entry.getValue().enabled());
-                case DEATH_LIST -> ClientConfig.SHOW_DEATH_LIST_OVERLAY.set(entry.getValue().enabled());
-                case DEATH_SELF -> ClientConfig.SHOW_DEATH_SELF_OVERLAY.set(entry.getValue().enabled());
-                case TIME -> ClientConfig.SHOW_TIME_OVERLAY.set(entry.getValue().enabled());
-                case COORDS -> ClientConfig.SHOW_COORDS_OVERLAY.set(entry.getValue().enabled());
-                case SURVIVAL -> ClientConfig.SHOW_SURVIVAL_OVERLAY.set(entry.getValue().enabled());
-                default -> {}
-            }
+            var map = OverlayConfigMapping.get(entry.getKey());
+            if (map == null) continue;
+            map.show().set(entry.getValue().enabled());
         }
     }
 
     private void revertSizes() {
         for (var entry : oldStates.entrySet()) {
-            switch (entry.getKey()) {
-                case DAY -> ClientConfig.DAY_OVERLAY_SIZE.set(entry.getValue().size());
-                case DEATH_LIST -> ClientConfig.DEATH_LIST_SIZE.set(entry.getValue().size());
-                case DEATH_SELF -> ClientConfig.DEATH_SELF_SIZE.set(entry.getValue().size());
-                case TIME -> ClientConfig.TIME_OVERLAY_SIZE.set(entry.getValue().size());
-                case COORDS -> ClientConfig.COORDS_OVERLAY_SIZE.set(entry.getValue().size());
-                case SURVIVAL -> ClientConfig.SURVIVAL_OVERLAY_SIZE.set(entry.getValue().size());
-                default -> {}
-            }
+            var map = OverlayConfigMapping.get(entry.getKey());
+            if (map == null) continue;
+            map.size().set(entry.getValue().size());
         }
     }
 
     private void revertAlignments() {
         for (var entry : oldStates.entrySet()) {
-            switch (entry.getKey()) {
-                case DAY -> ClientConfig.DAY_OVERLAY_ALIGN.set(entry.getValue().align());
-                case DEATH_LIST -> ClientConfig.DEATH_LIST_ALIGN.set(entry.getValue().align());
-                case DEATH_SELF -> ClientConfig.DEATH_SELF_ALIGN.set(entry.getValue().align());
-                case TIME -> ClientConfig.TIME_OVERLAY_ALIGN.set(entry.getValue().align());
-                case COORDS -> ClientConfig.COORDS_OVERLAY_ALIGN.set(entry.getValue().align());
-                case SURVIVAL -> ClientConfig.SURVIVAL_OVERLAY_ALIGN.set(entry.getValue().align());
-                default -> {}
-            }
+            var map = OverlayConfigMapping.get(entry.getKey());
+            if (map == null) continue;
+            map.align().set(entry.getValue().align());
         }
     }
 
@@ -240,65 +168,14 @@ public class GuiEditScreen extends Screen {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button == 0) {
-            if (hitOverlay(mouseX, mouseY, DragTarget.COORDS,
-                    ClientConfig.COORDS_OVERLAY_X, ClientConfig.COORDS_OVERLAY_Y,
-                    CoordsOverlay::calcCoordsWidth, CoordsOverlay::calcCoordsHeight)) {
-                selectedOverlay = DragTarget.COORDS;
-                currentDrag = DragTarget.COORDS;
-                computeDragOffset(mouseX, mouseY, DragTarget.COORDS,
-                        ClientConfig.COORDS_OVERLAY_X, ClientConfig.COORDS_OVERLAY_Y,
-                        CoordsOverlay::calcCoordsWidth, CoordsOverlay::calcCoordsHeight);
-                return true;
-            }
-            if (hitOverlay(mouseX, mouseY, DragTarget.TIME,
-                    ClientConfig.TIME_OVERLAY_X, ClientConfig.TIME_OVERLAY_Y,
-                    TimeOverlay::calcTimeWidth, TimeOverlay::calcTimeHeight)) {
-                selectedOverlay = DragTarget.TIME;
-                currentDrag = DragTarget.TIME;
-                computeDragOffset(mouseX, mouseY, DragTarget.TIME,
-                        ClientConfig.TIME_OVERLAY_X, ClientConfig.TIME_OVERLAY_Y,
-                        TimeOverlay::calcTimeWidth, TimeOverlay::calcTimeHeight);
-                return true;
-            }
-            if (hitOverlay(mouseX, mouseY, DragTarget.SURVIVAL,
-                    ClientConfig.SURVIVAL_OVERLAY_X, ClientConfig.SURVIVAL_OVERLAY_Y,
-                    SurvivalTimeOverlay::calcSurvivalWidth, SurvivalTimeOverlay::calcSurvivalHeight)) {
-                selectedOverlay = DragTarget.SURVIVAL;
-                currentDrag = DragTarget.SURVIVAL;
-                computeDragOffset(mouseX, mouseY, DragTarget.SURVIVAL,
-                        ClientConfig.SURVIVAL_OVERLAY_X, ClientConfig.SURVIVAL_OVERLAY_Y,
-                        SurvivalTimeOverlay::calcSurvivalWidth, SurvivalTimeOverlay::calcSurvivalHeight);
-                return true;
-            }
-            if (hitOverlay(mouseX, mouseY, DragTarget.DEATH_SELF,
-                    ClientConfig.DEATH_SELF_X, ClientConfig.DEATH_SELF_Y,
-                    DeathCounterOverlay::calcDeathSelfWidth, DeathCounterOverlay::calcDeathSelfHeight)) {
-                selectedOverlay = DragTarget.DEATH_SELF;
-                currentDrag = DragTarget.DEATH_SELF;
-                computeDragOffset(mouseX, mouseY, DragTarget.DEATH_SELF,
-                        ClientConfig.DEATH_SELF_X, ClientConfig.DEATH_SELF_Y,
-                        DeathCounterOverlay::calcDeathSelfWidth, DeathCounterOverlay::calcDeathSelfHeight);
-                return true;
-            }
-            if (hitOverlay(mouseX, mouseY, DragTarget.DEATH_LIST,
-                    ClientConfig.DEATH_LIST_X, ClientConfig.DEATH_LIST_Y,
-                    DeathCounterOverlay::calcDeathListWidth, DeathCounterOverlay::calcDeathListHeight)) {
-                selectedOverlay = DragTarget.DEATH_LIST;
-                currentDrag = DragTarget.DEATH_LIST;
-                computeDragOffset(mouseX, mouseY, DragTarget.DEATH_LIST,
-                        ClientConfig.DEATH_LIST_X, ClientConfig.DEATH_LIST_Y,
-                        DeathCounterOverlay::calcDeathListWidth, DeathCounterOverlay::calcDeathListHeight);
-                return true;
-            }
-            if (hitOverlay(mouseX, mouseY, DragTarget.DAY,
-                    ClientConfig.DAY_OVERLAY_X, ClientConfig.DAY_OVERLAY_Y,
-                    DayCounterOverlay::calcDayWidth, DayCounterOverlay::calcDayHeight)) {
-                selectedOverlay = DragTarget.DAY;
-                currentDrag = DragTarget.DAY;
-                computeDragOffset(mouseX, mouseY, DragTarget.DAY,
-                        ClientConfig.DAY_OVERLAY_X, ClientConfig.DAY_OVERLAY_Y,
-                        DayCounterOverlay::calcDayWidth, DayCounterOverlay::calcDayHeight);
-                return true;
+            for (DragTarget target : DragTarget.values()) {
+                if (target == DragTarget.NONE) continue;
+                if (hitOverlay(mouseX, mouseY, target)) {
+                    selectedOverlay = target;
+                    currentDrag = target;
+                    computeDragOffset(mouseX, mouseY, target);
+                    return true;
+                }
             }
         }
         boolean widgetHandled = super.mouseClicked(mouseX, mouseY, button);
@@ -314,19 +191,7 @@ public class GuiEditScreen extends Screen {
             int newPx = (int) (mouseX - dragOffsetX);
             int newPy = (int) (mouseY - dragOffsetY);
 
-            if (currentDrag == DragTarget.DAY) {
-                updateOverlayPosition(newPx, newPy, DayCounterOverlay::calcDayWidth, DayCounterOverlay::calcDayHeight, ClientConfig.DAY_OVERLAY_X, ClientConfig.DAY_OVERLAY_Y);
-            } else if (currentDrag == DragTarget.DEATH_LIST) {
-                updateOverlayPosition(newPx, newPy, DeathCounterOverlay::calcDeathListWidth, DeathCounterOverlay::calcDeathListHeight, ClientConfig.DEATH_LIST_X, ClientConfig.DEATH_LIST_Y);
-            } else if (currentDrag == DragTarget.DEATH_SELF) {
-                updateOverlayPosition(newPx, newPy, DeathCounterOverlay::calcDeathSelfWidth, DeathCounterOverlay::calcDeathSelfHeight, ClientConfig.DEATH_SELF_X, ClientConfig.DEATH_SELF_Y);
-            } else if (currentDrag == DragTarget.TIME) {
-                updateOverlayPosition(newPx, newPy, TimeOverlay::calcTimeWidth, TimeOverlay::calcTimeHeight, ClientConfig.TIME_OVERLAY_X, ClientConfig.TIME_OVERLAY_Y);
-            } else if (currentDrag == DragTarget.COORDS) {
-                updateOverlayPosition(newPx, newPy, CoordsOverlay::calcCoordsWidth, CoordsOverlay::calcCoordsHeight, ClientConfig.COORDS_OVERLAY_X, ClientConfig.COORDS_OVERLAY_Y);
-            } else if (currentDrag == DragTarget.SURVIVAL) {
-                updateOverlayPosition(newPx, newPy, SurvivalTimeOverlay::calcSurvivalWidth, SurvivalTimeOverlay::calcSurvivalHeight, ClientConfig.SURVIVAL_OVERLAY_X, ClientConfig.SURVIVAL_OVERLAY_Y);
-            }
+            updateOverlayPosition(newPx, newPy, currentDrag);
             return true;
         }
         return super.mouseDragged(mouseX, mouseY, button, dx, dy);
@@ -341,36 +206,21 @@ public class GuiEditScreen extends Screen {
         return super.mouseReleased(mouseX, mouseY, button);
     }
 
-    private boolean hitOverlay(double mouseX, double mouseY, DragTarget target, ModConfigSpec.DoubleValue xConfig, ModConfigSpec.DoubleValue yConfig, Supplier<Integer> widthSupplier, Supplier<Integer> heightSupplier) {
-        if (!isOverlayAllowedByServer(target)) {
+    private boolean hitOverlay(double mouseX, double mouseY, DragTarget target) {
+        if (isOverlayAllowedByServer(target)) {
             return false;
         }
 
-        double scale = switch (target) {
-            case DAY -> ClientConfig.DAY_OVERLAY_SIZE.get();
-            case DEATH_LIST -> ClientConfig.DEATH_LIST_SIZE.get();
-            case DEATH_SELF -> ClientConfig.DEATH_SELF_SIZE.get();
-            case TIME -> ClientConfig.TIME_OVERLAY_SIZE.get();
-            case COORDS -> ClientConfig.COORDS_OVERLAY_SIZE.get();
-            case SURVIVAL -> ClientConfig.SURVIVAL_OVERLAY_SIZE.get();
-            default -> 1.0;
-        };
+        var map = OverlayConfigMapping.get(target);
+        double scale = map.size().get();
 
-        int w = (int) (widthSupplier.get() * scale);
-        int h = (int) (heightSupplier.get() * scale);
+        int w = (int) (map.widthSupplier().get() * scale);
+        int h = (int) (map.heightSupplier().get() * scale);
 
-        OverlayAlignment align = switch (target) {
-            case DAY -> ClientConfig.DAY_OVERLAY_ALIGN.get();
-            case DEATH_LIST -> ClientConfig.DEATH_LIST_ALIGN.get();
-            case DEATH_SELF -> ClientConfig.DEATH_SELF_ALIGN.get();
-            case TIME -> ClientConfig.TIME_OVERLAY_ALIGN.get();
-            case COORDS -> ClientConfig.COORDS_OVERLAY_ALIGN.get();
-            case SURVIVAL -> ClientConfig.SURVIVAL_OVERLAY_ALIGN.get();
-            default -> OverlayAlignment.LEFT;
-        };
+        OverlayAlignment align = map.align().get();
 
         OverlayUtils.Position pos = OverlayUtils.computePosition(
-                xConfig.get(), yConfig.get(), w, h, align);
+                map.x().get(), map.y().get(), w, h, align);
         int px = pos.x();
         int py = pos.y();
 
@@ -380,34 +230,18 @@ public class GuiEditScreen extends Screen {
                 && mouseY >= py - padding && mouseY <= py + h + padding;
     }
 
-    private void computeDragOffset(double mouseX, double mouseY, DragTarget target,
-                                   ModConfigSpec.DoubleValue xConfig, ModConfigSpec.DoubleValue yConfig,
-                                   Supplier<Integer> widthSupplier, Supplier<Integer> heightSupplier) {
-        double scale = switch (target) {
-            case DAY -> ClientConfig.DAY_OVERLAY_SIZE.get();
-            case DEATH_LIST -> ClientConfig.DEATH_LIST_SIZE.get();
-            case DEATH_SELF -> ClientConfig.DEATH_SELF_SIZE.get();
-            case TIME -> ClientConfig.TIME_OVERLAY_SIZE.get();
-            case COORDS -> ClientConfig.COORDS_OVERLAY_SIZE.get();
-            case SURVIVAL -> ClientConfig.SURVIVAL_OVERLAY_SIZE.get();
-            default -> 1.0;
-        };
+    private void computeDragOffset(double mouseX, double mouseY, DragTarget target) {
+        var map = OverlayConfigMapping.get(target);
 
-        int width = Math.round((float) (widthSupplier.get() * scale));
-        int height = Math.round((float) (heightSupplier.get() * scale));
+        double scale = map.size().get();
 
-        OverlayAlignment align = switch (target) {
-            case DAY -> ClientConfig.DAY_OVERLAY_ALIGN.get();
-            case DEATH_LIST -> ClientConfig.DEATH_LIST_ALIGN.get();
-            case DEATH_SELF -> ClientConfig.DEATH_SELF_ALIGN.get();
-            case TIME -> ClientConfig.TIME_OVERLAY_ALIGN.get();
-            case COORDS -> ClientConfig.COORDS_OVERLAY_ALIGN.get();
-            case SURVIVAL -> ClientConfig.SURVIVAL_OVERLAY_ALIGN.get();
-            default -> OverlayAlignment.LEFT;
-        };
+        int width = Math.round((float) (map.widthSupplier().get() * scale));
+        int height = Math.round((float) (map.heightSupplier().get() * scale));
+
+        OverlayAlignment align = map.align().get();
 
         OverlayUtils.Position pos = OverlayUtils.computePosition(
-                xConfig.get(), yConfig.get(), width, height, align);
+                map.x().get(), map.y().get(), width, height, align);
         int px = pos.x();
         int py = pos.y();
 
@@ -415,29 +249,14 @@ public class GuiEditScreen extends Screen {
         dragOffsetY = (int) Mth.clamp(mouseY - py, 0, height);
     }
 
-    private void updateOverlayPosition(int newPx, int newPy, Supplier<Integer> widthSupplier, Supplier<Integer> heightSupplier, ModConfigSpec.DoubleValue xConfig, ModConfigSpec.DoubleValue yConfig) {
-        double scale = switch (currentDrag) {
-            case DAY -> ClientConfig.DAY_OVERLAY_SIZE.get();
-            case DEATH_LIST -> ClientConfig.DEATH_LIST_SIZE.get();
-            case DEATH_SELF -> ClientConfig.DEATH_SELF_SIZE.get();
-            case TIME -> ClientConfig.TIME_OVERLAY_SIZE.get();
-            case COORDS -> ClientConfig.COORDS_OVERLAY_SIZE.get();
-            case SURVIVAL -> ClientConfig.SURVIVAL_OVERLAY_SIZE.get();
-            default -> 1.0;
-        };
+    private void updateOverlayPosition(int newPx, int newPy, DragTarget target) {
+        var map = OverlayConfigMapping.get(target);
+        double scale = map.size().get();
 
-        int width = Math.round((float) (widthSupplier.get() * scale));
-        int height = Math.round((float) (heightSupplier.get() * scale));
+        int width = Math.round((float) (map.widthSupplier().get() * scale));
+        int height = Math.round((float) (map.heightSupplier().get() * scale));
 
-        OverlayAlignment align = switch (currentDrag) {
-            case DAY -> ClientConfig.DAY_OVERLAY_ALIGN.get();
-            case DEATH_LIST -> ClientConfig.DEATH_LIST_ALIGN.get();
-            case DEATH_SELF -> ClientConfig.DEATH_SELF_ALIGN.get();
-            case TIME -> ClientConfig.TIME_OVERLAY_ALIGN.get();
-            case COORDS -> ClientConfig.COORDS_OVERLAY_ALIGN.get();
-            case SURVIVAL -> ClientConfig.SURVIVAL_OVERLAY_ALIGN.get();
-            default -> OverlayAlignment.LEFT;
-        };
+        OverlayAlignment align = map.align().get();
 
         int shift = switch (align) {
             case CENTER -> width / 2;
@@ -447,45 +266,23 @@ public class GuiEditScreen extends Screen {
 
         newPx = Mth.clamp(newPx, 0, this.width - width);
         newPy = Mth.clamp(newPy, 0, this.height - height);
-        xConfig.set((double) (newPx + shift) / this.width);
-        yConfig.set((double) newPy / this.height);
+        map.x().set((double) (newPx + shift) / this.width);
+        map.y().set((double) newPy / this.height);
     }
 
     public void toggleSelectedOverlay() {
-        if (!isOverlayAllowedByServer(selectedOverlay)) {
+        if (isOverlayAllowedByServer(selectedOverlay)) {
             return;
         }
 
-        switch (selectedOverlay) {
-            case DAY -> {
-                boolean newState = !ClientConfig.SHOW_DAY_OVERLAY.get();
-                ClientConfig.SHOW_DAY_OVERLAY.set(newState);
-            }
-            case DEATH_LIST -> {
-                boolean newState = !ClientConfig.SHOW_DEATH_LIST_OVERLAY.get();
-                ClientConfig.SHOW_DEATH_LIST_OVERLAY.set(newState);
-            }
-            case DEATH_SELF -> {
-                boolean newState = !ClientConfig.SHOW_DEATH_SELF_OVERLAY.get();
-                ClientConfig.SHOW_DEATH_SELF_OVERLAY.set(newState);
-            }
-            case TIME -> {
-                boolean newState = !ClientConfig.SHOW_TIME_OVERLAY.get();
-                ClientConfig.SHOW_TIME_OVERLAY.set(newState);
-            }
-            case COORDS -> {
-                boolean newState = !ClientConfig.SHOW_COORDS_OVERLAY.get();
-                ClientConfig.SHOW_COORDS_OVERLAY.set(newState);
-            }
-            case SURVIVAL -> {
-                boolean newState = !ClientConfig.SHOW_SURVIVAL_OVERLAY.get();
-                ClientConfig.SHOW_SURVIVAL_OVERLAY.set(newState);
-            }
+        var map = OverlayConfigMapping.get(selectedOverlay);
+        if (map != null) {
+            map.show().set(!map.show().get());
         }
     }
 
     public void increaseSelectedOverlaySize() {
-        if (!isOverlayAllowedByServer(selectedOverlay)) {
+        if (isOverlayAllowedByServer(selectedOverlay)) {
             return;
         }
 
@@ -493,7 +290,7 @@ public class GuiEditScreen extends Screen {
     }
 
     public void decreaseSelectedOverlaySize() {
-        if (!isOverlayAllowedByServer(selectedOverlay)) {
+        if (isOverlayAllowedByServer(selectedOverlay)) {
             return;
         }
 
@@ -501,57 +298,19 @@ public class GuiEditScreen extends Screen {
     }
 
     public void setSelectedOverlayAlignment(OverlayAlignment align) {
-        if (!isOverlayAllowedByServer(selectedOverlay)) {
+        if (isOverlayAllowedByServer(selectedOverlay)) {
             return;
         }
         Minecraft mc = Minecraft.getInstance();
-
-        ModConfigSpec.DoubleValue xConfig;
-        ModConfigSpec.EnumValue<OverlayAlignment> alignConfig;
-        Supplier<Integer> widthSupplier;
-        double scale;
-
-        switch (selectedOverlay) {
-            case DAY -> {
-                xConfig = ClientConfig.DAY_OVERLAY_X;
-                alignConfig = ClientConfig.DAY_OVERLAY_ALIGN;
-                widthSupplier = DayCounterOverlay::calcDayWidth;
-                scale = ClientConfig.DAY_OVERLAY_SIZE.get();
-            }
-            case DEATH_LIST -> {
-                xConfig = ClientConfig.DEATH_LIST_X;
-                alignConfig = ClientConfig.DEATH_LIST_ALIGN;
-                widthSupplier = DeathCounterOverlay::calcDeathListWidth;
-                scale = ClientConfig.DEATH_LIST_SIZE.get();
-            }
-            case DEATH_SELF -> {
-                xConfig = ClientConfig.DEATH_SELF_X;
-                alignConfig = ClientConfig.DEATH_SELF_ALIGN;
-                widthSupplier = DeathCounterOverlay::calcDeathSelfWidth;
-                scale = ClientConfig.DEATH_SELF_SIZE.get();
-            }
-            case TIME -> {
-                xConfig = ClientConfig.TIME_OVERLAY_X;
-                alignConfig = ClientConfig.TIME_OVERLAY_ALIGN;
-                widthSupplier = TimeOverlay::calcTimeWidth;
-                scale = ClientConfig.TIME_OVERLAY_SIZE.get();
-            }
-            case COORDS -> {
-                xConfig = ClientConfig.COORDS_OVERLAY_X;
-                alignConfig = ClientConfig.COORDS_OVERLAY_ALIGN;
-                widthSupplier = CoordsOverlay::calcCoordsWidth;
-                scale = ClientConfig.COORDS_OVERLAY_SIZE.get();
-            }
-            case SURVIVAL -> {
-                xConfig = ClientConfig.SURVIVAL_OVERLAY_X;
-                alignConfig = ClientConfig.SURVIVAL_OVERLAY_ALIGN;
-                widthSupplier = SurvivalTimeOverlay::calcSurvivalWidth;
-                scale = ClientConfig.SURVIVAL_OVERLAY_SIZE.get();
-            }
-            default -> {
-                return;
-            }
+        var map = OverlayConfigMapping.get(selectedOverlay);
+        if (map == null) {
+            return;
         }
+
+        ModConfigSpec.DoubleValue xConfig = map.x();
+        ModConfigSpec.EnumValue<OverlayAlignment> alignConfig = map.align();
+        Supplier<Integer> widthSupplier = map.widthSupplier();
+        double scale = map.size().get();
 
         OverlayAlignment oldAlign = alignConfig.get();
         if (oldAlign == align) {
@@ -578,36 +337,15 @@ public class GuiEditScreen extends Screen {
     }
 
     private void adjustOverlaySize(DragTarget target, double delta) {
-        switch (target) {
-            case DAY -> {
-                double current = ClientConfig.DAY_OVERLAY_SIZE.get();
-                ClientConfig.DAY_OVERLAY_SIZE.set(Mth.clamp(current + delta, 0.1, 5.0));
-            }
-            case DEATH_LIST -> {
-                double current = ClientConfig.DEATH_LIST_SIZE.get();
-                ClientConfig.DEATH_LIST_SIZE.set(Mth.clamp(current + delta, 0.1, 5.0));
-            }
-            case DEATH_SELF -> {
-                double current = ClientConfig.DEATH_SELF_SIZE.get();
-                ClientConfig.DEATH_SELF_SIZE.set(Mth.clamp(current + delta, 0.1, 5.0));
-            }
-            case TIME -> {
-                double current = ClientConfig.TIME_OVERLAY_SIZE.get();
-                ClientConfig.TIME_OVERLAY_SIZE.set(Mth.clamp(current + delta, 0.1, 5.0));
-            }
-            case COORDS -> {
-                double current = ClientConfig.COORDS_OVERLAY_SIZE.get();
-                ClientConfig.COORDS_OVERLAY_SIZE.set(Mth.clamp(current + delta, 0.1, 5.0));
-            }
-            case SURVIVAL -> {
-                double current = ClientConfig.SURVIVAL_OVERLAY_SIZE.get();
-                ClientConfig.SURVIVAL_OVERLAY_SIZE.set(Mth.clamp(current + delta, 0.1, 5.0));
-            }
+        var map = OverlayConfigMapping.get(target);
+        if (map != null) {
+            double current = map.size().get();
+            map.size().set(Mth.clamp(current + delta, 0.1, 5.0));
         }
     }
 
     private boolean isOverlayAllowedByServer(DragTarget target) {
-        return switch (target) {
+        return !switch (target) {
             case DAY -> ServerConfig.SHOW_DAY_OVERLAY.get() && ServerConfig.ENABLE_DAY_COUNTER.get();
             case DEATH_LIST, DEATH_SELF -> ServerConfig.SHOW_DEATH_OVERLAY.get() && ServerConfig.ENABLE_DEATH_COUNTER.get();
             case TIME -> ServerConfig.SHOW_TIME_OVERLAY.get() && ServerConfig.ENABLE_TIME_COUNTER.get() && !ServerConfig.SHOW_COMBINED_DAY_TIME.get();

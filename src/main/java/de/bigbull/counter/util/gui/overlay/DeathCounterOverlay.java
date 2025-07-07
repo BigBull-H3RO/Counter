@@ -122,7 +122,7 @@ public class DeathCounterOverlay {
 
     private static void drawListOverlay(GuiGraphics guiGraphics, OverlayUtils.Position pos) {
         Minecraft minecraft = Minecraft.getInstance();
-        List<Map.Entry<UUID, Integer>> sortedDeaths = getSortedDeathCounts();
+        List<Map.Entry<UUID, Integer>> sortedDeaths = getSortedDeaths(ClientCounterState.getDeathCounts());
         int defaultTextColor = ClientConfig.DEATH_LIST_TEXT_COLOR.get();
         int backgroundColor = 0x80000000;
         int boxWidth = calcDeathListWidth();
@@ -234,8 +234,7 @@ public class DeathCounterOverlay {
     public static int calcDeathSelfWidth() {
         Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = mc.player;
-        int txtWidth = mc.font.width(getSelfOverlayString(player));
-        return txtWidth;
+        return mc.font.width(getSelfOverlayString(player));
     }
 
     public static int calcDeathSelfHeight() {
@@ -248,10 +247,6 @@ public class DeathCounterOverlay {
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                 .limit(ServerConfig.MAX_PLAYERS_SHOWN.get())
                 .toList();
-    }
-
-    private static List<Map.Entry<UUID, Integer>> getSortedDeathCounts() {
-        return getSortedDeaths(ClientCounterState.getDeathCounts());
     }
 
     private static String getPlayerName(UUID uuid) {

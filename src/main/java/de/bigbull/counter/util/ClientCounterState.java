@@ -36,7 +36,7 @@ public class ClientCounterState {
     }
 
     public static Map<UUID, Integer> getDeathCounts() {
-        return new HashMap<>(deathCounts);
+        return Map.copyOf(deathCounts);
     }
     public static void updateDeathCounts(Map<UUID, Integer> newData) {
         deathCounts.clear();

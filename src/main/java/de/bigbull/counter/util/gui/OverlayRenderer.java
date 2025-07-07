@@ -83,9 +83,9 @@ public class OverlayRenderer {
                                                   int offsetX, int offsetY, float scaledWidthF, float scaledHeightF,
                                                   int extraWidth, int extraHeight, float symbolScale) {
         switch (align) {
-            case LEFT -> renderAlignmentSymbol(g, pos, "<", calculateLeftSymbolX(offsetX, symbolScale, 1),
+            case RIGHT -> renderAlignmentSymbol(g, pos, "<", calculateLeftSymbolX(offsetX, symbolScale, 1),
                     calculateSymbolY(offsetY, scaledHeightF, extraHeight, symbolScale), symbolScale);
-            case RIGHT ->
+            case LEFT ->
                     renderAlignmentSymbol(g, pos, ">", calculateRightSymbolX(offsetX, scaledWidthF, extraWidth, 2),
                             calculateSymbolY(offsetY, scaledHeightF, extraHeight, symbolScale), symbolScale);
             case CENTER -> {

@@ -88,7 +88,7 @@ public class GuiEditScreen extends Screen {
         );
 
         this.addRenderableWidget(
-                Button.builder(Component.literal("◀"), b -> setSelectedOverlayAlignment(OverlayAlignment.LEFT))
+                Button.builder(Component.literal("◀"), b -> setSelectedOverlayAlignment(OverlayAlignment.RIGHT))
                         .bounds(centerX - 40, bottomY - 52, 20, 12).build()
         );
 
@@ -98,7 +98,7 @@ public class GuiEditScreen extends Screen {
         );
 
         this.addRenderableWidget(
-                Button.builder(Component.literal("▶"), b -> setSelectedOverlayAlignment(OverlayAlignment.RIGHT))
+                Button.builder(Component.literal("▶"), b -> setSelectedOverlayAlignment(OverlayAlignment.LEFT))
                         .bounds(centerX + 20, bottomY - 52, 20, 12).build()
         );
 
@@ -207,7 +207,7 @@ public class GuiEditScreen extends Screen {
     }
 
     private boolean hitOverlay(double mouseX, double mouseY, DragTarget target) {
-        if (isOverlayAllowedByServer(target)) {
+        if (isOverlayBlockedByServer(target)) {
             return false;
         }
 
@@ -271,7 +271,7 @@ public class GuiEditScreen extends Screen {
     }
 
     public void toggleSelectedOverlay() {
-        if (isOverlayAllowedByServer(selectedOverlay)) {
+        if (isOverlayBlockedByServer(selectedOverlay)) {
             return;
         }
 
@@ -282,7 +282,7 @@ public class GuiEditScreen extends Screen {
     }
 
     public void increaseSelectedOverlaySize() {
-        if (isOverlayAllowedByServer(selectedOverlay)) {
+        if (isOverlayBlockedByServer(selectedOverlay)) {
             return;
         }
 
@@ -290,7 +290,7 @@ public class GuiEditScreen extends Screen {
     }
 
     public void decreaseSelectedOverlaySize() {
-        if (isOverlayAllowedByServer(selectedOverlay)) {
+        if (isOverlayBlockedByServer(selectedOverlay)) {
             return;
         }
 
@@ -298,7 +298,7 @@ public class GuiEditScreen extends Screen {
     }
 
     public void setSelectedOverlayAlignment(OverlayAlignment align) {
-        if (isOverlayAllowedByServer(selectedOverlay)) {
+        if (isOverlayBlockedByServer(selectedOverlay)) {
             return;
         }
         Minecraft mc = Minecraft.getInstance();
@@ -344,7 +344,7 @@ public class GuiEditScreen extends Screen {
         }
     }
 
-    private boolean isOverlayAllowedByServer(DragTarget target) {
+    private boolean isOverlayBlockedByServer(DragTarget target) {
         return !switch (target) {
             case DAY -> ServerConfig.SHOW_DAY_OVERLAY.get() && ServerConfig.ENABLE_DAY_COUNTER.get();
             case DEATH_LIST, DEATH_SELF -> ServerConfig.SHOW_DEATH_OVERLAY.get() && ServerConfig.ENABLE_DEATH_COUNTER.get();

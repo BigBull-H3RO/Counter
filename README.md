@@ -14,13 +14,13 @@
 <a href="https://www.curseforge.com/minecraft/mc-mods/counter-day-death/files/all?page=1&pageSize=20"><img src="https://img.shields.io/curseforge/v/1214103?logo=adguard&label=&suffix=%20&style=flat&color=1c1c1c&labelColor=121212&logoColor=5ca424" alt="Version"></a>
 </p>
 
-The **Counter Mod** introduces **Day** and **Death Counters** to your Minecraft experience, allowing players to track world progression and maintain an organized record of their own (or others') deaths.
+The **Counter Mod** introduces **Day**, **Death**, and **Survival Counters** to your Minecraft experience, allowing players to track world progression, maintain an organized record of their own (or others') deaths, and monitor their survival time since the last death.
 
 Additionally, the mod offers an option to replace the **vanilla ping bars** in the player list (**Tab menu**) with a **color-coded numeric ping**, providing a precise latency display (e.g., `123ms`) at a glance.
 
-The **Time Counter** feature displays the current in-game time of day.
+The **Time Counter** feature displays the current in-game time of day, while the **Coords Counter** feature displays the current coordinates of the player, making it easier to navigate and share locations with others.
 
-The **Coords Counter** feature displays the current coordinates of the player, making it easier to navigate and share locations with others.
+The **Survival Counter** tracks how long you've survived since your last death and can optionally display your best survival time record, making it **particularly useful for hardcore modpacks** where every moment of survival counts.
 
 All features are **highly configurable**, making this mod an excellent choice for both **singleplayer and multiplayer servers**.
 
@@ -46,7 +46,8 @@ All features are **highly configurable**, making this mod an excellent choice fo
 
 ✅ **Survival Counter**
 - Tracks your **survival time** since the **last death**.
-- Optionally shows your **best survival time**.
+- Optionally shows your **best survival time** record.
+- **Survival history**: Keeps track of your last 10 survival runs.
 
 ✅ **Time Counter**
 - Displays the **current in-game time** as an overlay (e.g., `14:35`).
@@ -65,7 +66,8 @@ All features are **highly configurable**, making this mod an excellent choice fo
 ## **⚙️ Configuration Options**
 The Counter Mod provides extensive configuration options via **`server-config.toml`** and **`client-config.toml`**.
 
-### **Client Configuration (`client-config.toml`)**
+<details>
+<summary style="font-size: 1.2em;"><strong>Client Configuration</strong> (<code>client-config.toml</code>)</summary>
 
 #### 🌞Day Counter Overlay Settings
 | Option                | Default    | Description                                                                                                                               |
@@ -74,7 +76,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showOverlayAlways`   | `true`     | Should the **day counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |
 | `dayOverlayX`         | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the day overlay.                                                                         |
 | `dayOverlayY`         | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the day overlay.                                                                         |
-| `dayOverlayAlign`     | `LEFT`     | Horizontale Ausrichtung des Overlays (`LEFT`, `CENTER`, `RIGHT`).                                                                         |
+| `dayOverlayAlign`     | `LEFT`     | Horizontal alignment of the overlay (`LEFT`, `CENTER`, `RIGHT`).                                                                          |                                                                         |
 | `dayOverlaySize`      | `1.0`      | Scale factor for the day counter text size.                                                                                               |
 | `dayOverlayTextColor` | `0xFFFFFF` | Color for the **day counter overlay** text.                                                                                               |
 
@@ -85,7 +87,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showListOverlayAlways` | `false`    | Should the **death counter list overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |                       |
 | `deathListX`            | `0.05`     | Relative X position for the death list overlay (0.0 = left, 1.0 = right).                                                                        |
 | `deathListY`            | `0.05`     | Relative Y position for the death list overlay (0.0 = top, 1.0 = bottom).                                                                        |
-| `deathListAlign`        | `LEFT`     | Horizontale Ausrichtung des Overlays (`LEFT`, `CENTER`, `RIGHT`).                                                                                |
+| `deathListAlign`        | `LEFT`     | Horizontal alignment of the overlay (`LEFT`, `CENTER`, `RIGHT`).                                                                                 |                                                                                |
 | `deathListSize`         | `1`        | Scale factor for the death list text size.                                                                                                       |
 | `deathOverlayWidth`     | `120`      | Maximum width (in pixels) for the **death counter list overlay**.                                                                                |
 | `deathOverlayStyle`     | `TABLE`    | Style used for the **death list overlay**: **`CLASSIC`**, **`BOXED`**, **`TABLE`**.                                                              |
@@ -101,7 +103,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showSelfOverlayAlways` | `false`    | Should the **personal death counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |     |
 | `deathSelfX`            | `0.10`     | Relative X position (0.0 = left, 1.0 = right) for your death overlay.                                                                                |
 | `deathSelfY`            | `0.10`     | Relative Y position (0.0 = top, 1.0 = bottom) for your death overlay.                                                                                |
-| `deathSelfAlign`        | `LEFT`     | Horizontale Ausrichtung des Overlays (`LEFT`, `CENTER`, `RIGHT`).                                                                                    |
+| `deathSelfAlign`        | `LEFT`     | Horizontal alignment of the overlay (`LEFT`, `CENTER`, `RIGHT`).                                                                                     |                                                                                    |
 | `deathSelfSize`         | `1`        | Scale factor for the **personal death counter** text size.                                                                                           |
 | `deathSelfTextColor`    | `0xFF0000` | Color for your **personal death counter** text.                                                                                                      |
 
@@ -112,7 +114,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showSurvivalOverlayAlways` | `true`     | Should the **survival counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |            |
 | `survivalOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the survival overlay.                                                                         |
 | `survivalOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the survival overlay.                                                                         |
-| `survivalOverlayAlign`      | `LEFT`     | Horizontale Ausrichtung des Overlays (`LEFT`, `CENTER`, `RIGHT`).                                                                              |
+| `survivalOverlayAlign`      | `LEFT`     | Horizontal alignment of the overlay (`LEFT`, `CENTER`, `RIGHT`).                                                                               |                                                                              |
 | `survivalOverlaySize`       | `1.0`      | Scale factor for the survival counter text size.                                                                                               |
 | `survivalOverlayTextColor`  | `0xFFFFFF` | Color for the **survival counter overlay** text.                                                                                               |
 
@@ -123,7 +125,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showTimeOverlayAlways` | `true`     | Should the **time counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |            |
 | `timeOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the time overlay.                                                                         |
 | `timeOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the time overlay.                                                                         |
-| `timeOverlayAlign`      | `LEFT`     | Horizontale Ausrichtung des Overlays (`LEFT`, `CENTER`, `RIGHT`).                                                                          |
+| `timeOverlayAlign`      | `LEFT`     | Horizontal alignment of the overlay (`LEFT`, `CENTER`, `RIGHT`).                                                                           |                                                                          |
 | `timeOverlaySize`       | `1.0`      | Scale factor for the time counter text size.                                                                                               |
 | `timeOverlayTextColor`  | `0xFFFFFF` | Color for the **time counter overlay** text.                                                                                               |
 
@@ -134,7 +136,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showCoordsOverlayAlways` | `true`     | Should the **coords counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |            |
 | `coordsOverlayX`          | `0.05`     | Relative X position (0.0 = left, 1.0 = right) of the coords overlay.                                                                         |
 | `coordsOverlayY`          | `0.05`     | Relative Y position (0.0 = top, 1.0 = bottom) of the coords overlay.                                                                         |
-| `coordsOverlayAlign`      | `LEFT`     | Horizontale Ausrichtung des Overlays (`LEFT`, `CENTER`, `RIGHT`).                                                                            |
+| `coordsOverlayAlign`      | `LEFT`     | Horizontal alignment of the overlay (`LEFT`, `CENTER`, `RIGHT`).                                                                             |                                                                            |
 | `coordsOverlaySize`       | `1.0`      | Scale factor for the coords counter text size.                                                                                               |
 | `coordsOverlayTextColor`  | `0xFFFFFF` | Color for the **coords counter overlay** text.                                                                                               |
 
@@ -151,9 +153,12 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 |--------------|---------|-------------------------------------------|
 | `showEmojis` | `true`  | Enable or disable emojis in **overlays**. |
 
+</details>
+
 ---
 
-### **Server Configuration (`server-config.toml`)**
+<details>
+<summary style="font-size: 1.2em;"><strong>Server Configuration</strong> (<code>server-config.toml</code>)</summary>
 
 #### 🌞Day Counter Settings
 | Option             | Default    | Description                                                         |
@@ -201,12 +206,12 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showBestSurvivalInChat`   | `false` | Include the best survival time in parentheses after the survival time. |
 
 #### ⏰Time Counter Settings
-| Option                | Default | Description                                                                                          |
-|-----------------------|---------|------------------------------------------------------------------------------------------------------|
-| `enableTimeCounter`   | `true`  | Enables or disables the **Time Counter** feature on the server.                                      |
-| `showTimeOverlay`     | `true`  | Allows the **Time Counter overlay** to be shown (client can toggle).                                 |
-| `showCombinedDayTime` | `false` | Show the **day count** combined with the **inGame time**. Disables the standard day counter overlay. |
-| `timeFormat24h`       | `true`  | Use **24-hour format** instead of **12-hour format**.                                                |
+| Option                | Default | Description                                                                                   |
+|-----------------------|---------|-----------------------------------------------------------------------------------------------|
+| `enableTimeCounter`   | `true`  | Enables or disables the **Time Counter** feature on the server.                               |
+| `showTimeOverlay`     | `true`  | Allows the **Time Counter overlay** to be shown (client can toggle).                          |
+| `showCombinedDayTime` | `false` | Show the **day count** combined with the **inGame time**. Disables the standard time overlay. |
+| `timeFormat24h`       | `true`  | Use **24-hour format** instead of **12-hour format**.                                         |
 
 #### 📌Coords Counter Settings
 | Option                | Default | Description                                                            |
@@ -214,26 +219,26 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `enableCoordsCounter` | `true`  | Enables or disables the **Coords Counter** feature on the server.      |
 | `showCoordsOverlay`   | `true`  | Allows the **Coords Counter overlay** to be shown (client can toggle). |
 
+</details>
+
 ---
 
 ## **📝 Commands**
 Below is an overview of the main commands the mod provides:
 
-| Command                                    | Permission | Description                                                |
-|--------------------------------------------|------------|------------------------------------------------------------|
-| **`/counter day get`**                     | `all`      | Shows the current day counter value.                       |
-| **`/counter day set <days>`**              | `admin`    | Sets the Day Counter to the specified value.               |
-| **`/counter death get`**                   | `all`      | Shows your own total deaths.                               |
-| **`/counter death get <player>`**          | `all`      | Shows another player’s total deaths.                       |
-| **`/counter death set <player> <amount>`** | `admin`    | Sets the death count for the specified player(s).          |
-| **`/counter death reset`**                 | `admin`    | Resets the death count of all players to `0`.              |
-| **`/counter time get`**                    | `all`      | Shows the current in-game time.                            |
-| **`/counter coords get`**                  | `all`      | Shows your current coordinates.                            |
-| **`/counter coords get <player>`**         | `all`      | Shows your current coordinates to another player(s).       |
-| **`/counter survival history [player]`**   | `all`      | Shows the survival time history for you or another player. |
-| **`/counter survival best [player]`**      | `all`      | Displays the best survival time for you or another player. |
-| **`/counter survival current [player]`**   | `all`      | Displays the current survival time since the last death.   |
-| **`/counter survival global`**             | `all`      | Shows who holds the best survival time on the server.      |
+| Command                                    | Permission | Description                                                        |
+|--------------------------------------------|------------|--------------------------------------------------------------------|
+| **`/counter day get`**                     | `all`      | Shows the current day counter value.                               |
+| **`/counter day set <days>`**              | `admin`    | Sets the Day Counter to the specified value.                       |
+| **`/counter death get [player]`**          | `all`      | Shows your own total deaths or another player's deaths.            |
+| **`/counter death set <player> <amount>`** | `admin`    | Sets the death count for the specified player(s).                  |
+| **`/counter death reset`**                 | `admin`    | Resets the death count of all players to `0`.                      |
+| **`/counter time get`**                    | `all`      | Shows the current in-game time.                                    |
+| **`/counter coords get [player]`**         | `all`      | Shows your current coordinates or shares them with another player. |
+| **`/counter survival history [player]`**   | `all`      | Shows the survival time history for you or another player.         |
+| **`/counter survival best [player]`**      | `all`      | Displays the best survival time for you or another player.         |
+| **`/counter survival current [player]`**   | `all`      | Displays the current survival time since the last death.           |
+| **`/counter survival global`**             | `all`      | Shows who holds the best survival time on the server.              |
 
 ---
 
@@ -244,7 +249,7 @@ You can open an **Edit Screen** to customize the position and visibility of over
 3. Click the **"Toggle Overlay"** button to enable or disable an overlay.
 4. Press **"Done"** to save your changes, or **"Cancel"** to discard them.
 
-With this intuitive editor, you can easily configure the **Day Counter** and **Death Counter** overlays without modifying config files.
+With this intuitive editor, you can easily configure all overlays (**Day Counter**, **Death Counter**, **Survival Counter**, **Time Counter**, and **Coords Counter**) without modifying config files.
 
 ---
 

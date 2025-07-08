@@ -88,7 +88,7 @@ public class GuiEditScreen extends Screen {
         );
 
         this.addRenderableWidget(
-                Button.builder(Component.literal("◀"), b -> setSelectedOverlayAlignment(OverlayAlignment.RIGHT))
+                Button.builder(Component.literal("◀"), b -> setSelectedOverlayAlignment(ClientConfig.RIGHT))
                         .bounds(centerX - 40, bottomY - 52, 20, 12).build()
         );
 

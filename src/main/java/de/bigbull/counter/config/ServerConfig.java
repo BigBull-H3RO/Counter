@@ -38,6 +38,7 @@ public class ServerConfig {
     public static final ModConfigSpec.BooleanValue TIME_FORMAT_24H;
 
     public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_IN_CHAT;
+    public static final ModConfigSpec.EnumValue<SurvivalInChatMode> SHOW_SURVIVAL_IN_CHAT_MODE;
     public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_IN_CHAT_GLOBAL;
     public static final ModConfigSpec.BooleanValue SHOW_BEST_SURVIVAL_IN_CHAT;
 
@@ -54,6 +55,10 @@ public class ServerConfig {
 
     public enum DeathChatMode {
         ONLY_SELF, LIST
+    }
+
+    public enum SurvivalInChatMode {
+        ON_JOIN, ON_DEATH, BOTH
     }
 
     public enum SurvivalTimeFormat {
@@ -124,6 +129,8 @@ public class ServerConfig {
         SERVER_BUILDER.push("Survival Counter Chat Settings");
         SHOW_SURVIVAL_IN_CHAT = SERVER_BUILDER.comment("Send a chat message with the survival time when a player dies?")
                 .define("showSurvivalInChat", false);
+        SHOW_SURVIVAL_IN_CHAT_MODE = SERVER_BUILDER.comment("Show the survival time in chat: ON_JOIN (when joining), ON_DEATH (when dying), or BOTH?")
+                .defineEnum("showSurvivalInChatMode", SurvivalInChatMode.ON_DEATH);
         SHOW_SURVIVAL_IN_CHAT_GLOBAL = SERVER_BUILDER.comment("Broadcast the survival time message to all players?")
                 .define("showSurvivalInChatGlobal", false);
         SHOW_BEST_SURVIVAL_IN_CHAT = SERVER_BUILDER.comment("Include the best survival time in parentheses after the survival time?")

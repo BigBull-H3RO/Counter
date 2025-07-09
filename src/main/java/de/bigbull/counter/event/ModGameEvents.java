@@ -79,6 +79,12 @@ public class ModGameEvents {
             PacketDistributor.sendToPlayer(player, new DayCounterPacket(DayCounterData.getCurrentDay(level)));
             PacketDistributor.sendToPlayer(player, new SurvivalTimePacket(surv.getLastDeathTick(player.getUUID()), surv.getBestTime(player.getUUID())));
 
+            if (ServerConfig.SHOW_SURVIVAL_IN_CHAT_MODE.get() == ServerConfig.SurvivalInChatMode.ON_JOIN ||
+                    ServerConfig.SHOW_SURVIVAL_IN_CHAT_MODE.get() == ServerConfig.SurvivalInChatMode.BOTH) {
+                long duration = level.getGameTime() - surv.getLastDeathTick(player.getUUID());
+                sendSurvivalCounterMessage(player, level, surv, duration);
+            }
+
             if ((ServerConfig.SHOW_DEATH_IN_CHAT_MODE.get() == ServerConfig.DeathInChatMode.ON_JOIN ||
                     ServerConfig.SHOW_DEATH_IN_CHAT_MODE.get() == ServerConfig.DeathInChatMode.BOTH)) {
                 sendDeathCounterMessage(player, level, data, false);
@@ -106,26 +112,9 @@ public class ModGameEvents {
                 surv.recordSurvival(player.getUUID(), duration, player.getScoreboardName());
                 surv.setLastDeathTick(player.getUUID(), now);
 
-                String time = CounterManager.formatSurvivalTime(duration);
-                long best = surv.getBestTime(player.getUUID());
-                String bestStr = CounterManager.formatSurvivalTime(best);
-
-                if (ServerConfig.SHOW_SURVIVAL_IN_CHAT.get()) {
-                    boolean withBest = ServerConfig.SHOW_BEST_SURVIVAL_IN_CHAT.get();
-                    String personalKey = withBest ? "chat.survivalcounter.personal.best" : "chat.survivalcounter.personal";
-                    String broadcastKey = withBest ? "chat.survivalcounter.broadcast.best" : "chat.survivalcounter.broadcast";
-                    Component msg = ServerConfig.SHOW_SURVIVAL_IN_CHAT_GLOBAL.get()
-                            ? withBest
-                            ? Component.translatable(broadcastKey, player.getScoreboardName(), time, bestStr)
-                            : Component.translatable(broadcastKey, player.getScoreboardName(), time)
-                            : withBest
-                            ? Component.translatable(personalKey, time, bestStr)
-                            : Component.translatable(personalKey, time);
-                    if (ServerConfig.SHOW_SURVIVAL_IN_CHAT_GLOBAL.get()) {
-                        level.getServer().getPlayerList().broadcastSystemMessage(msg, false);
-                    } else {
-                        player.sendSystemMessage(msg);
-                    }
+                if (ServerConfig.SHOW_SURVIVAL_IN_CHAT_MODE.get() == ServerConfig.SurvivalInChatMode.ON_DEATH ||
+                        ServerConfig.SHOW_SURVIVAL_IN_CHAT_MODE.get() == ServerConfig.SurvivalInChatMode.BOTH) {
+                    sendSurvivalCounterMessage(player, level, surv, duration);
                 }
 
                 PacketDistributor.sendToPlayer(player, new SurvivalTimePacket(now, surv.getBestTime(player.getUUID())));
@@ -216,6 +205,34 @@ public class ModGameEvents {
                     deathEntries.forEach(onlinePlayer::sendSystemMessage);
                 }
             }
+        }
+    }
+
+    private static void sendSurvivalCounterMessage(ServerPlayer player, ServerLevel level, SurvivalTimeData surv, long duration) {
+        if (!ServerConfig.ENABLE_SURVIVAL_COUNTER.get() || !ServerConfig.SHOW_SURVIVAL_IN_CHAT.get()) {
+            return;
+        }
+
+        boolean withBest = ServerConfig.SHOW_BEST_SURVIVAL_IN_CHAT.get();
+        String personalKey = withBest ? "chat.survivalcounter.personal.best" : "chat.survivalcounter.personal";
+        String broadcastKey = withBest ? "chat.survivalcounter.broadcast.best" : "chat.survivalcounter.broadcast";
+
+        String time = CounterManager.formatSurvivalTime(duration);
+        long best = surv.getBestTime(player.getUUID());
+        String bestStr = CounterManager.formatSurvivalTime(best);
+
+        Component msg = ServerConfig.SHOW_SURVIVAL_IN_CHAT_GLOBAL.get()
+                ? withBest
+                ? Component.translatable(broadcastKey, player.getScoreboardName(), time, bestStr)
+                : Component.translatable(broadcastKey, player.getScoreboardName(), time)
+                : withBest
+                ? Component.translatable(personalKey, time, bestStr)
+                : Component.translatable(personalKey, time);
+
+        if (ServerConfig.SHOW_SURVIVAL_IN_CHAT_GLOBAL.get()) {
+            level.getServer().getPlayerList().broadcastSystemMessage(msg, false);
+        } else {
+            player.sendSystemMessage(msg);
         }
     }
 

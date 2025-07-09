@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class GuiEditScreen extends Screen {
-    public enum DragTarget { NONE, DAY, DEATH_LIST, DEATH_SELF, TIME, COORDS, SURVIVAL }
+    public enum DragTarget { NONE, DAY, DEATH_LIST, DEATH_SELF, SURVIVAL, TIME, COORDS }
     private DragTarget selectedOverlay = DragTarget.NONE;
     private DragTarget currentDrag = DragTarget.NONE;
     private int dragOffsetX = 0, dragOffsetY = 0;
@@ -168,8 +168,15 @@ public class GuiEditScreen extends Screen {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button == 0) {
-            for (DragTarget target : DragTarget.values()) {
-                if (target == DragTarget.NONE) continue;
+            DragTarget[] order = {
+                    DragTarget.COORDS,
+                    DragTarget.TIME,
+                    DragTarget.SURVIVAL,
+                    DragTarget.DEATH_SELF,
+                    DragTarget.DEATH_LIST,
+                    DragTarget.DAY
+            };
+            for (DragTarget target : order) {
                 if (hitOverlay(mouseX, mouseY, target)) {
                     selectedOverlay = target;
                     currentDrag = target;
@@ -348,9 +355,9 @@ public class GuiEditScreen extends Screen {
         return !switch (target) {
             case DAY -> ServerConfig.SHOW_DAY_OVERLAY.get() && ServerConfig.ENABLE_DAY_COUNTER.get();
             case DEATH_LIST, DEATH_SELF -> ServerConfig.SHOW_DEATH_OVERLAY.get() && ServerConfig.ENABLE_DEATH_COUNTER.get();
+            case SURVIVAL -> ServerConfig.SHOW_SURVIVAL_OVERLAY.get() && ServerConfig.ENABLE_SURVIVAL_COUNTER.get();
             case TIME -> ServerConfig.SHOW_TIME_OVERLAY.get() && ServerConfig.ENABLE_TIME_COUNTER.get() && !ServerConfig.SHOW_COMBINED_DAY_TIME.get();
             case COORDS -> ServerConfig.SHOW_COORDS_OVERLAY.get() && ServerConfig.ENABLE_COORDS_COUNTER.get();
-            case SURVIVAL -> ServerConfig.SHOW_SURVIVAL_OVERLAY.get() && ServerConfig.ENABLE_SURVIVAL_COUNTER.get();
             default -> false;
         };
     }

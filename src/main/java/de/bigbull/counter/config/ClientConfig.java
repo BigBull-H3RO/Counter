@@ -124,7 +124,7 @@ public class ClientConfig {
         DEATH_SELF_X = CLIENT_BUILDER.comment("Relative X position for your personal death overlay.")
                 .defineInRange("deathSelfX", 0.00625, 0.0, 1.0);
         DEATH_SELF_Y = CLIENT_BUILDER.comment("Relative Y position for your personal death overlay.")
-                .defineInRange("deathSelfY", 0.068, 0.0, 1.0);
+                .defineInRange("deathSelfY", 0.122, 0.0, 1.0);
         DEATH_SELF_SIZE = CLIENT_BUILDER.comment("Scale factor for the personal death counter text size.")
                 .defineInRange("deathSelfSize", 1, 0.1, 5);
         DEATH_SELF_ALIGN = CLIENT_BUILDER.comment("Alignment for your personal death overlay.")
@@ -141,7 +141,7 @@ public class ClientConfig {
         SURVIVAL_OVERLAY_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right).")
                 .defineInRange("survivalOverlayX", 0.00625, 0.0, 1.0);
         SURVIVAL_OVERLAY_Y = CLIENT_BUILDER.comment("Relative Y position (0.0 = top, 1.0 = bottom).")
-                .defineInRange("survivalOverlayY", 0.115, 0.0, 1.0);
+                .defineInRange("survivalOverlayY", 0.068, 0.0, 1.0);
         SURVIVAL_OVERLAY_SIZE = CLIENT_BUILDER.comment("Scale factor for the survival overlay text size.")
                 .defineInRange("survivalOverlaySize", 1.0, 0.1, 5.0);
         SURVIVAL_OVERLAY_ALIGN = CLIENT_BUILDER.comment("Alignment for the survival overlay.")
@@ -156,7 +156,7 @@ public class ClientConfig {
         SHOW_TIME_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the time overlay always be visible? If false, it is only visible while holding the Tab key.")
                 .define("showTimeOverlayAlways", true);
         TIME_OVERLAY_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right).")
-                .defineInRange("timeOverlayX", 0.00781, 0.0, 1.0);
+                .defineInRange("timeOverlayX", 0.00625, 0.0, 1.0);
         TIME_OVERLAY_Y = CLIENT_BUILDER.comment("Relative Y position (0.0 = top, 1.0 = bottom).")
                 .defineInRange("timeOverlayY", 0.955, 0.0, 1.0);
         TIME_OVERLAY_SIZE = CLIENT_BUILDER.comment("Scale factor for the ingame time overlay text size.")
@@ -173,7 +173,7 @@ public class ClientConfig {
         SHOW_COORDS_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the coordinates overlay always be visible? If false, it is only visible while holding the Tab key.")
                 .define("showCoordsOverlayAlways", true);
         COORDS_OVERLAY_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right).")
-                .defineInRange("coordsOverlayX", 0.00781, 0.0, 1.0);
+                .defineInRange("coordsOverlayX", 0.00625, 0.0, 1.0);
         COORDS_OVERLAY_Y = CLIENT_BUILDER.comment("Relative Y position (0.0 = top, 1.0 = bottom).")
                 .defineInRange("coordsOverlayY", 0.905, 0.0, 1.0);
         COORDS_OVERLAY_SIZE = CLIENT_BUILDER.comment("Scale factor for the coordinates overlay text size.")

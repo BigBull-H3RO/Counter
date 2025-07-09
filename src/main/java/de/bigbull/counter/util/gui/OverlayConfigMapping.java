@@ -42,6 +42,12 @@ public class OverlayConfigMapping {
                         ClientConfig.SHOW_DEATH_SELF_OVERLAY,
                         DeathCounterOverlay::calcDeathSelfWidth, DeathCounterOverlay::calcDeathSelfHeight));
 
+        MAP.put(GuiEditScreen.DragTarget.SURVIVAL,
+                new Entry(ClientConfig.SURVIVAL_OVERLAY_X, ClientConfig.SURVIVAL_OVERLAY_Y,
+                        ClientConfig.SURVIVAL_OVERLAY_SIZE, ClientConfig.SURVIVAL_OVERLAY_ALIGN,
+                        ClientConfig.SHOW_SURVIVAL_OVERLAY,
+                        SurvivalTimeOverlay::calcSurvivalWidth, SurvivalTimeOverlay::calcSurvivalHeight));
+
         MAP.put(GuiEditScreen.DragTarget.TIME,
                 new Entry(ClientConfig.TIME_OVERLAY_X, ClientConfig.TIME_OVERLAY_Y,
                         ClientConfig.TIME_OVERLAY_SIZE, ClientConfig.TIME_OVERLAY_ALIGN,
@@ -53,12 +59,6 @@ public class OverlayConfigMapping {
                         ClientConfig.COORDS_OVERLAY_SIZE, ClientConfig.COORDS_OVERLAY_ALIGN,
                         ClientConfig.SHOW_COORDS_OVERLAY,
                         CoordsOverlay::calcCoordsWidth, CoordsOverlay::calcCoordsHeight));
-
-        MAP.put(GuiEditScreen.DragTarget.SURVIVAL,
-                new Entry(ClientConfig.SURVIVAL_OVERLAY_X, ClientConfig.SURVIVAL_OVERLAY_Y,
-                        ClientConfig.SURVIVAL_OVERLAY_SIZE, ClientConfig.SURVIVAL_OVERLAY_ALIGN,
-                        ClientConfig.SHOW_SURVIVAL_OVERLAY,
-                        SurvivalTimeOverlay::calcSurvivalWidth, SurvivalTimeOverlay::calcSurvivalHeight));
     }
 
     public static Entry get(GuiEditScreen.DragTarget target) {

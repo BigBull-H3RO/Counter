@@ -11,49 +11,54 @@ public class ModDeLangProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+        // --- Overlay Texts ---
         add("overlay.counter.day_with_emoji", "🌞 Tag: %s");
         add("overlay.counter.day_no_emoji", "Tag: %s");
-        add("command.daycounter.set", "🌞 Tageszähler auf %s gesetzt!");
-        add("chat.daycounter.new_day", "🌞 Es ist jetzt Tag %s!");
         add("combined.daytime_with_emoji", "🌞 Tag: %s, %s");
         add("combined.daytime_no_emoji", "Tag: %s, %s");
 
         add("overlay.counter.deaths_with_emoji", "💀 Tode: %s");
         add("overlay.counter.deaths_no_emoji", "Tode: %s");
-        add("chat.deathcounter.player_death.singular", "💀 %s ist einmal gestorben!");
-        add("chat.deathcounter.player_death.plural", "💀 %s ist %s mal gestorben!");
         add("overlay.counter.deathlist", "💀 Todeszähler:");
         add("overlay.counter.deathlist.entry.full", "%s %s");
         add("overlay.counter.deathlist.entry.singular", "%s: %s Tod");
         add("overlay.counter.deathlist.entry.plural", "%s: %s Tode");
         add("overlay.counter.deathlist.style.invalid", "FEHLER: Ungültiger Todeslisten-Stil!");
-        add("command.deathcounter.reset", "💀 Todeszähler wurde zurückgesetzt!");
-        add("command.deathcounter.set", "💀 Setze die Tode von %s auf %s!");
 
         add("overlay.counter.survival_with_emoji", "⏳ Überlebt: %s");
         add("overlay.counter.survival_no_emoji", "Überlebt: %s");
         add("overlay.counter.best_survival_with_emoji", "⏳ Beste: %s");
         add("overlay.counter.best_survival_no_emoji", "Beste: %s");
-        add("command.survival.global_best", "⏳ %s hält die beste Zeit: %s");
 
-        add("chat.survivalcounter.personal", "⏳ Überlebt: %s");
-        add("chat.survivalcounter.personal.best", "⏳ Überlebt: %s (%s)");
-        add("chat.survivalcounter.broadcast", "⏳ %s hat %s lang überlebt");
-        add("chat.survivalcounter.broadcast.best", "⏳ %s hat %s lang überlebt (%s)");
-
-        add("command.coords.broadcast", "%s hat seine Koordinaten geteilt: X:%s, Y:%s, Z:%s");
-        add("command.coords.player_not_found", "❌ Spieler nicht gefunden!");
-
+        // --- Key Bindings ---
         add("key.counter.edit_mode", "Bearbeitungsmodus");
         add("key.counter.show_overlays", "Overlays anzeigen");
         add("key.categories.counter", "Zähler");
 
+        // --- Overlay Edit Screen ---
         add("screen.overlay_edit", "Overlay-Bearbeitung");
         add("screen.overlay_edit.done", "Fertig");
         add("screen.overlay_edit.cancel", "Abbrechen");
         add("screen.overlay_edit.toggle_overlay", "Overlay umschalten");
 
-        // Config Übersetzungen
+        // --- Chat translations ---
+        add("chat.daycounter.new_day", "🌞 Es ist jetzt Tag %s!");
+        add("chat.deathcounter.player_death.singular", "💀 %s ist einmal gestorben!");
+        add("chat.deathcounter.player_death.plural", "💀 %s ist %s mal gestorben!");
+        add("chat.survivalcounter.personal", "⏳ Überlebt: %s");
+        add("chat.survivalcounter.personal.best", "⏳ Überlebt: %s (%s)");
+        add("chat.survivalcounter.broadcast", "⏳ %s hat %s lang überlebt");
+        add("chat.survivalcounter.broadcast.best", "⏳ %s hat %s lang überlebt (%s)");
+
+        // --- Command translations ---
+        add("command.daycounter.set", "🌞 Tageszähler auf %s gesetzt!");
+        add("command.deathcounter.reset", "💀 Todeszähler wurde zurückgesetzt!");
+        add("command.deathcounter.set", "💀 Setze die Tode von %s auf %s!");
+        add("command.survival.global_best", "⏳ %s hält die beste Zeit: %s");
+        add("command.coords.broadcast", "%s hat seine Koordinaten geteilt: X:%s, Y:%s, Z:%s");
+        add("command.player_not_found", "❌ Spieler nicht gefunden!");
+
+        // --- Config translations: Day Overlay ---
         add("counter.config.showDayOverlay", "Tages-Overlay anzeigen");
         add("counter.config.showOverlayAlways", "Overlay immer anzeigen");
         add("counter.config.dayOverlayX", "Tages-Overlay X");
@@ -62,6 +67,7 @@ public class ModDeLangProvider extends LanguageProvider {
         add("counter.config.dayOverlayAlign", "Tages-Overlay Ausrichtung");
         add("counter.config.dayOverlayTextColor", "Tages-Overlay Textfarbe");
 
+        // --- Config translations: Death List Overlay ---
         add("counter.config.showDeathListOverlay", "Todesliste anzeigen");
         add("counter.config.showListOverlayAlways", "Todesliste immer anzeigen");
         add("counter.config.deathListX", "Todesliste X");
@@ -75,6 +81,7 @@ public class ModDeLangProvider extends LanguageProvider {
         add("counter.config.secondPlaceColor", "Farbe für Platz 2");
         add("counter.config.thirdPlaceColor", "Farbe für Platz 3");
 
+        // --- Config translations: Personal Death Counter ---
         add("counter.config.showDeathSelfOverlay", "Eigenen Todeszähler anzeigen");
         add("counter.config.showSelfOverlayAlways", "Eigenen Todeszähler immer anzeigen");
         add("counter.config.deathSelfX", "Eigener Tod X");
@@ -83,6 +90,7 @@ public class ModDeLangProvider extends LanguageProvider {
         add("counter.config.deathSelfAlign", "Eigener Tod Ausrichtung");
         add("counter.config.deathSelfTextColor", "Eigener Tod Textfarbe");
 
+        // --- Config translations: Survival Overlay ---
         add("counter.config.showSurvivalOverlay", "Überlebens-Overlay anzeigen");
         add("counter.config.showSurvivalOverlayAlways", "Überlebens-Overlay immer anzeigen");
         add("counter.config.survivalOverlayX", "Überlebens-Overlay X");
@@ -91,6 +99,7 @@ public class ModDeLangProvider extends LanguageProvider {
         add("counter.config.survivalOverlayAlign", "Überlebens-Overlay Ausrichtung");
         add("counter.config.survivalOverlayTextColor", "Überlebens-Overlay Textfarbe");
 
+        // --- Config translations: Time Overlay ---
         add("counter.config.showTimeOverlay", "Zeit-Overlay anzeigen");
         add("counter.config.showTimeOverlayAlways", "Zeit-Overlay immer anzeigen");
         add("counter.config.timeOverlayX", "Zeit-Overlay X");
@@ -99,6 +108,7 @@ public class ModDeLangProvider extends LanguageProvider {
         add("counter.config.timeOverlayAlign", "Zeit-Overlay Ausrichtung");
         add("counter.config.timeOverlayTextColor", "Zeit-Overlay Textfarbe");
 
+        // --- Config translations: Coordinates Overlay ---
         add("counter.config.showCoordsOverlay", "Koordinaten-Overlay anzeigen");
         add("counter.config.showCoordsOverlayAlways", "Koordinaten-Overlay immer anzeigen");
         add("counter.config.coordsOverlayX", "Koordinaten-Overlay X");
@@ -107,13 +117,14 @@ public class ModDeLangProvider extends LanguageProvider {
         add("counter.config.coordsOverlayAlign", "Koordinaten-Overlay Ausrichtung");
         add("counter.config.coordsOverlayTextColor", "Koordinaten-Overlay Textfarbe");
 
+        // --- Config translations: Ping & Emojis ---
         add("counter.config.showPingAsText", "Ping als Text anzeigen");
         add("counter.config.pingColorGood", "Farbe für guten Ping");
         add("counter.config.pingColorMedium", "Farbe für mittleren Ping");
         add("counter.config.pingColorBad", "Farbe für schlechten Ping");
-
         add("counter.config.showEmojis", "Emojis anzeigen");
 
+        // --- Config translations: General & Misc ---
         add("counter.config.enableDayCounter", "Tageszähler aktivieren");
         add("counter.config.showOverlay", "Overlay anzeigen");
         add("counter.config.enableDayMessage", "Tagesnachricht aktivieren");
@@ -145,6 +156,7 @@ public class ModDeLangProvider extends LanguageProvider {
 
         add("counter.config.enableCoordsCounter", "Koordinatenzähler aktivieren");
 
+        // --- Config translations: Titles ---
         add("counter.config.title.dayOverlay", "Tages-Overlay Einstellungen");
         add("counter.config.title.deathList", "Todesliste Einstellungen");
         add("counter.config.title.deathSelf", "Eigener Todeszähler Einstellungen");

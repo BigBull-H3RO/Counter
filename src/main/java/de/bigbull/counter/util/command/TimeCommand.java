@@ -22,7 +22,7 @@ public class TimeCommand {
 
                             String timeString = CounterManager.formatTime(level.getDayTime());
 
-                            context.getSource().sendSuccess(() -> Component.literal("\u23F0 " + timeString), false);
+                            context.getSource().sendSuccess(() -> Component.literal("⏰ " + timeString), false);
                             return Command.SINGLE_SUCCESS;
                         }));
     }

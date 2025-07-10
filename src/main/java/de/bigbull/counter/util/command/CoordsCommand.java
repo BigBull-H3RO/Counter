@@ -24,7 +24,8 @@ public class CoordsCommand {
                             ServerPlayer player = context.getSource().getPlayerOrException();
                             CounterManager.sendCoordsMessage(player, player);
                             return Command.SINGLE_SUCCESS;
-                        })
+                        }))
+                .then(Commands.literal("send")
                         .then(Commands.argument("target", StringArgumentType.word())
                                 .suggests(PLAYER_SUGGESTIONS)
                                 .executes(context -> {
@@ -37,7 +38,7 @@ public class CoordsCommand {
                                         if (targetPlayer != null) {
                                             CounterManager.sendCoordsMessage(sender, targetPlayer);
                                         } else {
-                                            sender.sendSystemMessage(Component.translatable("command.coords.player_not_found"));
+                                            sender.sendSystemMessage(Component.translatable("command.player_not_found"));
                                         }
                                     }
                                     return Command.SINGLE_SUCCESS;

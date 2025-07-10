@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class CoordsCommand {
     public static LiteralArgumentBuilder<CommandSourceStack> register() {
         return Commands.literal("coords")
-                .requires(source -> ServerConfig.ENABLE_COORDS_COUNTER.get())
+                .requires(source -> ServerConfig.ENABLE_COORDS_COUNTER.get() && ServerConfig.ENABLE_COORDS_COMMAND.get())
                 .then(Commands.literal("get")
                         .executes(context -> {
                             ServerPlayer player = context.getSource().getPlayerOrException();

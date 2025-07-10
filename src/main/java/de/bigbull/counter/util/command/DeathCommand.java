@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class DeathCommand {
     public static LiteralArgumentBuilder<CommandSourceStack> register() {
         return Commands.literal("death")
-                .requires(source -> ServerConfig.ENABLE_DEATH_COUNTER.get())
+                .requires(source -> ServerConfig.ENABLE_DEATH_COUNTER.get() && ServerConfig.ENABLE_DEATH_COMMAND.get())
                 .then(Commands.literal("get")
                         .requires(source -> source.hasPermission(0))
                         .executes(context -> {

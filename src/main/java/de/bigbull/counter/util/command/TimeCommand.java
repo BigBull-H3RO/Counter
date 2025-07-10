@@ -13,7 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 public class TimeCommand {
     public static LiteralArgumentBuilder<CommandSourceStack> register() {
         return Commands.literal("time")
-                .requires(source -> ServerConfig.ENABLE_TIME_COUNTER.get())
+                .requires(source -> ServerConfig.ENABLE_TIME_COUNTER.get() && ServerConfig.ENABLE_TIME_COMMAND.get())
                 .then(Commands.literal("get")
                         .requires(source -> source.hasPermission(0))
                         .executes(context -> {

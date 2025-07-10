@@ -209,7 +209,7 @@ public class ModGameEvents {
     }
 
     private static void sendSurvivalCounterMessage(ServerPlayer player, ServerLevel level, SurvivalTimeData surv, long duration) {
-        if (!ServerConfig.ENABLE_SURVIVAL_COUNTER.get() || !ServerConfig.SHOW_SURVIVAL_IN_CHAT.get()) {
+        if (!ServerConfig.ENABLE_SURVIVAL_COUNTER.get() || !ServerConfig.ENABLE_SURVIVAL_IN_CHAT.get()) {
             return;
         }
 

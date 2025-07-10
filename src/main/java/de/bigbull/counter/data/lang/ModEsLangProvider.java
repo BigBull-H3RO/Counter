@@ -156,6 +156,13 @@ public class ModEsLangProvider extends LanguageProvider {
 
         add("counter.config.enableCoordsCounter", "Habilitar contador de coordenadas");
 
+        // --- Config translations: Commands ---
+        add("counter.config.enableDayCommand", "Comando del contador de días");
+        add("counter.config.enableDeathCommand", "Comando del contador de muertes");
+        add("counter.config.enableSurvivalCommand", "Comando del contador de supervivencia");
+        add("counter.config.enableTimeCommand", "Comando del contador de tiempo");
+        add("counter.config.enableCoordsCommand", "Comando del contador de coordenadas");
+
         // --- Config translations: Titles ---
         add("counter.config.title.dayOverlay", "Configuración de superposición del día");
         add("counter.config.title.deathList", "Configuración de lista de muertes");
@@ -173,5 +180,6 @@ public class ModEsLangProvider extends LanguageProvider {
         add("counter.config.title.survivalCounterChat", "Configuración de chat de supervivencia");
         add("counter.config.title.timeCounter", "Configuración de contador de tiempo");
         add("counter.config.title.coordsCounter", "Configuración de superposición de coordenadas");
+        add("counter.config.title.commands", "Configuración de comandos");
     }
 }

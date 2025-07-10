@@ -32,7 +32,7 @@ public class ServerConfig {
     public static final ModConfigSpec.BooleanValue SHOW_BEST_SURVIVAL_IN_DEATH_COUNTER;
     public static final ModConfigSpec.IntValue SURVIVAL_HISTORY_SIZE;
 
-    public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_IN_CHAT;
+    public static final ModConfigSpec.BooleanValue ENABLE_SURVIVAL_IN_CHAT;
     public static final ModConfigSpec.EnumValue<SurvivalInChatMode> SHOW_SURVIVAL_IN_CHAT_MODE;
     public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_IN_CHAT_GLOBAL;
     public static final ModConfigSpec.BooleanValue SHOW_BEST_SURVIVAL_IN_CHAT;
@@ -44,6 +44,12 @@ public class ServerConfig {
 
     public static final ModConfigSpec.BooleanValue ENABLE_COORDS_COUNTER;
     public static final ModConfigSpec.BooleanValue SHOW_COORDS_OVERLAY;
+
+    public static final ModConfigSpec.BooleanValue ENABLE_DAY_COMMAND;
+    public static final ModConfigSpec.BooleanValue ENABLE_DEATH_COMMAND;
+    public static final ModConfigSpec.BooleanValue ENABLE_SURVIVAL_COMMAND;
+    public static final ModConfigSpec.BooleanValue ENABLE_TIME_COMMAND;
+    public static final ModConfigSpec.BooleanValue ENABLE_COORDS_COMMAND;
 
     public enum DeathOverlayMode {
         ONLY_SELF, LIST, BOTH
@@ -129,7 +135,7 @@ public class ServerConfig {
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.translation("counter.config.title.survivalCounterChat").push("Survival Counter Chat Settings");
-        SHOW_SURVIVAL_IN_CHAT = SERVER_BUILDER.comment("Send a chat message with the survival time when a player dies?")
+        ENABLE_SURVIVAL_IN_CHAT = SERVER_BUILDER.comment("Send a chat message with the survival time when a player diesEnable death counter messages in chat (on join or on death)?")
                 .translation("counter.config.showSurvivalInChat").define("showSurvivalInChat", false);
         SHOW_SURVIVAL_IN_CHAT_MODE = SERVER_BUILDER.comment("Show the survival time in chat: ON_JOIN (when joining), ON_DEATH (when dying), or BOTH?")
                 .translation("counter.config.showSurvivalInChatMode").defineEnum("showSurvivalInChatMode", SurvivalInChatMode.ON_DEATH);
@@ -151,6 +157,19 @@ public class ServerConfig {
         SERVER_BUILDER.translation("counter.config.title.coordsCounter").push("Coordinates Overlay Settings");
         ENABLE_COORDS_COUNTER = defineEnable("enableCoordsCounter", "coordinates overlay");
         SHOW_COORDS_OVERLAY = defineOverlay("showCoordsOverlay", "coordinates");
+        SERVER_BUILDER.pop();
+
+        SERVER_BUILDER.translation("counter.config.title.commands").push("Commands Settings");
+        ENABLE_DAY_COMMAND = SERVER_BUILDER.comment("Enable /day command?")
+                .translation("counter.config.enableDayCommand").define("enableDayCommand", true);
+        ENABLE_DEATH_COMMAND = SERVER_BUILDER.comment("Enable /death command?")
+                .translation("counter.config.enableDeathCommand").define("enableDeathCommand", true);
+        ENABLE_SURVIVAL_COMMAND = SERVER_BUILDER.comment("Enable /survival command?")
+                .translation("counter.config.enableSurvivalCommand").define("enableSurvivalCommand", true);
+        ENABLE_TIME_COMMAND = SERVER_BUILDER.comment("Enable /time command?")
+                .translation("counter.config.enableTimeCommand").define("enableTimeCommand", true);
+        ENABLE_COORDS_COMMAND = SERVER_BUILDER.comment("Enable /coords command?")
+                .translation("counter.config.enableCoordsCommand").define("enableCoordsCommand", true);
         SERVER_BUILDER.pop();
 
         SERVER_SPEC = SERVER_BUILDER.build();

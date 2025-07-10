@@ -15,7 +15,7 @@ import net.minecraft.server.level.ServerPlayer;
 public class SurvivalCommand {
     public static LiteralArgumentBuilder<CommandSourceStack> register() {
         return Commands.literal("survival")
-                .requires(src -> ServerConfig.ENABLE_SURVIVAL_COUNTER.get())
+                .requires(source -> ServerConfig.ENABLE_SURVIVAL_COUNTER.get() && ServerConfig.ENABLE_SURVIVAL_COMMAND.get())
                 .then(Commands.literal("history")
                         .executes(context -> {
                             ServerPlayer player = context.getSource().getPlayerOrException();

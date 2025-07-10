@@ -16,7 +16,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 public class DayCommand {
     public static LiteralArgumentBuilder<CommandSourceStack> register() {
         return Commands.literal("day")
-                .requires(source -> ServerConfig.ENABLE_DAY_COUNTER.get())
+                .requires(source -> ServerConfig.ENABLE_DAY_COUNTER.get() && ServerConfig.ENABLE_DAY_COMMAND.get())
                 .then(Commands.literal("get")
                         .requires(source -> source.hasPermission(0))
                         .executes(context -> {

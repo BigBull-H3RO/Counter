@@ -55,8 +55,9 @@ public class ModEsLangProvider extends LanguageProvider {
         add("command.deathcounter.reset", "💀 ¡El contador de muertes ha sido reiniciado!");
         add("command.deathcounter.set", "💀 ¡El número de muertes de %s se ha establecido en %s!");
         add("command.survival.global_best", "⏳ %s tiene el mejor tiempo: %s");
-        add("command.coords.broadcast", "%s ha compartido sus coordenadas: X:%s, Y:%s, Z:%s");
+        add("command.coords.broadcast", "%s ha compartido sus coordenadas: X: %s, Y: %s, Z: %s");
         add("command.player_not_found", "❌ ¡Jugador no encontrado!");
+        add("command.counter.no_data", "Aún no hay datos disponibles.");
 
         // --- Config translations: Day Overlay ---
         add("counter.config.showDayOverlay", "Mostrar superposición del día");

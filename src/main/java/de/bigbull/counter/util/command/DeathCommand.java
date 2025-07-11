@@ -127,7 +127,10 @@ public class DeathCommand {
                 .limit(ServerConfig.MAX_PLAYERS_SHOWN.get())
                 .toList();
 
-        if (sortedDeaths.isEmpty()) return;
+        if (sortedDeaths.isEmpty()) {
+            source.sendSuccess(() -> Component.translatable("command.counter.no_data"), false);
+            return;
+        }
 
         Component header = Component.translatable("overlay.counter.deathlist").withStyle(style -> style.withColor(textColor));
         AtomicInteger counter = new AtomicInteger(0);

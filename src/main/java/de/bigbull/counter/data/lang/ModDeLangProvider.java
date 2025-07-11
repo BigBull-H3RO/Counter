@@ -55,8 +55,9 @@ public class ModDeLangProvider extends LanguageProvider {
         add("command.deathcounter.reset", "💀 Todeszähler wurde zurückgesetzt!");
         add("command.deathcounter.set", "💀 Setze die Tode von %s auf %s!");
         add("command.survival.global_best", "⏳ %s hält die beste Zeit: %s");
-        add("command.coords.broadcast", "%s hat seine Koordinaten geteilt: X:%s, Y:%s, Z:%s");
+        add("command.coords.broadcast", "%s hat seine Koordinaten geteilt: X: %s, Y: %s, Z: %s");
         add("command.player_not_found", "❌ Spieler nicht gefunden!");
+        add("command.counter.no_data", "Es sind noch keine Daten vorhanden.");
 
         // --- Config translations: Day Overlay ---
         add("counter.config.showDayOverlay", "Tages-Overlay anzeigen");

@@ -40,25 +40,35 @@ public class CounterCommands {
                 .then(Commands.literal("get")
                         .requires(source -> source.hasPermission(0))
                         .executes(context -> {
-                            MinecraftServer server = context.getSource().getServer();
-                            ServerLevel level = server.overworld();
-                            long currentDay = DayCounterData.getCurrentDay(level);
-                            context.getSource().sendSuccess(
-                                    () -> Component.translatable("overlay.counter.day_with_emoji", currentDay),
-                                    false
-                            );
-                            return Command.SINGLE_SUCCESS;
+                            try {
+                                MinecraftServer server = context.getSource().getServer();
+                                ServerLevel level = server.overworld();
+                                long currentDay = DayCounterData.getCurrentDay(level);
+                                context.getSource().sendSuccess(
+                                        () -> Component.translatable("overlay.counter.day_with_emoji", currentDay),
+                                        false
+                                );
+                                return Command.SINGLE_SUCCESS;
+                            } catch (Exception e) {
+                                context.getSource().sendFailure(Component.literal("Error retrieving day count: " + e.getMessage()));
+                                return 0;
+                            }
                         }))
                 .then(Commands.literal("set")
                         .requires(source -> source.hasPermission(2))
                         .then(Commands.argument("days", IntegerArgumentType.integer(0))
                                 .executes(context -> {
-                                    int newDay = IntegerArgumentType.getInteger(context, "days");
-                                    MinecraftServer server = context.getSource().getServer();
-                                    DayCounterData.setDayCounter(server.overworld(), newDay);
-                                    context.getSource().sendSuccess(() -> Component.translatable("command.daycounter.set", newDay), true);
-                                    PacketDistributor.sendToAllPlayers(new DayCounterPacket(newDay));
-                                    return Command.SINGLE_SUCCESS;
+                                    try {
+                                        int newDay = IntegerArgumentType.getInteger(context, "days");
+                                        MinecraftServer server = context.getSource().getServer();
+                                        DayCounterData.setDayCounter(server.overworld(), newDay);
+                                        context.getSource().sendSuccess(() -> Component.translatable("command.daycounter.set", newDay), true);
+                                        PacketDistributor.sendToAllPlayers(new DayCounterPacket(newDay));
+                                        return Command.SINGLE_SUCCESS;
+                                    } catch (Exception e) {
+                                        context.getSource().sendFailure(Component.literal("Error setting day count: " + e.getMessage()));
+                                        return 0;
+                                    }
                                 })));
     }
 
@@ -96,18 +106,23 @@ public class CounterCommands {
                         .then(Commands.argument("player", EntityArgument.players())
                                 .then(Commands.argument("amount", IntegerArgumentType.integer(0))
                                         .executes(context -> {
-                                            Collection<ServerPlayer> players = EntityArgument.getPlayers(context, "player");
-                                            int newDeathCount = IntegerArgumentType.getInteger(context, "amount");
-                                            ServerLevel level = context.getSource().getServer().overworld();
-                                            DeathCounterData data = DeathCounterData.get(level);
-                                            for (ServerPlayer targetPlayer : players) {
-                                                data.setDeaths(targetPlayer.getUUID(), newDeathCount);
-                                                context.getSource().sendSuccess(() ->
-                                                        Component.translatable("command.deathcounter.set", targetPlayer.getName().getString(), newDeathCount),
-                                                        true);
+                                            try {
+                                                Collection<ServerPlayer> players = EntityArgument.getPlayers(context, "player");
+                                                int newDeathCount = IntegerArgumentType.getInteger(context, "amount");
+                                                ServerLevel level = context.getSource().getServer().overworld();
+                                                DeathCounterData data = DeathCounterData.get(level);
+                                                for (ServerPlayer targetPlayer : players) {
+                                                    data.setDeaths(targetPlayer.getUUID(), newDeathCount);
+                                                    context.getSource().sendSuccess(() ->
+                                                            Component.translatable("command.deathcounter.set", targetPlayer.getName().getString(), newDeathCount),
+                                                            true);
+                                                }
+                                                PacketDistributor.sendToAllPlayers(new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
+                                                return Command.SINGLE_SUCCESS;
+                                            } catch (Exception e) {
+                                                context.getSource().sendFailure(Component.literal("Error setting death count: " + e.getMessage()));
+                                                return 0;
                                             }
-                                            PacketDistributor.sendToAllPlayers(new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
-                                            return Command.SINGLE_SUCCESS;
                                         }))))
                 .then(Commands.literal("reset")
                         .requires(source -> source.hasPermission(2))

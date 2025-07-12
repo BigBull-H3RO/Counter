@@ -16,7 +16,15 @@ import net.neoforged.neoforge.client.event.RenderGuiEvent;
 public class ClientEvents {
     @SubscribeEvent
     public static void onRenderGui(RenderGuiEvent.Post event) {
+        if (event == null || event.getGuiGraphics() == null) {
+            return;
+        }
+        
         Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft == null) {
+            return;
+        }
+        
         LocalPlayer player = minecraft.player;
         GuiGraphics guiGraphics = event.getGuiGraphics();
 
@@ -28,17 +36,29 @@ public class ClientEvents {
             return;
         }
 
-        DayCounterOverlay.render(guiGraphics);
-        DeathCounterOverlay.render(guiGraphics);
-        TimeOverlay.render(guiGraphics);
-        CoordsOverlay.render(guiGraphics);
+        try {
+            DayCounterOverlay.render(guiGraphics);
+            DeathCounterOverlay.render(guiGraphics);
+            TimeOverlay.render(guiGraphics);
+            CoordsOverlay.render(guiGraphics);
+        } catch (Exception e) {
+            Counter.logger.error("Error rendering overlays", e);
+        }
     }
 
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
-        Minecraft minecraft = Minecraft.getInstance();
-        if (ModKeybinds.OPEN_EDIT_GUI.consumeClick()) {
-            minecraft.setScreen(new OverlayEditScreen());
+        try {
+            Minecraft minecraft = Minecraft.getInstance();
+            if (minecraft == null) {
+                return;
+            }
+            
+            if (ModKeybinds.OPEN_EDIT_GUI.consumeClick()) {
+                minecraft.setScreen(new OverlayEditScreen());
+            }
+        } catch (Exception e) {
+            Counter.logger.error("Error in client tick", e);
         }
     }
 }

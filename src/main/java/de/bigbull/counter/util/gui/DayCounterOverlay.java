@@ -11,7 +11,15 @@ import net.minecraft.network.chat.Component;
 
 public class DayCounterOverlay {
     public static void render(GuiGraphics guiGraphics) {
+        if (guiGraphics == null) {
+            return;
+        }
+        
         Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft == null) {
+            return;
+        }
+        
         LocalPlayer player = minecraft.player;
         boolean isEditMode = minecraft.screen instanceof OverlayEditScreen;
         OverlayEditScreen editScreen = isEditMode ? (OverlayEditScreen) minecraft.screen : null;
@@ -83,6 +91,10 @@ public class DayCounterOverlay {
 
     public static int calcDayWidth() {
         Minecraft mc = Minecraft.getInstance();
+        if (mc == null || mc.font == null) {
+            return 0;
+        }
+        
         float scale = ClientConfig.DAY_OVERLAY_SIZE.get().floatValue();
         String text;
         if (ServerConfig.SHOW_COMBINED_DAY_TIME.get() && ServerConfig.ENABLE_TIME_COUNTER.get()) {
@@ -95,6 +107,10 @@ public class DayCounterOverlay {
 
     public static int calcDayHeight() {
         Minecraft mc = Minecraft.getInstance();
+        if (mc == null || mc.font == null) {
+            return 0;
+        }
+        
         float scale = ClientConfig.DAY_OVERLAY_SIZE.get().floatValue();
         int line = mc.font.lineHeight;
         return (int)(line * scale);

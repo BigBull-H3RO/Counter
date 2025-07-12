@@ -36,35 +36,41 @@ public abstract class PlayerTabOverlayMixin {
             PlayerInfo playerInfo,
             CallbackInfo ci
     ) {
-        if (!ClientConfig.SHOW_PING_AS_TEXT.get()) {
+        if (!ClientConfig.SHOW_PING_AS_TEXT.get() || guiGraphics == null || playerInfo == null) {
             return;
         }
 
         ci.cancel();
 
-        guiGraphics.pose().pushMatrix();
-        guiGraphics.pose().translate(0, 0);
+        try {
+            guiGraphics.pose().pushMatrix();
+            guiGraphics.pose().translate(0, 0);
 
-        int ping = playerInfo.getLatency();
-        if (ping < 0) ping = 0;
+            int ping = playerInfo.getLatency();
+            if (ping < 0) ping = 0;
 
-        String pingText = ping + "ms";
+            String pingText = ping + "ms";
 
-        int color;
-        if (ping < 100) {
-            color = ClientConfig.PING_COLOR_GOOD.get();
-        } else if (ping < 250) {
-            color = ClientConfig.PING_COLOR_MEDIUM.get();
-        } else {
-            color = ClientConfig.PING_COLOR_BAD.get();
+            int color;
+            if (ping < 100) {
+                color = ClientConfig.PING_COLOR_GOOD.get();
+            } else if (ping < 250) {
+                color = ClientConfig.PING_COLOR_MEDIUM.get();
+            } else {
+                color = ClientConfig.PING_COLOR_BAD.get();
+            }
+
+            var font = Minecraft.getInstance().font;
+            if (font != null) {
+                int textWidth = font.width(pingText);
+                int textX = (x + width) - textWidth;
+
+                guiGraphics.drawString(font, Component.literal(pingText), textX, y, color);
+            }
+
+            guiGraphics.pose().popMatrix();
+        } catch (Exception e) {
+            Counter.logger.error("Error rendering ping text", e);
         }
-
-        var font = Minecraft.getInstance().font;
-        int textWidth = font.width(pingText);
-        int textX = (x + width) - textWidth;
-
-        guiGraphics.drawString(font, Component.literal(pingText), textX, y, color);
-
-        guiGraphics.pose().popMatrix();
     }
 }

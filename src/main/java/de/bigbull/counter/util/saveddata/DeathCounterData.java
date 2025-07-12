@@ -40,8 +40,28 @@ public class DeathCounterData extends SavedData {
 
     private static DeathCounterData fromCodec(Map<String, Integer> deaths, Map<String, String> names) {
         DeathCounterData data = new DeathCounterData();
-        deaths.forEach((key, value) -> data.deathCounts.put(UUID.fromString(key), value));
-        names.forEach((key, value) -> data.playerNames.put(UUID.fromString(key), value));
+        if (deaths != null) {
+            deaths.forEach((key, value) -> {
+                try {
+                    if (key != null && value != null) {
+                        data.deathCounts.put(UUID.fromString(key), value);
+                    }
+                } catch (IllegalArgumentException e) {
+                    // Skip invalid UUID strings
+                }
+            });
+        }
+        if (names != null) {
+            names.forEach((key, value) -> {
+                try {
+                    if (key != null && value != null) {
+                        data.playerNames.put(UUID.fromString(key), value);
+                    }
+                } catch (IllegalArgumentException e) {
+                    // Skip invalid UUID strings
+                }
+            });
+        }
         return data;
     }
 
@@ -50,15 +70,24 @@ public class DeathCounterData extends SavedData {
     }
 
     public void setDeaths(UUID playerUUID, int deathCount) {
-        deathCounts.put(playerUUID, deathCount);
+        if (playerUUID == null) {
+            return;
+        }
+        deathCounts.put(playerUUID, Math.max(0, deathCount));
         this.setDirty();
     }
 
     public int getDeaths(UUID playerUUID) {
+        if (playerUUID == null) {
+            return 0;
+        }
         return deathCounts.getOrDefault(playerUUID, 0);
     }
 
     public void addDeath(UUID playerUUID) {
+        if (playerUUID == null) {
+            return;
+        }
         deathCounts.put(playerUUID, getDeaths(playerUUID) + 1);
         this.setDirty();
     }
@@ -73,7 +102,10 @@ public class DeathCounterData extends SavedData {
     }
 
     public void updatePlayerName(UUID playerUUID, String name) {
-        playerNames.put(playerUUID, name);
+        if (playerUUID == null || name == null || name.trim().isEmpty()) {
+            return;
+        }
+        playerNames.put(playerUUID, name.trim());
         this.setDirty();
     }
 

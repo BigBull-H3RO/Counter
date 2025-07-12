@@ -52,9 +52,22 @@ public record DeathCounterPacket(Map<UUID, Integer> deathCounts, Map<UUID, Strin
     }
 
     public static void handle(DeathCounterPacket packet, IPayloadContext context) {
+        if (packet == null || context == null) {
+            Counter.logger.warn("Received null DeathCounterPacket or context");
+            return;
+        }
+        
         context.enqueueWork(() -> {
-            ClientCounterState.updateDeathCounts(packet.deathCounts());
-            ClientCounterState.updateNameMap(packet.nameMap());
+            try {
+                if (packet.deathCounts() != null) {
+                    ClientCounterState.updateDeathCounts(packet.deathCounts());
+                }
+                if (packet.nameMap() != null) {
+                    ClientCounterState.updateNameMap(packet.nameMap());
+                }
+            } catch (Exception e) {
+                Counter.logger.error("Error handling DeathCounterPacket", e);
+            }
         });
     }
 }

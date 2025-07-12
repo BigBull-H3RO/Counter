@@ -32,34 +32,54 @@ public class ModGameEvents {
             return;
         }
 
-        MinecraftServer server = event.getServer();
-        ServerLevel level = server.overworld();
-        long realDay = level.getDayTime() / 24000;
-
-        DayCounterData data = DayCounterData.get(level);
-        long lastRealDay = data.getLastRealDay();
-
-        if (realDay > lastRealDay) {
-            long delta = realDay - lastRealDay;
-            long newCounterValue = data.getDayCounter() + delta;
-            data.setDayCounter(newCounterValue);
-            data.setLastRealDay(realDay);
-
-            if (ServerConfig.ENABLE_DAY_MESSAGE.get()) {
-                server.getPlayerList().broadcastSystemMessage(
-                        Component.translatable("chat.daycounter.new_day", newCounterValue), false);
+        try {
+            MinecraftServer server = event.getServer();
+            if (server == null) {
+                return;
             }
+            
+            ServerLevel level = server.overworld();
+            if (level == null) {
+                return;
+            }
+            
+            long realDay = level.getDayTime() / 24000;
 
-            PacketDistributor.sendToAllPlayers(new DayCounterPacket(newCounterValue));
-        } else if (realDay < lastRealDay) {
-            data.setLastRealDay(realDay);
+            DayCounterData data = DayCounterData.get(level);
+            long lastRealDay = data.getLastRealDay();
+
+            if (realDay > lastRealDay) {
+                long delta = realDay - lastRealDay;
+                long newCounterValue = data.getDayCounter() + delta;
+                data.setDayCounter(newCounterValue);
+                data.setLastRealDay(realDay);
+
+                if (ServerConfig.ENABLE_DAY_MESSAGE.get()) {
+                    server.getPlayerList().broadcastSystemMessage(
+                            Component.translatable("chat.daycounter.new_day", newCounterValue), false);
+                }
+
+                PacketDistributor.sendToAllPlayers(new DayCounterPacket(newCounterValue));
+            } else if (realDay < lastRealDay) {
+                data.setLastRealDay(realDay);
+            }
+        } catch (Exception e) {
+            Counter.logger.error("Error in server tick day counter processing", e);
         }
     }
 
     @SubscribeEvent
     public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) {
+        if (!(event.getEntity() instanceof ServerPlayer player)) {
+            return;
+        }
+        
+        try {
             ServerLevel level = player.level();
+            if (level == null) {
+                return;
+            }
+            
             DeathCounterData data = DeathCounterData.get(level);
             data.updatePlayerName(player.getUUID(), player.getScoreboardName());
 
@@ -74,13 +94,24 @@ public class ModGameEvents {
             if (ServerConfig.SHOW_DAY_IN_CHAT.get()) {
                 sendDayCounterToChat(level, player);
             }
+        } catch (Exception e) {
+            Counter.logger.error("Error handling player login for {}", 
+                event.getEntity().getName().getString(), e);
         }
     }
 
     @SubscribeEvent
     public static void onPlayerDeath(LivingDeathEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) {
+        if (!(event.getEntity() instanceof ServerPlayer player)) {
+            return;
+        }
+        
+        try {
             ServerLevel level = player.level();
+            if (level == null) {
+                return;
+            }
+            
             DeathCounterData data = DeathCounterData.get(level);
             data.addDeath(player.getUUID());
 
@@ -90,6 +121,9 @@ public class ModGameEvents {
                     ServerConfig.SHOW_DEATH_IN_CHAT_MODE.get() == ServerConfig.DeathInChatMode.BOTH)) {
                 sendDeathCounterMessage(player, level, data, true);
             }
+        } catch (Exception e) {
+            Counter.logger.error("Error handling player death for {}", 
+                event.getEntity().getName().getString(), e);
         }
     }
 

@@ -15,7 +15,9 @@ import java.util.UUID;
 public class CounterManager {
     public static String getTime() {
         Minecraft minecraft = Minecraft.getInstance();
-        if (minecraft.level == null) return "N/A";
+        if (minecraft == null || minecraft.level == null) {
+            return "N/A";
+        }
 
         long time = minecraft.level.getDayTime() % 24000;
         int hours = (int) ((time / 1000 + 6) % 24);
@@ -45,6 +47,10 @@ public class CounterManager {
     }
 
     public static String getDeaths(LocalPlayer player) {
+        if (player == null) {
+            return "N/A";
+        }
+        
         Map<UUID, Integer> deathCounts = ClientCounterState.getDeathCounts();
         int playerDeaths = deathCounts.getOrDefault(player.getUUID(), 0);
         String deathKey = ClientConfig.SHOW_EMOJIS.get()
@@ -80,6 +86,10 @@ public class CounterManager {
 
     public static boolean isTabPressed() {
         Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft == null || minecraft.getWindow() == null) {
+            return false;
+        }
+        
         return GLFW.glfwGetKey(minecraft.getWindow().getWindow(), GLFW.GLFW_KEY_TAB) == GLFW.GLFW_PRESS
                 && minecraft.screen == null;
     }

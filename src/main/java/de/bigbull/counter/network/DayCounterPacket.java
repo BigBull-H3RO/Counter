@@ -22,8 +22,17 @@ public record DayCounterPacket(long dayCounter) implements CustomPacketPayload {
     }
 
     public static void handle(DayCounterPacket packet, IPayloadContext context) {
+        if (packet == null || context == null) {
+            Counter.logger.warn("Received null DayCounterPacket or context");
+            return;
+        }
+        
         context.enqueueWork(() -> {
-            ClientCounterState.setDayCounter(packet.dayCounter);
+            try {
+                ClientCounterState.setDayCounter(packet.dayCounter);
+            } catch (Exception e) {
+                Counter.logger.error("Error handling DayCounterPacket", e);
+            }
         });
     }
 }

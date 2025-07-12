@@ -58,7 +58,8 @@ public class ClientConfig {
     }
 
     public static int ensureAlphaChannel(int color) {
-        return (color & 0xFF000000) == 0 ? color | 0xFF000000 : color;
+        // Ensure the color has a valid alpha channel (fully opaque if none specified)
+        return (color & 0xFF000000) == 0 ? (color | 0xFF000000) : color;
     }
 
     static {

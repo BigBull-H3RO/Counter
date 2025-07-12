@@ -48,15 +48,22 @@ public class DayCounterData extends SavedData {
     }
 
     public static long getCurrentDay(ServerLevel level) {
+        if (level == null) {
+            return 0;
+        }
         return get(level).getDayCounter();
     }
 
     public void setDayCounter(long newValue) {
-        this.dayCounter = newValue;
+        this.dayCounter = Math.max(0, newValue);
         this.setDirty();
     }
 
     public static void setDayCounter(ServerLevel level, long newDay) {
+        if (level == null) {
+            return;
+        }
+        
         DayCounterData data = get(level);
         long realDay = level.getDayTime() / 24000;
 

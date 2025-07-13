@@ -367,5 +367,5 @@ public class GuiEditScreen extends Screen {
     }
 
     @Override
-    protected void renderBlurredBackground(float partialTick) {}
+    protected void renderBlurredBackground() {}
 }

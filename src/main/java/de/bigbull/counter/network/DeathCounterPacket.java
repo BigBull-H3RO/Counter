@@ -12,7 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public record DeathCounterPacket(Map<UUID, Integer> deathCounts, Map<UUID, String> nameMap) implements CustomPacketPayload {
+public record DeathCounterPacket(Map<UUID, Integer> deathCounts, Map<UUID, String> nameMap,
+                                 Map<UUID, Long> bestTimes) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<DeathCounterPacket> TYPE = new CustomPacketPayload.Type<>(
             ResourceLocation.fromNamespaceAndPath(Counter.MODID, "death_counter"));
 
@@ -29,6 +30,12 @@ public record DeathCounterPacket(Map<UUID, Integer> deathCounts, Map<UUID, Strin
                     buf.writeUUID(entry.getKey());
                     buf.writeUtf(entry.getValue());
                 }
+
+                buf.writeVarInt(packet.bestTimes.size());
+                for (var entry : packet.bestTimes.entrySet()) {
+                    buf.writeUUID(entry.getKey());
+                    buf.writeLong(entry.getValue());
+                }
             },
             buf -> {
                 int size = buf.readVarInt();
@@ -43,7 +50,13 @@ public record DeathCounterPacket(Map<UUID, Integer> deathCounts, Map<UUID, Strin
                     nameMap.put(buf.readUUID(), buf.readUtf());
                 }
 
-                return new DeathCounterPacket(deathCounts, nameMap);
+                int size3 = buf.readVarInt();
+                Map<UUID, Long> bestTimes = new HashMap<>();
+                for (int i = 0; i < size3; i++) {
+                    bestTimes.put(buf.readUUID(), buf.readLong());
+                }
+
+                return new DeathCounterPacket(deathCounts, nameMap, bestTimes);
             });
 
     @Override
@@ -55,6 +68,7 @@ public record DeathCounterPacket(Map<UUID, Integer> deathCounts, Map<UUID, Strin
         context.enqueueWork(() -> {
             ClientCounterState.updateDeathCounts(packet.deathCounts());
             ClientCounterState.updateNameMap(packet.nameMap());
+            ClientCounterState.updateBestTimes(packet.bestTimes());
         });
     }
 }

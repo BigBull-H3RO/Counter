@@ -83,15 +83,15 @@ public class OverlayRenderer {
                                                   int offsetX, int offsetY, float scaledWidthF, float scaledHeightF,
                                                   int extraWidth, int extraHeight, float symbolScale) {
         switch (align) {
-            case RIGHT -> renderAlignmentSymbol(g, pos, "<", calculateLeftSymbolX(offsetX, symbolScale, 1),
+            case RIGHT -> renderAlignmentSymbol(g, pos, "<", calculateLeftSymbolX(offsetX, symbolScale),
                     calculateSymbolY(offsetY, scaledHeightF, extraHeight, symbolScale), symbolScale);
             case LEFT ->
-                    renderAlignmentSymbol(g, pos, ">", calculateRightSymbolX(offsetX, scaledWidthF, extraWidth, 2),
+                    renderAlignmentSymbol(g, pos, ">", calculateRightSymbolX(offsetX, scaledWidthF, extraWidth),
                             calculateSymbolY(offsetY, scaledHeightF, extraHeight, symbolScale), symbolScale);
             case CENTER -> {
-                renderAlignmentSymbol(g, pos, "<", calculateLeftSymbolX(offsetX, symbolScale, 1),
+                renderAlignmentSymbol(g, pos, "<", calculateLeftSymbolX(offsetX, symbolScale),
                         calculateSymbolY(offsetY, scaledHeightF, extraHeight, symbolScale), symbolScale);
-                renderAlignmentSymbol(g, pos, ">", calculateRightSymbolX(offsetX, scaledWidthF, extraWidth, 2),
+                renderAlignmentSymbol(g, pos, ">", calculateRightSymbolX(offsetX, scaledWidthF, extraWidth),
                         calculateSymbolY(offsetY, scaledHeightF, extraHeight, symbolScale), symbolScale);
             }
         }
@@ -105,13 +105,13 @@ public class OverlayRenderer {
         g.pose().popPose();
     }
 
-    private static float calculateLeftSymbolX(int offsetX, float symbolScale, int symbolPadding) {
+    private static float calculateLeftSymbolX(int offsetX, float symbolScale) {
         int symbolWidth = Minecraft.getInstance().font.width("<");
-        return offsetX - BORDER_PADDING - symbolWidth * symbolScale - symbolPadding;
+        return offsetX - BORDER_PADDING - symbolWidth * symbolScale - 1;
     }
 
-    private static float calculateRightSymbolX(int offsetX, float scaledWidthF, int extraWidth, int symbolPadding) {
-        return offsetX + scaledWidthF + extraWidth + BORDER_PADDING + symbolPadding;
+    private static float calculateRightSymbolX(int offsetX, float scaledWidthF, int extraWidth) {
+        return offsetX + scaledWidthF + extraWidth + BORDER_PADDING + 2;
     }
 
     private static float calculateSymbolY(int offsetY, float scaledHeightF, int extraHeight, float symbolScale) {

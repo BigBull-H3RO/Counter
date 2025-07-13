@@ -3,11 +3,10 @@ package de.bigbull.counter.util;
 import de.bigbull.counter.config.ClientConfig;
 import de.bigbull.counter.config.ServerConfig;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.Map;
 import java.util.UUID;
@@ -17,14 +16,7 @@ public class CounterManager {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null) return "N/A";
 
-        long time = minecraft.level.getDayTime() % 24000;
-        int hours = (int) ((time / 1000 + 6) % 24);
-        int minutes = (int) ((time % 1000) / 1000.0 * 60);
-
-        boolean is24Hour = ServerConfig.TIME_FORMAT_24H.get();
-        return is24Hour
-                ? String.format("%02d:%02d", hours, minutes)
-                : String.format("%02d:%02d %s", (hours % 12 == 0 ? 12 : hours % 12), minutes, hours < 12 ? "AM" : "PM");
+        return formatTime(minecraft.level.getDayTime());
     }
 
     public static String getCombinedDayTime() {
@@ -53,13 +45,6 @@ public class CounterManager {
         return Component.translatable(deathKey, playerDeaths).getString();
     }
 
-    public static void getdrawBorder(GuiGraphics g, int x, int y, int w, int h, int color, int borderPadding) {
-        g.fill(x - borderPadding, y - borderPadding, x + w + borderPadding, y - borderPadding + 1, color);
-        g.fill(x - borderPadding, y + h + borderPadding - 1, x + w + borderPadding, y + h + borderPadding, color);
-        g.fill(x - borderPadding, y - borderPadding, x - borderPadding + 1, y + h + borderPadding, color);
-        g.fill(x + w + borderPadding - 1, y - borderPadding, x + w + borderPadding, y + h + borderPadding, color);
-    }
-
     public static void sendCoordsMessage(ServerPlayer sender, ServerPlayer receiver) {
         int x = (int) sender.getX();
         int y = (int) sender.getY();
@@ -78,9 +63,63 @@ public class CounterManager {
         sender.getServer().getPlayerList().broadcastSystemMessage(message, false);
     }
 
-    public static boolean isTabPressed() {
+    public static String formatTime(long ticks) {
+        long time = ticks % 24000;
+        int hours = (int) ((time / 1000 + 6) % 24);
+        int minutes = (int) ((time % 1000) / 1000.0 * 60);
+
+        boolean is24Hour = ServerConfig.TIME_FORMAT_24H.get();
+        return is24Hour
+                ? String.format("%02d:%02d", hours, minutes)
+                : String.format("%02d:%02d %s", (hours % 12 == 0 ? 12 : hours % 12), minutes, hours < 12 ? "AM" : "PM");
+    }
+
+    public static String formatSurvivalTime(long ticks) {
+        boolean real = ServerConfig.SURVIVAL_USE_REAL_TIME.get();
+        long ticksPerDay = real ? 1728000L : 24000L;
+        long ticksPerHour = real ? 72000L : 1000L;
+        double ticksPerMinute = real ? 1200.0 : (1000.0 / 60.0);
+
+        long days = ticks / ticksPerDay;
+        long hours = (ticks % ticksPerDay) / ticksPerHour;
+        long minutes = (long) ((ticks % ticksPerHour) / ticksPerMinute);
+
+        ServerConfig.SurvivalTimeFormat fmt = ServerConfig.SURVIVAL_TIME_FORMAT.get();
+        return switch (fmt) {
+            case DAYS -> days + "d";
+            case HOURS -> (ticks / ticksPerHour) + "h";
+            case MINUTES -> Math.round(ticks / ticksPerMinute) + "m";
+            case DAYS_HOURS -> {
+                StringBuilder sb = new StringBuilder();
+                if (days > 0) sb.append(days).append("d ");
+                sb.append(hours).append("h");
+                yield sb.toString().trim();
+            }
+            case HOURS_MINUTES -> {
+                StringBuilder sb = new StringBuilder();
+                sb.append(hours).append("h ");
+                sb.append(minutes).append("m");
+                yield sb.toString().trim();
+            }
+            default -> {
+                StringBuilder sb = new StringBuilder();
+                if (days > 0) sb.append(days).append("d ");
+                if (hours > 0 || days > 0) sb.append(hours).append("h ");
+                sb.append(minutes).append("m");
+                yield sb.toString().trim();
+            }
+        };
+    }
+
+    public static MutableComponent createDeathEntry(Component positionComponent, String playerName, int deaths) {
+        MutableComponent playerAndDeaths = (deaths == 1)
+                ? Component.translatable("overlay.counter.deathlist.entry.singular", Component.literal(playerName), deaths)
+                : Component.translatable("overlay.counter.deathlist.entry.plural", Component.literal(playerName), deaths);
+        return Component.translatable("overlay.counter.deathlist.entry.full", positionComponent, playerAndDeaths);
+    }
+
+    public static boolean isOverlayKeyPressed() {
         Minecraft minecraft = Minecraft.getInstance();
-        return GLFW.glfwGetKey(minecraft.getWindow().getWindow(), GLFW.GLFW_KEY_TAB) == GLFW.GLFW_PRESS
-                && minecraft.screen == null;
+        return ModKeybinds.SHOW_OVERLAYS.isDown() && minecraft.screen == null;
     }
 }

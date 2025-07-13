@@ -4,8 +4,11 @@ import de.bigbull.counter.Counter;
 import de.bigbull.counter.config.ServerConfig;
 import de.bigbull.counter.network.DayCounterPacket;
 import de.bigbull.counter.network.DeathCounterPacket;
+import de.bigbull.counter.network.SurvivalTimePacket;
+import de.bigbull.counter.util.CounterManager;
 import de.bigbull.counter.util.saveddata.DayCounterData;
 import de.bigbull.counter.util.saveddata.DeathCounterData;
+import de.bigbull.counter.util.saveddata.SurvivalTimeData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
@@ -23,6 +26,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @EventBusSubscriber(modid = Counter.MODID)
 public class ModGameEvents {
@@ -62,9 +66,24 @@ public class ModGameEvents {
             ServerLevel level = player.level();
             DeathCounterData data = DeathCounterData.get(level);
             data.updatePlayerName(player.getUUID(), player.getScoreboardName());
+            SurvivalTimeData surv = SurvivalTimeData.get(level);
 
-            PacketDistributor.sendToPlayer(player, new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
+            if (surv.getLastDeathTick(player.getUUID()) == 0L) {
+                surv.setLastDeathTick(player.getUUID(), level.getGameTime());
+            }
+
+            PacketDistributor.sendToPlayer(player, new DeathCounterPacket(
+                    data.getDeathCountMap(),
+                    data.getPlayerNames(),
+                    surv.getBestTimesMap()));
             PacketDistributor.sendToPlayer(player, new DayCounterPacket(DayCounterData.getCurrentDay(level)));
+            PacketDistributor.sendToPlayer(player, new SurvivalTimePacket(surv.getLastDeathTick(player.getUUID()), surv.getBestTime(player.getUUID())));
+
+            if (ServerConfig.SHOW_SURVIVAL_IN_CHAT_MODE.get() == ServerConfig.SurvivalInChatMode.ON_JOIN ||
+                    ServerConfig.SHOW_SURVIVAL_IN_CHAT_MODE.get() == ServerConfig.SurvivalInChatMode.BOTH) {
+                long duration = level.getGameTime() - surv.getLastDeathTick(player.getUUID());
+                sendSurvivalCounterMessage(player, level, surv, duration);
+            }
 
             if ((ServerConfig.SHOW_DEATH_IN_CHAT_MODE.get() == ServerConfig.DeathInChatMode.ON_JOIN ||
                     ServerConfig.SHOW_DEATH_IN_CHAT_MODE.get() == ServerConfig.DeathInChatMode.BOTH)) {
@@ -84,7 +103,27 @@ public class ModGameEvents {
             DeathCounterData data = DeathCounterData.get(level);
             data.addDeath(player.getUUID());
 
-            PacketDistributor.sendToAllPlayers(new DeathCounterPacket(data.getDeathCountMap(), data.getPlayerNames()));
+            SurvivalTimeData surv = SurvivalTimeData.get(level);
+
+            if (ServerConfig.ENABLE_SURVIVAL_COUNTER.get()) {
+                long now = level.getGameTime();
+                long last = surv.getLastDeathTick(player.getUUID());
+                long duration = now - last;
+                surv.recordSurvival(player.getUUID(), duration, player.getScoreboardName());
+                surv.setLastDeathTick(player.getUUID(), now);
+
+                if (ServerConfig.SHOW_SURVIVAL_IN_CHAT_MODE.get() == ServerConfig.SurvivalInChatMode.ON_DEATH ||
+                        ServerConfig.SHOW_SURVIVAL_IN_CHAT_MODE.get() == ServerConfig.SurvivalInChatMode.BOTH) {
+                    sendSurvivalCounterMessage(player, level, surv, duration);
+                }
+
+                PacketDistributor.sendToPlayer(player, new SurvivalTimePacket(now, surv.getBestTime(player.getUUID())));
+            }
+
+            PacketDistributor.sendToAllPlayers(new DeathCounterPacket(
+                    data.getDeathCountMap(),
+                    data.getPlayerNames(),
+                    surv.getBestTimesMap()));
 
             if ((ServerConfig.SHOW_DEATH_IN_CHAT_MODE.get() == ServerConfig.DeathInChatMode.ON_DEATH ||
                     ServerConfig.SHOW_DEATH_IN_CHAT_MODE.get() == ServerConfig.DeathInChatMode.BOTH)) {
@@ -118,10 +157,14 @@ public class ModGameEvents {
         if (sendToAll) {
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
                 if (!player.getUUID().equals(affectedPlayer.getUUID())) {
-                    Component broadcastMessage = Component.translatable(
-                            playerDeaths == 1 ? "chat.deathcounter.player_death.singular" : "chat.deathcounter.player_death.plural",
-                            affectedPlayer.getScoreboardName(), playerDeaths
-                    );
+                    Component broadcastMessage = playerDeaths == 1
+                            ? Component.translatable(
+                            "chat.deathcounter.player_death.singular",
+                            affectedPlayer.getScoreboardName())
+                            : Component.translatable(
+                            "chat.deathcounter.player_death.plural",
+                            affectedPlayer.getScoreboardName(),
+                            playerDeaths);
                     player.sendSystemMessage(broadcastMessage);
                 }
             }
@@ -141,17 +184,15 @@ public class ModGameEvents {
 
         Component header = Component.translatable("overlay.counter.deathlist").withStyle(style -> style.withColor(textColor));
 
+        AtomicInteger counter = new AtomicInteger(0);
+
         List<MutableComponent> deathEntries = sortedDeaths.stream().map(entry -> {
             String playerName = data.getPlayerNames().getOrDefault(entry.getKey(), "Unknown");
             int deaths = entry.getValue();
 
-            Component positionComponent = Component.literal((sortedDeaths.indexOf(entry) + 1) + ".")
+            Component positionComponent = Component.literal(counter.incrementAndGet() + ".")
                     .setStyle(Style.EMPTY.withColor(0xFFFFFF));
-            Component playerAndDeaths = (deaths == 1)
-                    ? Component.translatable("overlay.counter.deathlist.entry.singular", Component.literal(playerName), deaths)
-                    : Component.translatable("overlay.counter.deathlist.entry.plural", Component.literal(playerName), deaths);
-
-            return Component.translatable("overlay.counter.deathlist.entry.full", positionComponent, playerAndDeaths);
+            return CounterManager.createDeathEntry(positionComponent, playerName, deaths);
         }).toList();
 
         player.sendSystemMessage(header);
@@ -164,6 +205,34 @@ public class ModGameEvents {
                     deathEntries.forEach(onlinePlayer::sendSystemMessage);
                 }
             }
+        }
+    }
+
+    private static void sendSurvivalCounterMessage(ServerPlayer player, ServerLevel level, SurvivalTimeData surv, long duration) {
+        if (!ServerConfig.ENABLE_SURVIVAL_COUNTER.get() || !ServerConfig.ENABLE_SURVIVAL_IN_CHAT.get()) {
+            return;
+        }
+
+        boolean withBest = ServerConfig.SHOW_BEST_SURVIVAL_IN_CHAT.get();
+        String personalKey = withBest ? "chat.survivalcounter.personal.best" : "chat.survivalcounter.personal";
+        String broadcastKey = withBest ? "chat.survivalcounter.broadcast.best" : "chat.survivalcounter.broadcast";
+
+        String time = CounterManager.formatSurvivalTime(duration);
+        long best = surv.getBestTime(player.getUUID());
+        String bestStr = CounterManager.formatSurvivalTime(best);
+
+        Component msg = ServerConfig.SHOW_SURVIVAL_IN_CHAT_GLOBAL.get()
+                ? withBest
+                ? Component.translatable(broadcastKey, player.getScoreboardName(), time, bestStr)
+                : Component.translatable(broadcastKey, player.getScoreboardName(), time)
+                : withBest
+                ? Component.translatable(personalKey, time, bestStr)
+                : Component.translatable(personalKey, time);
+
+        if (ServerConfig.SHOW_SURVIVAL_IN_CHAT_GLOBAL.get()) {
+            level.getServer().getPlayerList().broadcastSystemMessage(msg, false);
+        } else {
+            player.sendSystemMessage(msg);
         }
     }
 

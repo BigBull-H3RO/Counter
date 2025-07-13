@@ -1,14 +1,14 @@
 package de.bigbull.counter.util.saveddata;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import de.bigbull.counter.config.ServerConfig;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.LongTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.world.level.saveddata.SavedDataType;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SurvivalTimeData extends SavedData {
     private static final String TAG_NAME = "SurvivalTime";
@@ -19,61 +19,49 @@ public class SurvivalTimeData extends SavedData {
     private long globalBest = 0;
     private String globalBestPlayer = "";
 
-    public static final Factory<SurvivalTimeData> FACTORY = new Factory<>(SurvivalTimeData::new, SurvivalTimeData::load);
+    public static final Codec<SurvivalTimeData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.unboundedMap(Codec.STRING, Codec.LONG)
+                    .fieldOf("LastDeaths")
+                    .forGetter(data -> data.lastDeathTicks.entrySet().stream()
+                            .collect(Collectors.toMap(e -> e.getKey().toString(), Map.Entry::getValue))),
+            Codec.unboundedMap(Codec.STRING, Codec.list(Codec.LONG))
+                    .fieldOf("History")
+                    .forGetter(data -> data.history.entrySet().stream()
+                            .collect(Collectors.toMap(e -> e.getKey().toString(), Map.Entry::getValue))),
+            Codec.unboundedMap(Codec.STRING, Codec.LONG)
+                    .fieldOf("BestTimes")
+                    .forGetter(data -> data.bestTimes.entrySet().stream()
+                            .collect(Collectors.toMap(e -> e.getKey().toString(), Map.Entry::getValue))),
+            Codec.LONG.fieldOf("GlobalBest").forGetter(data -> data.globalBest),
+            Codec.STRING.fieldOf("GlobalBestPlayer").forGetter(data -> data.globalBestPlayer)
+    ).apply(instance, SurvivalTimeData::fromCodec));
 
-    public static SurvivalTimeData load(CompoundTag tag, HolderLookup.Provider provider) {
-        SurvivalTimeData data = new SurvivalTimeData();
+    public static final SavedDataType<SurvivalTimeData> TYPE = new SavedDataType<>(
+            TAG_NAME,
+            SurvivalTimeData::new,
+            p -> CODEC
+    );
 
-        CompoundTag lastDeathTag = tag.getCompound("LastDeaths");
-        for (String key : lastDeathTag.getAllKeys()) {
-            data.lastDeathTicks.put(UUID.fromString(key), lastDeathTag.getLong(key));
-        }
-
-        CompoundTag historyTag = tag.getCompound("History");
-        for (String key : historyTag.getAllKeys()) {
-            ListTag list = historyTag.getList(key, 4); // long tag type
-            List<Long> values = new ArrayList<>();
-            list.forEach(n -> values.add(((LongTag) n).getAsLong()));
-            data.history.put(UUID.fromString(key), values);
-        }
-
-        CompoundTag bestTag = tag.getCompound("BestTimes");
-        for (String key : bestTag.getAllKeys()) {
-            data.bestTimes.put(UUID.fromString(key), bestTag.getLong(key));
-        }
-
-        if (tag.contains("GlobalBest")) {
-            data.globalBest = tag.getLong("GlobalBest");
-            data.globalBestPlayer = tag.getString("GlobalBestPlayer");
-        }
-        return data;
+    public SurvivalTimeData(Context context) {
+        this();
     }
 
-    @Override
-    public CompoundTag save(CompoundTag tag, HolderLookup.Provider provider) {
-        CompoundTag lastDeathTag = new CompoundTag();
-        for (var e : lastDeathTicks.entrySet()) {
-            lastDeathTag.putLong(e.getKey().toString(), e.getValue());
-        }
-        tag.put("LastDeaths", lastDeathTag);
+    public SurvivalTimeData() {}
 
-        CompoundTag historyTag = new CompoundTag();
-        for (var e : history.entrySet()) {
-            ListTag list = new ListTag();
-            for (Long l : e.getValue()) list.add(LongTag.valueOf(l));
-            historyTag.put(e.getKey().toString(), list);
-        }
-        tag.put("History", historyTag);
+    private static SurvivalTimeData fromCodec(
+            Map<String, Long> lastDeaths,
+            Map<String, List<Long>> history,
+            Map<String, Long> bestTimes,
+            long globalBest,
+            String globalBestPlayer) {
 
-        CompoundTag bestTag = new CompoundTag();
-        for (var e : bestTimes.entrySet()) {
-            bestTag.putLong(e.getKey().toString(), e.getValue());
-        }
-        tag.put("BestTimes", bestTag);
-
-        tag.putLong("GlobalBest", globalBest);
-        tag.putString("GlobalBestPlayer", globalBestPlayer);
-        return tag;
+        SurvivalTimeData data = new SurvivalTimeData();
+        lastDeaths.forEach((key, value) -> data.lastDeathTicks.put(UUID.fromString(key), value));
+        history.forEach((key, value) -> data.history.put(UUID.fromString(key), value));
+        bestTimes.forEach((key, value) -> data.bestTimes.put(UUID.fromString(key), value));
+        data.globalBest = globalBest;
+        data.globalBestPlayer = globalBestPlayer;
+        return data;
     }
 
     public long getLastDeathTick(UUID uuid) {
@@ -124,6 +112,6 @@ public class SurvivalTimeData extends SavedData {
     }
 
     public static SurvivalTimeData get(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(FACTORY, TAG_NAME);
+        return level.getDataStorage().computeIfAbsent(TYPE);
     }
 }

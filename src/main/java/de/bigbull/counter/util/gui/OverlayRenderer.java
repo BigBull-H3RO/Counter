@@ -54,11 +54,11 @@ public class OverlayRenderer {
     }
 
     private static void renderOverlayContent(GuiGraphics g, OverlayUtils.Position pos, float scale, Drawer drawer) {
-        g.pose().pushPose();
-        g.pose().translate(pos.x(), pos.y(), 0);
-        g.pose().scale(scale, scale, 1.0F);
+        g.pose().pushMatrix();
+        g.pose().translate(pos.x(), pos.y());
+        g.pose().scale(scale, scale);
         drawer.draw(g, new OverlayUtils.Position(0, 0));
-        g.pose().popPose();
+        g.pose().popMatrix();
     }
 
     private static int getBorderColor(boolean overlayEnabled, GuiEditScreen guiEditScreen, GuiEditScreen.DragTarget target) {
@@ -98,11 +98,11 @@ public class OverlayRenderer {
     }
 
     private static void renderAlignmentSymbol(GuiGraphics g, OverlayUtils.Position pos, String symbol, float symbolX, float symbolY, float symbolScale) {
-        g.pose().pushPose();
-        g.pose().translate(pos.x() + symbolX, pos.y() + symbolY, 0);
-        g.pose().scale(symbolScale, symbolScale, 1.0f);
+        g.pose().pushMatrix();
+        g.pose().translate(pos.x() + symbolX, pos.y() + symbolY);
+        g.pose().scale(symbolScale, symbolScale);
         g.drawString(Minecraft.getInstance().font, symbol, 0, 0, 0xFFFFFF);
-        g.pose().popPose();
+        g.pose().popMatrix();
     }
 
     private static float calculateLeftSymbolX(int offsetX, float symbolScale) {

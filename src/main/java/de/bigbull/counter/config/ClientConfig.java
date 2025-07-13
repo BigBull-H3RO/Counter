@@ -71,6 +71,10 @@ public class ClientConfig {
         CLASSIC, BOXED, TABLE
     }
 
+    public static int ensureAlphaChannel(int color) {
+        return (color & 0xFF000000) == 0 ? color | 0xFF000000 : color;
+    }
+
     static {
         CLIENT_BUILDER.translation("counter.config.title.dayOverlay").push("Day Counter Overlay Settings");
         SHOW_DAY_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the day overlay on the client side.")
@@ -86,7 +90,7 @@ public class ClientConfig {
         DAY_OVERLAY_ALIGN = CLIENT_BUILDER.comment("Alignment for the day overlay.")
                 .translation("counter.config.dayOverlayAlign").defineEnum("dayOverlayAlign", OverlayAlignment.LEFT);
         DAY_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the day overlay text.")
-                .translation("counter.config.dayOverlayTextColor").defineInRange("dayOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+                .translation("counter.config.dayOverlayTextColor").defineInRange("dayOverlayTextColor", 0xFFFFFFFF, Integer.MIN_VALUE, Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.translation("counter.config.title.deathList").push("Death Counter List Settings");
@@ -107,13 +111,13 @@ public class ClientConfig {
         DEATH_LIST_ALIGN = CLIENT_BUILDER.comment("Alignment for the death list overlay.")
                 .translation("counter.config.deathListAlign").defineEnum("deathListAlign", OverlayAlignment.LEFT);
         DEATH_LIST_TEXT_COLOR = CLIENT_BUILDER.comment("Default text color for the death list overlay.")
-                .translation("counter.config.deathListTextColor").defineInRange("deathListTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+                .translation("counter.config.deathListTextColor").defineInRange("deathListTextColor", 0xFFFFFFFF, Integer.MIN_VALUE, Integer.MAX_VALUE);
         FIRST_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the first place in the death list.")
-                .translation("counter.config.firstPlaceColor").defineInRange("firstPlaceColor", 0xFFD700, 0x000000, 0xFFFFFF);
+                .translation("counter.config.firstPlaceColor").defineInRange("firstPlaceColor", 0xFFFFD700, Integer.MIN_VALUE, Integer.MAX_VALUE);
         SECOND_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the second place in the death list.")
-                .translation("counter.config.secondPlaceColor").defineInRange("secondPlaceColor", 0xC0C0C0, 0x000000, 0xFFFFFF);
+                .translation("counter.config.secondPlaceColor").defineInRange("secondPlaceColor", 0xFFC0C0C0, Integer.MIN_VALUE, Integer.MAX_VALUE);
         THIRD_PLACE_COLOR = CLIENT_BUILDER.comment("Color for the third place in the death list.")
-                .translation("counter.config.thirdPlaceColor").defineInRange("thirdPlaceColor", 0xCD7F32, 0x000000, 0xFFFFFF);
+                .translation("counter.config.thirdPlaceColor").defineInRange("thirdPlaceColor", 0xFFCD7F32, Integer.MIN_VALUE, Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.translation("counter.config.title.deathSelf").push("Death Counter Self Settings");
@@ -130,7 +134,7 @@ public class ClientConfig {
         DEATH_SELF_ALIGN = CLIENT_BUILDER.comment("Alignment for your personal death overlay.")
                 .translation("counter.config.deathSelfAlign").defineEnum("deathSelfAlign", OverlayAlignment.LEFT);
         DEATH_SELF_TEXT_COLOR = CLIENT_BUILDER.comment("Color for your personal death counter text.")
-                .translation("counter.config.deathSelfTextColor").defineInRange("deathSelfTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+                .translation("counter.config.deathSelfTextColor").defineInRange("deathSelfTextColor", 0xFFFFFFFF, Integer.MIN_VALUE, Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.translation("counter.config.title.survivalOverlay").push("Survival Counter Overlay Settings");
@@ -147,7 +151,7 @@ public class ClientConfig {
         SURVIVAL_OVERLAY_ALIGN = CLIENT_BUILDER.comment("Alignment for the survival overlay.")
                 .translation("counter.config.survivalOverlayAlign").defineEnum("survivalOverlayAlign", OverlayAlignment.LEFT);
         SURVIVAL_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the survival overlay text.")
-                .translation("counter.config.survivalOverlayTextColor").defineInRange("survivalOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+                .translation("counter.config.survivalOverlayTextColor").defineInRange("survivalOverlayTextColor", 0xFFFFFFFF, Integer.MIN_VALUE, Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.translation("counter.config.title.timeOverlay").push("Time Overlay Settings");
@@ -164,7 +168,7 @@ public class ClientConfig {
         TIME_OVERLAY_ALIGN = CLIENT_BUILDER.comment("Alignment for the time overlay.")
                 .translation("counter.config.timeOverlayAlign").defineEnum("timeOverlayAlign", OverlayAlignment.LEFT);
         TIME_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the ingame time overlay text.")
-                .translation("counter.config.timeOverlayTextColor").defineInRange("timeOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+                .translation("counter.config.timeOverlayTextColor").defineInRange("timeOverlayTextColor", 0xFFFFFFFF, Integer.MIN_VALUE, Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.translation("counter.config.title.coordsOverlay").push("Coordinates Overlay Settings");
@@ -181,18 +185,18 @@ public class ClientConfig {
         COORDS_OVERLAY_ALIGN = CLIENT_BUILDER.comment("Alignment for the coordinates overlay.")
                 .translation("counter.config.coordsOverlayAlign").defineEnum("coordsOverlayAlign", OverlayAlignment.LEFT);
         COORDS_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the coordinates overlay text.")
-                .translation("counter.config.coordsOverlayTextColor").defineInRange("coordsOverlayTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+                .translation("counter.config.coordsOverlayTextColor").defineInRange("coordsOverlayTextColor", 0xFFFFFFFF, Integer.MIN_VALUE, Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.translation("counter.config.title.ping").push("Ping Settings");
         SHOW_PING_AS_TEXT = CLIENT_BUILDER.comment("Show the ping as text (e.g. '123ms') instead of the default bars in the tab list?")
                 .translation("counter.config.showPingAsText").define("showPingAsText", true);
         PING_COLOR_GOOD = CLIENT_BUILDER.comment("Color for low ping (<100ms).")
-                .translation("counter.config.pingColorGood").defineInRange("pingColorGood", 0x00FF00, 0x000000, 0xFFFFFF);
+                .translation("counter.config.pingColorGood").defineInRange("pingColorGood", 0xFF00FF00, Integer.MIN_VALUE, Integer.MAX_VALUE);
         PING_COLOR_MEDIUM = CLIENT_BUILDER.comment("Color for medium ping (100-249ms).")
-                .translation("counter.config.pingColorMedium").defineInRange("pingColorMedium", 0xFF9900, 0x000000, 0xFFFFFF);
+                .translation("counter.config.pingColorMedium").defineInRange("pingColorMedium", 0xFFFF9900, Integer.MIN_VALUE, Integer.MAX_VALUE);
         PING_COLOR_BAD = CLIENT_BUILDER.comment("Color for high ping (>=250ms).")
-                .translation("counter.config.pingColorBad").defineInRange("pingColorBad", 0xFF0000, 0x000000, 0xFFFFFF);
+                .translation("counter.config.pingColorBad").defineInRange("pingColorBad", 0xFFFF0000, Integer.MIN_VALUE, Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.translation("counter.config.title.emote").push("Emote Settings");

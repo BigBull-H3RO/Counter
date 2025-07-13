@@ -78,7 +78,7 @@ public class SurvivalCommand {
     }
 
     private static int sendHistory(CommandSourceStack source, ServerPlayer player) {
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = player.level();
         SurvivalTimeData data = SurvivalTimeData.get(level);
         List<Long> history = data.getHistory(player.getUUID());
         if (history.isEmpty()) {
@@ -108,7 +108,7 @@ public class SurvivalCommand {
     }
 
     private static int sendBest(CommandSourceStack source, ServerPlayer player) {
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = player.level();
         SurvivalTimeData data = SurvivalTimeData.get(level);
         long best = data.getBestTime(player.getUUID());
         if (best <= 0) {
@@ -122,7 +122,7 @@ public class SurvivalCommand {
     }
 
     private static int sendCurrent(CommandSourceStack source, ServerPlayer player) {
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = player.level();
         SurvivalTimeData data = SurvivalTimeData.get(level);
         long current = level.getGameTime() - data.getLastDeathTick(player.getUUID());
         String time = CounterManager.formatSurvivalTime(current);

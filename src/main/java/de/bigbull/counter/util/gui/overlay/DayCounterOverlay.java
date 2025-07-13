@@ -25,7 +25,7 @@ public class DayCounterOverlay {
         }
 
         float scale = ClientConfig.DAY_OVERLAY_SIZE.get().floatValue();
-        int textColor = ClientConfig.DAY_OVERLAY_TEXT_COLOR.get();
+        int textColor = ClientConfig.ensureAlphaChannel(ClientConfig.DAY_OVERLAY_TEXT_COLOR.get());
         int width = calcDayWidth();
         int height = calcDayHeight();
 

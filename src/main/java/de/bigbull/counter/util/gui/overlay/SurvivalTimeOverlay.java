@@ -26,7 +26,7 @@ public class SurvivalTimeOverlay {
         }
 
         float scale = ClientConfig.SURVIVAL_OVERLAY_SIZE.get().floatValue();
-        int textColor = ClientConfig.SURVIVAL_OVERLAY_TEXT_COLOR.get();
+        int textColor = ClientConfig.ensureAlphaChannel(ClientConfig.SURVIVAL_OVERLAY_TEXT_COLOR.get());
         int width = calcSurvivalWidth();
         int height = calcSurvivalHeight();
 

@@ -115,7 +115,7 @@ public class DeathCounterOverlay {
     }
 
     private static void drawSelfOverlayContent(GuiGraphics guiGraphics, LocalPlayer player, OverlayUtils.Position pos) {
-        int color = ClientConfig.DEATH_SELF_TEXT_COLOR.get();
+        int color = ClientConfig.ensureAlphaChannel(ClientConfig.DEATH_SELF_TEXT_COLOR.get());
 
         guiGraphics.drawString(Minecraft.getInstance().font, Component.literal(getSelfOverlayString(player)), pos.x(), pos.y(), color);
     }
@@ -123,7 +123,7 @@ public class DeathCounterOverlay {
     private static void drawListOverlay(GuiGraphics guiGraphics, OverlayUtils.Position pos) {
         Minecraft minecraft = Minecraft.getInstance();
         List<Map.Entry<UUID, Integer>> sortedDeaths = getSortedDeaths(ClientCounterState.getDeathCounts());
-        int defaultTextColor = ClientConfig.DEATH_LIST_TEXT_COLOR.get();
+        int defaultTextColor = ClientConfig.ensureAlphaChannel(ClientConfig.DEATH_LIST_TEXT_COLOR.get());
         int backgroundColor = 0x80000000;
         int boxWidth = calcDeathListWidth();
         int boxHeight = calcDeathListHeight();
@@ -145,7 +145,7 @@ public class DeathCounterOverlay {
 
     private static void drawTableOverlay(GuiGraphics guiGraphics, OverlayUtils.Position pos, List<Map.Entry<UUID, Integer>> sortedDeaths) {
         int borderColor = 0xFFFFFFFF;
-        int defaultTextColor = ClientConfig.DEATH_LIST_TEXT_COLOR.get();
+        int defaultTextColor = ClientConfig.ensureAlphaChannel(ClientConfig.DEATH_LIST_TEXT_COLOR.get());
         int backgroundColor = 0x80000000;
         int tableWidth = calcDeathListWidth();
         int tableHeight = calcDeathListHeight();
@@ -169,7 +169,7 @@ public class DeathCounterOverlay {
 
     private static void drawDeathEntries(GuiGraphics guiGraphics, int x, int y, List<Map.Entry<UUID, Integer>> sortedDeaths, boolean isTable) {
         Minecraft minecraft = Minecraft.getInstance();
-        int defaultTextColor = ClientConfig.DEATH_LIST_TEXT_COLOR.get();
+        int defaultTextColor = ClientConfig.ensureAlphaChannel(ClientConfig.DEATH_LIST_TEXT_COLOR.get());
         int lineColor = 0x80FFFFFF;
 
         for (int i = 0; i < sortedDeaths.size(); i++) {

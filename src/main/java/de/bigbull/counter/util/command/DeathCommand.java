@@ -32,7 +32,7 @@ public class DeathCommand {
                         .requires(source -> source.hasPermission(0))
                         .executes(context -> {
                             ServerPlayer executingPlayer = context.getSource().getPlayerOrException();
-                            ServerLevel level = executingPlayer.serverLevel();
+                            ServerLevel level = executingPlayer.level();
                             DeathCounterData data = DeathCounterData.get(level);
                             int deaths = data.getDeaths(executingPlayer.getUUID());
 
@@ -45,7 +45,7 @@ public class DeathCommand {
                                     String option = StringArgumentType.getString(context, "option");
                                     CommandSourceStack source = context.getSource();
                                     ServerPlayer player = source.getPlayerOrException();
-                                    ServerLevel level = player.serverLevel();
+                                    ServerLevel level = player.level();
                                     DeathCounterData data = DeathCounterData.get(level);
 
                                     if (option.equalsIgnoreCase("list")) {

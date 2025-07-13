@@ -25,7 +25,7 @@ public class CoordsOverlay {
         }
 
         float scale = ClientConfig.COORDS_OVERLAY_SIZE.get().floatValue();
-        int textColor = ClientConfig.COORDS_OVERLAY_TEXT_COLOR.get();
+        int textColor = ClientConfig.ensureAlphaChannel(ClientConfig.COORDS_OVERLAY_TEXT_COLOR.get());
         int width = calcCoordsWidth();
         int height = calcCoordsHeight();
 

@@ -28,7 +28,7 @@ public class TimeOverlay {
         }
 
         float scale = ClientConfig.TIME_OVERLAY_SIZE.get().floatValue();
-        int textColor = ClientConfig.TIME_OVERLAY_TEXT_COLOR.get();
+        int textColor = ClientConfig.ensureAlphaChannel(ClientConfig.TIME_OVERLAY_TEXT_COLOR.get());
         int width = calcTimeWidth();
         int height = calcTimeHeight();
 

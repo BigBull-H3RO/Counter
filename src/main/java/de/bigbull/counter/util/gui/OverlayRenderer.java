@@ -101,7 +101,7 @@ public class OverlayRenderer {
         g.pose().pushMatrix();
         g.pose().translate(pos.x() + symbolX, pos.y() + symbolY);
         g.pose().scale(symbolScale, symbolScale);
-        g.drawString(Minecraft.getInstance().font, symbol, 0, 0, 0xFFFFFF);
+        g.drawString(Minecraft.getInstance().font, symbol, 0, 0, 0xFFFFFFFF);
         g.pose().popMatrix();
     }
 

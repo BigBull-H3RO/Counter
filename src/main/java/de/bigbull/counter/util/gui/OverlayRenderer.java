@@ -41,15 +41,23 @@ public class OverlayRenderer {
         float scaledHeightF = height * scale;
         int scaledWidth = Math.round(scaledWidthF);
         int scaledHeight = Math.round(scaledHeightF);
+
+        int scaledOffsetX = Math.round(offsetX * scale);
+        int scaledOffsetY = Math.round(offsetY * scale);
+        int scaledExtraWidth = Math.round(extraWidth * scale);
+        int scaledExtraHeight = Math.round(extraHeight * scale);
+
         OverlayUtils.Position pos = OverlayUtils.computePosition(configX, configY, scaledWidth, scaledHeight, align);
 
         renderOverlayContent(g, pos, scale, drawer);
 
         if (isEditMode) {
             int borderColor = getBorderColor(overlayEnabled, guiEditScreen, target);
-            drawOverlayBorder(g, pos, offsetX, offsetY, scaledWidth, scaledHeight, extraWidth, extraHeight, borderColor);
+            drawOverlayBorder(g, pos, scaledOffsetX, scaledOffsetY, scaledWidth, scaledHeight,
+                    scaledExtraWidth, scaledExtraHeight, borderColor);
 
-            renderAlignmentIndicators(g, pos, align, offsetX, offsetY, scaledWidthF, scaledHeightF, extraWidth, extraHeight, SYMBOL_SCALE);
+            renderAlignmentIndicators(g, pos, align, scaledOffsetX, scaledOffsetY, scaledWidthF, scaledHeightF,
+                    scaledExtraWidth, scaledExtraHeight, SYMBOL_SCALE);
         }
     }
 

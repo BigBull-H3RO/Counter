@@ -1,0 +1,48 @@
+{
+	"schemaVersion": 1,
+	"id": "counter",
+	"version": "${version}",
+	"name": "Counter",
+	"description": "A customizable overlay mod that tracks days, deaths, and displays ping as text with adjustable positioning and styles.",
+	"authors": [
+		"BigBull!"
+	],
+	"contact": {
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/counter-day-death",
+		"sources": "https://github.com/BigBull-H3RO/Counter",
+		"issues": "https://github.com/BigBull-H3RO/Counter/issues"
+	},
+	"license": "CC0-1.0",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"de.bigbull.counter.Counter"
+		],
+		"fabric-datagen": [
+			"de.bigbull.counter.data.DataGenerator"
+		],
+		"client": [
+			"de.bigbull.counter.CounterClient"
+		]
+	},
+	"mixins": [
+		"counter.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	},
+	"custom": {
+		"modmenu": {
+			"parent": {
+				"icon": "assets/counter/icon.png"
+			},
+			"update_checker": false
+		}
+	}
+}

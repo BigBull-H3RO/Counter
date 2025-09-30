@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -166,8 +167,11 @@ public class GuiEditScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (button == 0) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        if (event.button() == 0) {
+            double mouseX = event.x();
+            double mouseY = event.y();
+
             DragTarget[] order = {
                     DragTarget.COORDS,
                     DragTarget.TIME,
@@ -185,33 +189,35 @@ public class GuiEditScreen extends Screen {
                 }
             }
         }
-        boolean widgetHandled = super.mouseClicked(mouseX, mouseY, button);
-        if (!widgetHandled && button == 0) {
+
+        boolean widgetHandled = super.mouseClicked(event, doubleClick);
+        if (!widgetHandled && event.button() == 0) {
             selectedOverlay = DragTarget.NONE;
         }
         return widgetHandled;
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dx, double dy) {
-        if (button == 0 && currentDrag != DragTarget.NONE) {
-            int newPx = (int) (mouseX - dragOffsetX);
-            int newPy = (int) (mouseY - dragOffsetY);
+    public boolean mouseDragged(MouseButtonEvent event, double dx, double dy) {
+        if (event.button() == 0 && currentDrag != DragTarget.NONE) {
+            int newPx = (int) (event.x() - dragOffsetX);
+            int newPy = (int) (event.y() - dragOffsetY);
 
             updateOverlayPosition(newPx, newPy, currentDrag);
             return true;
         }
-        return super.mouseDragged(mouseX, mouseY, button, dx, dy);
+        return super.mouseDragged(event, dx, dy);
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (button == 0 && currentDrag != DragTarget.NONE) {
+    public boolean mouseReleased(MouseButtonEvent event) {
+        if (event.button() == 0 && currentDrag != DragTarget.NONE) {
             currentDrag = DragTarget.NONE;
             return true;
         }
-        return super.mouseReleased(mouseX, mouseY, button);
+        return super.mouseReleased(event);
     }
+
 
     private boolean hitOverlay(double mouseX, double mouseY, DragTarget target) {
         if (isOverlayBlockedByServer(target)) {

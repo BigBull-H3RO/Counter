@@ -54,13 +54,13 @@ public class CounterManager {
         receiver.sendSystemMessage(message);
     }
 
-    public static void sendCoordsMessageToAll(ServerPlayer sender) {
-        int x = (int) sender.getX();
-        int y = (int) sender.getY();
-        int z = (int) sender.getZ();
+    public static void sendCoordsMessageToAll(ServerPlayer player) {
+        int x = (int) player.getX();
+        int y = (int) player.getY();
+        int z = (int) player.getZ();
 
-        Component message = Component.translatable("command.coords.broadcast", sender.getScoreboardName(), x, y, z);
-        sender.getServer().getPlayerList().broadcastSystemMessage(message, false);
+        Component message = Component.translatable("command.coords.broadcast", player.getScoreboardName(), x, y, z);
+        player.level().getServer().getPlayerList().broadcastSystemMessage(message, false);
     }
 
     public static String formatTime(long ticks) {

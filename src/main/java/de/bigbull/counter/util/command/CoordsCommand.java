@@ -34,7 +34,7 @@ public class CoordsCommand {
                                     if (target.equalsIgnoreCase("all")) {
                                         CounterManager.sendCoordsMessageToAll(sender);
                                     } else {
-                                        ServerPlayer targetPlayer = sender.getServer().getPlayerList().getPlayerByName(target);
+                                        ServerPlayer targetPlayer = sender.level().getServer().getPlayerList().getPlayerByName(target);
                                         if (targetPlayer != null) {
                                             CounterManager.sendCoordsMessage(sender, targetPlayer);
                                         } else {

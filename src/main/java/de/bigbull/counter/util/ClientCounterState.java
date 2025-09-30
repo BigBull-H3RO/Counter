@@ -65,7 +65,7 @@ public class ClientCounterState {
         if (net.minecraft.client.Minecraft.getInstance().getConnection() != null) {
             var info = net.minecraft.client.Minecraft.getInstance().getConnection().getPlayerInfo(uuid);
             if (info != null) {
-                return info.getProfile().getName();
+                return info.getProfile().name();
             }
         }
         return "Unknown";

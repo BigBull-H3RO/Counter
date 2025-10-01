@@ -33,7 +33,7 @@ public class ModEsLangProvider extends LanguageProvider {
         // --- Key Bindings ---
         add("key.counter.edit_mode", "Modo de edición");
         add("key.counter.show_overlays", "Mostrar superposiciones");
-        add("key.categories.counter", "Contador");
+        add("key.category.counter.main", "Contador");
 
         // --- Overlay Edit Screen ---
         add("screen.overlay_edit", "Pantalla de edición de superposición");

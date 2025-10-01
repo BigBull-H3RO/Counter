@@ -52,6 +52,8 @@ public class Counter {
     }
 
     public void registerKeyMappings(RegisterKeyMappingsEvent event) {
+        event.registerCategory(ModKeybinds.COUNTER_CATEGORY);
+
         event.register(ModKeybinds.OPEN_EDIT_GUI);
         event.register(ModKeybinds.SHOW_OVERLAYS);
     }

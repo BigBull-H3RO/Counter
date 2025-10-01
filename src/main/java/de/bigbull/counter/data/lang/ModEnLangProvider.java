@@ -33,7 +33,7 @@ public class ModEnLangProvider extends LanguageProvider {
         // --- Key Bindings ---
         add("key.counter.edit_mode", "Edit Mode");
         add("key.counter.show_overlays", "Show Overlays");
-        add("key.categories.counter", "Counter");
+        add("key.category.counter.main", "Counter");
 
         // --- Overlay Edit Screen ---
         add("screen.overlay_edit", "Overlay Edit Screen");

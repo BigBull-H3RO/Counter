@@ -6,6 +6,10 @@ plugins {
     id 'net.neoforged.gradle.userdev' version '7.0.192'
 }
 
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.BIN
+}
+
 version = mod_version
 group = mod_group_id
 
@@ -47,6 +51,10 @@ runs {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 }
@@ -80,9 +88,13 @@ publishing {
     }
     repositories {
         maven {
-            url = 'https://example.com/repo'
+            url "file://${project.projectDir}/repo"
         }
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
 }
 
 idea {

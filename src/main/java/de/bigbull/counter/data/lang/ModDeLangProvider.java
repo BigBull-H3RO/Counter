@@ -33,7 +33,7 @@ public class ModDeLangProvider extends LanguageProvider {
         // --- Key Bindings ---
         add("key.counter.edit_mode", "Bearbeitungsmodus");
         add("key.counter.show_overlays", "Overlays anzeigen");
-        add("key.categories.counter", "Zähler");
+        add("key.category.counter.main", "Zähler");
 
         // --- Overlay Edit Screen ---
         add("screen.overlay_edit", "Overlay-Bearbeitung");

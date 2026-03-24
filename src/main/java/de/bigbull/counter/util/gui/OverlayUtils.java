@@ -2,7 +2,7 @@ package de.bigbull.counter.util.gui;
 
 import de.bigbull.counter.util.CounterManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Mth;
 
 public class OverlayUtils {
@@ -40,7 +40,7 @@ public class OverlayUtils {
                 || (CounterManager.isOverlayKeyPressed() && showEnabled);
     }
 
-    public static void drawBorder(GuiGraphics g, int x, int y, int w, int h, int color, int borderPadding) {
+    public static void drawBorder(GuiGraphicsExtractor g, int x, int y, int w, int h, int color, int borderPadding) {
         g.fill(x - borderPadding, y - borderPadding, x + w + borderPadding, y - borderPadding + 1, color);
         g.fill(x - borderPadding, y + h + borderPadding - 1, x + w + borderPadding, y + h + borderPadding, color);
         g.fill(x - borderPadding, y - borderPadding, x - borderPadding + 1, y + h + borderPadding, color);

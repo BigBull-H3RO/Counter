@@ -1,7 +1,7 @@
 package de.bigbull.counter.util.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 public class OverlayRenderer {
     private static final int TEXT_BOTTOM_PADDING = 1;
@@ -9,10 +9,10 @@ public class OverlayRenderer {
 
     @FunctionalInterface
     public interface Drawer {
-        void draw(GuiGraphics g, OverlayUtils.Position pos);
+        void draw(GuiGraphicsExtractor g, OverlayUtils.Position pos);
     }
 
-    public static void render(GuiGraphics g,
+    public static void render(GuiGraphicsExtractor g,
                               boolean showAlways,
                               boolean showEnabled,
                               boolean isEditMode,
@@ -61,7 +61,7 @@ public class OverlayRenderer {
         }
     }
 
-    private static void renderOverlayContent(GuiGraphics g, OverlayUtils.Position pos, float scale, Drawer drawer) {
+    private static void renderOverlayContent(GuiGraphicsExtractor g, OverlayUtils.Position pos, float scale, Drawer drawer) {
         g.pose().pushMatrix();
         g.pose().translate(pos.x(), pos.y());
         g.pose().scale(scale, scale);
@@ -76,7 +76,7 @@ public class OverlayRenderer {
         return overlayEnabled ? 0xFF00FF00 : 0xFFFF0000;
     }
 
-    private static void drawOverlayBorder(GuiGraphics g, OverlayUtils.Position pos, int offsetX, int offsetY,
+    private static void drawOverlayBorder(GuiGraphicsExtractor g, OverlayUtils.Position pos, int offsetX, int offsetY,
                                           int scaledWidth, int scaledHeight, int extraWidth, int extraHeight, int borderColor) {
         OverlayUtils.drawBorder(g,
                 pos.x() + offsetX,
@@ -87,7 +87,7 @@ public class OverlayRenderer {
                 BORDER_PADDING);
     }
 
-    private static void renderAlignmentIndicators(GuiGraphics g, OverlayUtils.Position pos, OverlayAlignment align,
+    private static void renderAlignmentIndicators(GuiGraphicsExtractor g, OverlayUtils.Position pos, OverlayAlignment align,
                                                   int offsetX, int offsetY, float scaledWidthF, float scaledHeightF,
                                                   int extraWidth, int extraHeight, float symbolScale) {
         switch (align) {
@@ -105,11 +105,11 @@ public class OverlayRenderer {
         }
     }
 
-    private static void renderAlignmentSymbol(GuiGraphics g, OverlayUtils.Position pos, String symbol, float symbolX, float symbolY, float symbolScale) {
+    private static void renderAlignmentSymbol(GuiGraphicsExtractor g, OverlayUtils.Position pos, String symbol, float symbolX, float symbolY, float symbolScale) {
         g.pose().pushMatrix();
         g.pose().translate(pos.x() + symbolX, pos.y() + symbolY);
         g.pose().scale(symbolScale, symbolScale);
-        g.drawString(Minecraft.getInstance().font, symbol, 0, 0, 0xFFFFFFFF);
+        g.text(Minecraft.getInstance().font, symbol, 0, 0, 0xFFFFFFFF);
         g.pose().popMatrix();
     }
 

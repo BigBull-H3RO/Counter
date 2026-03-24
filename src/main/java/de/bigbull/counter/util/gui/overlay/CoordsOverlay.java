@@ -5,12 +5,12 @@ import de.bigbull.counter.config.ServerConfig;
 import de.bigbull.counter.util.gui.GuiEditScreen;
 import de.bigbull.counter.util.gui.OverlayRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
 
 public class CoordsOverlay {
-    public static void render(GuiGraphics guiGraphics) {
+    public static void render(GuiGraphicsExtractor guiGraphics) {
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
         boolean isEditMode = minecraft.screen instanceof GuiEditScreen;
@@ -49,7 +49,7 @@ public class CoordsOverlay {
                 0,
                 0,
                 0,
-                (g, pos) -> g.drawString(minecraft.font, coordsText, pos.x(), pos.y(), textColor)
+                (g, pos) -> g.text(minecraft.font, coordsText, pos.x(), pos.y(), textColor)
         );
     }
 
@@ -63,7 +63,11 @@ public class CoordsOverlay {
 
     public static int calcCoordsWidth() {
         Minecraft mc = Minecraft.getInstance();
-        String text = getCoordsText(mc.player);
+        LocalPlayer player = mc.player;
+        if (player == null) {
+            return 0;
+        }
+        String text = getCoordsText(player);
         return mc.font.width(text);
     }
 

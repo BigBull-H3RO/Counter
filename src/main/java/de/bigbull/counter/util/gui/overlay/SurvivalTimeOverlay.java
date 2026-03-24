@@ -7,12 +7,12 @@ import de.bigbull.counter.util.CounterManager;
 import de.bigbull.counter.util.gui.GuiEditScreen;
 import de.bigbull.counter.util.gui.OverlayRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 
 public class SurvivalTimeOverlay {
-    public static void render(GuiGraphics guiGraphics) {
+    public static void render(GuiGraphicsExtractor guiGraphics) {
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
         boolean isEditMode = minecraft.screen instanceof GuiEditScreen;
@@ -48,12 +48,18 @@ public class SurvivalTimeOverlay {
                 0,
                 0,
                 0,
-                (g, pos) -> g.drawString(minecraft.font, Component.literal(getSurvivalString()), pos.x(), pos.y(), textColor)
+                (g, pos) -> g.text(minecraft.font, Component.literal(getSurvivalString()), pos.x(), pos.y(), textColor)
         );
     }
 
     private static String getSurvivalString() {
-        long currentTick = Minecraft.getInstance().level.getGameTime();
+        Minecraft minecraft = Minecraft.getInstance();
+        String key = ClientConfig.SHOW_EMOJIS.get() ? "overlay.counter.survival_with_emoji" : "overlay.counter.survival_no_emoji";
+        if (minecraft.level == null) {
+            return Component.translatable(key, "0m").getString();
+        }
+
+        long currentTick = minecraft.level.getGameTime();
         long lastTick = ClientCounterState.getLastDeathTick();
         long survived = currentTick - lastTick;
         String base = CounterManager.formatSurvivalTime(survived);
@@ -61,7 +67,6 @@ public class SurvivalTimeOverlay {
             String best = CounterManager.formatSurvivalTime(ClientCounterState.getBestSurvivalTime());
             base += " (" + best + ")";
         }
-        String key = ClientConfig.SHOW_EMOJIS.get() ? "overlay.counter.survival_with_emoji" : "overlay.counter.survival_no_emoji";
         return Component.translatable(key, base).getString();
     }
 

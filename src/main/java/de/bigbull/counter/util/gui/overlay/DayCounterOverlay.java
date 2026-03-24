@@ -6,12 +6,12 @@ import de.bigbull.counter.util.CounterManager;
 import de.bigbull.counter.util.gui.GuiEditScreen;
 import de.bigbull.counter.util.gui.OverlayRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 
 public class DayCounterOverlay {
-    public static void render(GuiGraphics guiGraphics) {
+    public static void render(GuiGraphicsExtractor guiGraphics) {
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
         boolean isEditMode = minecraft.screen instanceof GuiEditScreen;
@@ -54,7 +54,7 @@ public class DayCounterOverlay {
                     } else {
                         dayString = Component.literal(CounterManager.getDay()).getString();
                     }
-                    g.drawString(minecraft.font, dayString, pos.x(), pos.y(), textColor);
+                    g.text(minecraft.font, dayString, pos.x(), pos.y(), textColor);
                 }
         );
     }

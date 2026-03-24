@@ -2,12 +2,12 @@ package de.bigbull.counter.util;
 
 import de.bigbull.counter.Counter;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 public class ModKeybinds {
     public static final KeyMapping.Category COUNTER_CATEGORY = new KeyMapping.Category(
-            ResourceLocation.fromNamespaceAndPath(Counter.MODID, "main")
+            Identifier.fromNamespaceAndPath(Counter.MODID, "main")
     );
 
     public static final KeyMapping OPEN_EDIT_GUI = new KeyMapping(

@@ -18,6 +18,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.Permissions;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.*;
@@ -29,7 +30,7 @@ public class DeathCommand {
         return Commands.literal("death")
                 .requires(source -> ServerConfig.ENABLE_DEATH_COUNTER.get() && ServerConfig.ENABLE_DEATH_COMMAND.get())
                 .then(Commands.literal("get")
-                        .requires(source -> source.hasPermission(0))
+                        .requires(source -> true)
                         .executes(context -> {
                             ServerPlayer executingPlayer = context.getSource().getPlayerOrException();
                             ServerLevel level = executingPlayer.level();
@@ -63,7 +64,7 @@ public class DeathCommand {
                                     return Command.SINGLE_SUCCESS;
                                 })))
                 .then(Commands.literal("set")
-                        .requires(source -> source.hasPermission(2))
+                        .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
                         .then(Commands.argument("player", EntityArgument.players())
                                 .then(Commands.argument("amount", IntegerArgumentType.integer(0))
                                         .executes(context -> {
@@ -85,7 +86,7 @@ public class DeathCommand {
                                             return Command.SINGLE_SUCCESS;
                                         }))))
                 .then(Commands.literal("reset")
-                        .requires(source -> source.hasPermission(2))
+                        .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
                         .executes(context -> {
                             MinecraftServer server = context.getSource().getServer();
                             ServerLevel level = server.overworld();

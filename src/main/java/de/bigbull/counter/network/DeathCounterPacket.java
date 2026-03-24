@@ -5,7 +5,7 @@ import de.bigbull.counter.util.ClientCounterState;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.HashMap;
@@ -14,8 +14,8 @@ import java.util.UUID;
 
 public record DeathCounterPacket(Map<UUID, Integer> deathCounts, Map<UUID, String> nameMap,
                                  Map<UUID, Long> bestTimes) implements CustomPacketPayload {
-    public static final CustomPacketPayload.Type<DeathCounterPacket> TYPE = new CustomPacketPayload.Type<>(
-            ResourceLocation.fromNamespaceAndPath(Counter.MODID, "death_counter"));
+    public static final Type<DeathCounterPacket> TYPE = new Type<>(
+            Identifier.fromNamespaceAndPath(Counter.MODID, "death_counter"));
 
     public static final StreamCodec<FriendlyByteBuf, DeathCounterPacket> CODEC = StreamCodec.of(
             (buf, packet) -> {

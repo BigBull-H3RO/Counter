@@ -11,6 +11,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.permissions.Permissions;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public class DayCommand {
@@ -18,7 +19,7 @@ public class DayCommand {
         return Commands.literal("day")
                 .requires(source -> ServerConfig.ENABLE_DAY_COUNTER.get() && ServerConfig.ENABLE_DAY_COMMAND.get())
                 .then(Commands.literal("get")
-                        .requires(source -> source.hasPermission(0))
+                        .requires(source -> true)
                         .executes(context -> {
                             MinecraftServer server = context.getSource().getServer();
                             ServerLevel level = server.overworld();
@@ -28,7 +29,7 @@ public class DayCommand {
                             return Command.SINGLE_SUCCESS;
                         }))
                 .then(Commands.literal("set")
-                        .requires(source -> source.hasPermission(2))
+                        .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER))
                         .then(Commands.argument("days", IntegerArgumentType.integer(0))
                                 .executes(context -> {
                                     int newDay = IntegerArgumentType.getInteger(context, "days");

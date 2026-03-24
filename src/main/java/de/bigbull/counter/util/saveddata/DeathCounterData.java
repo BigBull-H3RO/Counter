@@ -2,6 +2,8 @@ package de.bigbull.counter.util.saveddata;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import de.bigbull.counter.Counter;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.saveddata.SavedDataType;
@@ -27,14 +29,10 @@ public class DeathCounterData extends SavedData {
     ).apply(instance, DeathCounterData::fromCodec));
 
     public static final SavedDataType<DeathCounterData> TYPE = new SavedDataType<>(
-            "death_counter",
+            Identifier.fromNamespaceAndPath(Counter.MODID, "death_counter"),
             DeathCounterData::new,
-            context -> CODEC
+            CODEC
     );
-
-    public DeathCounterData(Context context) {
-        this();
-    }
 
     public DeathCounterData() {}
 

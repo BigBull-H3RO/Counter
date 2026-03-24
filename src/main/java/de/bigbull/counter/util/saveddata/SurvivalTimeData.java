@@ -2,7 +2,9 @@ package de.bigbull.counter.util.saveddata;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import de.bigbull.counter.Counter;
 import de.bigbull.counter.config.ServerConfig;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.saveddata.SavedDataType;
@@ -11,7 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class SurvivalTimeData extends SavedData {
-    private static final String TAG_NAME = "SurvivalTime";
+    private static final String TAG_NAME = "survival_time";
     private final Map<UUID, Long> lastDeathTicks = new HashMap<>();
     private final Map<UUID, List<Long>> history = new HashMap<>();
     private final Map<UUID, Long> bestTimes = new HashMap<>();
@@ -37,14 +39,10 @@ public class SurvivalTimeData extends SavedData {
     ).apply(instance, SurvivalTimeData::fromCodec));
 
     public static final SavedDataType<SurvivalTimeData> TYPE = new SavedDataType<>(
-            TAG_NAME,
+            Identifier.fromNamespaceAndPath(Counter.MODID, TAG_NAME),
             SurvivalTimeData::new,
-            p -> CODEC
+            CODEC
     );
-
-    public SurvivalTimeData(Context context) {
-        this();
-    }
 
     public SurvivalTimeData() {}
 
@@ -94,12 +92,12 @@ public class SurvivalTimeData extends SavedData {
     }
 
     public void recordSurvival(UUID uuid, long durationTicks, String playerName) {
-        List<Long> list = history.computeIfAbsent(uuid, k -> new ArrayList<>());
+        List<Long> list = history.computeIfAbsent(uuid, ignored -> new ArrayList<>());
         list.add(durationTicks);
         int maxSize = ServerConfig.SURVIVAL_HISTORY_SIZE.get();
         if (maxSize <= 0) maxSize = MAX_HISTORY_SIZE;
         while (list.size() > maxSize) {
-            list.remove(0);
+            list.removeFirst();
         }
         if (durationTicks > bestTimes.getOrDefault(uuid, 0L)) {
             bestTimes.put(uuid, durationTicks);

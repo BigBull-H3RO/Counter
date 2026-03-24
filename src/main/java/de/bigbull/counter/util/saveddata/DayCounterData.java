@@ -2,6 +2,8 @@ package de.bigbull.counter.util.saveddata;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import de.bigbull.counter.Counter;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.saveddata.SavedDataType;
@@ -16,18 +18,14 @@ public class DayCounterData extends SavedData {
             .apply(instance, DayCounterData::new));
 
     public static final SavedDataType<DayCounterData> TYPE = new SavedDataType<>(
-            "day_counter",
-            DayCounterData::new,
-            p -> CODEC
+            Identifier.fromNamespaceAndPath(Counter.MODID, "day_counter"),
+            () -> new DayCounterData(0, 0),
+            CODEC
     );
 
     public DayCounterData(long dayCounter, long lastRealDay) {
         this.dayCounter = dayCounter;
         this.lastRealDay = lastRealDay;
-    }
-
-    public DayCounterData(Context context) {
-        this(0, 0);
     }
 
     public long getLastRealDay() {
@@ -58,7 +56,7 @@ public class DayCounterData extends SavedData {
 
     public static void setDayCounter(ServerLevel level, long newDay) {
         DayCounterData data = get(level);
-        long realDay = level.getDayTime() / 24000;
+        long realDay = level.getOverworldClockTime() / 24000;
 
         data.setDayCounter(newDay);
         data.setLastRealDay(realDay);

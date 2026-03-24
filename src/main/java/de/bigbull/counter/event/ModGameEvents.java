@@ -38,7 +38,7 @@ public class ModGameEvents {
 
         MinecraftServer server = event.getServer();
         ServerLevel level = server.overworld();
-        long realDay = level.getDayTime() / 24000;
+        long realDay = level.getOverworldClockTime() / 24000;
 
         DayCounterData data = DayCounterData.get(level);
         long lastRealDay = data.getLastRealDay();

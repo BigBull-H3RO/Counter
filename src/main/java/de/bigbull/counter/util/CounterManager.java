@@ -16,7 +16,7 @@ public class CounterManager {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null) return "N/A";
 
-        return formatTime(minecraft.level.getDayTime());
+        return formatTime(minecraft.level.getOverworldClockTime());
     }
 
     public static String getCombinedDayTime() {

@@ -24,13 +24,38 @@ The **Survival Counter** tracks how long you've survived since your last death a
 
 All features are **highly configurable**, making this mod an excellent choice for both **singleplayer and multiplayer servers**.
 
+---
+
+## **Supported Versions**
+
+**Actively supported (full updates and fixes):**
+
+- **Minecraft 1.21.1**
+- **Minecraft 26.2 (main)**
+
+**Legacy builds (no active updates, only critical fixes if needed):**
+
+- **Minecraft 1.21**
+- **Minecraft 1.21.4**
+- **Minecraft 1.21.5**
+- **Minecraft 1.21.6 - 1.21.8**
+- **Minecraft 1.21.9**
+- **Minecraft 1.21.10**
+- **Minecraft 1.21.11**
+- **Minecraft 26.1 - 26.1.2**
+
+---
+
 ## **✨ Features**
+
 ✅ **Day Counter**
+
 - Shows the **current Minecraft day**.
 - Can be displayed as an **overlay** or in **chat when joining** a world.
 - Server administrators can enable or disable **day messages**.
 
 ✅ **Death Counter**
+
 - Tracks the **total deaths per player**.
 - Supports a **screen overlay**, a **chat leaderboard**, and **admin control over death counts**.
 - **Configurable leaderboard size**: Choose how many players appear in the ranking.
@@ -39,21 +64,25 @@ All features are **highly configurable**, making this mod an excellent choice fo
   - In **multiplayer**, a **server-wide leaderboard** can be displayed.
 
 ✅ **Ping as Text**
+
 - Replaces the **default ping bars** in the **Tab** list with a numeric readout (e.g., `123ms`).
 - Can be **color-coded** based on latency (**Green = Good**, **Orange = Moderate**, **Red = High**).
 - Easily toggled in the **client-config** (`showPingAsText`).
 - If disabled, the **default vanilla ping bars** will be shown again.
 
 ✅ **Survival Counter**
+
 - Tracks your **survival time** since the **last death**.
 - Optionally shows your **best survival time** record.
 - **Survival history**: Keeps track of your last 10 survival runs.
 
 ✅ **Time Counter**
+
 - Displays the **current in-game time** as an overlay (e.g., `14:35`).
 - Configurable in **12-hour or 24-hour format**.
 
 ✅ **Coords Counter**
+
 - Displays the **current coordinates** of the player as an overlay (e.g., `X: 123, Y: 64, Z: -456`).
 - Show the Coordinates in the chat or share them with other players.
 
@@ -64,12 +93,14 @@ All features are **highly configurable**, making this mod an excellent choice fo
 ---
 
 ## **⚙️ Configuration Options**
+
 The Counter Mod provides extensive configuration options via **`server-config.toml`** and **`client-config.toml`**.
 
 <details>
 <summary style="font-size: 1.2em;"><strong>Client Configuration</strong> (<code>client-config.toml</code>)</summary>
 
 #### 🌞Day Counter Overlay Settings
+
 | Option                | Default    | Description                                                                                                                               |
 |-----------------------|------------|-------------------------------------------------------------------------------------------------------------------------------------------|
 | `showDayOverlay`      | `true`     | Enable/disable the **day counter overlay** on the client side.                                                                            |
@@ -81,6 +112,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `dayOverlayTextColor` | `0xFFFFFF` | Color for the **day counter overlay** text.                                                                                               |
 
 #### 💀Death Counter List Settings
+
 | Option                     | Default    | Description                                                                                                                                      |
 |----------------------------|------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
 | `showDeathListOverlay`     | `true`     | Enable/disable the **death counter list overlay**.                                                                                               |
@@ -97,6 +129,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `thirdPlaceColor`          | `0xCD7F32` | Color for third place in the death leaderboard.                                                                                                  |
 
 #### 💀Death Counter Self Settings
+
 | Option                  | Default    | Description                                                                                                                                          |
 |-------------------------|------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `showDeathSelfOverlay`  | `true`     | Enable/disable the **personal death counter overlay**.                                                                                               |
@@ -108,6 +141,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `deathSelfTextColor`    | `0xFFFFFF` | Color for your **personal death counter** text.                                                                                                      |
 
 #### 🛡️Survival Counter Settings
+
 | Option                      | Default    | Description                                                                                                                                    |
 |-----------------------------|------------|------------------------------------------------------------------------------------------------------------------------------------------------|
 | `showSurvivalOverlay`       | `false`    | Enable/disable the **survival counter overlay** on the client side.                                                                            |
@@ -119,6 +153,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `survivalOverlayTextColor`  | `0xFFFFFF` | Color for the **survival counter overlay** text.                                                                                               |
 
 #### ⏰Time Counter Settings
+
 | Option                  | Default    | Description                                                                                                                                |
 |-------------------------|------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 | `showTimeOverlay`       | `false`    | Enable/disable the **time counter overlay** on the client side.                                                                            |
@@ -130,6 +165,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `timeOverlayTextColor`  | `0xFFFFFF` | Color for the **time counter overlay** text.                                                                                               |
 
 #### ⏰Coords Counter Settings
+
 | Option                    | Default    | Description                                                                                                                                  |
 |---------------------------|------------|----------------------------------------------------------------------------------------------------------------------------------------------|
 | `showCoordsOverlay`       | `false`    | Enable/disable the **coords counter overlay** on the client side.                                                                            |
@@ -141,6 +177,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `coordsOverlayTextColor`  | `0xFFFFFF` | Color for the **coords counter overlay** text.                                                                                               |
 
 #### 📶Ping Settings
+
 | Option            | Default    | Description                                                             |
 |-------------------|------------|-------------------------------------------------------------------------|
 | `showPingAsText`  | `true`     | Show the **ping as text** (e.g. 123ms) instead of bars in the Tab list. |
@@ -149,6 +186,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `pingColorBad`    | `0xFF0000` | Color for high ping (>=250ms).                                          |
 
 #### 😀Emote Settings
+
 | Option       | Default | Description                               |
 |--------------|---------|-------------------------------------------|
 | `showEmojis` | `true`  | Enable or disable emojis in **overlays**. |
@@ -161,6 +199,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 <summary style="font-size: 1.2em;"><strong>Server Configuration</strong> (<code>server-config.toml</code>)</summary>
 
 #### 🌞Day Counter Settings
+
 | Option             | Default    | Description                                                         |
 |--------------------|------------|---------------------------------------------------------------------|
 | `enableDayCounter` | `true`     | Enables or disables the **Day Counter** feature on the server.      |
@@ -170,6 +209,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `dayChatTextColor` | `0xFFFFFF` | Text color for the **day counter messages** in chat.                |
 
 #### 💀Death Counter Settings
+
 | Option               | Default      | Description                                                                                                          |
 |----------------------|--------------|----------------------------------------------------------------------------------------------------------------------|
 | `enableDeathCounter` | `true`       | Enables or disables the **Death Counter** feature on the server.                                                     |
@@ -178,6 +218,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `deathOverlayMode`   | `LIST`       | Defines which **death overlay types** are allowed: **`ONLY_SELF`**, **`LIST`**, **`BOTH`**.                          |
 
 #### 💀Death Counter Chat Settings
+
 | Option                       | Default      | Description                                                                                              |
 |------------------------------|--------------|----------------------------------------------------------------------------------------------------------|
 | `showDeathInChat`            | `true`       | Enables **death counter** messages in chat (on join or on death).                                        |
@@ -188,6 +229,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `deathSelfChatTextColor`     | `0xFFFFFF`   | Text color for **personal death messages** in chat.                                                      |
 
 #### 🛡️Survival Counter Settings
+
 | Option                           | Default    | Description                                                                                                                   |
 |----------------------------------|------------|-------------------------------------------------------------------------------------------------------------------------------|
 | `enableSurvivalCounter`          | `true`     | Enables or disables the **Survival Counter** feature on the server.                                                           |
@@ -199,6 +241,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `survivalHistorySize`            | `10`       | Number of survival time entries kept per player.                                                                              |
 
 #### 🛡️Survival Counter Chat Settings
+
 | Option                     | Default | Description                                                            |
 |----------------------------|---------|------------------------------------------------------------------------|
 | `showSurvivalInChat`       | `false` | Send a chat message with the survival time when a player dies.         |
@@ -206,6 +249,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `showBestSurvivalInChat`   | `false` | Include the best survival time in parentheses after the survival time. |
 
 #### ⏰Time Counter Settings
+
 | Option                | Default | Description                                                                                   |
 |-----------------------|---------|-----------------------------------------------------------------------------------------------|
 | `enableTimeCounter`   | `true`  | Enables or disables the **Time Counter** feature on the server.                               |
@@ -214,6 +258,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `timeFormat24h`       | `true`  | Use **24-hour format** instead of **12-hour format**.                                         |
 
 #### 📌Coords Counter Settings
+
 | Option                | Default | Description                                                            |
 |-----------------------|---------|------------------------------------------------------------------------|
 | `enableCoordsCounter` | `true`  | Enables or disables the **Coords Counter** feature on the server.      |
@@ -224,6 +269,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 ---
 
 ## **📝 Commands**
+
 Below is an overview of the main commands the mod provides:
 
 | Command                                | Permission | Description                                                                        |
@@ -243,7 +289,9 @@ Below is an overview of the main commands the mod provides:
 ---
 
 ## **🛠 Overlay Edit Mode**
+
 You can open an **Edit Screen** to customize the position and visibility of overlays:
+
 1. Use the **keybind** (defined in the controls) or another available method to open the **Overlay Edit Screen**.
 2. **Drag & drop** the overlays to reposition them anywhere on your screen.
 3. Click the **"Toggle Overlay"** button to enable or disable an overlay.
@@ -260,4 +308,5 @@ With this intuitive editor, you can easily configure all overlays (**Day Counter
 Report issues to the [Issue Tracker](https://github.com/BigBull-H3RO/Counter/issues)
 
 #### 💡 Find out more about Counter on our [Curseforge](https://www.curseforge.com/minecraft/mc-mods/counter-neoforge) or [Modrinth](https://modrinth.com/mod/counter) Page
+
 </div>

@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public record DeathCounterPacket(Map<UUID, Integer> deathCounts, Map<UUID, String> nameMap,
-                                 Map<UUID, Long> bestTimes) implements CustomPacketPayload {
+        Map<UUID, Long> bestTimes) implements CustomPacketPayload {
     public static final Type<DeathCounterPacket> TYPE = new Type<>(
             Identifier.fromNamespaceAndPath(Counter.MODID, "death_counter"));
 

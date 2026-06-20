@@ -14,8 +14,8 @@ public class DayCounterOverlay {
     public static void render(GuiGraphicsExtractor guiGraphics) {
         Minecraft minecraft = Minecraft.getInstance();
         LocalPlayer player = minecraft.player;
-        boolean isEditMode = minecraft.screen instanceof GuiEditScreen;
-        GuiEditScreen guiEditScreen = isEditMode ? (GuiEditScreen) minecraft.screen : null;
+        boolean isEditMode = minecraft.gui.screen() instanceof GuiEditScreen;
+        GuiEditScreen guiEditScreen = isEditMode ? (GuiEditScreen) minecraft.gui.screen() : null;
 
         if (minecraft.level == null || player == null) {
             return;

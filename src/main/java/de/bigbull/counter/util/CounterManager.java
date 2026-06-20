@@ -120,6 +120,6 @@ public class CounterManager {
 
     public static boolean isOverlayKeyPressed() {
         Minecraft minecraft = Minecraft.getInstance();
-        return ModKeybinds.SHOW_OVERLAYS.isDown() && minecraft.screen == null;
+        return ModKeybinds.SHOW_OVERLAYS.isDown() && minecraft.gui.screen() == null;
     }
 }

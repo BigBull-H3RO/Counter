@@ -52,9 +52,14 @@ public class OverlayRenderer {
         renderOverlayContent(g, pos, scale, drawer);
 
         if (isEditMode) {
-            int borderColor = getBorderColor(overlayEnabled, guiEditScreen, target);
+            int borderColor = overlayEnabled ? 0xFF00FF00 : 0xFFFF0000;
             drawOverlayBorder(g, pos, scaledOffsetX, scaledOffsetY, scaledWidth, scaledHeight,
                     scaledExtraWidth, scaledExtraHeight, borderColor);
+
+            if (guiEditScreen != null && guiEditScreen.getSelectedOverlay() == target) {
+                drawSelectionIndicator(g, pos, scaledOffsetX, scaledOffsetY, scaledWidth, scaledHeight,
+                        scaledExtraWidth, scaledExtraHeight);
+            }
 
             renderAlignmentIndicators(g, pos, align, scaledOffsetX, scaledOffsetY, scaledWidthF, scaledHeightF,
                     scaledExtraWidth, scaledExtraHeight, SYMBOL_SCALE);
@@ -69,11 +74,21 @@ public class OverlayRenderer {
         g.pose().popMatrix();
     }
 
-    private static int getBorderColor(boolean overlayEnabled, GuiEditScreen guiEditScreen, GuiEditScreen.DragTarget target) {
-        if (guiEditScreen != null && guiEditScreen.getSelectedOverlay() == target) {
-            return 0xFFFFFF00;
-        }
-        return overlayEnabled ? 0xFF00FF00 : 0xFFFF0000;
+    private static void drawSelectionIndicator(GuiGraphicsExtractor g, OverlayUtils.Position pos, int offsetX, int offsetY,
+                                          int scaledWidth, int scaledHeight, int extraWidth, int extraHeight) {
+        g.fill(pos.x() + offsetX - BORDER_PADDING, 
+               pos.y() + offsetY - BORDER_PADDING, 
+               pos.x() + offsetX + scaledWidth + extraWidth + BORDER_PADDING, 
+               pos.y() + offsetY + scaledHeight + extraHeight + BORDER_PADDING, 
+               0x40FFFF00);
+
+        OverlayUtils.drawBorder(g,
+                pos.x() + offsetX,
+                pos.y() + offsetY,
+                scaledWidth + extraWidth,
+                scaledHeight + extraHeight,
+                0xFFFFFF00,
+                BORDER_PADDING + 1);
     }
 
     private static void drawOverlayBorder(GuiGraphicsExtractor g, OverlayUtils.Position pos, int offsetX, int offsetY,

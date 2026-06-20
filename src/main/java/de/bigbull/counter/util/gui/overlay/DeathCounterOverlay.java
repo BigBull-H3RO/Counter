@@ -26,7 +26,7 @@ public class DeathCounterOverlay {
         if (minecraft.level == null || player == null || minecraft.getConnection() == null) return;
         if (!ServerConfig.SHOW_DEATH_OVERLAY.get() || !ServerConfig.ENABLE_DEATH_COUNTER.get()) return;
 
-        boolean isEditMode = (minecraft.screen instanceof GuiEditScreen);
+        boolean isEditMode = (minecraft.gui.screen() instanceof GuiEditScreen);
 
         boolean serverWantsList = false;
         boolean serverWantsSelf = false;
@@ -46,7 +46,7 @@ public class DeathCounterOverlay {
         boolean finalDrawList = serverWantsList;
         boolean finalDrawSelf = serverWantsSelf;
 
-        GuiEditScreen guiEditScreen = isEditMode ? (GuiEditScreen) minecraft.screen : null;
+        GuiEditScreen guiEditScreen = isEditMode ? (GuiEditScreen) minecraft.gui.screen() : null;
 
         if (finalDrawList) {
             float listScale = ClientConfig.DEATH_LIST_SIZE.get().floatValue();

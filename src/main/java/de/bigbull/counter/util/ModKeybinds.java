@@ -12,7 +12,7 @@ public class ModKeybinds {
 
     public static final KeyMapping OPEN_EDIT_GUI = new KeyMapping(
             "key.counter.edit_mode",
-            GLFW.GLFW_KEY_O,
+            GLFW.GLFW_KEY_U,
             COUNTER_CATEGORY
     );
 

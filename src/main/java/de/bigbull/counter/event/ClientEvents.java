@@ -25,7 +25,7 @@ public class ClientEvents {
             return;
         }
 
-        if (minecraft.screen instanceof GuiEditScreen) {
+        if (minecraft.gui.screen() instanceof GuiEditScreen) {
             return;
         }
 
@@ -40,7 +40,7 @@ public class ClientEvents {
     public static void onClientTick(ClientTickEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
         if (ModKeybinds.OPEN_EDIT_GUI.consumeClick()) {
-            minecraft.setScreen(new GuiEditScreen());
+            minecraft.gui.setScreen(new GuiEditScreen());
         }
     }
 }

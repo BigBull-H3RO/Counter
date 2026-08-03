@@ -55,7 +55,7 @@ public class SurvivalTimeData extends SavedData {
 
         SurvivalTimeData data = new SurvivalTimeData();
         lastDeaths.forEach((key, value) -> data.lastDeathTicks.put(UUID.fromString(key), value));
-        history.forEach((key, value) -> data.history.put(UUID.fromString(key), value));
+        history.forEach((key, value) -> data.history.put(UUID.fromString(key), new ArrayList<>(value)));
         bestTimes.forEach((key, value) -> data.bestTimes.put(UUID.fromString(key), value));
         data.globalBest = globalBest;
         data.globalBestPlayer = globalBestPlayer;

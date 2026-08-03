@@ -49,18 +49,20 @@ public class OverlayRenderer {
 
         OverlayUtils.Position pos = OverlayUtils.computePosition(configX, configY, scaledWidth, scaledHeight, align);
 
-        renderOverlayContent(g, pos, scale, drawer);
-
         if (isEditMode) {
-            int borderColor = overlayEnabled ? 0xFF00FF00 : 0xFFFF0000;
-            drawOverlayBorder(g, pos, scaledOffsetX, scaledOffsetY, scaledWidth, scaledHeight,
-                    scaledExtraWidth, scaledExtraHeight, borderColor);
-
             if (guiEditScreen != null && guiEditScreen.getSelectedOverlay() == target) {
                 drawSelectionIndicator(g, pos, scaledOffsetX, scaledOffsetY, scaledWidth, scaledHeight,
                         scaledExtraWidth, scaledExtraHeight);
             }
 
+            int borderColor = overlayEnabled ? 0xFF00FF00 : 0xFFFF0000;
+            drawOverlayBorder(g, pos, scaledOffsetX, scaledOffsetY, scaledWidth, scaledHeight,
+                    scaledExtraWidth, scaledExtraHeight, borderColor);
+        }
+
+        renderOverlayContent(g, pos, scale, drawer);
+
+        if (isEditMode) {
             renderAlignmentIndicators(g, pos, align, scaledOffsetX, scaledOffsetY, scaledWidthF, scaledHeightF,
                     scaledExtraWidth, scaledExtraHeight, SYMBOL_SCALE);
         }

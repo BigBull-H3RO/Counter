@@ -2,3 +2,6 @@ build
 .gradle
 runs
 /.idea/
+bin/
+.vscode/
+.cache/

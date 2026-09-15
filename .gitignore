@@ -3,4 +3,5 @@ build
 .gradle
 runs
 /.idea/
+/src/generated/resources/.cache/
 /.vscode/

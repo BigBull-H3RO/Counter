@@ -198,7 +198,7 @@ public class ClientConfig {
 
         CLIENT_BUILDER.translation("counter.config.title.fpsOverlay").push("FPS Counter Overlay Settings");
         SHOW_FPS_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the fps counter overlay.")
-                .translation("counter.config.showFpsOverlay").define("showFpsOverlay", false);
+                .translation("counter.config.showFpsOverlay").define("showFpsOverlay", true);
         SHOW_FPS_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the fps counter overlay always be visible? If false, it is only visible while holding the Tab key.")
                 .translation("counter.config.showFpsOverlayAlways").define("showFpsOverlayAlways", true);
         FPS_OVERLAY_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right).")

@@ -151,7 +151,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 
 | Option                 | Default    | Description                                                                                                                                |
 |------------------------|------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| `showFpsOverlay`       | `false`    | Enable/disable the **fps counter overlay** on the client side.                                                                             |
+| `showFpsOverlay`       | `true`     | Enable/disable the **fps counter overlay** on the client side.                                                                             |
 | `showFpsOverlayAlways` | `true`     | Should the **fps counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab).  |
 | `fpsOverlayX`          | `0.99375`  | Relative X position (0.0 = left, 1.0 = right) of the fps overlay.                                                                          |
 | `fpsOverlayY`          | `0.015`    | Relative Y position (0.0 = top, 1.0 = bottom) of the fps overlay.                                                                          |
@@ -188,7 +188,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | Option                    | Default    | Description                                                                                                                                  |
 |---------------------------|------------|----------------------------------------------------------------------------------------------------------------------------------------------|
 | `showCoordsOverlay`       | `false`    | Enable/disable the **coords counter overlay** on the client side.                                                                            |
-| `showCoordsOverlayAlways` | `true`     | Should the **coords counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |\
+| `showCoordsOverlayAlways` | `true`     | Should the **coords counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |
 | `coordsOverlayX`          | `0.00625`  | Relative X position (0.0 = left, 1.0 = right) of the coords overlay.                                                                         |
 | `coordsOverlayY`          | `0.905`    | Relative Y position (0.0 = top, 1.0 = bottom) of the coords overlay.                                                                         |
 | `coordsOverlayAlign`      | `LEFT`     | Horizontal alignment of the overlay (`LEFT`, `CENTER`, `RIGHT`).                                                                             |
@@ -288,7 +288,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | Option                | Default | Description                                                            |
 |-----------------------|---------|------------------------------------------------------------------------|
 | `enableCoordsCounter` | `true`  | Enables or disables the **Coords Counter** feature on the server.      |
-| `showCoordsOverlay`   | `true`  | Allows the **Coords Counter overlay** to be shown (client can toggle). |\
+| `showCoordsOverlay`   | `true`  | Allows the **Coords Counter overlay** to be shown (client can toggle). |
 
 </details>
 

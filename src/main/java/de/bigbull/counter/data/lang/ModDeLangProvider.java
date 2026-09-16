@@ -25,6 +25,8 @@ public class ModDeLangProvider extends LanguageProvider {
         add("overlay.counter.deathlist.entry.plural", "%s: %s Tode");
         add("overlay.counter.deathlist.style.invalid", "FEHLER: Ungültiger Todeslisten-Stil!");
 
+        add("overlay.counter.fps", "FPS: %s");
+
         add("overlay.counter.survival_with_emoji", "⏳ Überlebt: %s");
         add("overlay.counter.survival_no_emoji", "Überlebt: %s");
         add("overlay.counter.best_survival_with_emoji", "⏳ Beste: %s");
@@ -90,6 +92,18 @@ public class ModDeLangProvider extends LanguageProvider {
         add("counter.config.deathSelfSize", "Eigener Tod Größe");
         add("counter.config.deathSelfAlign", "Eigener Tod Ausrichtung");
         add("counter.config.deathSelfTextColor", "Eigener Tod Textfarbe");
+
+        // --- Config translations: FPS Overlay ---
+        add("counter.config.showFpsOverlay", "FPS-Overlay anzeigen");
+        add("counter.config.showFpsOverlayAlways", "FPS immer anzeigen");
+        add("counter.config.fpsOverlayX", "FPS-Overlay X");
+        add("counter.config.fpsOverlayY", "FPS-Overlay Y");
+        add("counter.config.fpsOverlaySize", "FPS-Overlay Größe");
+        add("counter.config.fpsOverlayAlign", "FPS-Overlay Ausrichtung");
+        add("counter.config.fpsOverlayTextColor", "FPS-Overlay Textfarbe");
+        add("counter.config.enableFpsCounter", "FPS-Zähler aktivieren");
+        add("counter.config.title.fpsOverlay", "FPS-Overlay Einstellungen");
+        add("counter.config.title.fpsCounter", "FPS-Zähler Einstellungen");
 
         // --- Config translations: Survival Overlay ---
         add("counter.config.showSurvivalOverlay", "Überlebens-Overlay anzeigen");

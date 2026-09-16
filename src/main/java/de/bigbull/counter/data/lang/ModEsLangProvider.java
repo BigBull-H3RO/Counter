@@ -25,6 +25,8 @@ public class ModEsLangProvider extends LanguageProvider {
         add("overlay.counter.deathlist.entry.plural", "%s: %s muertes");
         add("overlay.counter.deathlist.style.invalid", "ERROR: ¡Estilo de lista de muertes inválido!");
 
+        add("overlay.counter.fps", "FPS: %s");
+
         add("overlay.counter.survival_with_emoji", "⏳ Sobrevivido: %s");
         add("overlay.counter.survival_no_emoji", "Sobrevivido: %s");
         add("overlay.counter.best_survival_with_emoji", "⏳ Mejor: %s");
@@ -90,6 +92,18 @@ public class ModEsLangProvider extends LanguageProvider {
         add("counter.config.deathSelfSize", "Tamaño del contador personal");
         add("counter.config.deathSelfAlign", "Alineación del contador personal");
         add("counter.config.deathSelfTextColor", "Color del texto del contador personal");
+
+        // --- Config translations: FPS Overlay ---
+        add("counter.config.showFpsOverlay", "Mostrar superposición de FPS");
+        add("counter.config.showFpsOverlayAlways", "Mostrar siempre los FPS");
+        add("counter.config.fpsOverlayX", "FPS Overlay X");
+        add("counter.config.fpsOverlayY", "FPS Overlay Y");
+        add("counter.config.fpsOverlaySize", "Tamaño de la superposición de FPS");
+        add("counter.config.fpsOverlayAlign", "Alineación de la superposición de FPS");
+        add("counter.config.fpsOverlayTextColor", "Color del texto de FPS");
+        add("counter.config.enableFpsCounter", "Habilitar contador de FPS");
+        add("counter.config.title.fpsOverlay", "Configuración de superposición de FPS");
+        add("counter.config.title.fpsCounter", "Configuración del contador de FPS");
 
         // --- Config translations: Survival Overlay ---
         add("counter.config.showSurvivalOverlay", "Mostrar superposición de supervivencia");

@@ -24,6 +24,9 @@ public class ServerConfig {
     public static final ModConfigSpec.IntValue DEATH_LIST_CHATTEXT_COLOR;
     public static final ModConfigSpec.IntValue DEATH_SELF_CHATTEXT_COLOR;
 
+    public static final ModConfigSpec.BooleanValue ENABLE_FPS_COUNTER;
+    public static final ModConfigSpec.BooleanValue SHOW_FPS_OVERLAY;
+
     public static final ModConfigSpec.BooleanValue ENABLE_SURVIVAL_COUNTER;
     public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_OVERLAY;
     public static final ModConfigSpec.BooleanValue SURVIVAL_USE_REAL_TIME;
@@ -117,6 +120,11 @@ public class ServerConfig {
                 .translation("counter.config.deathListChatTextColor").defineInRange("deathListChatTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
         DEATH_SELF_CHATTEXT_COLOR = SERVER_BUILDER.comment("Text color for personal death messages in chat.")
                 .translation("counter.config.deathSelfChatTextColor").defineInRange("deathSelfChatTextColor", 0xFFFFFF, 0x000000, 0xFFFFFF);
+        SERVER_BUILDER.pop();
+
+        SERVER_BUILDER.translation("counter.config.title.fpsCounter").push("FPS Counter Settings");
+        ENABLE_FPS_COUNTER = defineEnable("enableFpsCounter", "fps counter");
+        SHOW_FPS_OVERLAY = defineOverlay("showFpsOverlay", "fps counter");
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.translation("counter.config.title.survivalCounter").push("Survival Counter Settings");

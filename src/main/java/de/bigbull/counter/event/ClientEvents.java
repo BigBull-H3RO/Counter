@@ -31,6 +31,7 @@ public class ClientEvents {
 
         DayCounterOverlay.render(guiGraphics);
         DeathCounterOverlay.render(guiGraphics);
+        FpsOverlay.render(guiGraphics);
         SurvivalTimeOverlay.render(guiGraphics);
         TimeOverlay.render(guiGraphics);
         CoordsOverlay.render(guiGraphics);

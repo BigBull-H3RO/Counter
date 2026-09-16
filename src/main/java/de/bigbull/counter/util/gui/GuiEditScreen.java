@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class GuiEditScreen extends Screen {
-    public enum DragTarget { NONE, DAY, DEATH_LIST, DEATH_SELF, SURVIVAL, TIME, COORDS }
+    public enum DragTarget { NONE, DAY, DEATH_LIST, DEATH_SELF, SURVIVAL, TIME, COORDS, FPS }
     private DragTarget selectedOverlay = DragTarget.NONE;
     private DragTarget currentDrag = DragTarget.NONE;
     private int dragOffsetX = 0, dragOffsetY = 0;
@@ -163,12 +163,14 @@ public class GuiEditScreen extends Screen {
         SurvivalTimeOverlay.render(guiGraphics);
         TimeOverlay.render(guiGraphics);
         CoordsOverlay.render(guiGraphics);
+        FpsOverlay.render(guiGraphics);
     }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button == 0) {
             DragTarget[] order = {
+                    DragTarget.FPS,
                     DragTarget.COORDS,
                     DragTarget.TIME,
                     DragTarget.SURVIVAL,
@@ -358,6 +360,7 @@ public class GuiEditScreen extends Screen {
             case SURVIVAL -> ServerConfig.SHOW_SURVIVAL_OVERLAY.get() && ServerConfig.ENABLE_SURVIVAL_COUNTER.get();
             case TIME -> ServerConfig.SHOW_TIME_OVERLAY.get() && ServerConfig.ENABLE_TIME_COUNTER.get() && !ServerConfig.SHOW_COMBINED_DAY_TIME.get();
             case COORDS -> ServerConfig.SHOW_COORDS_OVERLAY.get() && ServerConfig.ENABLE_COORDS_COUNTER.get();
+            case FPS -> ServerConfig.SHOW_FPS_OVERLAY.get() && ServerConfig.ENABLE_FPS_COUNTER.get();
             default -> false;
         };
     }

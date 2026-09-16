@@ -34,6 +34,7 @@ public class ClientEvents {
         SurvivalTimeOverlay.render(guiGraphics);
         TimeOverlay.render(guiGraphics);
         CoordsOverlay.render(guiGraphics);
+        FpsOverlay.render(guiGraphics);
     }
 
     @SubscribeEvent

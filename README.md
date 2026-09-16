@@ -14,15 +14,9 @@
 <a href="https://www.curseforge.com/minecraft/mc-mods/counter-day-death/files/all?page=1&pageSize=20"><img src="https://img.shields.io/curseforge/v/1214103?logo=adguard&label=&suffix=%20&style=flat&color=1c1c1c&labelColor=121212&logoColor=5ca424" alt="Version"></a>
 </p>
 
-The **Counter Mod** introduces **Day**, **Death**, and **Survival Counters** to your Minecraft experience, allowing players to track world progression, maintain an organized record of their own (or others') deaths, and monitor their survival time since the last death.
+The **Counter Mod** adds customizable HUD overlays to track your **Minecraft days**, **player deaths**, and real-time **FPS** at a glance — lightweight and without the bulky F3 debug screen.
 
-Additionally, the mod offers an option to replace the **vanilla ping bars** in the player list (**Tab menu**) with a **color-coded numeric ping**, providing a precise latency display (e.g., `123ms`) at a glance.
-
-The **Time Counter** feature displays the current in-game time of day, while the **Coords Counter** feature displays the current coordinates of the player, making it easier to navigate and share locations with others.
-
-The **Survival Counter** tracks how long you've survived since your last death and can optionally display your best survival time record, making it **particularly useful for hardcore modpacks** where every moment of survival counts.
-
-All features are **highly configurable**, making this mod an excellent choice for both **singleplayer and multiplayer servers**.
+It also includes counters for **survival time**, in-game **time**, player **coordinates**, and a numeric **ping display** in the Tab list. All overlays can be freely repositioned and resized in-game via the **Overlay Edit Screen**.
 
 ---
 
@@ -31,7 +25,7 @@ All features are **highly configurable**, making this mod an excellent choice fo
 **Actively supported (full updates and fixes):**
 
 - **Minecraft 1.21.1**
-- **Minecraft 26.2 (main)**
+- **Minecraft 26.3 (main)**
 
 **Legacy builds (no active updates, only critical fixes if needed):**
 
@@ -43,10 +37,13 @@ All features are **highly configurable**, making this mod an excellent choice fo
 - **Minecraft 1.21.10**
 - **Minecraft 1.21.11**
 - **Minecraft 26.1 - 26.1.2**
+- **Minecraft 26.2**
 
 ---
 
 ## **✨ Features**
+
+### 🌟 Core Counters
 
 ✅ **Day Counter**
 
@@ -63,12 +60,14 @@ All features are **highly configurable**, making this mod an excellent choice fo
   - In **singleplayer**, players see only their **own deaths**.
   - In **multiplayer**, a **server-wide leaderboard** can be displayed.
 
-✅ **Ping as Text**
+✅ **FPS Counter**
 
-- Replaces the **default ping bars** in the **Tab** list with a numeric readout (e.g., `123ms`).
-- Can be **color-coded** based on latency (**Green = Good**, **Orange = Moderate**, **Red = High**).
-- Easily toggled in the **client-config** (`showPingAsText`).
-- If disabled, the **default vanilla ping bars** will be shown again.
+- Displays your **real-time FPS** directly on your HUD (e.g., `FPS: 144`).
+- Clean, lightweight, and always visible without the F3 debug screen.
+- Default placement in the **top-right corner** with right-aligned text.
+- Fully customizable position, scale, alignment, and color.
+
+### 🎮 Additional Features
 
 ✅ **Survival Counter**
 
@@ -80,11 +79,19 @@ All features are **highly configurable**, making this mod an excellent choice fo
 
 - Displays the **current in-game time** as an overlay (e.g., `14:35`).
 - Configurable in **12-hour or 24-hour format**.
+- Can also be combined directly with the Day Counter.
 
 ✅ **Coords Counter**
 
 - Displays the **current coordinates** of the player as an overlay (e.g., `X: 123, Y: 64, Z: -456`).
 - Show the Coordinates in the chat or share them with other players.
+
+✅ **Ping as Text**
+
+- Replaces the **default ping bars** in the **Tab** list with a numeric readout (e.g., `123ms`).
+- Can be **color-coded** based on latency (**Green = Good**, **Orange = Moderate**, **Red = High**).
+- Easily toggled in the **client-config** (`showPingAsText`).
+- If disabled, the **default vanilla ping bars** will be shown again.
 
 ---
 
@@ -140,6 +147,18 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `deathSelfSize`         | `1`        | Scale factor for the **personal death counter** text size.                                                                                           |
 | `deathSelfTextColor`    | `0xFFFFFF` | Color for your **personal death counter** text.                                                                                                      |
 
+#### FPS Counter Overlay Settings
+
+| Option                 | Default    | Description                                                                                                                                |
+|------------------------|------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| `showFpsOverlay`       | `false`    | Enable/disable the **fps counter overlay** on the client side.                                                                             |
+| `showFpsOverlayAlways` | `true`     | Should the **fps counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab).  |
+| `fpsOverlayX`          | `0.99375`  | Relative X position (0.0 = left, 1.0 = right) of the fps overlay.                                                                          |
+| `fpsOverlayY`          | `0.015`    | Relative Y position (0.0 = top, 1.0 = bottom) of the fps overlay.                                                                          |
+| `fpsOverlayAlign`      | `RIGHT`    | Horizontal alignment of the overlay (`LEFT`, `CENTER`, `RIGHT`).                                                                           |
+| `fpsOverlaySize`       | `1.0`      | Scale factor for the fps counter text size.                                                                                                |
+| `fpsOverlayTextColor`  | `0xFFFFFF` | Color for the **fps counter overlay** text.                                                                                                |
+
 #### 🛡️Survival Counter Settings
 
 | Option                      | Default    | Description                                                                                                                                    |
@@ -164,12 +183,12 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `timeOverlaySize`       | `1.0`      | Scale factor for the time counter text size.                                                                                               |
 | `timeOverlayTextColor`  | `0xFFFFFF` | Color for the **time counter overlay** text.                                                                                               |
 
-#### ⏰Coords Counter Settings
+#### 📌Coords Counter Settings
 
 | Option                    | Default    | Description                                                                                                                                  |
 |---------------------------|------------|----------------------------------------------------------------------------------------------------------------------------------------------|
 | `showCoordsOverlay`       | `false`    | Enable/disable the **coords counter overlay** on the client side.                                                                            |
-| `showCoordsOverlayAlways` | `true`     | Should the **coords counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |
+| `showCoordsOverlayAlways` | `true`     | Should the **coords counter overlay** always be visible? If disabled, the overlay only appears while holding the overlay key (default: Tab). |\
 | `coordsOverlayX`          | `0.00625`  | Relative X position (0.0 = left, 1.0 = right) of the coords overlay.                                                                         |
 | `coordsOverlayY`          | `0.905`    | Relative Y position (0.0 = top, 1.0 = bottom) of the coords overlay.                                                                         |
 | `coordsOverlayAlign`      | `LEFT`     | Horizontal alignment of the overlay (`LEFT`, `CENTER`, `RIGHT`).                                                                             |
@@ -228,6 +247,13 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | `deathListChatTextColor`     | `0xFFFFFF`   | Text color for **death counter messages** in chat.                                                       |
 | `deathSelfChatTextColor`     | `0xFFFFFF`   | Text color for **personal death messages** in chat.                                                      |
 
+#### FPS Counter Settings
+
+| Option             | Default | Description                                                          |
+|--------------------|---------|----------------------------------------------------------------------|
+| `enableFpsCounter` | `true`  | Enables or disables the **FPS Counter** feature on the server.       |
+| `showFpsOverlay`   | `true`  | Allows the **FPS Counter overlay** to be shown (client can toggle).  |
+
 #### 🛡️Survival Counter Settings
 
 | Option                           | Default    | Description                                                                                                                   |
@@ -262,7 +288,7 @@ The Counter Mod provides extensive configuration options via **`server-config.to
 | Option                | Default | Description                                                            |
 |-----------------------|---------|------------------------------------------------------------------------|
 | `enableCoordsCounter` | `true`  | Enables or disables the **Coords Counter** feature on the server.      |
-| `showCoordsOverlay`   | `true`  | Allows the **Coords Counter overlay** to be shown (client can toggle). |
+| `showCoordsOverlay`   | `true`  | Allows the **Coords Counter overlay** to be shown (client can toggle). |\
 
 </details>
 
@@ -297,7 +323,7 @@ You can open an **Edit Screen** to customize the position and visibility of over
 3. Click the **"Toggle Overlay"** button to enable or disable an overlay.
 4. Press **"Done"** to save your changes, or **"Cancel"** to discard them.
 
-With this intuitive editor, you can easily configure all overlays (**Day Counter**, **Death Counter**, **Survival Counter**, **Time Counter**, and **Coords Counter**) without modifying config files.
+With this intuitive editor, you can easily configure all overlays (**Day Counter**, **Death Counter**, **FPS Counter**, **Survival Counter**, **Time Counter**, and **Coords Counter**) without modifying config files.
 
 ---
 

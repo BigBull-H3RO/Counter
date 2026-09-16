@@ -1,9 +1,9 @@
 package de.bigbull.counter.util;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import de.bigbull.counter.Counter;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
-import org.lwjgl.glfw.GLFW;
 
 public class ModKeybinds {
     public static final KeyMapping.Category COUNTER_CATEGORY = new KeyMapping.Category(
@@ -12,13 +12,13 @@ public class ModKeybinds {
 
     public static final KeyMapping OPEN_EDIT_GUI = new KeyMapping(
             "key.counter.edit_mode",
-            GLFW.GLFW_KEY_U,
+            InputConstants.KEY_U,
             COUNTER_CATEGORY
     );
 
     public static final KeyMapping SHOW_OVERLAYS = new KeyMapping(
             "key.counter.show_overlays",
-            GLFW.GLFW_KEY_TAB,
+            InputConstants.KEY_TAB,
             COUNTER_CATEGORY
     );
 }

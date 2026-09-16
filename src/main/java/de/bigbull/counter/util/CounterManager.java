@@ -12,6 +12,11 @@ import java.util.Map;
 import java.util.UUID;
 
 public class CounterManager {
+    public static String getFps() {
+        int fps = Minecraft.getInstance().getFps();
+        return Component.translatable("overlay.counter.fps", fps).getString();
+    }
+
     public static String getTime() {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null) return "N/A";

@@ -45,6 +45,9 @@ public class ServerConfig {
     public static final ModConfigSpec.BooleanValue ENABLE_COORDS_COUNTER;
     public static final ModConfigSpec.BooleanValue SHOW_COORDS_OVERLAY;
 
+    public static final ModConfigSpec.BooleanValue ENABLE_FPS_COUNTER;
+    public static final ModConfigSpec.BooleanValue SHOW_FPS_OVERLAY;
+
     public static final ModConfigSpec.BooleanValue ENABLE_DAY_COMMAND;
     public static final ModConfigSpec.BooleanValue ENABLE_DEATH_COMMAND;
     public static final ModConfigSpec.BooleanValue ENABLE_SURVIVAL_COMMAND;
@@ -157,6 +160,11 @@ public class ServerConfig {
         SERVER_BUILDER.translation("counter.config.title.coordsCounter").push("Coordinates Overlay Settings");
         ENABLE_COORDS_COUNTER = defineEnable("enableCoordsCounter", "coordinates overlay");
         SHOW_COORDS_OVERLAY = defineOverlay("showCoordsOverlay", "coordinates");
+        SERVER_BUILDER.pop();
+
+        SERVER_BUILDER.translation("counter.config.title.fpsCounter").push("FPS Counter Settings");
+        ENABLE_FPS_COUNTER = defineEnable("enableFpsCounter", "fps counter");
+        SHOW_FPS_OVERLAY = defineOverlay("showFpsOverlay", "fps");
         SERVER_BUILDER.pop();
 
         SERVER_BUILDER.translation("counter.config.title.commands").push("Commands Settings");

@@ -59,6 +59,12 @@ public class OverlayConfigMapping {
                         ClientConfig.COORDS_OVERLAY_SIZE, ClientConfig.COORDS_OVERLAY_ALIGN,
                         ClientConfig.SHOW_COORDS_OVERLAY,
                         CoordsOverlay::calcCoordsWidth, CoordsOverlay::calcCoordsHeight));
+
+        MAP.put(GuiEditScreen.DragTarget.FPS,
+                new Entry(ClientConfig.FPS_OVERLAY_X, ClientConfig.FPS_OVERLAY_Y,
+                        ClientConfig.FPS_OVERLAY_SIZE, ClientConfig.FPS_OVERLAY_ALIGN,
+                        ClientConfig.SHOW_FPS_OVERLAY,
+                        FpsOverlay::calcFpsWidth, FpsOverlay::calcFpsHeight));
     }
 
     public static Entry get(GuiEditScreen.DragTarget target) {

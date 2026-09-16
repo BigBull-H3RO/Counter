@@ -1,5 +1,6 @@
 package de.bigbull.counter.util.gui;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import de.bigbull.counter.config.ClientConfig;
 import de.bigbull.counter.config.ServerConfig;
 import de.bigbull.counter.util.gui.overlay.*;
@@ -17,7 +18,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class GuiEditScreen extends Screen {
-    public enum DragTarget { NONE, DAY, DEATH_LIST, DEATH_SELF, SURVIVAL, TIME, COORDS }
+    public enum DragTarget { NONE, DAY, DEATH_LIST, DEATH_SELF, SURVIVAL, TIME, COORDS, FPS }
     private DragTarget selectedOverlay = DragTarget.NONE;
     private DragTarget currentDrag = DragTarget.NONE;
     private int dragOffsetX = 0, dragOffsetY = 0;
@@ -164,15 +165,17 @@ public class GuiEditScreen extends Screen {
         SurvivalTimeOverlay.render(guiGraphics);
         TimeOverlay.render(guiGraphics);
         CoordsOverlay.render(guiGraphics);
+        FpsOverlay.render(guiGraphics);
     }
 
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-        if (event.button() == 0) {
+        if (event.button() == InputConstants.MOUSE_BUTTON_LEFT) {
             double mouseX = event.x();
             double mouseY = event.y();
 
             DragTarget[] order = {
+                    DragTarget.FPS,
                     DragTarget.COORDS,
                     DragTarget.TIME,
                     DragTarget.SURVIVAL,
@@ -191,7 +194,7 @@ public class GuiEditScreen extends Screen {
         }
 
         boolean widgetHandled = super.mouseClicked(event, doubleClick);
-        if (!widgetHandled && event.button() == 0) {
+        if (!widgetHandled && event.button() == InputConstants.MOUSE_BUTTON_LEFT) {
             selectedOverlay = DragTarget.NONE;
         }
         return widgetHandled;
@@ -199,7 +202,7 @@ public class GuiEditScreen extends Screen {
 
     @Override
     public boolean mouseDragged(MouseButtonEvent event, double dx, double dy) {
-        if (event.button() == 0 && currentDrag != DragTarget.NONE) {
+        if (event.button() == InputConstants.MOUSE_BUTTON_LEFT && currentDrag != DragTarget.NONE) {
             int newPx = (int) (event.x() - dragOffsetX);
             int newPy = (int) (event.y() - dragOffsetY);
 
@@ -211,13 +214,12 @@ public class GuiEditScreen extends Screen {
 
     @Override
     public boolean mouseReleased(MouseButtonEvent event) {
-        if (event.button() == 0 && currentDrag != DragTarget.NONE) {
+        if (event.button() == InputConstants.MOUSE_BUTTON_LEFT && currentDrag != DragTarget.NONE) {
             currentDrag = DragTarget.NONE;
             return true;
         }
         return super.mouseReleased(event);
     }
-
 
     private boolean hitOverlay(double mouseX, double mouseY, DragTarget target) {
         if (isOverlayBlockedByServer(target)) {
@@ -364,6 +366,7 @@ public class GuiEditScreen extends Screen {
             case SURVIVAL -> ServerConfig.SHOW_SURVIVAL_OVERLAY.get() && ServerConfig.ENABLE_SURVIVAL_COUNTER.get();
             case TIME -> ServerConfig.SHOW_TIME_OVERLAY.get() && ServerConfig.ENABLE_TIME_COUNTER.get() && !ServerConfig.SHOW_COMBINED_DAY_TIME.get();
             case COORDS -> ServerConfig.SHOW_COORDS_OVERLAY.get() && ServerConfig.ENABLE_COORDS_COUNTER.get();
+            case FPS -> ServerConfig.SHOW_FPS_OVERLAY.get() && ServerConfig.ENABLE_FPS_COUNTER.get();
             default -> false;
         };
     }

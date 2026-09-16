@@ -11,7 +11,7 @@ public class ModDeLangProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        // --- Overlay Texts ---
+        // --- Overlay-Texte ---
         add("overlay.counter.day_with_emoji", "🌞 Tag: %s");
         add("overlay.counter.day_no_emoji", "Tag: %s");
         add("combined.daytime_with_emoji", "🌞 Tag: %s, %s");
@@ -27,160 +27,175 @@ public class ModDeLangProvider extends LanguageProvider {
 
         add("overlay.counter.survival_with_emoji", "⏳ Überlebt: %s");
         add("overlay.counter.survival_no_emoji", "Überlebt: %s");
-        add("overlay.counter.best_survival_with_emoji", "⏳ Beste: %s");
-        add("overlay.counter.best_survival_no_emoji", "Beste: %s");
+        add("overlay.counter.best_survival_with_emoji", "⏳ Rekord: %s");
+        add("overlay.counter.best_survival_no_emoji", "Rekord: %s");
 
-        // --- Key Bindings ---
+        add("overlay.counter.fps", "FPS: %s");
+
+        // --- Tastenbelegungen ---
         add("key.counter.edit_mode", "Bearbeitungsmodus");
         add("key.counter.show_overlays", "Overlays anzeigen");
-        add("key.category.counter.main", "Zähler");
+        add("key.category.counter.main", "Counter");
 
-        // --- Overlay Edit Screen ---
-        add("screen.overlay_edit", "Overlay-Bearbeitung");
+        // --- Overlay-Bearbeitungsbildschirm ---
+        add("screen.overlay_edit", "Overlay-Bearbeitungsbildschirm");
         add("screen.overlay_edit.done", "Fertig");
         add("screen.overlay_edit.cancel", "Abbrechen");
         add("screen.overlay_edit.toggle_overlay", "Overlay umschalten");
 
-        // --- Chat translations ---
+        // --- Chat-Übersetzungen ---
         add("chat.daycounter.new_day", "🌞 Es ist jetzt Tag %s!");
-        add("chat.deathcounter.player_death.singular", "💀 %s ist einmal gestorben!");
-        add("chat.deathcounter.player_death.plural", "💀 %s ist %s mal gestorben!");
+        add("chat.deathcounter.player_death.singular", "💀 %s ist 1 Mal gestorben!");
+        add("chat.deathcounter.player_death.plural", "💀 %s ist %s Mal gestorben!");
         add("chat.survivalcounter.personal", "⏳ Überlebt: %s");
         add("chat.survivalcounter.personal.best", "⏳ Überlebt: %s (%s)");
-        add("chat.survivalcounter.broadcast", "⏳ %s hat %s lang überlebt");
-        add("chat.survivalcounter.broadcast.best", "⏳ %s hat %s lang überlebt (%s)");
+        add("chat.survivalcounter.broadcast", "⏳ %s hat %s überlebt");
+        add("chat.survivalcounter.broadcast.best", "⏳ %s hat %s überlebt (%s)");
 
-        // --- Command translations ---
+        // --- Befehls-Übersetzungen ---
         add("command.daycounter.set", "🌞 Tageszähler auf %s gesetzt!");
         add("command.deathcounter.reset", "💀 Todeszähler wurde zurückgesetzt!");
-        add("command.deathcounter.set", "💀 Setze die Tode von %s auf %s!");
+        add("command.deathcounter.set", "💀 Todesanzahl von %s auf %s gesetzt!");
         add("command.survival.global_best", "⏳ %s hält die beste Zeit: %s");
         add("command.coords.broadcast", "%s hat seine Koordinaten geteilt: X: %s, Y: %s, Z: %s");
         add("command.player_not_found", "❌ Spieler nicht gefunden!");
-        add("command.counter.no_data", "Es sind noch keine Daten vorhanden.");
+        add("command.counter.no_data", "Noch keine Daten verfügbar.");
 
-        // --- Config translations: Day Overlay ---
+        // --- Konfigurations-Übersetzungen: Tages-Overlay ---
         add("counter.config.showDayOverlay", "Tages-Overlay anzeigen");
         add("counter.config.showOverlayAlways", "Overlay immer anzeigen");
-        add("counter.config.dayOverlayX", "Tages-Overlay X");
-        add("counter.config.dayOverlayY", "Tages-Overlay Y");
-        add("counter.config.dayOverlaySize", "Tages-Overlay Größe");
-        add("counter.config.dayOverlayAlign", "Tages-Overlay Ausrichtung");
-        add("counter.config.dayOverlayTextColor", "Tages-Overlay Textfarbe");
+        add("counter.config.dayOverlayX", "Tages-Overlay X-Position");
+        add("counter.config.dayOverlayY", "Tages-Overlay Y-Position");
+        add("counter.config.dayOverlaySize", "Tages-Overlay-Größe");
+        add("counter.config.dayOverlayAlign", "Tages-Overlay-Ausrichtung");
+        add("counter.config.dayOverlayTextColor", "Tages-Overlay-Textfarbe");
 
-        // --- Config translations: Death List Overlay ---
-        add("counter.config.showDeathListOverlay", "Todesliste anzeigen");
+        // --- Konfigurations-Übersetzungen: Todeslisten-Overlay ---
+        add("counter.config.showDeathListOverlay", "Todeslisten-Overlay anzeigen");
         add("counter.config.showListOverlayAlways", "Todesliste immer anzeigen");
-        add("counter.config.deathListX", "Todesliste X");
-        add("counter.config.deathListY", "Todesliste Y");
-        add("counter.config.deathListSize", "Todesliste Größe");
+        add("counter.config.deathListX", "Todeslisten-Overlay X-Position");
+        add("counter.config.deathListY", "Todeslisten-Overlay Y-Position");
+        add("counter.config.deathListSize", "Todeslisten-Overlay-Größe");
         add("counter.config.deathOverlayStyle", "Todeslisten-Stil");
-        add("counter.config.deathOverlayMinWidth", "Todesliste Mindestbreite");
-        add("counter.config.deathListAlign", "Todesliste Ausrichtung");
-        add("counter.config.deathListTextColor", "Todesliste Textfarbe");
-        add("counter.config.firstPlaceColor", "Farbe für Platz 1");
-        add("counter.config.secondPlaceColor", "Farbe für Platz 2");
-        add("counter.config.thirdPlaceColor", "Farbe für Platz 3");
+        add("counter.config.deathOverlayMinWidth", "Mindestbreite der Todesliste");
+        add("counter.config.deathListAlign", "Todeslisten-Ausrichtung");
+        add("counter.config.deathListTextColor", "Todeslisten-Textfarbe");
+        add("counter.config.firstPlaceColor", "Farbe für den 1. Platz");
+        add("counter.config.secondPlaceColor", "Farbe für den 2. Platz");
+        add("counter.config.thirdPlaceColor", "Farbe für den 3. Platz");
 
-        // --- Config translations: Personal Death Counter ---
-        add("counter.config.showDeathSelfOverlay", "Eigenen Todeszähler anzeigen");
-        add("counter.config.showSelfOverlayAlways", "Eigenen Todeszähler immer anzeigen");
-        add("counter.config.deathSelfX", "Eigener Tod X");
-        add("counter.config.deathSelfY", "Eigener Tod Y");
-        add("counter.config.deathSelfSize", "Eigener Tod Größe");
-        add("counter.config.deathSelfAlign", "Eigener Tod Ausrichtung");
-        add("counter.config.deathSelfTextColor", "Eigener Tod Textfarbe");
+        // --- Konfigurations-Übersetzungen: Persönlicher Todeszähler ---
+        add("counter.config.showDeathSelfOverlay", "Eigenen Todes-Overlay anzeigen");
+        add("counter.config.showSelfOverlayAlways", "Eigenen Todes-Overlay immer anzeigen");
+        add("counter.config.deathSelfX", "Eigener Todes-Overlay X-Position");
+        add("counter.config.deathSelfY", "Eigener Todes-Overlay Y-Position");
+        add("counter.config.deathSelfSize", "Eigener Todes-Overlay-Größe");
+        add("counter.config.deathSelfAlign", "Eigene Todes-Ausrichtung");
+        add("counter.config.deathSelfTextColor", "Eigene Todes-Overlay-Textfarbe");
 
-        // --- Config translations: Survival Overlay ---
+        // --- Konfigurations-Übersetzungen: Überlebens-Overlay ---
         add("counter.config.showSurvivalOverlay", "Überlebens-Overlay anzeigen");
         add("counter.config.showSurvivalOverlayAlways", "Überlebens-Overlay immer anzeigen");
-        add("counter.config.survivalOverlayX", "Überlebens-Overlay X");
-        add("counter.config.survivalOverlayY", "Überlebens-Overlay Y");
-        add("counter.config.survivalOverlaySize", "Überlebens-Overlay Größe");
-        add("counter.config.survivalOverlayAlign", "Überlebens-Overlay Ausrichtung");
-        add("counter.config.survivalOverlayTextColor", "Überlebens-Overlay Textfarbe");
+        add("counter.config.survivalOverlayX", "Überlebens-Overlay X-Position");
+        add("counter.config.survivalOverlayY", "Überlebens-Overlay Y-Position");
+        add("counter.config.survivalOverlaySize", "Überlebens-Overlay-Größe");
+        add("counter.config.survivalOverlayAlign", "Überlebens-Overlay-Ausrichtung");
+        add("counter.config.survivalOverlayTextColor", "Überlebens-Overlay-Textfarbe");
 
-        // --- Config translations: Time Overlay ---
+        // --- Konfigurations-Übersetzungen: Zeit-Overlay ---
         add("counter.config.showTimeOverlay", "Zeit-Overlay anzeigen");
         add("counter.config.showTimeOverlayAlways", "Zeit-Overlay immer anzeigen");
-        add("counter.config.timeOverlayX", "Zeit-Overlay X");
-        add("counter.config.timeOverlayY", "Zeit-Overlay Y");
-        add("counter.config.timeOverlaySize", "Zeit-Overlay Größe");
-        add("counter.config.timeOverlayAlign", "Zeit-Overlay Ausrichtung");
-        add("counter.config.timeOverlayTextColor", "Zeit-Overlay Textfarbe");
+        add("counter.config.timeOverlayX", "Zeit-Overlay X-Position");
+        add("counter.config.timeOverlayY", "Zeit-Overlay Y-Position");
+        add("counter.config.timeOverlaySize", "Zeit-Overlay-Größe");
+        add("counter.config.timeOverlayAlign", "Zeit-Overlay-Ausrichtung");
+        add("counter.config.timeOverlayTextColor", "Zeit-Overlay-Textfarbe");
 
-        // --- Config translations: Coordinates Overlay ---
+        // --- Konfigurations-Übersetzungen: Koordinaten-Overlay ---
         add("counter.config.showCoordsOverlay", "Koordinaten-Overlay anzeigen");
         add("counter.config.showCoordsOverlayAlways", "Koordinaten-Overlay immer anzeigen");
-        add("counter.config.coordsOverlayX", "Koordinaten-Overlay X");
-        add("counter.config.coordsOverlayY", "Koordinaten-Overlay Y");
-        add("counter.config.coordsOverlaySize", "Koordinaten-Overlay Größe");
-        add("counter.config.coordsOverlayAlign", "Koordinaten-Overlay Ausrichtung");
-        add("counter.config.coordsOverlayTextColor", "Koordinaten-Overlay Textfarbe");
+        add("counter.config.coordsOverlayX", "Koordinaten-Overlay X-Position");
+        add("counter.config.coordsOverlayY", "Koordinaten-Overlay Y-Position");
+        add("counter.config.coordsOverlaySize", "Koordinaten-Overlay-Größe");
+        add("counter.config.coordsOverlayAlign", "Koordinaten-Overlay-Ausrichtung");
+        add("counter.config.coordsOverlayTextColor", "Koordinaten-Overlay-Textfarbe");
 
-        // --- Config translations: Ping & Emojis ---
+        // --- Konfigurations-Übersetzungen: FPS-Overlay ---
+        add("counter.config.showFpsOverlay", "FPS-Overlay anzeigen");
+        add("counter.config.showFpsOverlayAlways", "FPS-Overlay immer anzeigen");
+        add("counter.config.fpsOverlayX", "FPS-Overlay X-Position");
+        add("counter.config.fpsOverlayY", "FPS-Overlay Y-Position");
+        add("counter.config.fpsOverlaySize", "FPS-Overlay-Größe");
+        add("counter.config.fpsOverlayAlign", "FPS-Overlay-Ausrichtung");
+        add("counter.config.fpsOverlayTextColor", "FPS-Overlay-Textfarbe");
+
+        // --- Konfigurations-Übersetzungen: Ping & Emojis ---
         add("counter.config.showPingAsText", "Ping als Text anzeigen");
         add("counter.config.pingColorGood", "Farbe für guten Ping");
         add("counter.config.pingColorMedium", "Farbe für mittleren Ping");
         add("counter.config.pingColorBad", "Farbe für schlechten Ping");
         add("counter.config.showEmojis", "Emojis anzeigen");
 
-        // --- Config translations: General & Misc ---
+        // --- Konfigurations-Übersetzungen: Allgemein & Server ---
         add("counter.config.enableDayCounter", "Tageszähler aktivieren");
         add("counter.config.showOverlay", "Overlay anzeigen");
-        add("counter.config.enableDayMessage", "Tagesnachricht aktivieren");
-        add("counter.config.showDayInChat", "Tag im Chat anzeigen");
+        add("counter.config.enableDayMessage", "Tages-Chatnachricht aktivieren");
+        add("counter.config.showDayInChat", "Tag beim Beitreten im Chat anzeigen");
         add("counter.config.enableDeathCounter", "Todeszähler aktivieren");
-        add("counter.config.maxPlayersShown", "Maximale Spielerzahl");
-        add("counter.config.deathOverlayMode", "Todeslistenmodus");
-        add("counter.config.showDeathInChat", "Tod im Chat anzeigen");
-        add("counter.config.showDeathInChatMode", "Todes-Chat Auslöser");
-        add("counter.config.deathChatMode", "Todes-Chat Modus");
-        add("counter.config.showDeathListOnDeathGlobal", "Todesliste global senden");
-        add("counter.config.deathListChatTextColor", "Todeslisten-Chatfarbe");
-        add("counter.config.deathSelfChatTextColor", "Eigene Todes-Chatfarbe");
+        add("counter.config.maxPlayersShown", "Maximal angezeigte Spieler");
+        add("counter.config.deathOverlayMode", "Todes-Overlay-Modus");
+        add("counter.config.showDeathInChat", "Todesnachrichten im Chat anzeigen");
+        add("counter.config.showDeathInChatMode", "Chatnachrichten-Auslöser");
+        add("counter.config.deathChatMode", "Todes-Chat-Modus");
+        add("counter.config.showDeathListOnDeathGlobal", "Todesliste beim Tod an alle senden");
+        add("counter.config.deathListChatTextColor", "Todeslisten-Chat-Textfarbe");
+        add("counter.config.deathSelfChatTextColor", "Eigene Todes-Chat-Textfarbe");
 
         add("counter.config.enableSurvivalCounter", "Überlebenszähler aktivieren");
-        add("counter.config.survivalUseRealTime", "Reale Zeit nutzen");
-        add("counter.config.survivalTimeFormat", "Format der Überlebenszeit");
+        add("counter.config.survivalUseRealTime", "Echtzeit verwenden");
+        add("counter.config.survivalTimeFormat", "Überlebenszeit-Format");
         add("counter.config.showBestSurvivalTime", "Beste Überlebenszeit anzeigen");
-        add("counter.config.showBestSurvivalInDeathCounter", "Beste Zeit im Todeszähler");
-        add("counter.config.survivalHistorySize", "Größe der Überlebenshistorie");
-        add("counter.config.showSurvivalInChat", "Überlebenszeit im Chat");
-        add("counter.config.showSurvivalInChatMode", "Überlebens-Chat Auslöser");
-        add("counter.config.showSurvivalInChatGlobal", "Überlebenszeit global senden");
+        add("counter.config.showBestSurvivalInDeathCounter", "Beste Zeit an Todesnachricht anhängen");
+        add("counter.config.survivalHistorySize", "Verlaufsgröße für Überlebenszeit");
+        add("counter.config.showSurvivalInChat", "Überlebenszeit im Chat anzeigen");
+        add("counter.config.showSurvivalInChatMode", "Überlebens-Chat-Auslöser");
+        add("counter.config.showSurvivalInChatGlobal", "Überlebenszeit an alle senden");
         add("counter.config.showBestSurvivalInChat", "Beste Zeit im Chat anzeigen");
 
         add("counter.config.enableTimeCounter", "Zeitzähler aktivieren");
         add("counter.config.showCombinedDayTime", "Tag und Zeit kombiniert anzeigen");
-        add("counter.config.timeFormat24h", "24h-Format verwenden");
+        add("counter.config.timeFormat24h", "24-Stunden-Format verwenden");
 
         add("counter.config.enableCoordsCounter", "Koordinatenzähler aktivieren");
 
-        // --- Config translations: Commands ---
-        add("counter.config.enableDayCommand", "Tagesbefehl aktivieren");
-        add("counter.config.enableDeathCommand", "Todesbefehl aktivieren");
-        add("counter.config.enableSurvivalCommand", "Überlebensbefehl aktivieren");
-        add("counter.config.enableTimeCommand", "Zeitbefehl aktivieren");
-        add("counter.config.enableCoordsCommand", "Koordinatenbefehl aktivieren");
+        add("counter.config.enableFpsCounter", "FPS-Zähler aktivieren");
 
-        // --- Config translations: Titles ---
-        add("counter.config.title.dayOverlay", "Tages-Overlay Einstellungen");
-        add("counter.config.title.deathList", "Todesliste Einstellungen");
-        add("counter.config.title.deathSelf", "Eigener Todeszähler Einstellungen");
-        add("counter.config.title.survivalOverlay", "Überlebens-Overlay Einstellungen");
-        add("counter.config.title.timeOverlay", "Zeit-Overlay Einstellungen");
-        add("counter.config.title.coordsOverlay", "Koordinaten-Overlay Einstellungen");
-        add("counter.config.title.ping", "Ping Einstellungen");
-        add("counter.config.title.emote", "Emote Einstellungen");
+        // --- Konfigurations-Übersetzungen: Befehle ---
+        add("counter.config.enableDayCommand", "Tages-Befehl aktivieren");
+        add("counter.config.enableDeathCommand", "Todes-Befehl aktivieren");
+        add("counter.config.enableSurvivalCommand", "Überlebens-Befehl aktivieren");
+        add("counter.config.enableTimeCommand", "Zeit-Befehl aktivieren");
+        add("counter.config.enableCoordsCommand", "Koordinaten-Befehl aktivieren");
 
-        add("counter.config.title.dayCounter", "Tageszähler Einstellungen");
-        add("counter.config.title.deathCounter", "Todeszähler Einstellungen");
-        add("counter.config.title.deathCounterChat", "Todes-Chat Einstellungen");
-        add("counter.config.title.survivalCounter", "Überlebenszähler Einstellungen");
-        add("counter.config.title.survivalCounterChat", "Überlebens-Chat Einstellungen");
-        add("counter.config.title.timeCounter", "Zeitzähler Einstellungen");
-        add("counter.config.title.coordsCounter", "Koordinaten-Overlay Einstellungen");
-        add("counter.config.title.commands", "Befehle Einstellungen");
+        // --- Konfigurations-Übersetzungen: Titel ---
+        add("counter.config.title.dayOverlay", "Tages-Overlay-Einstellungen");
+        add("counter.config.title.deathList", "Todeslisten-Overlay-Einstellungen");
+        add("counter.config.title.deathSelf", "Einstellungen für eigenen Todes-Overlay");
+        add("counter.config.title.survivalOverlay", "Überlebens-Overlay-Einstellungen");
+        add("counter.config.title.timeOverlay", "Zeit-Overlay-Einstellungen");
+        add("counter.config.title.coordsOverlay", "Koordinaten-Overlay-Einstellungen");
+        add("counter.config.title.fpsOverlay", "FPS-Overlay-Einstellungen");
+        add("counter.config.title.ping", "Ping-Einstellungen");
+        add("counter.config.title.emote", "Emote-Einstellungen");
+
+        add("counter.config.title.dayCounter", "Tageszähler-Einstellungen");
+        add("counter.config.title.deathCounter", "Todeszähler-Einstellungen");
+        add("counter.config.title.deathCounterChat", "Todeszähler-Chat-Einstellungen");
+        add("counter.config.title.survivalCounter", "Überlebenszähler-Einstellungen");
+        add("counter.config.title.survivalCounterChat", "Überlebenszähler-Chat-Einstellungen");
+        add("counter.config.title.timeCounter", "Zeitzähler-Einstellungen");
+        add("counter.config.title.coordsCounter", "Koordinaten-Overlay-Einstellungen");
+        add("counter.config.title.fpsCounter", "FPS-Zähler-Einstellungen");
+        add("counter.config.title.commands", "Befehlseinstellungen");
     }
 }

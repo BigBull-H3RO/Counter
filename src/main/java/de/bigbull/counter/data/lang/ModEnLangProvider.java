@@ -30,6 +30,8 @@ public class ModEnLangProvider extends LanguageProvider {
         add("overlay.counter.best_survival_with_emoji", "⏳ Best: %s");
         add("overlay.counter.best_survival_no_emoji", "Best: %s");
 
+        add("overlay.counter.fps", "FPS: %s");
+
         // --- Key Bindings ---
         add("key.counter.edit_mode", "Edit Mode");
         add("key.counter.show_overlays", "Show Overlays");
@@ -118,6 +120,15 @@ public class ModEnLangProvider extends LanguageProvider {
         add("counter.config.coordsOverlayAlign", "Coords Overlay Alignment");
         add("counter.config.coordsOverlayTextColor", "Coords Overlay Text Color");
 
+        // --- Config translations: FPS Overlay ---
+        add("counter.config.showFpsOverlay", "Show FPS Overlay");
+        add("counter.config.showFpsOverlayAlways", "Always Show FPS");
+        add("counter.config.fpsOverlayX", "FPS Overlay X");
+        add("counter.config.fpsOverlayY", "FPS Overlay Y");
+        add("counter.config.fpsOverlaySize", "FPS Overlay Size");
+        add("counter.config.fpsOverlayAlign", "FPS Overlay Alignment");
+        add("counter.config.fpsOverlayTextColor", "FPS Overlay Text Color");
+
         // --- Config translations: Ping & Emojis ---
         add("counter.config.showPingAsText", "Show Ping As Text");
         add("counter.config.pingColorGood", "Good Ping Color");
@@ -157,6 +168,8 @@ public class ModEnLangProvider extends LanguageProvider {
 
         add("counter.config.enableCoordsCounter", "Enable Coords Counter");
 
+        add("counter.config.enableFpsCounter", "Enable FPS Counter");
+
         // --- Config translations: Commands ---
         add("counter.config.enableDayCommand", "Enable Day Command");
         add("counter.config.enableDeathCommand", "Enable Death Command");
@@ -171,6 +184,7 @@ public class ModEnLangProvider extends LanguageProvider {
         add("counter.config.title.survivalOverlay", "Survival Counter Overlay Settings");
         add("counter.config.title.timeOverlay", "Time Overlay Settings");
         add("counter.config.title.coordsOverlay", "Coordinates Overlay Settings");
+        add("counter.config.title.fpsOverlay", "FPS Counter Overlay Settings");
         add("counter.config.title.ping", "Ping Settings");
         add("counter.config.title.emote", "Emote Settings");
 
@@ -181,6 +195,7 @@ public class ModEnLangProvider extends LanguageProvider {
         add("counter.config.title.survivalCounterChat", "Survival Counter Chat Settings");
         add("counter.config.title.timeCounter", "Time Counter Settings");
         add("counter.config.title.coordsCounter", "Coordinates Overlay Settings");
+        add("counter.config.title.fpsCounter", "FPS Counter Settings");
         add("counter.config.title.commands", "Command Settings");
     }
 }

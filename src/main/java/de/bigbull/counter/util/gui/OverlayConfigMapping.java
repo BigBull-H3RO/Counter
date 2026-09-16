@@ -42,6 +42,12 @@ public class OverlayConfigMapping {
                         ClientConfig.SHOW_DEATH_SELF_OVERLAY,
                         DeathCounterOverlay::calcDeathSelfWidth, DeathCounterOverlay::calcDeathSelfHeight));
 
+        MAP.put(GuiEditScreen.DragTarget.FPS,
+                new Entry(ClientConfig.FPS_OVERLAY_X, ClientConfig.FPS_OVERLAY_Y,
+                        ClientConfig.FPS_OVERLAY_SIZE, ClientConfig.FPS_OVERLAY_ALIGN,
+                        ClientConfig.SHOW_FPS_OVERLAY,
+                        FpsOverlay::calcFpsWidth, FpsOverlay::calcFpsHeight));
+
         MAP.put(GuiEditScreen.DragTarget.SURVIVAL,
                 new Entry(ClientConfig.SURVIVAL_OVERLAY_X, ClientConfig.SURVIVAL_OVERLAY_Y,
                         ClientConfig.SURVIVAL_OVERLAY_SIZE, ClientConfig.SURVIVAL_OVERLAY_ALIGN,

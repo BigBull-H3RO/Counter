@@ -25,6 +25,8 @@ public class ModFrLangProvider extends LanguageProvider {
         add("overlay.counter.deathlist.entry.plural", "%s : %s morts");
         add("overlay.counter.deathlist.style.invalid", "ERREUR : Style de liste de morts invalide !");
 
+        add("overlay.counter.fps", "FPS : %s");
+
         add("overlay.counter.survival_with_emoji", "⏳ Survécu : %s");
         add("overlay.counter.survival_no_emoji", "Survécu : %s");
         add("overlay.counter.best_survival_with_emoji", "⏳ Meilleur : %s");
@@ -91,6 +93,15 @@ public class ModFrLangProvider extends LanguageProvider {
         add("counter.config.deathSelfAlign", "Alignement du compteur personnel");
         add("counter.config.deathSelfTextColor", "Couleur du texte du compteur personnel");
 
+        // --- Config translations: FPS Overlay ---
+        add("counter.config.showFpsOverlay", "Afficher l'overlay des FPS");
+        add("counter.config.showFpsOverlayAlways", "Toujours afficher les FPS");
+        add("counter.config.fpsOverlayX", "FPS Overlay X");
+        add("counter.config.fpsOverlayY", "FPS Overlay Y");
+        add("counter.config.fpsOverlaySize", "Taille de l'overlay des FPS");
+        add("counter.config.fpsOverlayAlign", "Alignement de l'overlay des FPS");
+        add("counter.config.fpsOverlayTextColor", "Couleur du texte des FPS");
+
         // --- Config translations: Survival Overlay ---
         add("counter.config.showSurvivalOverlay", "Afficher l'overlay de survie");
         add("counter.config.showSurvivalOverlayAlways", "Toujours afficher l'overlay de survie");
@@ -140,6 +151,8 @@ public class ModFrLangProvider extends LanguageProvider {
         add("counter.config.deathListChatTextColor", "Couleur du chat de la liste des morts");
         add("counter.config.deathSelfChatTextColor", "Couleur du chat du compteur personnel");
 
+        add("counter.config.enableFpsCounter", "Activer le compteur de FPS");
+
         add("counter.config.enableSurvivalCounter", "Activer le compteur de survie");
         add("counter.config.survivalUseRealTime", "Utiliser le temps réel");
         add("counter.config.survivalTimeFormat", "Format du temps de survie");
@@ -168,6 +181,7 @@ public class ModFrLangProvider extends LanguageProvider {
         add("counter.config.title.dayOverlay", "Paramètres de l'overlay du jour");
         add("counter.config.title.deathList", "Paramètres de la liste des morts");
         add("counter.config.title.deathSelf", "Paramètres du compteur personnel");
+        add("counter.config.title.fpsOverlay", "Paramètres de l'overlay des FPS");
         add("counter.config.title.survivalOverlay", "Paramètres de l'overlay de survie");
         add("counter.config.title.timeOverlay", "Paramètres de l'overlay de l'heure");
         add("counter.config.title.coordsOverlay", "Paramètres de l'overlay des coordonnées");
@@ -177,6 +191,7 @@ public class ModFrLangProvider extends LanguageProvider {
         add("counter.config.title.dayCounter", "Paramètres du compteur de jours");
         add("counter.config.title.deathCounter", "Paramètres du compteur de morts");
         add("counter.config.title.deathCounterChat", "Paramètres du chat de morts");
+        add("counter.config.title.fpsCounter", "Paramètres du compteur de FPS");
         add("counter.config.title.survivalCounter", "Paramètres du compteur de survie");
         add("counter.config.title.survivalCounterChat", "Paramètres du chat de survie");
         add("counter.config.title.timeCounter", "Paramètres du compteur de temps");

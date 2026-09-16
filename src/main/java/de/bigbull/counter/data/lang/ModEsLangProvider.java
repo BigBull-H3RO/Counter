@@ -25,6 +25,8 @@ public class ModEsLangProvider extends LanguageProvider {
         add("overlay.counter.deathlist.entry.plural", "%s: %s muertes");
         add("overlay.counter.deathlist.style.invalid", "ERROR: ¡Estilo de lista de muertes inválido!");
 
+        add("overlay.counter.fps", "FPS: %s");
+
         add("overlay.counter.survival_with_emoji", "⏳ Sobrevivido: %s");
         add("overlay.counter.survival_no_emoji", "Sobrevivido: %s");
         add("overlay.counter.best_survival_with_emoji", "⏳ Mejor: %s");
@@ -91,6 +93,15 @@ public class ModEsLangProvider extends LanguageProvider {
         add("counter.config.deathSelfAlign", "Alineación del contador personal");
         add("counter.config.deathSelfTextColor", "Color del texto del contador personal");
 
+        // --- Config translations: FPS Overlay ---
+        add("counter.config.showFpsOverlay", "Mostrar superposición de FPS");
+        add("counter.config.showFpsOverlayAlways", "Mostrar siempre FPS");
+        add("counter.config.fpsOverlayX", "Superposición de FPS X");
+        add("counter.config.fpsOverlayY", "Superposición de FPS Y");
+        add("counter.config.fpsOverlaySize", "Tamaño de la superposición de FPS");
+        add("counter.config.fpsOverlayAlign", "Alineación de la superposición de FPS");
+        add("counter.config.fpsOverlayTextColor", "Color del texto de FPS");
+
         // --- Config translations: Survival Overlay ---
         add("counter.config.showSurvivalOverlay", "Mostrar superposición de supervivencia");
         add("counter.config.showSurvivalOverlayAlways", "Mostrar siempre la superposición de supervivencia");
@@ -140,6 +151,8 @@ public class ModEsLangProvider extends LanguageProvider {
         add("counter.config.deathListChatTextColor", "Color del texto del chat de la lista de muertes");
         add("counter.config.deathSelfChatTextColor", "Color del texto del chat personal");
 
+        add("counter.config.enableFpsCounter", "Habilitar contador de FPS");
+
         add("counter.config.enableSurvivalCounter", "Habilitar contador de supervivencia");
         add("counter.config.survivalUseRealTime", "Usar tiempo real");
         add("counter.config.survivalTimeFormat", "Formato de tiempo de supervivencia");
@@ -168,6 +181,7 @@ public class ModEsLangProvider extends LanguageProvider {
         add("counter.config.title.dayOverlay", "Configuración de superposición del día");
         add("counter.config.title.deathList", "Configuración de lista de muertes");
         add("counter.config.title.deathSelf", "Configuración de contador personal");
+        add("counter.config.title.fpsOverlay", "Configuración de superposición de FPS");
         add("counter.config.title.survivalOverlay", "Configuración de superposición de supervivencia");
         add("counter.config.title.timeOverlay", "Configuración de superposición de tiempo");
         add("counter.config.title.coordsOverlay", "Configuración de superposición de coordenadas");
@@ -177,6 +191,7 @@ public class ModEsLangProvider extends LanguageProvider {
         add("counter.config.title.dayCounter", "Configuración de contador de días");
         add("counter.config.title.deathCounter", "Configuración de contador de muertes");
         add("counter.config.title.deathCounterChat", "Configuración de chat de muertes");
+        add("counter.config.title.fpsCounter", "Configuración de contador de FPS");
         add("counter.config.title.survivalCounter", "Configuración de contador de supervivencia");
         add("counter.config.title.survivalCounterChat", "Configuración de chat de supervivencia");
         add("counter.config.title.timeCounter", "Configuración de contador de tiempo");

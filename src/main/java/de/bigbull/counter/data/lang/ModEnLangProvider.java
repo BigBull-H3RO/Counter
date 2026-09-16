@@ -25,6 +25,8 @@ public class ModEnLangProvider extends LanguageProvider {
         add("overlay.counter.deathlist.entry.plural", "%s: %s deaths");
         add("overlay.counter.deathlist.style.invalid", "ERROR: Invalid death list style!");
 
+        add("overlay.counter.fps", "FPS: %s");
+
         add("overlay.counter.survival_with_emoji", "⏳ Survived: %s");
         add("overlay.counter.survival_no_emoji", "Survived: %s");
         add("overlay.counter.best_survival_with_emoji", "⏳ Best: %s");
@@ -91,6 +93,15 @@ public class ModEnLangProvider extends LanguageProvider {
         add("counter.config.deathSelfAlign", "Personal Death Alignment");
         add("counter.config.deathSelfTextColor", "Personal Death Text Color");
 
+        // --- Config translations: FPS Overlay ---
+        add("counter.config.showFpsOverlay", "Show FPS Overlay");
+        add("counter.config.showFpsOverlayAlways", "Always Show FPS");
+        add("counter.config.fpsOverlayX", "FPS Overlay X");
+        add("counter.config.fpsOverlayY", "FPS Overlay Y");
+        add("counter.config.fpsOverlaySize", "FPS Overlay Size");
+        add("counter.config.fpsOverlayAlign", "FPS Overlay Alignment");
+        add("counter.config.fpsOverlayTextColor", "FPS Overlay Text Color");
+
         // --- Config translations: Survival Overlay ---
         add("counter.config.showSurvivalOverlay", "Show Survival Overlay");
         add("counter.config.showSurvivalOverlayAlways", "Always Show Survival");
@@ -140,6 +151,8 @@ public class ModEnLangProvider extends LanguageProvider {
         add("counter.config.deathListChatTextColor", "Death List Chat Color");
         add("counter.config.deathSelfChatTextColor", "Personal Death Chat Color");
 
+        add("counter.config.enableFpsCounter", "Enable FPS Counter");
+
         add("counter.config.enableSurvivalCounter", "Enable Survival Counter");
         add("counter.config.survivalUseRealTime", "Use Real Time");
         add("counter.config.survivalTimeFormat", "Survival Time Format");
@@ -168,6 +181,7 @@ public class ModEnLangProvider extends LanguageProvider {
         add("counter.config.title.dayOverlay", "Day Counter Overlay Settings");
         add("counter.config.title.deathList", "Death Counter List Settings");
         add("counter.config.title.deathSelf", "Death Counter Self Settings");
+        add("counter.config.title.fpsOverlay", "FPS Counter Overlay Settings");
         add("counter.config.title.survivalOverlay", "Survival Counter Overlay Settings");
         add("counter.config.title.timeOverlay", "Time Overlay Settings");
         add("counter.config.title.coordsOverlay", "Coordinates Overlay Settings");
@@ -177,6 +191,7 @@ public class ModEnLangProvider extends LanguageProvider {
         add("counter.config.title.dayCounter", "Day Counter Settings");
         add("counter.config.title.deathCounter", "Death Counter Settings");
         add("counter.config.title.deathCounterChat", "Death Counter Chat Settings");
+        add("counter.config.title.fpsCounter", "FPS Counter Settings");
         add("counter.config.title.survivalCounter", "Survival Counter Settings");
         add("counter.config.title.survivalCounterChat", "Survival Counter Chat Settings");
         add("counter.config.title.timeCounter", "Time Counter Settings");

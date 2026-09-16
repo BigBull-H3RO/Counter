@@ -45,6 +45,11 @@ public class CounterManager {
         return Component.translatable(deathKey, playerDeaths).getString();
     }
 
+    public static String getFps() {
+        int fps = Minecraft.getInstance().getFps();
+        return Component.translatable("overlay.counter.fps", fps).getString();
+    }
+
     public static void sendCoordsMessage(ServerPlayer sender, ServerPlayer receiver) {
         int x = (int) sender.getX();
         int y = (int) sender.getY();

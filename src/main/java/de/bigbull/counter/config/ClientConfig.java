@@ -36,6 +36,14 @@ public class ClientConfig {
     public static final ModConfigSpec.IntValue DEATH_SELF_TEXT_COLOR;
     public static final ModConfigSpec.EnumValue<de.bigbull.counter.util.gui.OverlayAlignment> DEATH_SELF_ALIGN;
 
+    public static final ModConfigSpec.BooleanValue SHOW_FPS_OVERLAY;
+    public static final ModConfigSpec.BooleanValue SHOW_FPS_OVERLAY_ALWAYS;
+    public static final ModConfigSpec.DoubleValue FPS_OVERLAY_X;
+    public static final ModConfigSpec.DoubleValue FPS_OVERLAY_Y;
+    public static final ModConfigSpec.DoubleValue FPS_OVERLAY_SIZE;
+    public static final ModConfigSpec.IntValue FPS_OVERLAY_TEXT_COLOR;
+    public static final ModConfigSpec.EnumValue<OverlayAlignment> FPS_OVERLAY_ALIGN;
+
     public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_OVERLAY;
     public static final ModConfigSpec.BooleanValue SHOW_SURVIVAL_OVERLAY_ALWAYS;
     public static final ModConfigSpec.DoubleValue SURVIVAL_OVERLAY_X;
@@ -135,6 +143,23 @@ public class ClientConfig {
                 .translation("counter.config.deathSelfAlign").defineEnum("deathSelfAlign", OverlayAlignment.LEFT);
         DEATH_SELF_TEXT_COLOR = CLIENT_BUILDER.comment("Color for your personal death counter text.")
                 .translation("counter.config.deathSelfTextColor").defineInRange("deathSelfTextColor", 0xFFFFFFFF, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        CLIENT_BUILDER.pop();
+
+        CLIENT_BUILDER.translation("counter.config.title.fpsOverlay").push("FPS Counter Overlay Settings");
+        SHOW_FPS_OVERLAY = CLIENT_BUILDER.comment("Enable/disable the fps counter overlay.")
+                .translation("counter.config.showFpsOverlay").define("showFpsOverlay", true);
+        SHOW_FPS_OVERLAY_ALWAYS = CLIENT_BUILDER.comment("Should the fps counter overlay always be visible? If false, it is only visible while holding the Tab key.")
+                .translation("counter.config.showFpsOverlayAlways").define("showFpsOverlayAlways", true);
+        FPS_OVERLAY_X = CLIENT_BUILDER.comment("Relative X position (0.0 = left, 1.0 = right).")
+                .translation("counter.config.fpsOverlayX").defineInRange("fpsOverlayX", 0.99375, 0.0, 1.0);
+        FPS_OVERLAY_Y = CLIENT_BUILDER.comment("Relative Y position (0.0 = top, 1.0 = bottom).")
+                .translation("counter.config.fpsOverlayY").defineInRange("fpsOverlayY", 0.015, 0.0, 1.0);
+        FPS_OVERLAY_SIZE = CLIENT_BUILDER.comment("Scale factor for the fps counter text size.")
+                .translation("counter.config.fpsOverlaySize").defineInRange("fpsOverlaySize", 1.0, 0.1, 5.0);
+        FPS_OVERLAY_ALIGN = CLIENT_BUILDER.comment("Alignment for the fps overlay.")
+                .translation("counter.config.fpsOverlayAlign").defineEnum("fpsOverlayAlign", OverlayAlignment.RIGHT);
+        FPS_OVERLAY_TEXT_COLOR = CLIENT_BUILDER.comment("Color for the fps counter text.")
+                .translation("counter.config.fpsOverlayTextColor").defineInRange("fpsOverlayTextColor", 0xFFFFFFFF, Integer.MIN_VALUE, Integer.MAX_VALUE);
         CLIENT_BUILDER.pop();
 
         CLIENT_BUILDER.translation("counter.config.title.survivalOverlay").push("Survival Counter Overlay Settings");
